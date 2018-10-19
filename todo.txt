@@ -1,0 +1,22 @@
+resultClass=java.math.BigDecimal ok
+resultClass=object ok
+insert 空格优化
+parameterClass=List<>
+multiplicity="many" one page
+it 直接带入 List<Object>查询
++参数 可以让Count生成到Dao和Service
+paramType="object"时分页有问题
+countService时去掉pageNum,pageSize
+能够传入Set<T>
+多表查询默认当前类
+paging统一放入Mult
+将, and 放入字段前，不在动态内 ????
+CollectionUtil.isEmpty 做 it~check属性,可能做不了
+批量保存,批量插入
+order by error 具体看 item.xml
+
+dual 处理
+isNotEmpty等如果遇到参数和字段相同，property 属性不要
+@ApiModelProperty 在下次创建时覆盖
+
+getById改为具体名称

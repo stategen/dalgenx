@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <!--有些系统把date按long存到数据库,本转换开关表示是否在pojo内使用date -->
+    <entry key="date_long_field_to_date">true</entry>
+    <!-- 生成 select时包括 create_date_field -->
+    <entry key="gen_select_create_date_field">true</entry>
+    <entry key="gen_select_update_date_field">true</entry>
+    <entry key="gen_select_delete_flag_field">true</entry>
+
+    <!-- 在className前增加一个非法字符?阻止生成dal,除非大小写驼峰写法校验完毕，该功能可解决windows文件名不区分的大小写的问题 -->
+    <entry key="add_illegal_prefix">true</entry>
+
+    <!-- 指定包名 -->
+    <entry key="packageName">${packageName}</entry>
+
+    <!-- 模块，用于dal层sqlmap及spring配置文件的划分 -->
+    <entry key="systemName">${systemName}</entry>
+
+    <!-- 各层生成到哪个目录下，如果为空，表示同一个目录 -->
+    <!-- 本项目中 pojo与dto放入一个工程内 -->
+    <entry key="pojo_module_name">1-${systemName}-pojo</entry>
+    <!-- <entry key="dto_module_name">1-${systemName}-pojo</entry> -->
+    <entry key="facade_module_name">2-${systemName}-facade</entry>
+    <entry key="dao_module_name">4-${systemName}-dao</entry>
+    <entry key="service_module_name">5-${systemName}-service</entry>
+    <entry key="controller_module_name">6-${systemName}-web-base</entry>
+
+
+    <entry key="pojo_dir_name">domain</entry>
+
+
+
+    <!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
+    <entry key="tableRemovePrefixes">br_</entry>
+    <entry key="lombok">true</entry>
+
+    <entry key="typeHandlers">
+    <![CDATA[ 
+    <!-- 
+    <typeHandler javaType="com.iwallet.biz.common.util.money.Money" callback="com.alipay.common.ibatis.typehandler.MoneyTypeHandler"/>
+    -->
+    <typeHandler javaType="java.util.Currency" callback="org.stategen.framework.ibatis.typehandler.CurrencyHandlerCallback"/>
+    <typeHandler javaType="java.util.Date" callback="org.stategen.framework.ibatis.typehandler.DateTypehandlerCallBack"/>
+    ]]>
+    </entry>
+
+    <!-- <entry key="java_typemapping.java.sql.Timestamp">java.time.LocalDateTime</entry>
+        <entry key="java_typemapping.java.sql.Date">java.time.LocalDateTime</entry>
+        <entry key="java_typemapping.java.sql.Time">java.time.LocalDateTime</entry>
+    -->
+    <!-- Mysql -->
+    <!-- 数据库相关配置 -->
+    <entry key="jdbc_url">jdbc:mysql://localhost:3306/${systemName}?useUnicode=true&amp;characterEncoding=utf8</entry>
+    <entry key="jdbc_driver">com.mysql.jdbc.Driver</entry>
+
+    <entry key="jdbc_username">stategen</entry>
+    <entry key="jdbc_password">stategen</entry>
+
+</properties>

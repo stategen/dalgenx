@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 本文件由dalgen生成，任何在本文件上的手工修改将会在下次生成时被覆盖 -->
+<sqlMap>
+
+
+    <resultMap id="Role.${systemName}.RM" class="${packageName}.domain.Role">
+        <result property="roleId" column="role_id" javaType="java.lang.String" jdbcType="VARCHAR"  />
+        <result property="roleName" column="role_name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+        <result property="description" column="description" javaType="java.lang.String" jdbcType="VARCHAR"  />
+        <result property="createTime" column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+        <result property="updateTime" column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+        <result property="deleteFlag" column="delete_flag" javaType="java.lang.Integer" jdbcType="INTEGER"  />
+        <result property="roleType" column="role_type" javaType="${packageName}.enums.RoleType" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+
+	
+	
+    
+	<insert id="insert.Role.${systemName}">
+		insert into role (
+            create_time
+            , update_time
+            , delete_flag
+            <isNotNull prepend="," property="roleId"> role_id </isNotNull>
+            <isNotNull prepend="," property="roleName"> role_name </isNotNull>
+            <isNotNull prepend="," property="description"> description </isNotNull>
+            <isNotNull prepend="," property="roleType"> role_type </isNotNull>
+            ) VALUES (CURRENT_TIMESTAMP(6),CURRENT_TIMESTAMP(6),0 
+            <isNotNull prepend="," property="roleId"> #roleId# </isNotNull> 
+            <isNotNull prepend="," property="roleName"> #roleName# </isNotNull> 
+            <isNotNull prepend="," property="description"> #description# </isNotNull> 
+            <isNotNull prepend="," property="roleType"> #roleType# </isNotNull>)
+            <selectKey keyProperty="roleId" resultClass="String" type="pre">
+                select if((#roleId#  is null) ,CONCAT(DATE_FORMAT(CURRENT_TIMESTAMP(6),'%Y%m%d%H%i%s%f'),LPAD(ROUND(RAND()*100000000),8,'0')) ,#roleId# ) as roleId
+            </selectKey>
+	</insert>
+	
+	<update id="deleteByRoleId.Role.${systemName}">
+		UPDATE role SET
+            delete_flag = 1
+            , update_time = CURRENT_TIMESTAMP(6)
+            where
+            delete_flag = 0
+           and role_id = #roleId#
+	</update>
+	
+    
+	
+	<update id="update.Role.${systemName}">
+		UPDATE role
+            SET update_time= CURRENT_TIMESTAMP(6)
+            <dynamic>
+                <isNotNull prepend="," property="roleName">
+                    role_name =  #roleName#
+                </isNotNull>
+                <isNotNull prepend="," property="description">
+                    description =  #description#
+                </isNotNull>
+                <isNotNull prepend="," property="roleType">
+                    role_type =  #roleType#
+                </isNotNull>
+            </dynamic>
+            where
+            delete_flag = 0
+            and role_id = #roleId#
+	</update>
+	
+    
+	
+	<select id="getRoleByRoleId.Role.${systemName}" resultMap="Role.${systemName}.RM" >
+    	select
+ /* getRoleByRoleId.Role.${systemName} */             a.role_id,
+            a.role_name,
+            a.description,
+            a.create_time,
+            a.update_time,
+            a.delete_flag,
+            a.role_type
+            from role a
+            where
+            a.role_id = #roleId#
+            and a.delete_flag = 0
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="getRolePageList.Role.${systemName}" resultMap="Role.${systemName}.RM" >
+    	select
+ /* getRolePageList.Role.${systemName} */             a.role_id,
+            a.role_name,
+            a.description,
+            a.create_time,
+            a.update_time,
+            a.delete_flag,
+            a.role_type
+            from role a
+            where
+            a.delete_flag = 0
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="getRolePageList.Role.${systemName}.count" resultClass="long" >
+    	select  /* getRolePageList.Role.${systemName}.count */ count(*)  from role a
+            where
+            a.delete_flag = 0
+	</select>
+	    
+	
+	
+    
+	
+	<select id="getRolePageListByDefaultQuery.Role.${systemName}" resultMap="Role.${systemName}.RM" >
+    	select
+ /* getRolePageListByDefaultQuery.Role.${systemName} */             a.role_id,
+            a.role_name,
+            a.description,
+            a.create_time,
+            a.update_time,
+            a.delete_flag,
+            a.role_type
+            from role a
+            where
+            a.delete_flag = 0
+            <isNotEmpty open="and" property="roleIds">
+                a.role_id in
+                <iterate close=")" conjunction="," open="(" property="roleIds">
+                    #roleIds[]#
+                </iterate>
+            </isNotEmpty>
+            <isNotEmpty open="and" property="roleNameLike">
+                a.role_name like CONCAT('%',#roleNameLike#,'%')
+            </isNotEmpty>
+            <isNotEmpty open="and" property="descriptionLike">
+                a.description like CONCAT('%',#descriptionLike#,'%')
+            </isNotEmpty>
+            <isNotNull open="and" property="createTimeMin">
+                a.create_time >=#createTimeMin#
+            </isNotNull>
+            <isNotNull open="and" property="createTimeMax">
+                a.create_time &lt;#createTimeMax#
+            </isNotNull>
+            <isNotNull open="and" property="updateTimeMin">
+                a.update_time >=#updateTimeMin#
+            </isNotNull>
+            <isNotNull open="and" property="updateTimeMax">
+                a.update_time &lt;#updateTimeMax#
+            </isNotNull>
+            <isNotEmpty open="and" property="roleTypes">
+                a.role_type in
+                <iterate close=")" conjunction="," open="(" property="roleTypes">
+                    #roleTypes[]#
+                </iterate>
+            </isNotEmpty>
+            <isEmpty property="roleIds">
+            <isEmpty property="roleNameLike">
+            <isEmpty property="descriptionLike">
+            <isNull property="createTimeMin">
+            <isNull property="createTimeMax">
+            <isNull property="updateTimeMin">
+            <isNull property="updateTimeMax">
+            <isEmpty property="roleTypes">
+              and 0 = 1
+            </isEmpty>
+            </isNull>
+            </isNull>
+            </isNull>
+            </isNull>
+            </isEmpty>
+            </isEmpty>
+            </isEmpty>
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="getRolePageListByDefaultQuery.Role.${systemName}.count" resultClass="long" >
+    	select  /* getRolePageListByDefaultQuery.Role.${systemName}.count */ count(*)  from role a
+            where
+            a.delete_flag = 0
+            <isNotEmpty open="and" property="roleIds">
+                a.role_id in
+                <iterate close=")" conjunction="," open="(" property="roleIds">
+                    #roleIds[]#
+                </iterate>
+            </isNotEmpty>
+            <isNotEmpty open="and" property="roleNameLike">
+                a.role_name like CONCAT('%',#roleNameLike#,'%')
+            </isNotEmpty>
+            <isNotEmpty open="and" property="descriptionLike">
+                a.description like CONCAT('%',#descriptionLike#,'%')
+            </isNotEmpty>
+            <isNotNull open="and" property="createTimeMin">
+                a.create_time >=#createTimeMin#
+            </isNotNull>
+            <isNotNull open="and" property="createTimeMax">
+                a.create_time &lt;#createTimeMax#
+            </isNotNull>
+            <isNotNull open="and" property="updateTimeMin">
+                a.update_time >=#updateTimeMin#
+            </isNotNull>
+            <isNotNull open="and" property="updateTimeMax">
+                a.update_time &lt;#updateTimeMax#
+            </isNotNull>
+            <isNotEmpty open="and" property="roleTypes">
+                a.role_type in
+                <iterate close=")" conjunction="," open="(" property="roleTypes">
+                    #roleTypes[]#
+                </iterate>
+            </isNotEmpty>
+            <isEmpty property="roleIds">
+            <isEmpty property="roleNameLike">
+            <isEmpty property="descriptionLike">
+            <isNull property="createTimeMin">
+            <isNull property="createTimeMax">
+            <isNull property="updateTimeMin">
+            <isNull property="updateTimeMax">
+            <isEmpty property="roleTypes">
+              and 0 = 1
+            </isEmpty>
+            </isNull>
+            </isNull>
+            </isNull>
+            </isNull>
+            </isEmpty>
+            </isEmpty>
+            </isEmpty>
+	</select>
+	    
+	
+	
+    
+	
+	<select id="getRolesByRoleIds.Role.${systemName}" resultMap="Role.${systemName}.RM" >
+    	select
+ /* getRolesByRoleIds.Role.${systemName} */             a.role_id,
+            a.role_name,
+            a.description,
+            a.create_time,
+            a.update_time,
+            a.delete_flag,
+            a.role_type
+            from role a
+            where
+            a.delete_flag = 0
+            and a.role_id in
+            <iterate close=")" conjunction="," open="(" property="roleIds">
+                #roleIds[]#
+            </iterate>
+	</select>	
+
+	    
+	
+	
+    
+	
+	<update id="batchDelete.Role.${systemName}">
+		UPDATE role SET
+               delete_flag = 1
+               , update_time = CURRENT_TIMESTAMP(6)
+            where
+            delete_flag = 0
+            and role_id in
+            <iterate close=")" conjunction="," open="(" property="roleIds">
+                #roleIds[]#
+            </iterate>
+	</update>
+	
+    
+	
+	<select id="getAllRoles.Role.${systemName}" resultMap="Role.${systemName}.RM" >
+    	select
+ /* getAllRoles.Role.${systemName} */             a.role_id,
+            a.role_name,
+            a.description,
+            a.create_time,
+            a.update_time,
+            a.delete_flag,
+            a.role_type
+            from role a
+            where
+            a.delete_flag = 0
+	</select>	
+
+	    
+	
+	
+    
+
+</sqlMap>
+

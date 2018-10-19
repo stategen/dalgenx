@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
+>
+
+    <!-- 应用配置 各业务平台根据name区分 -->
+    <dubbo:application name="${systemName}-dubbo-dalgen" owner="${systemName}" organization="${packageName}" />
+    <dubbo:consumer check="false" />
+
+    <!-- 引用外面的dubbo服务,不引用自己的服务 -->
+    <import resource="classpath*:META-INF/facade/dubbo-facade-auto-{:?!.*(${systemName})}*.xml"/>
+    <import resource="classpath*:META-INF/facade/dubbo-facade-manual-{:?!.*(${systemName})}*.xml"/>
+
+</beans>

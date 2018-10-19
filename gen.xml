@@ -1,0 +1,87 @@
+﻿<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>
+        代码生成器配置文件:
+        1.会为所有的property生成property_dir属性,如pkg=com.company => pkg_dir=com/company
+    </comment>
+
+    <!--有些系统把date按long存到数据库,本转换开关表示是否在pojo内使用date -->
+    <entry key="date_long_field_to_date">false</entry>
+    <!-- 生成 select时包括 create_date_field -->
+    <entry key="gen_select_create_date_field">false</entry>
+    <entry key="gen_select_update_date_field">false</entry>
+    <entry key="gen_select_delete_flag_field">false</entry>
+
+    <!-- 在className前增加一个非法字符?阻止生成dal,除非校验完成 -->
+    <entry key="add_illegal_prefix">false</entry>
+
+
+    <!-- dalgen的table配置文件目录,不需要一个个列举出来,只要是这个目录下面的xml文件就可以全部扫描出来 -->
+    <entry key="dir_table_configs">tables</entry>
+
+    <entry key="dto_dir_name">dto</entry>
+    <entry key="dto_name_suffix">DTO</entry>
+
+    <!-- 无值表示是生成，.表示生成到当前工程目录下 -->
+    <entry key="pojo_module_name"></entry>
+    <entry key="dto_module_name"></entry>
+    <entry key="facade_module_name"></entry>
+    <entry key="dao_module_name"></entry>
+    <entry key="service_module_name"></entry>
+    <entry key="controller_module_name"></entry>
+
+
+    <entry key="pojo_dir_name">bean</entry>
+    <entry key="pojo_name_suffix"></entry>
+
+    <entry key="base_name_suffix">Base</entry>
+    <entry key="dao_dir_name">dao</entry>
+    <entry key="dao_name_suffix">Dao</entry>
+    <entry key="service_name_suffix">Service</entry>
+    <entry key="service_dir_name">service</entry>
+    <entry key="controller_name_suffix">Controller</entry>
+    <entry key="controller_dir_name">controller</entry>
+    <entry key="impl_dir_name">impl</entry>
+    <entry key="impl_name_suffix">Impl</entry>
+    <entry key="internal_service_suffix"></entry>
+    <entry key="facade_service_suffix">Facade</entry>
+
+    <entry key="updated_date_field">update_time,updateTime,gmt_update,modify_time</entry>
+    <entry key="created_date_field">create_time,createTime,gmt_create</entry>
+    <entry key="soft_delete_field">delete_flag,del_flag</entry>
+    <entry key="not_delete_value">0</entry>
+    <entry key="delete_value">1</entry>
+    <entry key="js_ajax_function_name">$.frameworkAjax</entry>
+
+    <!-- 对外提供服务的接口 ，该接口也可继承自 IResponse,并为接口实现构造器 -->
+    <entry key="facade_response_className">org.stategen.framework.lite.Response</entry>
+
+
+    <entry key="dao_type">ibatis</entry>
+
+    <!-- 数据库类型至java类型映射 -->
+    <entry key="java_typemapping.java.sql.Timestamp">java.util.Date</entry>
+    <entry key="java_typemapping.java.sql.Date">java.util.Date</entry>
+    <entry key="java_typemapping.java.sql.Time">java.util.Date</entry>
+    <entry key="java_typemapping.java.lang.Byte">java.lang.Integer</entry>
+    <entry key="java_typemapping.java.lang.Short">java.lang.Integer</entry>
+    <entry key="java_typemapping.java.lang.Integer">java.lang.Integer</entry>
+    <entry key="java_typemapping.java.lang.Long">java.lang.Long</entry>
+    <entry key="java_typemapping.java.math.BigDecimal">java.math.BigDecimal</entry>
+    <entry key="java_typemapping.java.sql.Clob">java.util.String</entry>
+
+
+    <!-- 用于存放sequence列表，生成SeqDAO使用,使用空格，换行符分隔，示例值: seq_user seq_blog -->
+    <entry key="sequencesList">
+
+    </entry>
+
+
+    <!-- oracle需要指定jdbc_schema,并且要大写，其它数据库忽略此项配置 -->
+    <entry key="jdbc_schema"></entry>
+    <entry key="jdbc_catalog"></entry>
+    <!-- 是否使用lombok -->
+    <entry key="lombok">true</entry>
+
+
+</properties>

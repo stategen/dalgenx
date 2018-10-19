@@ -1,0 +1,2 @@
+fastjson.compatibleWithJavaBean=true
+fastjson.compatibleWithFieldName=true

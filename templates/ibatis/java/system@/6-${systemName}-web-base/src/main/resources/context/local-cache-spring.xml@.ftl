@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd "
+>
+
+    <!-- 分布式本地缓存，接收zookeeper通知清空本地缓存，以备重新加载，保持一致性 -->
+    <bean id="localCacheZkConfig" class="org.stategen.framework.cache.LocalCacheZkConfig">
+        <property name="connectString" value="${'$'}{localCacheZkConfig.connectString}" />
+        <property name="rootPath" value="${'$'}{localCacheZkConfig.rootPath}" />
+        <property name="connectionTimeout" value="${'$'}{localCacheZkConfig.connectionTimeout}" />
+    </bean>
+    <!--
+        <bean id="xxxCacheParent" abstract="true">
+        <property name="notifyName" value="region"/>
+        <property name="tableName" value="region"/>
+        </bean>
+
+        <bean id="xxxCacheTaker" class="org.stategen.framework.cache.LocalCacheNameTaker" parent="xxxCacheParent">
+        <property name="dataNode" value="regionSpecialWraperCache"/>
+        </bean>
+
+        <bean id="xxxCacheNotifier" class="org.stategen.framework.cache.LocalCacheNotifier" parent="xxxCacheParent">
+        </bean>
+    -->
+
+</beans>
+
+
+
+
+
+
+
+
+
+
+

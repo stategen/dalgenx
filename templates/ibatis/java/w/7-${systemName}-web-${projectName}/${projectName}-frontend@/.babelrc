@@ -1,0 +1,30 @@
+{
+/*  "presets": [
+    "umi/babel"
+  ],
+  "plugins": [
+    [
+      "babel-plugin-module-resolver",
+      {
+        "alias": {
+          "@apis": "./src/facade/apis",
+          "@beans": "./src/facade/beans",
+          "@columns": "./src/facade/columns",
+          "@enums": "./src/facade/enums",
+          "@forms": "./src/facade/forms",
+          "@interfaces": "./src/facade/interfaces",
+          "@models": "./src/facade/models",
+
+          "themes": "./src/themes",
+          "@components": "./src/components",
+          "@utils": "./src/utils",
+          "@pages": "./src/pages",
+
+          "config": "./src/utils/config",
+          "services": "./src/services",
+          "routes": "./src/routes"
+        }
+      }
+    ]
+  ]*/
+}
