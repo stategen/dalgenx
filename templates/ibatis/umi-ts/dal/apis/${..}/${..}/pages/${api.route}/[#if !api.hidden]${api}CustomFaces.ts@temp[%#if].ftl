@@ -16,8 +16,8 @@
 -->
 <@genCopyrightCanEdit api/>
 import {Effect, Effects, Reducers, IModel, BaseState, modelPathsProxy, BaseProps, Subscriptions, Reducer, AreaState, mergeObjects} from '@utils/DvaUtil';
-<@genImports api.imports,'@'/>
-import {${api}State} from '@interfaces/${api}Faces';
+<@genImports api.imports,'@i/'/>
+import {${api}State} from '@i/interfaces/${api}Faces';
 
 /*** keep this export */
 export const ${api?uncap_first}CustomState = {

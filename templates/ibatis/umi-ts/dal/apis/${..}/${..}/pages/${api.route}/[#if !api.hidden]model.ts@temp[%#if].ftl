@@ -16,11 +16,11 @@
 -->
 <@genCopyrightCanEdit api/>
 import {mergeObjects} from "@utils/DvaUtil";
-import {${api?uncap_first}DefaultModel} from "@models/${api}DefaultModel";
-import {${api}Model} from "@interfaces/${api}Faces";
+import {${api?uncap_first}DefaultModel} from "@i/models/${api}DefaultModel";
+import {${api}Model} from "@i/interfaces/${api}Faces";
 import ${api}Apis from "@i/apis/${api}Apis";
 import {${api?uncap_first}CustomState} from './${api}CustomFaces';
-<@genImports api.imports,'@'/>
+<@genImports api.imports,'@i/'/>
 
 const ${api?uncap_first}Model: ${api}Model = ${api?uncap_first}DefaultModel;
 ${api?uncap_first}Model.state=mergeObjects(${api?uncap_first}Model.state,${api?uncap_first}CustomState);

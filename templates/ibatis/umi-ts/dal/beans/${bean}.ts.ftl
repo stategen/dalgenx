@@ -21,7 +21,7 @@ import {Bean} from "@utils/DvaUtil";
 <#list bean.fields as f>
   <#if f.isId>
 /** ${f} */
-export const ${bean?upper_case}_ID: string = '${f}';
+export const ${bean}_ID: string = '${f}';
   <#break>
   </#if>
 </#list>

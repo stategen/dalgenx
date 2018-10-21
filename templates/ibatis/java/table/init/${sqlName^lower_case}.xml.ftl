@@ -102,7 +102,7 @@
     <#list table.columns as column>
     <#if column.unique || column.pk>
 
-    <operation name="deleteBy${column.columnName?cap_first}" remarks="">
+    <operation name="delete<#if column!=table.pkColumn>By${column.columnName?cap_first}</#if>" remarks="">
         <sql>
            <#if sft_dlt_clmn!="">
             UPDATE ${table.sqlName} SET

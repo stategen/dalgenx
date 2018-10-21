@@ -62,8 +62,12 @@
 		</#if>
 	<#else>
 		<#if sql.deleteSql>
+          <#if (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s') && sql.params?size==1>
+              <#list sql.params as param>${param.preferredParameterJavaType}</#list>
+          <#else>
 			Long
-		</#if>
+          </#if>
+		 </#if>
 		
 		<#if sql.insertSql>
 			<#if sql.paramType = 'object'>
@@ -80,7 +84,9 @@
 		<#if sql.updateSql>
 			<#if sql.paramType = 'object' && sql.operation='update'>
 				${tableConfig.className}
-			<#else>
+			<#elseif (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s') && sql.params?size==1>
+                <#list sql.params as param>${param.preferredParameterJavaType}</#list>
+            <#else>
 				Long
 			</#if>
 		</#if>

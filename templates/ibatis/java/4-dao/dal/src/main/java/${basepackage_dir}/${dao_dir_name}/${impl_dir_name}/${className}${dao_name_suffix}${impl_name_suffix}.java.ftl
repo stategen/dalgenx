@@ -126,7 +126,13 @@ public class ${tableConfig.className}${dao_name_suffix}${impl_name_suffix}  exte
 			throw new IllegalArgumentException("Can't delete by a null data object.");
 		}
 		</#if>
-		return (long)getSqlMapClientTemplate().delete("${sql.operation}.${ibatisNamespace}", ${paramName});
+    <#if (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s') && sql.params?size==1>
+        getSqlMapClientTemplate().delete("${sql.operation}.${ibatisNamespace}", ${paramName});
+        return <#list sql.params as param>${param.paramName}</#list>;
+    <#else>
+       return (long)getSqlMapClientTemplate().delete("${sql.operation}.${ibatisNamespace}", ${paramName});
+    </#if>
+
 	</#if>
 	<#if sql.insertSql>
 	  <#if sql.paramType = 'object'>
@@ -152,7 +158,10 @@ public class ${tableConfig.className}${dao_name_suffix}${impl_name_suffix}  exte
 	    <#if sql.operation='update'>
         getSqlMapClientTemplate().update("${sql.operation}.${ibatisNamespace}", ${paramName});
 		return ${paramName};
-	   <#else>
+        <#elseif (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s') && sql.params?size==1>
+        getSqlMapClientTemplate().update("${sql.operation}.${ibatisNamespace}", ${paramName});
+        return <#list sql.params as param>${param.paramName}</#list>;
+        <#else>
 		return (long)getSqlMapClientTemplate().update("${sql.operation}.${ibatisNamespace}", ${paramName});
 	   </#if>
 	</#if>
