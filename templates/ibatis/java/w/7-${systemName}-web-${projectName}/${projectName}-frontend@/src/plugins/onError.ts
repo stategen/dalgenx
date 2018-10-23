@@ -1,6 +1,6 @@
 import {message} from 'antd'
 import ResponseStatus from "@i/enums/ResponseStatus";
-import ResponseExtend from "@i/beans/ResponseExtend";
+import Response from "@i/beans/Response";
 import {routerRedux} from 'dva/router';
 import {loginInitModel} from "@i/interfaces/LoginFaces";
 
@@ -10,9 +10,9 @@ export default {
     console.error(e);
     const responseError = e;
     if (responseError && responseError instanceof Object) {
-      const responseExtend: ResponseExtend<any> = <ResponseExtend<any>> responseError;
-      if (responseExtend.status === ResponseStatus.NOT_LOGIN) {
-        message.error(responseExtend.message);
+      const response: Response<any> = <Response<any>> responseError;
+      if (response.status === ResponseStatus.NOT_LOGIN) {
+        message.error(response.message);
         dispatch(routerRedux.push({
           pathname: loginInitModel.pathname,
         }));

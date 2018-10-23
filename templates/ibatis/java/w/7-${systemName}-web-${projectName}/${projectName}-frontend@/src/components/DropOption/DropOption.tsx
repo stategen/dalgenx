@@ -2,9 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Dropdown, Button, Icon, Menu } from 'antd'
 
-const DropOption = ({
-  onMenuClick, menuOptions = [], buttonStyle, dropdownProps,
-}) => {
+export interface  DropOptionPops {
+  onMenuClick?,
+  menuOptions?,
+  buttonStyle?,
+  dropdownProps?,
+}
+const DropOption = ({onMenuClick, menuOptions, buttonStyle, dropdownProps} :DropOptionPops) => {
   const menu = menuOptions.map(item => <Menu.Item key={item.key}>{item.name}</Menu.Item>)
   return (<Dropdown
     overlay={<Menu onClick={onMenuClick}>{menu}</Menu>}
@@ -15,13 +19,6 @@ const DropOption = ({
       <Icon type="down" />
     </Button>
   </Dropdown>)
-}
-
-DropOption.propTypes = {
-  onMenuClick: PropTypes.func,
-  menuOptions: PropTypes.array.isRequired,
-  buttonStyle: PropTypes.object,
-  dropdownProps: PropTypes.object,
 }
 
 export default DropOption

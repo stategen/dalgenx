@@ -19,7 +19,7 @@
     <import resource="classpath*:context/applicatonContextProperties.xml" />
 
     <!-- 返回以对象包装的类 ,id必须是response -->
-    <bean id="response" class="${packageName}.domain.ResponseExtend" scope="prototype">
+    <bean id="response" class="${packageName}.domain.Response" scope="prototype">
     </bean>
 
     <bean class="org.stategen.framework.spring.mvc.SpringContextHolder" />

@@ -45,10 +45,11 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	 * 
 	 * sql:UPDATE user SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and user_id = ?
 	 */
-    public Long deleteByUserId(String userId) throws DataAccessException {
+    public String delete(String userId) throws DataAccessException {
         Map<String, Object> params = new HashMap<String, Object>(1);
         params.put("userId", userId);
-        return (long) getSqlMapClientTemplate().update("deleteByUserId.User.${systemName}", params);
+        getSqlMapClientTemplate().update("delete.User.${systemName}", params);
+        return userId;
     }
 
     /**
@@ -128,10 +129,11 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	 * 
 	 * sql:UPDATE user SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and user_id in ( ? )
 	 */
-    public Long deleteByUserIds(java.util.List<String> userIds) throws DataAccessException {
+    public java.util.List<String> deleteByUserIds(java.util.List<String> userIds) throws DataAccessException {
         Map<String, Object> params = new HashMap<String, Object>(1);
         params.put("userIds", userIds);
-        return (long) getSqlMapClientTemplate().update("deleteByUserIds.User.${systemName}", params);
+        getSqlMapClientTemplate().update("deleteByUserIds.User.${systemName}", params);
+        return userIds;
     }
 
     /**
@@ -153,28 +155,5 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
         params.put("username", username);
         params.put("password", password);
         return (User) getSqlMapClientTemplate().queryForObject("login.User.${systemName}", params);
-    }
-
-    /**
-	 * 
-	 * sql:select a.user_id, a.username, a.password, a.role_type, a.name, a.nickName, a.age, a.address, a.isMale, a.avatar, a.email, a.create_time, a.update_time, a.delete_flag from user a where a.delete_flag = 0 and a.address like concat('%',? ,'%') and a.create_time >= ? and a.create_time < ?
-	 */
-    @SuppressWarnings("unchecked")
-    public PageList<User> getUsers(String address, java.util.Date beginDate, java.util.Date endDate, int pageSize, int pageNum) throws DataAccessException {
-        Map<String, Object> params = new HashMap<String, Object>(3);
-        params.put("address", address);
-        params.put("beginDate", beginDate);
-        params.put("endDate", endDate);
-        return (PageList<User>) PageQueryUtils.pageQuery(getSqlMapClientTemplate(), "getUsers.User.${systemName}", params, pageNum, pageSize);
-    }
-
-    /**
-	 * 
-	 * sql:UPDATE user SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and user_id in ( ? )
-	 */
-    public Long deleteByIds(java.util.List<String> userIds) throws DataAccessException {
-        Map<String, Object> params = new HashMap<String, Object>(1);
-        params.put("userIds", userIds);
-        return (long) getSqlMapClientTemplate().update("deleteByIds.User.${systemName}", params);
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.stategen.framework.annotation.ApiRequestMappingAutoWithMethodName;
 
-import ${packageName}.domain.ResponseExtend;
+import ${packageName}.domain.Response;
 import ${packageName}.enums.ResponseStatus;
 import ${packageName}.enums.RoleType;
 
@@ -16,7 +16,7 @@ public class BeanAndEnumController {
 
     @ApiRequestMappingAutoWithMethodName(name = "将ResponseExtend 导出到前端")
     @ResponseBody
-    public ResponseExtend<Long> getResponseExtend(){
+    public Response<Long> getResponseExtend(){
         return null;
     }
     

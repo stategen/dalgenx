@@ -62,7 +62,7 @@
             </selectKey>
 	</insert>
 	
-	<update id="deleteByMenuId.Menu.${systemName}">
+	<update id="delete.Menu.${systemName}">
 		UPDATE menu SET
             delete_flag = 1
             , update_time = CURRENT_TIMESTAMP(6)

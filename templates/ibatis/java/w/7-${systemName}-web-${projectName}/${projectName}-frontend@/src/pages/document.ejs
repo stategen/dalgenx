@@ -13,7 +13,7 @@
 </head>
 <script th:inline="javascript">
   /*<![CDATA[*/
-  window.tradeCms_url = /*[[${'$'}{@urls.${systemName}${projectName?cap_first}_url}]]*/"/${systemName}${projectName?cap_first}";
+  window.${systemName}Cms_url = /*[[${'$'}{@urls.${systemName}${projectName?cap_first}_url}]]*/"/${systemName}${projectName?cap_first}";
   /*]]>*/
 </script>
 <body>

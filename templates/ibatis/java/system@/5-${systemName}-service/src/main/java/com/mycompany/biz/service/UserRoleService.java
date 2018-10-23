@@ -30,12 +30,6 @@ public interface UserRoleService extends UserRoleServiceFacade {
 
     /**
      * 
-     * @see ${packageName}.dao.UserRoleDao#deleteById
-     */
-    public Long deleteById(Long id);
-
-    /**
-     * 
      * @see ${packageName}.dao.UserRoleDao#update
      */
     public UserRole update(UserRole userRole);
@@ -62,11 +56,17 @@ public interface UserRoleService extends UserRoleServiceFacade {
      * 
      * @see ${packageName}.dao.UserRoleDao#deleteByIds
      */
-    public Long deleteByIds(java.util.List<Long> ids);
+    public List<Long> deleteByIds(java.util.List<Long> ids);
 
     /*** 保存userRole,有id时更新，没有id时插入,并带回新的id，返回 userRole*/
     public UserRole saveUserRole(UserRole userRole);
 
     /*** 批量保存userRoles,有id时更新，没有id时插入,并带回新的id，返回 userRoles*/
     public List<UserRole> saveUserRoles(List<UserRole> userRoles);
+
+    /**
+     * 
+     * @see ${packageName}.dao.UserRoleDao#delete
+     */
+    public Long delete(Long id);
 }

@@ -45,10 +45,11 @@ public class UserRoleDaoImpl extends SqlMapClientDaoSupport implements UserRoleD
 	 * 
 	 * sql:UPDATE user_role SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and id = ?
 	 */
-    public Long deleteById(Long id) throws DataAccessException {
+    public Long delete(Long id) throws DataAccessException {
         Map<String, Object> params = new HashMap<String, Object>(1);
         params.put("id", id);
-        return (long) getSqlMapClientTemplate().update("deleteById.UserRole.${systemName}", params);
+        getSqlMapClientTemplate().update("delete.UserRole.${systemName}", params);
+        return id;
     }
 
     /**
@@ -97,9 +98,10 @@ public class UserRoleDaoImpl extends SqlMapClientDaoSupport implements UserRoleD
 	 * 
 	 * sql:UPDATE user_role SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and id in ( ? )
 	 */
-    public Long deleteByIds(java.util.List<Long> ids) throws DataAccessException {
+    public java.util.List<Long> deleteByIds(java.util.List<Long> ids) throws DataAccessException {
         Map<String, Object> params = new HashMap<String, Object>(1);
         params.put("ids", ids);
-        return (long) getSqlMapClientTemplate().update("deleteByIds.UserRole.${systemName}", params);
+        getSqlMapClientTemplate().update("deleteByIds.UserRole.${systemName}", params);
+        return ids;
     }
 }

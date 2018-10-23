@@ -162,7 +162,7 @@ public class User implements java.io.Serializable {
 
     /*** 用户角色 ADMIN,DEFAULT,DEVELOPERs in getUserPageListByDefaultQuery */
     @ApiModelProperty("用户角色s")
-    private transient java.util.List<com.mycompany.biz.enums.RoleType> roleTypes;
+    private transient java.util.List<${packageName}.enums.RoleType> roleTypes;
 
     /*** 用户名nameLike in getUserPageListByDefaultQuery */
     @ApiModelProperty("用户名nameLike")

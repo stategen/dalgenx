@@ -14,7 +14,7 @@
     <name>6-${systemName}-web-base</name>
 
     <dependencies>
-	    <dependency>
+        <dependency>
             <groupId>${packageName}</groupId>
             <artifactId>${systemName}-service</artifactId>
         </dependency>
@@ -37,9 +37,19 @@
 
         <dependency>
             <groupId>org.stategen.framework</groupId>
-            <artifactId>stategen-logback</artifactId>
+            <artifactId>aa-stategen-logback</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.stategen.framework</groupId>
+            <artifactId>aa-stategen-ibatis-util</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.stategen.framework</groupId>
+            <artifactId>aa-stategen-dubbox</artifactId>
+        </dependency>
+        
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
@@ -95,11 +105,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>log4j-over-slf4j</artifactId>
         </dependency>
-        
-        <dependency>
+
+<!--         <dependency>
             <groupId>org.jboss.slf4j</groupId>
             <artifactId>slf4j-jboss-logging</artifactId>
-        </dependency>        
+        </dependency> -->
 
         <dependency>
             <groupId>mysql</groupId>
@@ -169,11 +179,6 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>dubbo</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.stategen.framework</groupId>
-            <artifactId>stategen-dubbox</artifactId>
         </dependency>
 
         <dependency>

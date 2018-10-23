@@ -54,7 +54,7 @@
     <entry key="js_ajax_function_name">$.frameworkAjax</entry>
 
     <!-- 对外提供服务的接口 ，该接口也可继承自 IResponse,并为接口实现构造器 -->
-    <entry key="facade_response_className">org.stategen.framework.lite.Response</entry>
+    <entry key="facade_response_className">org.stategen.framework.lite.BaseResponse</entry>
 
 
     <entry key="dao_type">ibatis</entry>

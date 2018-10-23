@@ -1,17 +1,4 @@
-/*
-Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50714
-Source Host           : localhost:3306
-Source Database       : trade
-
-Target Server Type    : MYSQL
-Target Server Version : 50714
-File Encoding         : 65001
-
-Date: 2018-10-19 08:51:54
-*/
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -41,45 +28,45 @@ CREATE TABLE `menu` (
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `menu` VALUES ('1', null, null, 'tradeCms', 'Dashboard', null, null, null, 'Dashboard', '/dashboard', 'MENU', 'NONE', null, '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2', '1', null, 'tradeCms', 'User', null, null, null, '用户', '/user', 'MENU', 'VISIT_CHECK', null, '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('7', '1', null, 'tradeCms', 'Post', null, null, null, 'Post', '/post', 'MENU', 'NONE', null, '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('21', '2', '-1', 'tradeCms', 'User_$userId', null, null, null, '用户详情', '/user/:userId', 'MENU', 'VISIT_CHECK', null, '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('3', '1', null, 'tradeCms', 'request', null, null, 'api', 'Request', '/request', 'MENU', null, null, null, '0');
-INSERT INTO `menu` VALUES ('4', '1', null, 'tradeCms', null, null, null, 'camera-o', 'UI Element', null, 'MENU', null, null, null, '0');
-INSERT INTO `menu` VALUES ('41', '4', '4', 'tradeCms', 'UIElement_iconfont', null, null, 'heart-o', 'IconFont', '/UIElement/iconfont', 'MENU', null, null, null, '0');
-INSERT INTO `menu` VALUES ('43', '4', '4', 'tradeCms', 'UIElement_dropOption', null, null, 'bars', 'DropOption', '/UIElement/dropOption', 'MENU', null, null, null, '0');
-INSERT INTO `menu` VALUES ('44', '4', '4', 'tradeCms', 'UIElement_search', null, null, 'search', 'Search', '/UIElement/search', 'MENU', null, null, null, '0');
-INSERT INTO `menu` VALUES ('5', '1', null, 'tradeCms', 'Chart', null, null, null, 'Charts', null, 'MENU', 'NONE', null, '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('51', '5', '5', 'tradeCms', 'Chart_ECharts', null, null, null, 'ECharts', '/chart/ECharts', 'MENU', 'VISIT_CHECK', null, '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('52', '5', '5', 'tradeCms', 'Chart_highCharts', null, null, null, 'highCharts', '/chart/highCharts', 'MENU', 'VISIT_CHECK', null, '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('53', '5', '5', 'tradeCms', 'Chart_Recharts', null, null, null, 'Recharts', '/chart/Recharts', 'MENU', 'VISIT_CHECK', null, '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('6', '1', null, 'tradeCms', null, null, null, 'setting', 'Test Navigation', null, 'MENU', null, null, null, '0');
-INSERT INTO `menu` VALUES ('61', '6', '6', 'tradeCms', 'navigation_navigation1', null, null, null, 'Test Navigation1', '/navigation/navigation1', 'MENU', null, null, null, '0');
-INSERT INTO `menu` VALUES ('62', '6', '6', 'tradeCms', 'navigation_navigation2', null, null, null, 'Test Navigation2', '/navigation/navigation2', 'MENU', null, null, null, '0');
-INSERT INTO `menu` VALUES ('621', '62', '62', 'tradeCms', 'navigation_navigation2_navigation1', null, null, null, 'Test Navigation21', '/navigation/navigation2/navigation1', 'MENU', null, null, null, '0');
-INSERT INTO `menu` VALUES ('622', '62', '62', 'tradeCms', 'navigation_navigation2_navigation2', null, null, null, 'Test Navigation22', '/navigation/navigation2/navigation2', 'MENU', null, null, null, '0');
-INSERT INTO `menu` VALUES ('2139584630', null, null, 'tradeCms', 'App', null, null, null, 'App', '/app', 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584631', null, '2139584630', 'tradeCms', 'App', 'logout', '/api/app/logout', null, 'logout', null, 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584632', null, '2139584630', 'tradeCms', 'App', 'getAllMenus', '/api/app/getAllMenus', null, '获所所以菜单', null, 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584633', null, '2139584630', 'tradeCms', 'App', 'getCookieUser', '/api/app/getCookieUser', null, 'getCookieUser', null, 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584634', null, '1', 'tradeCms', 'Dashboard', 'getDashboard', '/api/dashboard/getDashboard', null, 'getDashboard', null, 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584635', null, null, 'tradeCms', 'Login', null, null, null, 'Login', '/login', 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584636', null, '2139584635', 'tradeCms', 'Login', 'login', '/api/login/login', null, 'login', null, 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584637', null, '7', 'tradeCms', 'Post', 'getPostsByStatus', '/api/posts/getPostsByStatus', null, 'getPostsByStatus', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584638', null, null, 'tradeCms', 'Role', null, null, null, 'Role', '/role', 'MENU', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584639', null, '2139584638', 'tradeCms', 'Role', 'getAllRoles', '/api/role/getAllRoles', null, '获取所有角色', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584640', null, '2139584638', 'tradeCms', 'Role', 'saveRoleMenus', '/api/role/saveRoleMenus', null, '保存角色和菜单对应关系', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584641', null, '2139584638', 'tradeCms', 'Role', 'saveRole', '/api/role/saveRole', null, '保存角色', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584642', null, '2139584638', 'tradeCms', 'Role', 'getAllRoleWithMenus', '/api/role/getAllRoleWithMenus', null, '获取角色', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-06 17:08:13', '0');
-INSERT INTO `menu` VALUES ('2139584643', null, '2139584638', 'tradeCms', 'Role', 'scanMenus', '/api/role/scanMenus', null, '扫描系统菜单', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584644', null, '2', 'tradeCms', 'User', 'getUsers', '/api/user/getUsers', null, '用户列表', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584645', null, '2', 'tradeCms', 'User', 'createUser', '/api/user/createUser', null, '创建用户', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584646', null, '2', 'tradeCms', 'User', 'deleteUserByIds', '/api/user/deleteUserByIds', null, '批量删除用户', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584647', null, '2', 'tradeCms', 'User', 'deleteUserById', '/api/user/{userId}', null, '删除用户', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584648', null, '2', 'tradeCms', 'User', 'patchUser', '/api/user/{userId}', null, '修改用户', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584649', null, '21', 'tradeCms', 'User_$userId', 'getUserById', '/api/user/{userId}', null, '获取用户详情', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
-INSERT INTO `menu` VALUES ('2139584650', null, '2139584638', 'tradeCms', 'Role', 'getAllMenuWithRoles', '/api/role/getAllMenuWithRoles', null, '获取角色', null, 'API_PATH', 'VISIT_CHECK', '2018-09-07 11:41:07', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('1', null, null, '${systemName}Cms', 'Dashboard', null, null, null, 'Dashboard', '/dashboard', 'MENU', 'NONE', null, '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2', '1', null, '${systemName}Cms', 'User', null, null, null, '用户', '/user', 'MENU', 'VISIT_CHECK', null, '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('7', '1', null, '${systemName}Cms', 'Post', null, null, null, 'Post', '/post', 'MENU', 'NONE', null, '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('21', '2', '-1', '${systemName}Cms', 'User_$userId', null, null, null, '用户详情', '/user/:userId', 'MENU', 'VISIT_CHECK', null, '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('3', '1', null, '${systemName}Cms', 'request', null, null, 'api', 'Request', '/request', 'MENU', null, null, null, '0');
+INSERT INTO `menu` VALUES ('4', '1', null, '${systemName}Cms', null, null, null, 'camera-o', 'UI Element', null, 'MENU', null, null, null, '0');
+INSERT INTO `menu` VALUES ('41', '4', '4', '${systemName}Cms', 'UIElement_iconfont', null, null, 'heart-o', 'IconFont', '/UIElement/iconfont', 'MENU', null, null, null, '0');
+INSERT INTO `menu` VALUES ('43', '4', '4', '${systemName}Cms', 'UIElement_dropOption', null, null, 'bars', 'DropOption', '/UIElement/dropOption', 'MENU', null, null, null, '0');
+INSERT INTO `menu` VALUES ('44', '4', '4', '${systemName}Cms', 'UIElement_search', null, null, 'search', 'Search', '/UIElement/search', 'MENU', null, null, null, '0');
+INSERT INTO `menu` VALUES ('5', '1', null, '${systemName}Cms', 'Chart', null, null, null, 'Charts', null, 'MENU', 'NONE', null, '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('51', '5', '5', '${systemName}Cms', 'Chart_ECharts', null, null, null, 'ECharts', '/chart/ECharts', 'MENU', 'VISIT_CHECK', null, '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('52', '5', '5', '${systemName}Cms', 'Chart_highCharts', null, null, null, 'highCharts', '/chart/highCharts', 'MENU', 'VISIT_CHECK', null, '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('53', '5', '5', '${systemName}Cms', 'Chart_Recharts', null, null, null, 'Recharts', '/chart/Recharts', 'MENU', 'VISIT_CHECK', null, '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('6', '1', null, '${systemName}Cms', null, null, null, 'setting', 'Test Navigation', null, 'MENU', null, null, null, '0');
+INSERT INTO `menu` VALUES ('61', '6', '6', '${systemName}Cms', 'navigation_navigation1', null, null, null, 'Test Navigation1', '/navigation/navigation1', 'MENU', null, null, null, '0');
+INSERT INTO `menu` VALUES ('62', '6', '6', '${systemName}Cms', 'navigation_navigation2', null, null, null, 'Test Navigation2', '/navigation/navigation2', 'MENU', null, null, null, '0');
+INSERT INTO `menu` VALUES ('621', '62', '62', '${systemName}Cms', 'navigation_navigation2_navigation1', null, null, null, 'Test Navigation21', '/navigation/navigation2/navigation1', 'MENU', null, null, null, '0');
+INSERT INTO `menu` VALUES ('622', '62', '62', '${systemName}Cms', 'navigation_navigation2_navigation2', null, null, null, 'Test Navigation22', '/navigation/navigation2/navigation2', 'MENU', null, null, null, '0');
+INSERT INTO `menu` VALUES ('2139584630', null, null, '${systemName}Cms', 'App', null, null, null, 'App', '/app', 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584631', null, '2139584630', '${systemName}Cms', 'App', 'logout', '/api/app/logout', null, 'logout', null, 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584632', null, '2139584630', '${systemName}Cms', 'App', 'getAllMenus', '/api/app/getAllMenus', null, '获所所以菜单', null, 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584633', null, '2139584630', '${systemName}Cms', 'App', 'getCookieUser', '/api/app/getCookieUser', null, 'getCookieUser', null, 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584634', null, '1', '${systemName}Cms', 'Dashboard', 'getDashboard', '/api/dashboard/getDashboard', null, 'getDashboard', null, 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584635', null, null, '${systemName}Cms', 'Login', null, null, null, 'Login', '/login', 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584636', null, '2139584635', '${systemName}Cms', 'Login', 'login', '/api/login/login', null, 'login', null, 'API_PATH', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584637', null, '7', '${systemName}Cms', 'Post', 'getPostsByStatus', '/api/posts/getPostsByStatus', null, 'getPostsByStatus', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584638', null, null, '${systemName}Cms', 'Role', null, null, null, 'Role', '/role', 'MENU', 'NONE', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584639', null, '2139584638', '${systemName}Cms', 'Role', 'getAllRoles', '/api/role/getAllRoles', null, '获取所有角色', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584640', null, '2139584638', '${systemName}Cms', 'Role', 'saveRoleMenus', '/api/role/saveRoleMenus', null, '保存角色和菜单对应关系', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584641', null, '2139584638', '${systemName}Cms', 'Role', 'saveRole', '/api/role/saveRole', null, '保存角色', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584642', null, '2139584638', '${systemName}Cms', 'Role', 'getAllRoleWithMenus', '/api/role/getAllRoleWithMenus', null, '获取角色', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-06 17:08:13', '0');
+INSERT INTO `menu` VALUES ('2139584643', null, '2139584638', '${systemName}Cms', 'Role', 'scanMenus', '/api/role/scanMenus', null, '扫描系统菜单', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584644', null, '2', '${systemName}Cms', 'User', 'getUsers', '/api/user/getUsers', null, '用户列表', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584645', null, '2', '${systemName}Cms', 'User', 'createUser', '/api/user/createUser', null, '创建用户', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584646', null, '2', '${systemName}Cms', 'User', 'deleteUserByIds', '/api/user/deleteUserByIds', null, '批量删除用户', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584647', null, '2', '${systemName}Cms', 'User', 'deleteUserById', '/api/user/{userId}', null, '删除用户', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584648', null, '2', '${systemName}Cms', 'User', 'patchUser', '/api/user/{userId}', null, '修改用户', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584649', null, '21', '${systemName}Cms', 'User_$userId', 'getUserById', '/api/user/{userId}', null, '获取用户详情', null, 'API_PATH', 'VISIT_CHECK', '2018-09-06 17:02:15', '2018-09-07 11:41:07', '0');
+INSERT INTO `menu` VALUES ('2139584650', null, '2139584638', '${systemName}Cms', 'Role', 'getAllMenuWithRoles', '/api/role/getAllMenuWithRoles', null, '获取角色', null, 'API_PATH', 'VISIT_CHECK', '2018-09-07 11:41:07', '2018-09-07 11:41:07', '0');
 
 -- ----------------------------
 -- Table structure for role

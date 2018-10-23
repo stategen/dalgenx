@@ -51,7 +51,7 @@
         </sql>
     </operation>
 
-    <operation name="deleteByMenuId" remarks="">
+    <operation name="delete" remarks="">
         <sql>
             UPDATE menu SET
             delete_flag = 1

@@ -30,12 +30,6 @@ public interface RoleMenuService extends RoleMenuServiceFacade {
 
     /**
      * 
-     * @see ${packageName}.dao.RoleMenuDao#deleteById
-     */
-    public Long deleteById(Long id);
-
-    /**
-     * 
      * @see ${packageName}.dao.RoleMenuDao#update
      */
     public RoleMenu update(RoleMenu roleMenu);
@@ -62,7 +56,7 @@ public interface RoleMenuService extends RoleMenuServiceFacade {
      * 
      * @see ${packageName}.dao.RoleMenuDao#deleteByIds
      */
-    public Long deleteByIds(java.util.List<Long> ids);
+    public List<Long> deleteByIds(java.util.List<Long> ids);
 
     /**
      * 
@@ -75,4 +69,10 @@ public interface RoleMenuService extends RoleMenuServiceFacade {
 
     /*** 批量保存roleMenus,有id时更新，没有id时插入,并带回新的id，返回 roleMenus*/
     public List<RoleMenu> saveRoleMenus(List<RoleMenu> roleMenus);
+
+    /**
+     * 
+     * @see ${packageName}.dao.RoleMenuDao#delete
+     */
+    public Long delete(Long id);
 }

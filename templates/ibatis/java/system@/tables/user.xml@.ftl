@@ -48,7 +48,7 @@
         </sql>
     </operation>
 
-    <operation name="deleteByUserId" remarks="">
+    <operation name="delete" remarks="">
         <sql>
             UPDATE user SET
             delete_flag = 1
@@ -349,6 +349,9 @@
 
     <!-- 以上是生成代码，勿动 ,如果表变更，重新执行 gen.sh table user -e 再复制再粘贴覆盖-->
 
+
+
+
     <operation name="login" multiplicity="one" remarks="">
         <sql>
             select
@@ -374,49 +377,4 @@
         </sql>
     </operation>
 
-    <operation name="getUsers" remarks="" multiplicity="paging">
-        <sql>
-            select
-            a.user_id,
-            a.username,
-            a.password,
-            a.role_type,
-            a.name,
-            a.nickName,
-            a.age,
-            a.address,
-            a.isMale,
-            a.avatar,
-            a.email,
-            a.create_time,
-            a.update_time,
-            a.delete_flag
-            from user a
-            where
-            a.delete_flag = 0
-            <isNotEmpty property="address">
-                and a.address like concat('%',#address# ,'%')
-            </isNotEmpty>
-            <isNotNull property="beginDate">
-                and a.create_time >= #beginDate#
-            </isNotNull>
-            <isNotNull property="endDate">
-                and a.create_time &lt; #endDate#
-            </isNotNull>
-        </sql>
-    </operation>
-
-    <operation name="deleteByIds" remarks="">
-        <sql>
-            UPDATE user SET
-            delete_flag = 1
-            , update_time = CURRENT_TIMESTAMP(6)
-            where
-            delete_flag = 0
-            and user_id in
-            <iterate property="userIds" conjunction="," open="(" close=")">
-                #userIds[]#
-            </iterate>
-        </sql>
-    </operation>
 </table>

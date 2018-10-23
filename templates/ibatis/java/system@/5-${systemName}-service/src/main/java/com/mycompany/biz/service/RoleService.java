@@ -39,12 +39,6 @@ public interface RoleService extends RoleServiceFacade {
 
     /**
      * 
-     * @see ${packageName}.dao.RoleDao#deleteByRoleId
-     */
-    public Long deleteByRoleId(String roleId);
-
-    /**
-     * 
      * @see ${packageName}.dao.RoleDao#update
      */
     public Role update(Role role);
@@ -54,12 +48,6 @@ public interface RoleService extends RoleServiceFacade {
      * @see ${packageName}.dao.RoleDao#getRoleByRoleId
      */
     public Role getRoleByRoleId(String roleId);
-
-    /**
-     * 
-     * @see ${packageName}.dao.RoleDao#getRolePageList
-     */
-    public PageList<Role> getRolePageList(int pageSize, int pageNum);
 
     /**
      * 
@@ -75,13 +63,13 @@ public interface RoleService extends RoleServiceFacade {
 
     /**
      * 
-     * @see ${packageName}.dao.RoleDao#batchDelete
+     * @see ${packageName}.dao.RoleDao#delete
      */
-    public Long batchDelete(java.util.List<String> roleIds);
+    public String delete(String roleId);
 
     /**
      * 
-     * @see ${packageName}.dao.RoleDao#getAllRoles
+     * @see ${packageName}.dao.RoleDao#deleteByRoleIds
      */
-    public List<Role> getAllRoles();
+    public List<String> deleteByRoleIds(java.util.List<String> roleIds);
 }

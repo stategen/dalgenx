@@ -45,10 +45,11 @@ public class MenuDaoImpl extends SqlMapClientDaoSupport implements MenuDao {
 	 * 
 	 * sql:UPDATE menu SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and menu_id = ?
 	 */
-    public Long deleteByMenuId(Long menuId) throws DataAccessException {
+    public Long delete(Long menuId) throws DataAccessException {
         Map<String, Object> params = new HashMap<String, Object>(1);
         params.put("menuId", menuId);
-        return (long) getSqlMapClientTemplate().update("deleteByMenuId.Menu.${systemName}", params);
+        getSqlMapClientTemplate().update("delete.Menu.${systemName}", params);
+        return menuId;
     }
 
     /**
@@ -97,10 +98,11 @@ public class MenuDaoImpl extends SqlMapClientDaoSupport implements MenuDao {
 	 * 
 	 * sql:UPDATE menu SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and menu_id in ( ? )
 	 */
-    public Long deleteByMenuIds(java.util.List<Long> menuIds) throws DataAccessException {
+    public java.util.List<Long> deleteByMenuIds(java.util.List<Long> menuIds) throws DataAccessException {
         Map<String, Object> params = new HashMap<String, Object>(1);
         params.put("menuIds", menuIds);
-        return (long) getSqlMapClientTemplate().update("deleteByMenuIds.Menu.${systemName}", params);
+        getSqlMapClientTemplate().update("deleteByMenuIds.Menu.${systemName}", params);
+        return menuIds;
     }
 
     /**

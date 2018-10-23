@@ -53,7 +53,7 @@ public interface MenuDao {
 	 * 
 	 * sql:UPDATE menu SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and menu_id = ?
 	 */
-	public Long deleteByMenuId(Long menuId) throws DataAccessException;
+	public Long delete(Long menuId) throws DataAccessException;
 	
 	/**
     <pre>
@@ -130,7 +130,7 @@ public interface MenuDao {
 	 * 
 	 * sql:UPDATE menu SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and menu_id in ( ? )
 	 */
-	public Long deleteByMenuIds(java.util.List<Long> menuIds) throws DataAccessException;
+	public java.util.List<Long> deleteByMenuIds(java.util.List<Long> menuIds) throws DataAccessException;
 	
 	/**
     <pre>

@@ -2,10 +2,9 @@ package ${packageName}.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,21 +13,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.stategen.framework.annotation.ApiConfig;
 import org.stategen.framework.annotation.ApiRequestMappingAutoWithMethodName;
+import org.stategen.framework.annotation.GenForm;
 import org.stategen.framework.annotation.State;
 import org.stategen.framework.annotation.VisitCheck;
+import org.stategen.framework.enums.StateOperation;
 import org.stategen.framework.lite.AntdPageList;
 import org.stategen.framework.lite.PageList;
-import org.stategen.framework.lite.SimpleResponse;
+import org.stategen.framework.lite.Pagination;
 import org.stategen.framework.util.BusinessAssert;
-import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.CopyUtil;
 import org.stategen.framework.util.DatetimeUtil;
 import org.stategen.framework.web.cookie.CookieGroup;
 
-import com.alibaba.fastjson.JSON;
 import ${packageName}.domain.User;
+import ${packageName}.enums.RoleType;
 
-@ApiConfig(name="用户",breadParent=DashboardController.class)
+import io.swagger.annotations.ApiParam;
+
+@ApiConfig(name = "用户", breadParent = DashboardController.class)
 @VisitCheck
 public class UserController extends UserControllerBase {
     final static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(UserController.class);
@@ -38,35 +40,31 @@ public class UserController extends UserControllerBase {
 
     @ApiRequestMappingAutoWithMethodName(name = "用户列表", method = RequestMethod.GET)
     @VisitCheck
-    @State(init=true)
-    public AntdPageList<User> getUsers(@RequestParam(required = true, defaultValue = "1") Integer page,
-                                       @RequestParam(required = true, defaultValue = "10") Integer pageSize,
-                                       @RequestParam(name = "address[]", required = false) String[] addresses,
-                                       @RequestParam(name = "createTime[]", required = false) Date[] createTimes, HttpServletRequest request) {
-        String address = CollectionUtil.isNotEmpty(addresses) ? addresses[0] : null;
-        Date beginDate = null;
-        Date endDate = null;
-        if (CollectionUtil.isNotEmpty(createTimes) && createTimes.length > 1) {
-            beginDate = createTimes[0];
-            endDate = createTimes[1];
-        }
+    @State(init = true)
+    @GenForm
+    public AntdPageList<User> getUserPageListByDefaultQuery(@ApiParam() @RequestParam(required = false, name = "userIds") ArrayList<String> userIds,
+                                                            @ApiParam() String usernameLike, @ApiParam() String passwordLike,
+                                                            @ApiParam() @RequestParam(required = false, name = "roleTypes") ArrayList<RoleType> roleTypes,
+                                                            @ApiParam() String nameLike, @ApiParam() String nickNameLike, @ApiParam() Integer ageMin,
+                                                            @ApiParam() Integer ageMax, @ApiParam() String addressLike, @ApiParam() String avatarLike,
+                                                            @ApiParam() String emailLike, @ApiParam() Date createTimeMin,
+                                                            @ApiParam() Date createTimeMax, @ApiParam() Date updateTimeMin,
+                                                            @ApiParam() Date updateTimeMax, @ApiParam(hidden = true) User user, 
+                                                            @ApiParam(hidden = true) Pagination pagination
 
-        PageList<User> userList = this.userService.getUsers(address, beginDate, endDate, pageSize, page);
+    ) {
+        if (createTimeMax == null) {
+            user.setCreateTimeMax(DatetimeUtil.current());
+        }
+        //技巧，api参数 .在dao中已自动化生成,从以下getUserPageListByDefaultQuery 帮助文件中 点开See also直接复制过来，
+        PageList<User> userList = this.userService.getUserPageListByDefaultQuery(user, pagination.getPageSize(), pagination.getPage());
         return new AntdPageList<User>(userList);
     }
 
     @ApiRequestMappingAutoWithMethodName(name = "批量删除用户", method = RequestMethod.DELETE)
     @VisitCheck
-    public SimpleResponse deleteUserByIds(@RequestParam(name = "userIds", required = false) ArrayList<String> userIds, HttpServletResponse response,
-                                          HttpServletRequest httpServletRequest) {
-        Map<String, String[]> parameterMap = httpServletRequest.getParameterMap();
-        System.out.println("parameterMap<===========>:" + JSON.toJSONString(parameterMap));
-
-        if (CollectionUtil.isNotEmpty(userIds)) {
-            this.userService.deleteByIds(userIds);
-            return SimpleResponse.success("删除成功");
-        }
-        return SimpleResponse.error("删除失败，参数ids为空");
+    public List<String> deleteByUserIds(@RequestParam(name = "userIds", required = false) ArrayList<String> userIds, HttpServletResponse response) {
+        return this.userService.deleteByUserIds(userIds);
     }
 
     @ApiRequestMappingAutoWithMethodName(name = "创建用户", method = RequestMethod.POST)
@@ -81,12 +79,11 @@ public class UserController extends UserControllerBase {
         return user;
     }
 
-
     @ApiRequestMappingAutoWithMethodName(path = "/{userId}", name = "删除用户", method = RequestMethod.DELETE)
     @VisitCheck
-    public SimpleResponse deleteUserById(@PathVariable String userId) {
-        this.userService.deleteByUserId(userId);
-        return SimpleResponse.success("删除成功");
+    @State(operation = StateOperation.DELETE_IF_EXIST)
+    public String delete(@PathVariable String userId) {
+        return userService.delete(userId);
     }
 
     @ApiRequestMappingAutoWithMethodName(path = "/{userId}", name = "修改用户", method = RequestMethod.PATCH)

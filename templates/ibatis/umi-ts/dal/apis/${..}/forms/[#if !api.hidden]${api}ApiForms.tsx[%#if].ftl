@@ -25,7 +25,7 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
 
 export namespace ${api}ApiForms {
 <#list api.functions as fun>
-  <#if !fun.genQueryForm>
+  <#if !fun.genForm>
       <#continue >
   </#if>
   <#if fun.params?? && fun.params?size gt 0>
@@ -42,7 +42,7 @@ export namespace ${api}ApiForms {
 </#list>
 <#list api.functions as fun>
   <#if fun.params?? && fun.params?size gt 0>
-  <#if !fun.genQueryForm>
+  <#if !fun.genForm>
       <#continue >
   </#if>
   export const ${fun?uncap_first}FormConfigs = (queryRule: ObjectMap<any> = {}): ${fun}FormConfigs => {

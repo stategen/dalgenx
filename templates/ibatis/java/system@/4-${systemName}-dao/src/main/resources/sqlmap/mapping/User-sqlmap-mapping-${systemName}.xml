@@ -59,7 +59,7 @@
             </selectKey>
 	</insert>
 	
-	<update id="deleteByUserId.User.${systemName}">
+	<update id="delete.User.${systemName}">
 		UPDATE user SET
             delete_flag = 1
             , update_time = CURRENT_TIMESTAMP(6)
@@ -486,70 +486,6 @@
 
 	    
 	
-	
-    
-	
-	<select id="getUsers.User.${systemName}" resultMap="User.${systemName}.RM" >
-    	select
- /* getUsers.User.${systemName} */             a.user_id,
-            a.username,
-            a.password,
-            a.role_type,
-            a.name,
-            a.nickName,
-            a.age,
-            a.address,
-            a.isMale,
-            a.avatar,
-            a.email,
-            a.create_time,
-            a.update_time,
-            a.delete_flag
-            from user a
-            where
-            a.delete_flag = 0
-            <isNotEmpty property="address">
-                and a.address like concat('%',#address# ,'%')
-            </isNotEmpty>
-            <isNotNull property="beginDate">
-                and a.create_time >= #beginDate#
-            </isNotNull>
-            <isNotNull property="endDate">
-                and a.create_time &lt; #endDate#
-            </isNotNull>
-			limit #offset#,#limit#
-	</select>	
-
-	<select id="getUsers.User.${systemName}.count" resultClass="long" >
-    	select  /* getUsers.User.${systemName}.count */ count(*)  from user a
-            where
-            a.delete_flag = 0
-            <isNotEmpty property="address">
-                and a.address like concat('%',#address# ,'%')
-            </isNotEmpty>
-            <isNotNull property="beginDate">
-                and a.create_time >= #beginDate#
-            </isNotNull>
-            <isNotNull property="endDate">
-                and a.create_time &lt; #endDate#
-            </isNotNull>
-	</select>
-	    
-	
-	
-    
-	
-	<update id="deleteByIds.User.${systemName}">
-		UPDATE user SET
-            delete_flag = 1
-            , update_time = CURRENT_TIMESTAMP(6)
-            where
-            delete_flag = 0
-            and user_id in
-            <iterate close=")" conjunction="," open="(" property="userIds">
-                #userIds[]#
-            </iterate>
-	</update>
 	
     
 

@@ -8,6 +8,7 @@ import {OptionProps} from "antd/lib/select";
 import {ReactElement} from "react";
 import {TabPaneProps} from "antd/lib/tabs";
 
+
 export const TIME_FORMAT = "HH:mm:ss";
 export const DATE_FORMAT = "YYYY-MM-DD";
 export const TIMESTAMP_FORMAT = "YYYY-MM-DD HH:mm:ss";
@@ -366,5 +367,11 @@ export const mergeObjects = (...sources) => {
   return result;
 }
 
+
+export const operateOptions = [{key: 'Update', name: 'Update'}, {key: 'Delete', name: 'Delete'}];
+
+export const cleanSelectRowsProps: AreaState<any> = {
+  selectedRowKeys: [],
+};
 
 

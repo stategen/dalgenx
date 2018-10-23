@@ -32,7 +32,7 @@
         </sql>
     </operation>
 
-    <operation name="deleteById" remarks="">
+    <operation name="delete" remarks="">
         <sql>
             UPDATE role_menu SET
             delete_flag = 1

@@ -45,7 +45,7 @@ public interface RoleDao {
 	 * 
 	 * sql:UPDATE role SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and role_id = ?
 	 */
-	public Long deleteByRoleId(String roleId) throws DataAccessException;
+	public String delete(String roleId) throws DataAccessException;
 	
 	/**
     <pre>
@@ -67,18 +67,9 @@ public interface RoleDao {
     
     </pre>
 	 * 
-	 * sql:select a.role_id, a.role_name, a.description, a.create_time, a.update_time, a.delete_flag, a.role_type from role a where a.role_id = ? and a.delete_flag = 0
+	 * sql:select a.role_id, a.role_name, a.description, a.create_time, a.update_time, a.delete_flag, a.role_type from role a where a.delete_flag = 0 and a.role_id = ?
 	 */
 	public Role getRoleByRoleId(String roleId) throws DataAccessException;
-	
-	/**
-    <pre>
-    &#64;ApiParam(hidden = true) Pagination pagination
-    </pre>
-	 * 
-	 * sql:select a.role_id, a.role_name, a.description, a.create_time, a.update_time, a.delete_flag, a.role_type from role a where a.delete_flag = 0
-	 */
-	public PageList<Role> getRolePageList(int pageSize, int pageNum) throws DataAccessException;
 	
 	/**
     <pre>
@@ -116,16 +107,7 @@ public interface RoleDao {
 	 * 
 	 * sql:UPDATE role SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and role_id in ( ? )
 	 */
-	public Long batchDelete(java.util.List<String> roleIds) throws DataAccessException;
-	
-	/**
-    <pre>
-    
-    </pre>
-	 * 
-	 * sql:select a.role_id, a.role_name, a.description, a.create_time, a.update_time, a.delete_flag, a.role_type from role a where a.delete_flag = 0
-	 */
-	public List<Role> getAllRoles() throws DataAccessException;
+	public java.util.List<String> deleteByRoleIds(java.util.List<String> roleIds) throws DataAccessException;
 	
 
 }

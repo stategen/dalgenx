@@ -1,10 +1,13 @@
 package ${packageName}.domain;
 
-import org.stategen.framework.lite.Response;
+import org.stategen.framework.annotation.GenForm;
+import org.stategen.framework.lite.BaseResponse;
 
 import ${packageName}.enums.ResponseStatus;
 
-public class ResponseExtend<T> extends Response<T> {
+
+@GenForm(false)
+public class Response<T> extends BaseResponse<T> {
     
    // private String test1="test1";
 //    /**不会生成前端代码*/
@@ -29,11 +32,11 @@ public class ResponseExtend<T> extends Response<T> {
 
 
     /***给一个默认的不带参数的方法，是因为spring创建时不需要参数*/
-    public ResponseExtend(){
+    public Response(){
         super();
     }
     
-    public ResponseExtend(T data) {
+    public Response(T data) {
         this();
         setData(data);
         setStatus(ResponseStatus.OK);
@@ -57,10 +60,10 @@ public class ResponseExtend<T> extends Response<T> {
     }
     
     @SuppressWarnings("rawtypes")
-    public static ResponseExtend error(ResponseStatus responseStatus){
-        ResponseExtend responseExtend=new ResponseExtend(); 
-        responseExtend.setStatus(responseStatus);
-        return responseExtend;
+    public static Response error(ResponseStatus responseStatus){
+        Response response=new Response(); 
+        response.setStatus(responseStatus);
+        return response;
     }
     
 

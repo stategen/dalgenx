@@ -57,7 +57,7 @@
     <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" />
     <!--<bean id="multiRequestMappingInterceptor" class="org.stategen.framework.spring.mvc.MultiRequestMappingInterceptor" /> -->
 
-<!--     <context:component-scan base-package="com.mycompany.biz.controller">
+<!--     <context:component-scan base-package="${packageName}.controller">
         <context:include-filter type="regex" expression=".controller.*Controller" />
     </context:component-scan> -->
     

@@ -27,7 +27,6 @@
         <${systemName}-facade-version>1.0.0-release</${systemName}-facade-version>
         <!-- 本系统的版本，不会被发布到maven仓库中，故以snapshort结尾,后续pom.xml已控制,避免误发 -->
         <systemVersion>${systemName}-1.0.0-snapshot</systemVersion>
-        <dubbo-version>2.8.4</dubbo-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <distribution-id>thirdparty</distribution-id>
@@ -53,7 +52,7 @@
         <dependencies>
             <dependency>
                 <groupId>org.stategen.framework</groupId>
-                <artifactId>stategen-ibatis-util</artifactId>
+                <artifactId>aa-stategen-ibatis-util</artifactId>
                 <version>${'$'}{stategen-version}</version>
             </dependency>
 
@@ -71,7 +70,7 @@
 
             <dependency>
                 <groupId>org.stategen.framework</groupId>
-                <artifactId>stategen-logback</artifactId>
+                <artifactId>aa-stategen-logback</artifactId>
                 <version>${'$'}{stategen-version}</version>
                 <scope>runtime</scope>
             </dependency>
@@ -87,16 +86,26 @@
                 <artifactId>stategen-util</artifactId>
                 <version>${'$'}{stategen-version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>dubbo</artifactId>
                 <version>${'$'}{dubbo-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>log4j</artifactId>
+                        <groupId>log4j</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.stategen.framework</groupId>
-                <artifactId>stategen-dubbox</artifactId>
+                <artifactId>aa-stategen-dubbox</artifactId>
                 <version>${'$'}{stategen-version}</version>
             </dependency>
 
@@ -194,7 +203,7 @@
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>1.1.3</version>
+                <version>${'$'}{logback-version}</version>
             </dependency>
 
             <dependency>
@@ -228,12 +237,11 @@
                 <version>1.7.12</version>
             </dependency>
 
-            <dependency>
+<!--             <dependency>
                 <groupId>org.jboss.slf4j</groupId>
                 <artifactId>slf4j-jboss-logging</artifactId>
                 <version>1.0.2.GA</version>
-            </dependency>
-
+            </dependency> -->
 
             <dependency>
                 <groupId>mysql</groupId>
@@ -515,7 +523,7 @@
 
             <dependency>
                 <groupId>org.apache.ibatis</groupId>
-                <artifactId>ibatis-sqlmap-yk</artifactId>
+                <artifactId>ibatis-sqlmap</artifactId>
                 <version>2.3.4.726</version>
             </dependency>
 

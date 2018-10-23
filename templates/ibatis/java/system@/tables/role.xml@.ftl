@@ -34,14 +34,14 @@
         </sql>
     </operation>
 
-    <operation name="deleteByRoleId" remarks="">
+    <operation name="delete" remarks="">
         <sql>
             UPDATE role SET
             delete_flag = 1
             , update_time = CURRENT_TIMESTAMP(6)
             where
             delete_flag = 0
-           and role_id = ?
+            and role_id = ?
         </sql>
     </operation>
 
@@ -78,24 +78,8 @@
             a.role_type
             from role a
             where
-            a.role_id = ?
-            and a.delete_flag = 0
-        </sql>
-    </operation>
-
-    <operation name="getRolePageList" multiplicity="paging" remarks="">
-        <sql>
-            select
-            a.role_id,
-            a.role_name,
-            a.description,
-            a.create_time,
-            a.update_time,
-            a.delete_flag,
-            a.role_type
-            from role a
-            where
             a.delete_flag = 0
+            and a.role_id = ?
         </sql>
     </operation>
 
@@ -162,7 +146,6 @@
         </sql>
     </operation>
 
-
     <operation name="getRolesByRoleIds" multiplicity="many" remarks="">
         <sql>
             select
@@ -183,7 +166,7 @@
         </sql>
     </operation>
 
-    <operation name="batchDelete" remarks="">
+    <operation name="deleteByRoleIds" remarks="">
         <sql>
             UPDATE role SET
                delete_flag = 1
@@ -198,23 +181,4 @@
     </operation>
 
     <!-- 以上是生成代码，勿动 ,如果表变更，重新执行 gen.sh table role -e 再复制再粘贴覆盖-->
-
-
-
-    <operation name="getAllRoles" multiplicity="many" remarks="">
-        <sql>
-            select
-            a.role_id,
-            a.role_name,
-            a.description,
-            a.create_time,
-            a.update_time,
-            a.delete_flag,
-            a.role_type
-            from role a
-            where
-            a.delete_flag = 0
-        </sql>
-    </operation>
-
 </table>

@@ -34,7 +34,7 @@ public class LoginController {
     
 
     
-    @ApiRequestMappingAutoWithMethodName(name = "", method = RequestMethod.POST,genQueryForm=true)
+    @ApiRequestMappingAutoWithMethodName(name = "", method = RequestMethod.POST,genForm=true)
     @ResponseBody
     public SimpleResponse login(@ApiParam("用户名") @RequestParam() String username,
                                 @ApiParam("密码") @RequestParam() String password, @ApiParam(hidden = true) User user) {

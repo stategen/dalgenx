@@ -4,9 +4,9 @@ import pathToRegexp, {Token, Key} from 'path-to-regexp';
 import {message} from 'antd';
 // import 'whatwg-fetch';
 import {routerRedux} from 'dva/router'
-import ResponseExtend from "@i/beans/ResponseExtend";
+import Response from "@i/beans/Response";
 import fetch from "dva/fetch";
-import fetchJsonp  from "fetch-jsonp";
+
 
 export enum Method {
   GET = 'GET',
@@ -110,12 +110,12 @@ export class Net {
 
     let value: any = fetch(url, requestInit)
       .then((response) => response.json())
-      .then((responseExtend: ResponseExtend<any>) => {
-        let success: boolean = responseExtend.success;
+      .then((response: Response<any>) => {
+        let success: boolean = response.success;
         if (success) {
-          return responseExtend.data;
+          return response.data;
         } else {
-          throw responseExtend;
+          throw response;
         }
       })
       .catch((error) => {

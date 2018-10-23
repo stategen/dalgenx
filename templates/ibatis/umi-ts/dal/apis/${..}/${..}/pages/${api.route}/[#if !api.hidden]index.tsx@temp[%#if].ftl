@@ -29,7 +29,7 @@ import {TableProps, TableRowSelection} from "antd/lib/table";
 import Row from "antd/lib/grid/row";
 import {createModelPage} from "@components/QueryModal/QueryModal";
 import {${api}ApiForms} from "@i/forms/${api}ApiForms";
-import StatesAlias from "@i/configs/tradeCms-statesAlias";
+import StatesAlias from "@i/configs/${systemName}Cms-statesAlias";
 
 const {confirm} = Modal;
 

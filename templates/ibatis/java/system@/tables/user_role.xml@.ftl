@@ -34,7 +34,7 @@
         </sql>
     </operation>
 
-    <operation name="deleteById" remarks="">
+    <operation name="delete" remarks="">
         <sql>
             UPDATE user_role SET
             delete_flag = 1

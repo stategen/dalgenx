@@ -1,6 +1,6 @@
 import { config } from '@utils/index'
 import {Method, Net, RequestInitEx} from '@utils/Net'
-import {apiUrlKey} from "@i/configs/tradeCms-config";
+import {apiUrlKey} from "@i/configs/${systemName}Cms-config";
 
 const { APIV1 } = config
 

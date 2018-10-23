@@ -22,7 +22,7 @@
 
         <dependency>
             <groupId>org.stategen.framework</groupId>
-            <artifactId>stategen-ibatis-util</artifactId>
+            <artifactId>aa-stategen-ibatis-util</artifactId>
         </dependency>
 
         <dependency>
@@ -47,7 +47,7 @@
 
         <dependency>
             <groupId>org.apache.ibatis</groupId>
-            <artifactId>ibatis-sqlmap-yk</artifactId>
+            <artifactId>ibatis-sqlmap</artifactId>
         </dependency>
 
     </dependencies>

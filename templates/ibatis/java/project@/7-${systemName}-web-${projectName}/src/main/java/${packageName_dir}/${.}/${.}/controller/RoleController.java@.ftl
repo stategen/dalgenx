@@ -18,7 +18,6 @@ import org.stategen.framework.enums.StateOperation;
 import org.stategen.framework.lite.AntdPageList;
 import org.stategen.framework.lite.PageList;
 import org.stategen.framework.lite.Pagination;
-import org.stategen.framework.lite.SimpleResponse;
 import org.stategen.framework.util.DatetimeUtil;
 
 import ${packageName}.domain.Role;
@@ -30,30 +29,7 @@ import io.swagger.annotations.ApiParam;
 public class RoleController extends RoleControllerBase {
 
 
-    /***
-     * 获取所有系统中的角色
-     * 
-     * @return
-     */
-    @ApiRequestMappingAutoWithMethodName(name = "角色列表", method = RequestMethod.POST)
-    @VisitCheck
-    @State(operation = StateOperation.FULL_REPLACE)
-    @HideAreaEditorModal
-    public List<Role> getAll() {
-        return this.roleService.getAllRoles();
-    }
-
-    @ApiRequestMappingAutoWithMethodName(name = "角色分页列表", method = RequestMethod.POST)
-    @VisitCheck
-    @State( operation = StateOperation.FULL_REPLACE)
-    @HideAreaEditorModal
-    public AntdPageList<Role> getRolePageList(@RequestParam(defaultValue = "6") int pageSize, @RequestParam(defaultValue = "1") int page,
-                                              @ApiParam(hidden = true) Pagination andPagination) {
-        PageList<Role> rolePageList = this.roleService.getRolePageList(andPagination.getPageSize(), andPagination.getPage());
-        return AntdPageList.create(rolePageList);
-    }
-
-    @ApiRequestMappingAutoWithMethodName(name = "角色分页列表,多条件", method = RequestMethod.POST,genQueryForm=true)
+    @ApiRequestMappingAutoWithMethodName(name = "角色分页列表,多条件", method = RequestMethod.POST,genForm=true)
     @VisitCheck
     @State(init = true, operation = StateOperation.FULL_REPLACE)
     @HideAreaEditorModal
@@ -78,6 +54,7 @@ public class RoleController extends RoleControllerBase {
         if (createTimeMax==null){
             role.setCreateTimeMax(DatetimeUtil.current());
         }
+        //技巧，api参数 .在dao中已自动化生成,从以下getRolePageListByDefaultQuery 帮助文件中 点开See also直接复制过来，
         PageList<Role> rolePageList = this.roleService.getRolePageListByDefaultQuery(role, pagination.getPageSize(), pagination.getPage());
         return AntdPageList.create(rolePageList);
     }
@@ -118,24 +95,16 @@ public class RoleController extends RoleControllerBase {
     @ApiRequestMappingAutoWithMethodName(name = "删除角色", method = RequestMethod.POST)
     @VisitCheck
     @State(operation = StateOperation.DELETE_IF_EXIST, area = Role.class)
-    public String deleteByRoleId(String roleId) {
-        this.roleService.deleteByRoleId(roleId);
+    public String delete(String roleId) {
+        this.roleService.delete(roleId);
         return roleId;
-    }
-
-    @ApiRequestMappingAutoWithMethodName(name = "删除角色", method = RequestMethod.POST)
-    @VisitCheck
-    @State(operation = StateOperation.DELETE_IF_EXIST, area = Role.class)
-    public SimpleResponse deleteWithResponse(String roleId) {
-        this.roleService.deleteByRoleId(roleId);
-        return SimpleResponse.success("删除成功");
     }
 
     @ApiRequestMappingAutoWithMethodName(name = "批量删除角色", method = RequestMethod.POST)
     @VisitCheck
     @State(operation = StateOperation.DELETE_IF_EXIST, area = Role.class)
-    public List<String> batchDelete(@RequestParam("roleIds") ArrayList<String> roleIds) {
-        this.roleService.batchDelete(roleIds);
+    public List<String> deleteByRoleIds(@RequestParam("roleIds") ArrayList<String> roleIds) {
+        this.roleService.deleteByRoleIds(roleIds);
         return roleIds;
     }
 

@@ -38,13 +38,13 @@
             </selectKey>
 	</insert>
 	
-	<update id="deleteByRoleId.Role.${systemName}">
+	<update id="delete.Role.${systemName}">
 		UPDATE role SET
             delete_flag = 1
             , update_time = CURRENT_TIMESTAMP(6)
             where
             delete_flag = 0
-           and role_id = #roleId#
+            and role_id = #roleId#
 	</update>
 	
     
@@ -81,35 +81,10 @@
             a.role_type
             from role a
             where
-            a.role_id = #roleId#
-            and a.delete_flag = 0
+            a.delete_flag = 0
+            and a.role_id = #roleId#
 	</select>	
 
-	    
-	
-	
-    
-	
-	<select id="getRolePageList.Role.${systemName}" resultMap="Role.${systemName}.RM" >
-    	select
- /* getRolePageList.Role.${systemName} */             a.role_id,
-            a.role_name,
-            a.description,
-            a.create_time,
-            a.update_time,
-            a.delete_flag,
-            a.role_type
-            from role a
-            where
-            a.delete_flag = 0
-			limit #offset#,#limit#
-	</select>	
-
-	<select id="getRolePageList.Role.${systemName}.count" resultClass="long" >
-    	select  /* getRolePageList.Role.${systemName}.count */ count(*)  from role a
-            where
-            a.delete_flag = 0
-	</select>
 	    
 	
 	
@@ -257,7 +232,7 @@
 	
     
 	
-	<update id="batchDelete.Role.${systemName}">
+	<update id="deleteByRoleIds.Role.${systemName}">
 		UPDATE role SET
                delete_flag = 1
                , update_time = CURRENT_TIMESTAMP(6)
@@ -268,25 +243,6 @@
                 #roleIds[]#
             </iterate>
 	</update>
-	
-    
-	
-	<select id="getAllRoles.Role.${systemName}" resultMap="Role.${systemName}.RM" >
-    	select
- /* getAllRoles.Role.${systemName} */             a.role_id,
-            a.role_name,
-            a.description,
-            a.create_time,
-            a.update_time,
-            a.delete_flag,
-            a.role_type
-            from role a
-            where
-            a.delete_flag = 0
-	</select>	
-
-	    
-	
 	
     
 

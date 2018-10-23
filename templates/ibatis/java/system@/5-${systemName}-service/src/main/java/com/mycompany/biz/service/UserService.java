@@ -36,12 +36,6 @@ public interface UserService extends UserServiceFacade {
 
     /**
      * 
-     * @see ${packageName}.dao.UserDao#deleteByUserId
-     */
-    public Long deleteByUserId(String userId);
-
-    /**
-     * 
      * @see ${packageName}.dao.UserDao#deleteByEmail
      */
     public Long deleteByEmail(String email);
@@ -86,7 +80,7 @@ public interface UserService extends UserServiceFacade {
      * 
      * @see ${packageName}.dao.UserDao#deleteByUserIds
      */
-    public Long deleteByUserIds(java.util.List<String> userIds);
+    public List<String> deleteByUserIds(java.util.List<String> userIds);
 
     /**
      * 
@@ -102,13 +96,7 @@ public interface UserService extends UserServiceFacade {
 
     /**
      * 
-     * @see ${packageName}.dao.UserDao#getUsers
+     * @see ${packageName}.dao.UserDao#delete
      */
-    public PageList<User> getUsers(String address, java.util.Date beginDate, java.util.Date endDate, int pageSize, int pageNum);
-
-    /**
-     * 
-     * @see ${packageName}.dao.UserDao#deleteByIds
-     */
-    public Long deleteByIds(java.util.List<String> userIds);
+    public String delete(String userId);
 }

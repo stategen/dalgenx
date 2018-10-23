@@ -32,26 +32,6 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 
-     * @see ${packageName}.dao.UserDao#insert
-     * @see ${packageName}.service.UserService#insert
-     */
-    @Override
-    public User insert(User user) {
-        return userDao.insert(user);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.UserDao#deleteByUserId
-     * @see ${packageName}.service.UserService#deleteByUserId
-     */
-    @Override
-    public Long deleteByUserId(String userId) {
-        return userDao.deleteByUserId(userId);
-    }
-
-    /**
-     * 
      * @see ${packageName}.dao.UserDao#deleteByEmail
      * @see ${packageName}.service.UserService#deleteByEmail
      */
@@ -126,7 +106,7 @@ public class UserServiceImpl implements UserService {
      * @see ${packageName}.service.UserService#deleteByUserIds
      */
     @Override
-    public Long deleteByUserIds(java.util.List<String> userIds) {
+    public List<String> deleteByUserIds(java.util.List<String> userIds) {
         return userDao.deleteByUserIds(userIds);
     }
 
@@ -150,26 +130,6 @@ public class UserServiceImpl implements UserService {
         return userDao.login(username, password);
     }
 
-    /**
-     * 
-     * @see ${packageName}.dao.UserDao#getUsers
-     * @see ${packageName}.service.UserService#getUsers
-     */
-    @Override
-    public PageList<User> getUsers(String address, java.util.Date beginDate, java.util.Date endDate, int pageSize, int pageNum) {
-        return userDao.getUsers(address, beginDate, endDate, pageSize, pageNum);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.UserDao#deleteByIds
-     * @see ${packageName}.service.UserService#deleteByIds
-     */
-    @Override
-    public Long deleteByIds(java.util.List<String> userIds) {
-        return userDao.deleteByIds(userIds);
-    }
-
     /*** 保存user,有id时更新，没有id时插入,并带回新的id，返回 user*/
     @Override
     public User saveUser(User user) {
@@ -191,5 +151,25 @@ public class UserServiceImpl implements UserService {
             this.saveUser(user);
         }
         return users;
+    }
+
+    /**
+     * 
+     * @see ${packageName}.dao.UserDao#insert
+     * @see ${packageName}.service.UserService#insert
+     */
+    @Override
+    public User insert(User user) {
+        return userDao.insert(user);
+    }
+
+    /**
+     * 
+     * @see ${packageName}.dao.UserDao#delete
+     * @see ${packageName}.service.UserService#delete
+     */
+    @Override
+    public String delete(String userId) {
+        return userDao.delete(userId);
     }
 }

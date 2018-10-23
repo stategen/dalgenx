@@ -45,7 +45,7 @@ public interface UserRoleDao {
 	 * 
 	 * sql:UPDATE user_role SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and id = ?
 	 */
-	public Long deleteById(Long id) throws DataAccessException;
+	public Long delete(Long id) throws DataAccessException;
 	
 	/**
     <pre>
@@ -107,7 +107,7 @@ public interface UserRoleDao {
 	 * 
 	 * sql:UPDATE user_role SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and id in ( ? )
 	 */
-	public Long deleteByIds(java.util.List<Long> ids) throws DataAccessException;
+	public java.util.List<Long> deleteByIds(java.util.List<Long> ids) throws DataAccessException;
 	
 
 }

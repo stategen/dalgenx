@@ -41,16 +41,6 @@ public class RoleMenuServiceImpl implements RoleMenuService {
 
     /**
      * 
-     * @see ${packageName}.dao.RoleMenuDao#deleteById
-     * @see ${packageName}.service.RoleMenuService#deleteById
-     */
-    @Override
-    public Long deleteById(Long id) {
-        return roleMenuDao.deleteById(id);
-    }
-
-    /**
-     * 
      * @see ${packageName}.dao.RoleMenuDao#update
      * @see ${packageName}.service.RoleMenuService#update
      */
@@ -95,7 +85,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
      * @see ${packageName}.service.RoleMenuService#deleteByIds
      */
     @Override
-    public Long deleteByIds(java.util.List<Long> ids) {
+    public List<Long> deleteByIds(java.util.List<Long> ids) {
         return roleMenuDao.deleteByIds(ids);
     }
 
@@ -130,5 +120,15 @@ public class RoleMenuServiceImpl implements RoleMenuService {
             this.saveRoleMenu(roleMenu);
         }
         return roleMenus;
+    }
+
+    /**
+     * 
+     * @see ${packageName}.dao.RoleMenuDao#delete
+     * @see ${packageName}.service.RoleMenuService#delete
+     */
+    @Override
+    public Long delete(Long id) {
+        return roleMenuDao.delete(id);
     }
 }

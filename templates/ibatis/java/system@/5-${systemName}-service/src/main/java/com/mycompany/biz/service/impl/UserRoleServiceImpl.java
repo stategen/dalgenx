@@ -41,16 +41,6 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     /**
      * 
-     * @see ${packageName}.dao.UserRoleDao#deleteById
-     * @see ${packageName}.service.UserRoleService#deleteById
-     */
-    @Override
-    public Long deleteById(Long id) {
-        return userRoleDao.deleteById(id);
-    }
-
-    /**
-     * 
      * @see ${packageName}.dao.UserRoleDao#update
      * @see ${packageName}.service.UserRoleService#update
      */
@@ -89,16 +79,6 @@ public class UserRoleServiceImpl implements UserRoleService {
         return userRoleDao.getUserRolesByIds(ids);
     }
 
-    /**
-     * 
-     * @see ${packageName}.dao.UserRoleDao#deleteByIds
-     * @see ${packageName}.service.UserRoleService#deleteByIds
-     */
-    @Override
-    public Long deleteByIds(java.util.List<Long> ids) {
-        return userRoleDao.deleteByIds(ids);
-    }
-
     /*** 保存userRole,有id时更新，没有id时插入,并带回新的id，返回 userRole*/
     @Override
     public UserRole saveUserRole(UserRole userRole) {
@@ -120,5 +100,25 @@ public class UserRoleServiceImpl implements UserRoleService {
             this.saveUserRole(userRole);
         }
         return userRoles;
+    }
+
+    /**
+     * 
+     * @see ${packageName}.dao.UserRoleDao#delete
+     * @see ${packageName}.service.UserRoleService#delete
+     */
+    @Override
+    public Long delete(Long id) {
+        return userRoleDao.delete(id);
+    }
+
+    /**
+     * 
+     * @see ${packageName}.dao.UserRoleDao#deleteByIds
+     * @see ${packageName}.service.UserRoleService#deleteByIds
+     */
+    @Override
+    public List<Long> deleteByIds(java.util.List<Long> ids) {
+        return userRoleDao.deleteByIds(ids);
     }
 }

@@ -90,16 +90,6 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 
-     * @see ${packageName}.dao.RoleDao#deleteByRoleId
-     * @see ${packageName}.service.RoleService#deleteByRoleId
-     */
-    @Override
-    public Long deleteByRoleId(String roleId) {
-        return roleDao.deleteByRoleId(roleId);
-    }
-
-    /**
-     * 
      * @see ${packageName}.dao.RoleDao#update
      * @see ${packageName}.service.RoleService#update
      */
@@ -116,16 +106,6 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role getRoleByRoleId(String roleId) {
         return roleDao.getRoleByRoleId(roleId);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.RoleDao#getRolePageList
-     * @see ${packageName}.service.RoleService#getRolePageList
-     */
-    @Override
-    public PageList<Role> getRolePageList(int pageSize, int pageNum) {
-        return roleDao.getRolePageList(pageSize, pageNum);
     }
 
     /**
@@ -150,21 +130,21 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 
-     * @see ${packageName}.dao.RoleDao#batchDelete
-     * @see ${packageName}.service.RoleService#batchDelete
+     * @see ${packageName}.dao.RoleDao#delete
+     * @see ${packageName}.service.RoleService#delete
      */
     @Override
-    public Long batchDelete(java.util.List<String> roleIds) {
-        return roleDao.batchDelete(roleIds);
+    public String delete(String roleId) {
+        return roleDao.delete(roleId);
     }
 
     /**
      * 
-     * @see ${packageName}.dao.RoleDao#getAllRoles
-     * @see ${packageName}.service.RoleService#getAllRoles
+     * @see ${packageName}.dao.RoleDao#deleteByRoleIds
+     * @see ${packageName}.service.RoleService#deleteByRoleIds
      */
     @Override
-    public List<Role> getAllRoles() {
-        return roleDao.getAllRoles();
+    public List<String> deleteByRoleIds(java.util.List<String> roleIds) {
+        return roleDao.deleteByRoleIds(roleIds);
     }
 }

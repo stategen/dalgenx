@@ -7,13 +7,7 @@
       "babel-plugin-module-resolver",
       {
         "alias": {
-          "@apis": "./src/facade/apis",
-          "@beans": "./src/facade/beans",
-          "@columns": "./src/facade/columns",
-          "@enums": "./src/facade/enums",
-          "@forms": "./src/facade/forms",
-          "@interfaces": "./src/facade/interfaces",
-          "@models": "./src/facade/models",
+          "@i": "./src/intergrate",
 
           "themes": "./src/themes",
           "@components": "./src/components",

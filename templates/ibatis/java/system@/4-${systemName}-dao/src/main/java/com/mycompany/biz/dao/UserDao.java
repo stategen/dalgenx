@@ -52,7 +52,7 @@ public interface UserDao {
 	 * 
 	 * sql:UPDATE user SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and user_id = ?
 	 */
-	public Long deleteByUserId(String userId) throws DataAccessException;
+	public String delete(String userId) throws DataAccessException;
 	
 	/**
     <pre>
@@ -158,7 +158,7 @@ public interface UserDao {
 	 * 
 	 * sql:UPDATE user SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and user_id in ( ? )
 	 */
-	public Long deleteByUserIds(java.util.List<String> userIds) throws DataAccessException;
+	public java.util.List<String> deleteByUserIds(java.util.List<String> userIds) throws DataAccessException;
 	
 	/**
     <pre>
@@ -180,28 +180,6 @@ public interface UserDao {
 	 * sql:select a.user_id, a.username, a.password, a.role_type, a.name, a.nickName, a.age, a.address, a.isMale, a.avatar, a.email, a.create_time, a.update_time, a.delete_flag from user a where a.delete_flag = 0 and a.username=? and a.password=?
 	 */
 	public User login(String username, String password) throws DataAccessException;
-	
-	/**
-    <pre>
-    &#64;ApiParam("address") String address,
-    &#64;ApiParam("创建时间") Date beginDate,
-    &#64;ApiParam("创建时间") Date endDate,
-    &#64;ApiParam(hidden = true) Pagination pagination
-    </pre>
-	 * 
-	 * sql:select a.user_id, a.username, a.password, a.role_type, a.name, a.nickName, a.age, a.address, a.isMale, a.avatar, a.email, a.create_time, a.update_time, a.delete_flag from user a where a.delete_flag = 0 and a.address like concat('%',? ,'%') and a.create_time >= ? and a.create_time < ?
-	 */
-	public PageList<User> getUsers(String address, java.util.Date beginDate, java.util.Date endDate, int pageSize, int pageNum) throws DataAccessException;
-	
-	/**
-    <pre>
-    &#64;ApiParam("用户ID")&#64;RequestParam(required =false,name="userIds") ArrayList&lt;String&gt; userIds,
-    
-    </pre>
-	 * 
-	 * sql:UPDATE user SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and user_id in ( ? )
-	 */
-	public Long deleteByIds(java.util.List<String> userIds) throws DataAccessException;
 	
 
 }

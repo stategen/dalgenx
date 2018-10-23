@@ -45,10 +45,11 @@ public class RoleDaoImpl extends SqlMapClientDaoSupport implements RoleDao {
 	 * 
 	 * sql:UPDATE role SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and role_id = ?
 	 */
-    public Long deleteByRoleId(String roleId) throws DataAccessException {
+    public String delete(String roleId) throws DataAccessException {
         Map<String, Object> params = new HashMap<String, Object>(1);
         params.put("roleId", roleId);
-        return (long) getSqlMapClientTemplate().update("deleteByRoleId.Role.${systemName}", params);
+        getSqlMapClientTemplate().update("delete.Role.${systemName}", params);
+        return roleId;
     }
 
     /**
@@ -65,21 +66,12 @@ public class RoleDaoImpl extends SqlMapClientDaoSupport implements RoleDao {
 
     /**
 	 * 
-	 * sql:select a.role_id, a.role_name, a.description, a.create_time, a.update_time, a.delete_flag, a.role_type from role a where a.role_id = ? and a.delete_flag = 0
+	 * sql:select a.role_id, a.role_name, a.description, a.create_time, a.update_time, a.delete_flag, a.role_type from role a where a.delete_flag = 0 and a.role_id = ?
 	 */
     public Role getRoleByRoleId(String roleId) throws DataAccessException {
         Map<String, Object> params = new HashMap<String, Object>(1);
         params.put("roleId", roleId);
         return (Role) getSqlMapClientTemplate().queryForObject("getRoleByRoleId.Role.${systemName}", params);
-    }
-
-    /**
-	 * 
-	 * sql:select a.role_id, a.role_name, a.description, a.create_time, a.update_time, a.delete_flag, a.role_type from role a where a.delete_flag = 0
-	 */
-    @SuppressWarnings("unchecked")
-    public PageList<Role> getRolePageList(int pageSize, int pageNum) throws DataAccessException {
-        return (PageList<Role>) PageQueryUtils.pageQuery(getSqlMapClientTemplate(), "getRolePageList.Role.${systemName}", null, pageNum, pageSize);
     }
 
     /**
@@ -106,18 +98,10 @@ public class RoleDaoImpl extends SqlMapClientDaoSupport implements RoleDao {
 	 * 
 	 * sql:UPDATE role SET delete_flag = 1 , update_time = CURRENT_TIMESTAMP(6) where delete_flag = 0 and role_id in ( ? )
 	 */
-    public Long batchDelete(java.util.List<String> roleIds) throws DataAccessException {
+    public java.util.List<String> deleteByRoleIds(java.util.List<String> roleIds) throws DataAccessException {
         Map<String, Object> params = new HashMap<String, Object>(1);
         params.put("roleIds", roleIds);
-        return (long) getSqlMapClientTemplate().update("batchDelete.Role.${systemName}", params);
-    }
-
-    /**
-	 * 
-	 * sql:select a.role_id, a.role_name, a.description, a.create_time, a.update_time, a.delete_flag, a.role_type from role a where a.delete_flag = 0
-	 */
-    @SuppressWarnings("unchecked")
-    public List<Role> getAllRoles() throws DataAccessException {
-        return (List<Role>) getSqlMapClientTemplate().queryForList("getAllRoles.Role.${systemName}", null);
+        getSqlMapClientTemplate().update("deleteByRoleIds.Role.${systemName}", params);
+        return roleIds;
     }
 }

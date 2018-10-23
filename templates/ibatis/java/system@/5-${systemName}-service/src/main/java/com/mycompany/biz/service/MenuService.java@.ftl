@@ -36,12 +36,6 @@ public interface MenuService extends MenuServiceFacade {
 
     /**
      * 
-     * @see ${packageName}.dao.MenuDao#deleteByMenuId
-     */
-    public Long deleteByMenuId(Long menuId);
-
-    /**
-     * 
      * @see ${packageName}.dao.MenuDao#update
      */
     public Menu update(Menu menu);
@@ -68,7 +62,7 @@ public interface MenuService extends MenuServiceFacade {
      * 
      * @see ${packageName}.dao.MenuDao#deleteByMenuIds
      */
-    public Long deleteByMenuIds(java.util.List<Long> menuIds);
+    public List<Long> deleteByMenuIds(java.util.List<Long> menuIds);
 
     /**
      * 
@@ -99,4 +93,10 @@ public interface MenuService extends MenuServiceFacade {
 
     /*** 批量保存menus,有id时更新，没有id时插入,并带回新的id，返回 menus*/
     public List<Menu> saveMenus(List<Menu> menus);
+
+    /**
+     * 
+     * @see ${packageName}.dao.MenuDao#delete
+     */
+    public Long delete(Long menuId);
 }
