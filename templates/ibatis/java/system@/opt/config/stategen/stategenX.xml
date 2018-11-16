@@ -7,7 +7,7 @@
     <!--生成环境不生成api文档，请将该值设为false,其它环境可以设为true -->
     <entry key="swagger.enable">true</entry>
 
-    <entry key="mysql.ip.port">jdbc:mysql://localhost:3306/${systemName}?useUnicode=true&amp;characterEncoding=utf8</entry>
+    <entry key="mysql.ip.port">jdbc:mysql://localhost:3306/${systemName}?useUnicode=true</entry>
 	<entry key="mysql.username">stategen</entry>
 	<entry key="mysql.password">stategen</entry>
         
@@ -62,7 +62,7 @@
     <entry key="${systemName}.dubbo.protocol.host">${'$'}{THIS_IP}</entry>
     <entry key="${systemName}.dubbo.protocol.port">20872</entry>
 
-    <entry key="${systemName}.jdbc.url">${'$'}{mysql.ip.port}/yaoke_order_activity?useUnicode=true&amp;characterEncoding=utf-8</entry>
+    <entry key="${systemName}.jdbc.url">${'$'}{mysql.ip.port}/yaoke_order_activity?useUnicode=true</entry>
     <entry key="${systemName}.jdbc.username">${'$'}{mysql.username}</entry>
     <entry key="${systemName}.jdbc.password">${'$'}{mysql.password}</entry>  
     

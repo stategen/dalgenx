@@ -201,6 +201,16 @@
         <#elseif StringUtil.endsWithIgnoreCase(column.sqlName,"id") || StringUtil.endsWithIgnoreCase(column.sqlName,"type") || (column.columnAlias?? && StringUtil.containsIgnoreCase(column.columnAlias,"enum"))>
           <#assign beginIs>
             ${beginIs?trim}
+            <isNull property="${column.columnName}">
+          </#assign>
+            <isNotNull property="${column.columnName}" open="and">
+               a.${column.sqlName}=?
+            </isNotNull>
+          <#assign endIs></isNull>
+            ${endIs}
+          </#assign>
+          <#assign beginIs>
+            ${beginIs?trim}
             <isEmpty property="${column.columnName}s">
           </#assign>
             <isNotEmpty property="${column.columnName}s" open="and">
@@ -234,6 +244,16 @@
             ${endIs}
           </#assign>
         <#elseif column.javaType="java.lang.String">
+          <#assign beginIs>
+            ${beginIs?trim}
+            <isNull property="${column.columnName}">
+          </#assign>
+          <isNotNull property="${column.columnName}" open="and">
+            a.${column.sqlName}=?
+          </isNotNull>
+          <#assign endIs></isNull>
+            ${endIs}
+          </#assign>
           <#assign beginIs>
             ${beginIs?trim}
             <isEmpty property="${column.columnName}Like">
@@ -281,10 +301,15 @@
             from ${table.sqlName} a
             where
             <#if sft_dlt_clmn!="">a.${sft_dlt_clmn} = ${not_delete_value}</#if>
-            <#if hasSftDel>and </#if>a.${column.sqlName} in
-            <iterate property="${column.columnName}s" conjunction="," open="(" close=")">
-                #${column.columnName}s[]#
-            </iterate>
+            <isEmpty property="${column.columnName}s"<#if hasSftDel> open="and"</#if>>
+                1=0
+            </isEmpty>
+            <isNotEmpty property="${column.columnName}s"<#if hasSftDel> open="and"</#if>>
+                a.${column.sqlName} in
+                <iterate property="${column.columnName}s" conjunction="," open="(" close=")">
+                    #${column.columnName}s[]#
+                </iterate>
+            </isNotEmpty>
         </sql>
     </operation>
     </#if>
@@ -303,10 +328,15 @@
            </#if>
             where
             <#if sft_dlt_clmn!="">${sft_dlt_clmn} = ${not_delete_value}</#if>
-            <#if hasSftDel>and </#if>${column.sqlName} in
-            <iterate property="${column.columnName}s" conjunction="," open="(" close=")">
-                #${column.columnName}s[]#
-            </iterate>
+            <isEmpty property="${column.columnName}s"<#if hasSftDel> open="and"</#if>>
+                1=0
+            </isEmpty>
+            <isNotEmpty property="${column.columnName}s"<#if hasSftDel> open="and"</#if>>
+                ${column.sqlName} in
+                <iterate property="${column.columnName}s" conjunction="," open="(" close=")">
+                    #${column.columnName}s[]#
+                </iterate>
+            </isNotEmpty>
         </sql>
     </operation>
     </#if>
