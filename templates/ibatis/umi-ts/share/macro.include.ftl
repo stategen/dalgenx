@@ -77,86 +77,6 @@
     <#return ''>
 </#function>
 
-
-<#macro genEffectBody api fun genPut>
-    <#local state =fun.state>
-    <#local resultName>${genResultName(fun)}</#local>
-    <#local returnTypeWithGeneric><@genTypeWithGeneric fun.return/></#local>
-    <#if !fun.return.isVoid>const ${resultName}: <@genTypeWithGeneric fun.return/> = </#if>yield call(${api}Apis.${fun}, payload);
-  <#if !fun.return.isVoid>
-<#--    if (${resultName} == null) {
-      return<#if !genPut> null</#if>;
-    }-->
-    <#if fun.return.isSimpleResponse>
-    if (${resultName} && !${resultName}.success) {
-      throw ${resultName}.message;
-    }
-      <#local resultName>payload</#local>
-    <#else>
-      <#if fun.area?? && fun.area.idKeyName??>
-        <#local writeArea=true>
-        <#local newList>${fun.area?uncap_first}s</#local>
-        <#if newList=resultName>
-          <#local newList>new${fun.area}s</#local>
-        </#if>
-        <#if state.operation!='FULL_REPLACE'>
-    const old${fun.area}s: ${fun.area}[]  = yield select(({${api?uncap_first}: ${api?uncap_first}State}) => ${api?uncap_first}State.${genArea(fun.area)}.list);
-        </#if>
-          <#if fun.return.isPageList>
-    const pagination = ${resultName} ? ${resultName}.pagination : null;
-          </#if>
-        <#if state.operation='APPEND_OR_UPDATE_CURRENT'>
-    const ${newList} = updateArray(old${fun.area}s, ${resultName} ? ${resultName}${doPageList(fun)} : null, "${fun.area.idKeyName}");
-        <#elseif state.operation='DELETE_IF_EXIST'>
-    const ${newList} = delateArray(old${fun.area}s, ${resultName} ? ${resultName}${doPageList(fun)} : null, "${fun.area.idKeyName}");
-        <#else>
-          <#local newList>${resultName} ? ${arrayPrefix(fun)}${resultName}${doPageList(fun)}${arraySubfix(fun)} : []</#local>
-        </#if>
-      <#else>
-          <#local writeResult=true>
-      </#if>
-    </#if>
-  </#if>
-
-    const newPayload: ${api}State = {
-    <#if writeArea??>
-      ${genArea(fun.area)}: {
-    <#if newList?? && newList?length gt 0>
-        list: ${newList},
-    </#if>
-    <#if fun.return.isPageList>
-        pagination,
-    </#if>
-    <#if state.areaExtraProps?size gt 0>
-        ...{
-        <#list state.areaExtraProps as prop>
-          ${prop},
-        </#list>
-        },
-    </#if>
-        ...payload ? payload.areaExtraProps__ : null,
-      },
-    </#if>
-    <#if writeResult??>
-      ...${resultName},
-    </#if>
-    <#if state.stateExtraProps?size gt 0>
-      ...{
-      <#list state.stateExtraProps as prop>
-        ${prop},
-      </#list>
-      },
-    </#if>
-      ...payload ? payload.stateExtraProps__ : null,
-    };
-  <#if genPut>
-  <@genEffectPut fun fun.state.genEffect/>
-  <#else>
-    return newPayload;
-  </#if>
-
-</#macro>
-
 <#macro genEffectPut fun genEffect>
   yield put({
       type: '<@getReduceName fun genEffect/>',
@@ -168,41 +88,6 @@
 <#function setupName>
 <#return 'setup'>
 </#function>
-
-<#macro getReducerBody api fun>
-    <#local state =fun.state>
-    <#if !state.genEffect && ((state.areaExtraProps?size gt 0) || (state.stateExtraProps?size gt 0))>
-      <#local mergedState>mergedState</#local>
-    const ${mergedState}: ${api}State = {
-      <#if fun.area?? && fun.area.idKeyName?? && (state.areaExtraProps?size gt 0)>
-      ${genArea(fun.area)}: {
-        ...{
-            <#list state.areaExtraProps as prop>
-          ${prop},
-            </#list>
-        },
-        ...payload ? payload.areaExtraProps__ : null,
-      },
-      </#if>
-      <#if state.stateExtraProps?size gt 0>
-      ...{
-        <#list state.stateExtraProps as prop>
-        ${prop},
-        </#list>
-      },
-      ...payload ? payload.stateExtraProps__ : null,
-      </#if>
-    };
-
-    </#if>
-    return mergeObjects(
-      state,
-      <#if mergedState??>
-      ${mergedState},
-      </#if>
-      payload,
-    );
-</#macro>
 
 <#function canDrawField f>
     <#if f="deleteFlag">
@@ -347,7 +232,52 @@ import moment from 'moment';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 </#macro>
 <#macro genBeanType bean genName><#if bean.genericFields?? ><<#list bean.genericFields as g><#if genName?length gt 0>${genName}<#else>${g.genericName}</#if><#if g_has_next>, </#if></#list>></#if></#macro>
-<#macro genType p><#if p.isArray>${p.generic}[]<#else>${p.type}<#if p.isGeneric><${p.generic}></#if></#if></#macro>
+<#function genType p>
+    <#if p.isArray>${p.generic}
+      <#local result>[]</#local>
+    <#else>
+        <#local result>${p.type}<#if p.isGeneric><${p.generic}></#if></#local>
+    </#if>
+    <#return result>
+</#function>
+
+<#function appendParam paramsStr pStr>
+   <#local result=paramsStr>
+   <#if pStr?length gt 0>
+   <#local result>${paramsStr}<#if paramsStr?length gt 0>, </#if>${pStr}</#local>
+   </#if>
+   <#return result>
+</#function>
+
+<#function genTypeAndNames params>
+   <#local hasPage=false>
+   <#local hasPageSize=false>
+   <#list params as p>
+   <#if p=='page'>
+       <#local hasPage=true>
+   </#if>
+   <#if p=='pageSize'>
+       <#local hasPageSize=true>
+   </#if>
+  </#list>
+  <#local paramsStr=''>
+  <#list params as p>
+    <#if p.type=='PaginationProps' || p.type=='Pagination'>
+        <#local paginationStr=''>
+        <#if !hasPage>
+           <#local paginationStr>${appendParam(paginationStr,'page?: number')}</#local>
+        </#if>
+        <#if !hasPageSize>
+           <#local paginationStr>${appendParam(paginationStr,'pageSize?: number')}</#local>
+        </#if>
+        <#local paramsStr>${appendParam(paramsStr,paginationStr)}</#local>
+    <#else>
+        <#local pStr>${p}<#if !p.required>?</#if>: ${genType(p)}</#local>
+        <#local paramsStr>${appendParam(paramsStr,pStr)}</#local>
+    </#if>
+  </#list>
+  <#return  paramsStr>
+</#function>
 <#function isEmpty list>
     <#return !(list??) || (list?size <= 0) >
 </#function>

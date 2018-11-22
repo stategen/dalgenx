@@ -29,7 +29,7 @@ export default class ${api}Apis {
    * ${method} ${url}
    * ${fun.description}
    */
-  static ${fun}(<#if p_is_empty>params?: {}<#else><#if fun.json??>${fun.json}: <@genType fun.json/><#else>params: { <#list fun.params as p>${p}<#if !p.required>?</#if>: <@genType p></@><#if p_has_next>, </#if></#list> }</#if></#if>): <@genType fun.return></@> {
+  static ${fun}(<#if p_is_empty>params?: {}<#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>params: { ${genTypeAndNames(fun.params)} }</#if></#if>): ${genType(fun.return)} {
     let requestInit: RequestInitEx = <RequestInitEx>{};
     requestInit.apiUrlKey = apiUrlKey;
     requestInit.url = '${url}';

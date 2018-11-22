@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <@genCopyright api/>
-import {Effect, Effects, Reducers, IModel, BaseState, modelPathsProxy, BaseProps, Reducer, AreaState, Subscription, Subscriptions, RouterReduxPushPros} from '@utils/DvaUtil';
+import {Effect, Effects, Reducers, IModel, BaseState, modelPathsProxy, BaseProps, Reducer, AreaState, Subscription, Subscriptions, RouterReduxPushPros, SetupParamsFun, mergeObjects} from '@utils/DvaUtil';
 import {${api?uncap_first}CustomState,${api}CustomSubscriptions , ${api}CustomEffects, ${api}CustomReducers} from '@pages/${api.route}/${api}CustomFaces'
 <@genImports api.imports,'../'/>
 import {routerRedux} from 'dva/router';
@@ -75,6 +75,11 @@ export interface ${api}Model extends IModel<${api}State, ${api}Reducers, ${api}E
   reducers?: ${api}Reducers;
   effects?: ${api}Effects;
   subscriptions?: ${api}Subscriptions;
+<#if api.inits?size gt 0>
+  <#list api.inits as fun>
+  ${fun}InitParamsFn?: SetupParamsFun;
+  </#list>
+</#if>
 }
 
 export interface ${api}Props extends BaseProps {
@@ -105,6 +110,7 @@ ${api?uncap_first}InitModel.state.${genArea(area)} = {
 };
 </#if>
 </#list>
+${api?uncap_first}InitModel.state=mergeObjects(${api?uncap_first}InitModel.state,${api?uncap_first}CustomState);
 
 /***把 namespace 带过来，以便生成路径*/
 export const ${api?uncap_first}Effects = modelPathsProxy<${api}Effects>(${api?uncap_first}InitModel);
@@ -123,17 +129,17 @@ export class ${api}Dispatch {
     return routerRedux.push(pushRoute);
   }
 <#function buildParams fun>
-    <#local params><#if isEmpty(fun.params)>params?: {}<#else><#if fun.json??>${fun.json}: <@genType fun.json></@><#else>params: { <#list fun.params as p>${p}<#if !p.required>?</#if>: <@genType p></@><#if p_has_next>, </#if></#list> }</#if></#if>, areaExtraProps__?: AreaState<any>, stateExtraProps__?: ${api}State</#local>
+    <#local params><#if isEmpty(fun.params)>params?: {}<#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>params: { ${genTypeAndNames(fun.params)} }</#if></#if>, areaExtraProps__?: AreaState<any>, stateExtraProps__?: ${api}State</#local>
     <#return params>
 </#function>
 <#if api.inits?size gt 0>
+
   static ${setupName()}_effect(<#if api.effectInits?size == 1><#list api.effectInits as fun>${buildParams(fun)}</#list>) {</#if>
         <#if api.effectInits?size gt 1>
         <#list api.effectInits as fun>
-    ${fun}Params?: {${buildParams(fun)}},
+              ${fun}InitParams?: {${buildParams(fun)}},
         </#list>
-    params?: {},
-  ) {
+               params?: {}) {
     </#if>
     return {
       type: ${api?uncap_first}InitModel.namespace + '/${setupName()}',
@@ -143,7 +149,7 @@ export class ${api}Dispatch {
         </#if>
         <#list api.effectInits as fun>
            <#if api.effectInits?size gt 1>
-        ${fun}Params,
+        ${fun}InitParams,
            <#else>
                <#if fun.json??>
         ${fun.json},

@@ -20,21 +20,6 @@ import ${api}Apis from "../apis/${api}Apis";
 import {abstractModel, updateArray, delateArray, mergeObjects, AreaState} from "@utils/DvaUtil";
 import RouteUtil from "@utils/RouteUtil";
 <@genImports api.imports,'../'/>
-<#macro genSubscription funName>
-({dispatch, history}) => {
-  history.listen((location) => {
-    if (!RouteUtil.isRoutMatchPathname(${api?uncap_first}DefaultModel.pathname, location.pathname)){
-      return;
-    }
-
-    const payload = location.query || {page: 1, pageSize: 10};
-    dispatch({
-      type: '${api?uncap_first}/${funName}',
-      payload,
-    })
-  })
-};
-</#macro>
 
 export class ${api}Command {
 <#if api.inits?size gt 0>
@@ -59,13 +44,112 @@ export class ${api}Command {
   <#if fun.state.genEffect>
   /** ${fun.description} */
   static * ${fun}_effect({payload}, {call, put, select}) {
-     <@genEffectBody api fun false/>
+    <#assign state =fun.state>
+    <#assign resultName>${genResultName(fun)}</#assign>
+    <#assign returnTypeWithGeneric><@genTypeWithGeneric fun.return/></#assign>
+    <#if !fun.return.isVoid>const ${resultName}: <@genTypeWithGeneric fun.return/> = </#if>yield call(${api}Apis.${fun}, payload);
+    <#if !fun.return.isVoid>
+    <#if fun.return.isSimpleResponse>
+    if (${resultName} && !${resultName}.success) {
+      throw ${resultName}.message;
+    }
+      <#assign resultName>payload</#assign>
+    <#else>
+      <#if fun.area?? && fun.area.idKeyName??>
+        <#assign writeArea=true>
+        <#assign newList>${fun.area?uncap_first}s</#assign>
+        <#if newList=resultName>
+              <#assign newList>new${fun.area}s</#assign>
+        </#if>
+        <#if state.operation!='FULL_REPLACE'>
+    const old${fun.area}s: ${fun.area}[] = yield select(({${api?uncap_first}: ${api?uncap_first}State}) => ${api?uncap_first}State.${genArea(fun.area)}.list);
+        </#if>
+        <#if fun.return.isPageList>
+    const pagination = ${resultName} ? ${resultName}.pagination : null;
+        </#if>
+        <#if state.operation='APPEND_OR_UPDATE_CURRENT'>
+    const ${newList} = updateArray(old${fun.area}s, ${resultName} ? ${resultName}${doPageList(fun)} : null, "${fun.area.idKeyName}");
+        <#elseif state.operation='DELETE_IF_EXIST'>
+    const ${newList} = delateArray(old${fun.area}s, ${resultName} ? ${resultName}${doPageList(fun)} : null, "${fun.area.idKeyName}");
+        <#else>
+            <#assign newList>${resultName} ? ${arrayPrefix(fun)}${resultName}${doPageList(fun)}${arraySubfix(fun)} : []</#assign>
+        </#if>
+       <#else>
+            <#assign writeResult=true>
+       </#if>
+      </#if>
+    </#if>
+
+    const newPayload: ${api}State = {
+    <#if writeArea??>
+      ${genArea(fun.area)}: {
+          <#if newList?? && newList?length gt 0>
+        list: ${newList},
+          </#if>
+          <#if fun.return.isPageList>
+        pagination,
+        queryRule: payload,
+          </#if>
+          <#if state.areaExtraProps?size gt 0>
+        ...{
+              <#list state.areaExtraProps as prop>
+                  ${prop},
+              </#list>
+        },
+          </#if>
+        ...payload ? payload.areaExtraProps__ : null,
+      },
+    </#if>
+    <#if writeResult??>
+      ...${resultName},
+    </#if>
+    <#if state.stateExtraProps?size gt 0>
+      ...{
+      <#list state.stateExtraProps as prop>
+        ${prop},
+      </#list>
+      },
+    </#if>
+      ...payload ? payload.stateExtraProps__ : null,
+    };
+    return newPayload;
   };
 
   </#if>
   /** ${fun.description} <#if fun.state.genEffect> 成功后</#if> 更新状态*/
   static <@getReduceName fun fun.state.genEffect/>_reducer = (state: ${api}State, payload): ${api}State => {
-    <@getReducerBody api fun/>
+    <#assign state =fun.state>
+    <#if !state.genEffect && ((state.areaExtraProps?size gt 0) || (state.stateExtraProps?size gt 0))>
+        <#assign mergedState>mergedState</#assign>
+    const ${mergedState}: ${api}State = {
+        <#if fun.area?? && fun.area.idKeyName?? && (state.areaExtraProps?size gt 0)>
+            ${genArea(fun.area)}: {
+        ...{
+            <#list state.areaExtraProps as prop>
+                ${prop},
+            </#list>
+        },
+        ...payload ? payload.areaExtraProps__ : null,
+      },
+        </#if>
+        <#if state.stateExtraProps?size gt 0>
+      ...{
+            <#list state.stateExtraProps as prop>
+                ${prop},
+            </#list>
+      },
+      ...payload ? payload.stateExtraProps__ : null,
+        </#if>
+    };
+
+    </#if>
+    return mergeObjects(
+      state,
+    <#if mergedState??>
+        ${mergedState},
+    </#if>
+      payload,
+    );
   };
 
 </#list>
@@ -74,12 +158,33 @@ export class ${api}Command {
 export const ${api?uncap_first}DefaultModel: ${api}Model = <${api}Model>(mergeObjects(abstractModel, ${api?uncap_first}InitModel));
 <#if api.inits?size gt 0>
 
-${api?uncap_first}DefaultModel.subscriptions.${setupName()} = <@genSubscription setupName()/>;
+${api?uncap_first}DefaultModel.subscriptions.${setupName()} = ({dispatch, history}) => {
+  history.listen((location) => {
+    const pathname = location.pathname;
+    const match = RouteUtil.getMatch(${api?uncap_first}DefaultModel.pathname, pathname);
+    if (!match) {
+      return;
+    }
+    let payload = {page: 1, pageSize: 10, ...RouteUtil.getQuery(location)} ;
+    <#if api.inits?size gt 0>
+        <#assign paramNames=''>
+        <#list api.inits as fun>
+    const ${fun}Params = ${api?uncap_first}DefaultModel.${fun}InitParamsFn ? ${api?uncap_first}DefaultModel.${fun}InitParamsFn({pathname, match}) : null;
+        <#assign paramNames><#if paramNames?length gt 0>${paramNames}, </#if>${fun}Params</#assign>
+        </#list>
+    payload = {...payload, <#if api.inits?size gt 1>${paramNames}<#else>...${paramNames}</#if>}
+    </#if>
+    dispatch({
+      type: '${api?uncap_first}/${setupName()}',
+      payload,
+    })
+  })
+};
 
 ${api?uncap_first}DefaultModel.effects.${setupName()} = function* ({payload}, {call, put, select}) {
-  const appState = yield select(_=>_.app);
+  const appState = yield select(_ => _.app);
   const routeOpend = RouteUtil.isRouteOpend(appState.routeOrders, ${api?uncap_first}DefaultModel.pathname);
-  if (!routeOpend){
+  if (!routeOpend) {
     return;
   }
   const newPayload = yield ${api}Command.${setupName()}_effect({payload}, {call, put, select});

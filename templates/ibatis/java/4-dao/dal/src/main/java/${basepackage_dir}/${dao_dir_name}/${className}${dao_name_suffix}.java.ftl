@@ -57,7 +57,7 @@ public interface ${tableConfig.className}${dao_name_suffix} {
     <#if isObject>
     &#64;ApiParam(hidden = true) ${tableConfig.className} ${tableConfig.className?uncap_first},
     </#if>
-    <#if sql.paging>&#64;ApiParam(hidden = true) Pagination pagination</#if>
+    <#if sql.paging>Pagination pagination</#if>
     </pre>
 	 * ${sql.remarks!}
 	 * sql:<#compress>${StringHelper.removeCrlf(sql.executeSql)?trim}</#compress>
