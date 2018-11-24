@@ -187,8 +187,17 @@ ${api?uncap_first}DefaultModel.effects.${setupName()} = function* ({payload}, {c
   if (!routeOpend) {
     return;
   }
-  const newPayload = yield ${api}Command.${setupName()}_effect({payload}, {call, put, select});
 
+  if (${api?uncap_first}DefaultModel.getInitState){
+    const initState =${api?uncap_first}DefaultModel.getInitState();
+    yield put({
+        type: 'updateState',
+        payload: initState,
+      }
+    )
+  }
+
+  const newPayload = yield ${api}Command.${setupName()}_effect({payload}, {call, put, select});
   <@genEffectPut setupName() true/>
 };
 

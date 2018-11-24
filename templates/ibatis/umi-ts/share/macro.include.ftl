@@ -72,7 +72,11 @@
 
 <#function doPageList fun>
     <#if fun.return.isPageList>
-        <#return '.list'>
+      <#if fun.return.type=="PageList">
+          <#return '.items'>
+      <#else>
+          <#return '.list'>
+      </#if>
     </#if>
     <#return ''>
 </#function>

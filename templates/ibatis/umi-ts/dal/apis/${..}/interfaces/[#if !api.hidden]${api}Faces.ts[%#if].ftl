@@ -15,7 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <@genCopyright api/>
-import {Effect, Effects, Reducers, IModel, BaseState, modelPathsProxy, BaseProps, Reducer, AreaState, Subscription, Subscriptions, RouterReduxPushPros, SetupParamsFun, mergeObjects} from '@utils/DvaUtil';
+import {Effect, Effects, Reducers, IModel, BaseState, modelPathsProxy, BaseProps, Reducer, AreaState, Subscription,
+        Subscriptions, RouterReduxPushPros, SetupParamsFun, mergeObjects, initAreaState, ExtraBeanProps} from '@utils/DvaUtil';
 import {${api?uncap_first}CustomState,${api}CustomSubscriptions , ${api}CustomEffects, ${api}CustomReducers} from '@pages/${api.route}/${api}CustomFaces'
 <@genImports api.imports,'../'/>
 import {routerRedux} from 'dva/router';
@@ -79,6 +80,7 @@ export interface ${api}Model extends IModel<${api}State, ${api}Reducers, ${api}E
   <#list api.inits as fun>
   ${fun}InitParamsFn?: SetupParamsFun;
   </#list>
+  getInitState?: () => ${api}State;
 </#if>
 }
 
@@ -96,21 +98,23 @@ export const ${api?uncap_first}InitModel: ${api}Model = <${api}Model>{
   effects: <${api}Effects>{},
 };
 
+<#assign statesStr="">
 <#list api.areas as area>
 <#if !area.isSimpleResponse>
-${api?uncap_first}InitModel.state.${genArea(area)} = {
+<#assign stateName>${api?uncap_first}${genArea(area)?cap_first}State</#assign>
+export const ${stateName} = {
   areaName: '${genArea(area)}',
-  item: null,
-  list: [],
-  pagination: null,
-  selectedRowKeys: [],
-  doEdit: false,
-  doQuery: false,
-  type: null,
 };
+<#assign statesStr=appendParam(statesStr,'${genArea(area)}: {...${stateName}, ...initAreaState}')>
 </#if>
+
 </#list>
-${api?uncap_first}InitModel.state=mergeObjects(${api?uncap_first}InitModel.state,${api?uncap_first}CustomState);
+${api?uncap_first}InitModel.getInitState = () => {
+  const initState = <#if statesStr?length gt 0>mergeObjects({${statesStr}},${api?uncap_first}CustomState);<#else>${api?uncap_first}CustomState;</#if>
+  return initState;
+}
+
+${api?uncap_first}InitModel.state=${api?uncap_first}InitModel.getInitState();
 
 /***把 namespace 带过来，以便生成路径*/
 export const ${api?uncap_first}Effects = modelPathsProxy<${api}Effects>(${api?uncap_first}InitModel);
@@ -214,4 +218,5 @@ export class ${api}Dispatch {
     }
   }
   </#if>
+
 }
