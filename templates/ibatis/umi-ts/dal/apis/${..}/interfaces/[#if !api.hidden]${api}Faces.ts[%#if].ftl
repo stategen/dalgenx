@@ -16,7 +16,7 @@
 -->
 <@genCopyright api/>
 import {Effect, Effects, Reducers, IModel, BaseState, modelPathsProxy, BaseProps, Reducer, AreaState, Subscription,
-        Subscriptions, RouterReduxPushPros, SetupParamsFun, mergeObjects, initAreaState, ExtraBeanProps} from '@utils/DvaUtil';
+        Subscriptions, RouterReduxPushPros, SetupParamsFun, mergeObjects, initAreaState} from '@utils/DvaUtil';
 import {${api?uncap_first}CustomState,${api}CustomSubscriptions , ${api}CustomEffects, ${api}CustomReducers} from '@pages/${api.route}/${api}CustomFaces'
 <@genImports api.imports,'../'/>
 import {routerRedux} from 'dva/router';
@@ -48,6 +48,12 @@ export interface ${api}InitEffects extends Effects {
 <#if fun.state.genEffect>
   /** ${fun.description} */
   ${fun}?: Effect,
+  <#if fun.return.isPageList && fun.area??>
+  ${nextEffectName(fun)}?: Effect,
+  </#if>
+  <#if fun.state.genRefresh>
+  ${refreshEffectName(fun)}?: Effect,
+  </#if>
 </#if>
 </#list>
 }
@@ -133,7 +139,7 @@ export class ${api}Dispatch {
     return routerRedux.push(pushRoute);
   }
 <#function buildParams fun>
-    <#local params><#if isEmpty(fun.params)>params?: {}<#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>params: { ${genTypeAndNames(fun.params)} }</#if></#if>, areaExtraProps__?: AreaState<any>, stateExtraProps__?: ${api}State</#local>
+    <#local params><#if isEmpty(fun.params)>params?: {}<#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>params: { ${genTypeAndNames(fun.params,false)} }</#if></#if>, areaExtraProps__?: AreaState<any>, stateExtraProps__?: ${api}State</#local>
     <#return params>
 </#function>
 <#if api.inits?size gt 0>
@@ -190,13 +196,31 @@ export class ${api}Dispatch {
       }
     }
   };
+    <#if fun.return.isPageList && fun.area??>
+
+  static ${nextEffectName(fun)}_effect() {
+    return {
+      type: ${api?uncap_first}InitModel.namespace + '/${nextEffectName(fun)}',
+      payload: {
+      }
+    }
+  };
+      </#if>
+    <#if fun.state.genRefresh>
+
+  static ${refreshEffectName(fun)}_effect() {
+    return {
+      type: ${api?uncap_first}InitModel.namespace + '/${refreshEffectName(fun)}',
+      payload: {
+      }
+    }
+  };
+      </#if>
   <#else>
 
   static <@getReduceName fun fun.state.genEffect/>_reducer(${api?uncap_first}State: ${api}State) {
     <#if !findUpdateState>
-        <#if fun=="updateState">
-            <#assign  findUpdateState=true>
-        </#if>
+        <#if fun=="updateState"><#assign findUpdateState=true></#if>
     </#if>
     return {
       type: ${api?uncap_first}InitModel.namespace + '/<@getReduceName fun fun.state.genEffect/>',
@@ -206,6 +230,7 @@ export class ${api}Dispatch {
     }
   }
   </#if>
+
 </#list>
   <#if !findUpdateState>
 

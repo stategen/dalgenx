@@ -14,7 +14,7 @@ import org.stategen.framework.annotation.ShowEditorModal;
 import org.stategen.framework.annotation.State;
 import org.stategen.framework.annotation.StateExtraProp;
 import org.stategen.framework.annotation.VisitCheck;
-import org.stategen.framework.enums.StateOperation;
+import org.stategen.framework.enums.DataOpt;
 import org.stategen.framework.lite.AntdPageList;
 import org.stategen.framework.lite.PageList;
 import org.stategen.framework.lite.Pagination;

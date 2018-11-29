@@ -253,7 +253,7 @@ import locale from 'antd/lib/date-picker/locale/zh_CN';
    <#return result>
 </#function>
 
-<#function genTypeAndNames params>
+<#function genTypeAndNames params doRequired>
    <#local hasPage=false>
    <#local hasPageSize=false>
    <#list params as p>
@@ -276,7 +276,7 @@ import locale from 'antd/lib/date-picker/locale/zh_CN';
         </#if>
         <#local paramsStr>${appendParam(paramsStr,paginationStr)}</#local>
     <#else>
-        <#local pStr>${p}<#if !p.required>?</#if>: ${genType(p)}</#local>
+        <#local pStr>${p}<#if !p.required || !doRequired>?</#if>: ${genType(p)}</#local>
         <#local paramsStr>${appendParam(paramsStr,pStr)}</#local>
     </#if>
   </#list>
@@ -284,4 +284,10 @@ import locale from 'antd/lib/date-picker/locale/zh_CN';
 </#function>
 <#function isEmpty list>
     <#return !(list??) || (list?size <= 0) >
+</#function>
+<#function nextEffectName fun>
+    <#return fun+'_next'>
+</#function>
+<#function refreshEffectName fun>
+    <#return fun+'_refresh'>
 </#function>

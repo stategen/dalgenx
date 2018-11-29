@@ -26,11 +26,18 @@ export class ${api}Command {
   static * ${setupName()}_effect({payload}, {call, put, select}) {
     let newPayload = {};
     <#assign checknames=''>
+    <#if api.inits?size gt 1>
+        <#assign paramsStr =''>
+        <#list api.inits as fun>
+        <#assign paramsStr>${appendParam(paramsStr,fun+'Params = null')}</#assign>
+        </#list>
+    const {${paramsStr}, ...lastParams} = payload || {};
+    </#if>
+
     <#list api.inits as fun>
     /** ${fun.description} */
         <#if fun.state.genEffect>
-
-    const ${fun}Payload = yield ${api}Command.${fun}_effect({payload<#if api.inits?size gt 1>: {...payload, ...(payload ? payload.${fun}Params : null)}</#if>}, {call, put, select});
+    const ${fun}Payload = yield ${api}Command.${fun}_effect({payload<#if api.inits?size gt 1>: {...lastParams, ...${fun}Params}</#if>}, {call, put, select});
     newPayload = ${api}Command.<@getReduceName fun fun.state.genEffect/>_reducer(<${api}State>newPayload, ${fun}Payload);
         <#else>
     newPayload = ${api}Command.<@getReduceName fun fun.state.genEffect/>_reducer(<${api}State>newPayload, {});
@@ -40,6 +47,10 @@ export class ${api}Command {
   };
 
 </#if>
+<#function genOldAreaStr fun>
+  <#local oldAreaStr>const old${genArea(fun.area)?cap_first} = yield select((_) => _.${api?uncap_first}.${genArea(fun.area)});</#local>
+  <#return oldAreaStr>
+</#function>
 <#list api.functions as fun>
   <#if fun.state.genEffect>
   /** ${fun.description} */
@@ -47,49 +58,61 @@ export class ${api}Command {
     <#assign state =fun.state>
     <#assign resultName>${genResultName(fun)}</#assign>
     <#assign returnTypeWithGeneric><@genTypeWithGeneric fun.return/></#assign>
+    <#assign oldAreaStr=''>
+    <#assign writeArea=false>
+    <#assign writeResult=false>
+    <#assign newList=''>
+    <#if fun.return.isPageList && fun.area??>
+      <#assign oldAreaStr=genOldAreaStr(fun)>
+    ${oldAreaStr}
+    payload ={...old${genArea(fun.area)?cap_first}.queryRule, ...payload};
+    </#if>
     <#if !fun.return.isVoid>const ${resultName}: <@genTypeWithGeneric fun.return/> = </#if>yield call(${api}Apis.${fun}, payload);
     <#if !fun.return.isVoid>
-    <#if fun.return.isSimpleResponse>
+      <#if fun.return.isSimpleResponse>
     if (${resultName} && !${resultName}.success) {
       throw ${resultName}.message;
     }
       <#assign resultName>payload</#assign>
-    <#else>
+      </#if>
       <#if fun.area?? && fun.area.idKeyName??>
         <#assign writeArea=true>
-        <#assign newList>${fun.area?uncap_first}s</#assign>
-        <#if newList=resultName>
+        <#if !fun.return.isSimpleResponse>
+          <#assign newList>${fun.area?uncap_first}s</#assign>
+          <#if newList=resultName>
               <#assign newList>new${fun.area}s</#assign>
-        </#if>
-        <#if state.operation!='FULL_REPLACE'>
-    const old${fun.area}s: ${fun.area}[] = yield select(({${api?uncap_first}: ${api?uncap_first}State}) => ${api?uncap_first}State.${genArea(fun.area)}.list);
-        </#if>
-        <#if fun.return.isPageList>
+          </#if>
+          <#if state.dataOpt!='FULL_REPLACE' && oldAreaStr?length ==0>
+    ${genOldAreaStr(fun)}
+          </#if>
+          <#if fun.return.isPageList>
     const pagination = ${resultName} ? ${resultName}.pagination : null;
-        </#if>
-        <#if state.operation='APPEND_OR_UPDATE_CURRENT'>
-    const ${newList} = updateArray(old${fun.area}s, ${resultName} ? ${resultName}${doPageList(fun)} : null, "${fun.area.idKeyName}");
-        <#elseif state.operation='DELETE_IF_EXIST'>
-    const ${newList} = delateArray(old${fun.area}s, ${resultName} ? ${resultName}${doPageList(fun)} : null, "${fun.area.idKeyName}");
-        <#else>
+          </#if>
+          <#if state.dataOpt='APPEND_OR_UPDATE'>
+    const ${newList} = updateArray(old${genArea(fun.area)?cap_first}.list, ${resultName} ? ${resultName}${doPageList(fun)} : null, "${fun.area.idKeyName}");
+          <#elseif state.dataOpt='DELETE_IF_EXIST'>
+    const ${newList} = delateArray(old${genArea(fun.area)?cap_first}.list, ${resultName} ? ${resultName}${doPageList(fun)} : null, "${fun.area.idKeyName}");
+          <#else>
             <#assign newList>${resultName} ? ${arrayPrefix(fun)}${resultName}${doPageList(fun)}${arraySubfix(fun)} : []</#assign>
+          </#if>
         </#if>
-       <#else>
-            <#assign writeResult=true>
-       </#if>
+      <#else>
+        <#assign writeResult=true>
       </#if>
-    </#if>
+  </#if>
 
     const newPayload: ${api}State = {
-    <#if writeArea??>
+    <#if writeArea>
       ${genArea(fun.area)}: {
-          <#if newList?? && newList?length gt 0>
+          <#if newList?length gt 0>
         list: ${newList},
           </#if>
           <#if fun.return.isPageList>
         pagination,
-        queryRule: payload,
           </#if>
+        <#if fun.return.isPageList || fun.state.genRefresh>
+        queryRule: payload,
+        </#if>
           <#if state.areaExtraProps?size gt 0>
         ...{
               <#list state.areaExtraProps as prop>
@@ -100,7 +123,7 @@ export class ${api}Command {
         ...payload ? payload.areaExtraProps__ : null,
       },
     </#if>
-    <#if writeResult??>
+    <#if writeResult>
       ...${resultName},
     </#if>
     <#if state.stateExtraProps?size gt 0>
@@ -114,8 +137,32 @@ export class ${api}Command {
     };
     return newPayload;
   };
+    <#if fun.return.isPageList && fun.area??>
+
+  static * ${nextEffectName(fun)}_effect({payload}, {call, put, select}) {
+    const old${genArea(fun.area)?cap_first} = yield select((_) => _.${api?uncap_first}.${genArea(fun.area)});
+    const pagination = old${genArea(fun.area)?cap_first}.pagination;
+    let page = pagination.current;
+    page = (page ? page : 0) + 1;
+    const totalPages = Math.trunc(pagination.total / (pagination.pageSize || 10)) + 1;
+    page = Math.min(page, totalPages)
+    payload = {...old${genArea(fun.area)?cap_first}.queryRule, page};
+    const newPayload = yield ${api}Command.${fun}_effect({payload}, {call, put, select});
+    return newPayload;
+  }
+    </#if>
+    <#if fun.state.genRefresh>
+
+  static * ${refreshEffectName(fun)}_effect({payload}, {call, put, select}) {
+    const old${genArea(fun.area)?cap_first} = yield select((_) => _.${api?uncap_first}.${genArea(fun.area)});
+    payload = {...old${genArea(fun.area)?cap_first}.queryRule};
+    const newPayload = yield ${api}Command.${fun}_effect({payload}, {call, put, select});
+    return newPayload;
+  }
+      </#if>
 
   </#if>
+
   /** ${fun.description} <#if fun.state.genEffect> 成功后</#if> 更新状态*/
   static <@getReduceName fun fun.state.genEffect/>_reducer = (state: ${api}State, payload): ${api}State => {
     <#assign state =fun.state>
@@ -159,13 +206,13 @@ export const ${api?uncap_first}DefaultModel: ${api}Model = <${api}Model>(mergeOb
 <#if api.inits?size gt 0>
 
 ${api?uncap_first}DefaultModel.subscriptions.${setupName()} = ({dispatch, history}) => {
-  history.listen((location) => {
-    const pathname = location.pathname;
+  history.listen((listener) => {
+    const pathname = listener.pathname;
     const match = RouteUtil.getMatch(${api?uncap_first}DefaultModel.pathname, pathname);
     if (!match) {
       return;
     }
-    let payload = {page: 1, pageSize: 10, ...RouteUtil.getQuery(location)} ;
+    let payload = {page: 1, pageSize: 10, ...RouteUtil.getQuery(listener)} ;
     <#if api.inits?size gt 0>
         <#assign paramNames=''>
         <#list api.inits as fun>
@@ -216,6 +263,20 @@ ${api?uncap_first}DefaultModel.effects.${fun} = function* ({payload}, {call, put
   const newPayload = yield ${api}Command.${fun}_effect({payload}, {call, put, select});
   <@genEffectPut fun fun.state.genEffect />
 };
+<#if fun.return.isPageList && fun.area??>
+
+${api?uncap_first}DefaultModel.effects.${nextEffectName(fun)} = function* ({payload}, {call, put, select}) {
+  const newPayload = yield ${api}Command.${nextEffectName(fun)}_effect({payload}, {call, put, select});
+    <@genEffectPut fun fun.state.genEffect />
+};
+</#if>
+<#if fun.state.genRefresh>
+
+${api?uncap_first}DefaultModel.effects.${refreshEffectName(fun)} = function* ({payload}, {call, put, select}) {
+  const newPayload = yield ${api}Command.${refreshEffectName(fun)}_effect({payload}, {call, put, select});
+    <@genEffectPut fun fun.state.genEffect />
+};
+</#if>
 </#if>
 
 ${api?uncap_first}DefaultModel.reducers.<@getReduceName fun fun.state.genEffect/> = (state: ${api}State, {payload}): ${api}State => {
