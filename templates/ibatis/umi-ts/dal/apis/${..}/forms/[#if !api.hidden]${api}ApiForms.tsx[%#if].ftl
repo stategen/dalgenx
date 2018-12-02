@@ -29,12 +29,13 @@ export namespace ${api}ApiForms {
       <#continue >
   </#if>
   <#if fun.params?? && fun.params?size gt 0>
-  export interface ${fun}FormConfigs extends FormConfigs {
+  export interface ${fun?cap_first}FormConfigs extends FormConfigs {
     <#list fun.params as param>
         <#if !canDrawParam(param)>
             <#continue>
         </#if>
-          <@genFormConfigsInteface param /><#t>
+        <#assign text><@genFormConfigsInteface param /><#t></#assign>
+        <@indent text "  "/>
     </#list>
   }
 
@@ -45,25 +46,47 @@ export namespace ${api}ApiForms {
   <#if !fun.genForm>
       <#continue >
   </#if>
-  export const ${fun?uncap_first}FormConfigs = (queryRule: ObjectMap<any> = {}): ${fun}FormConfigs => {
-    const result: ${fun}FormConfigs = {
-       <#list fun.params as param>
-       <#if !canDrawParam(param)>
-           <#continue>
-       </#if>
-      <@genFormConfigs param 'queryRule' /><#t>
+  <#list fun.params as f>
+      <#if !canDrawParam(f)>
+          <#continue>
+      </#if>
+          <#if (f.description?length gt 0)>
+  /** ${f.description}  ${f.temporalType!}*/
+          </#if>
+  export const ${fun}_${f}: FormItemConfigs = {
+      <#assign text><@genFieldProps f /></#assign>
+      <@indent text "    "/>
+  };
 
+  <#assign text><@genFormFunctions fun f/></#assign>
+  export const ${fun}_${f}_editor =
+  <@indent text '  '/>
+  ${fun}_${f}.editor = ${fun}_${f}_editor;
+
+  </#list>
+  export const ${fun?uncap_first}FormConfigs = (queryRule: ObjectMap<any> = {}, formPropsUtils?: FormPropsUtils): ${fun?cap_first}FormConfigs => {
+      <#if !fun.genForm>
+          <#continue >
+      </#if>
+      <#list fun.params as f>
+          <#if !canDrawParam(f)>
+              <#continue>
+          </#if>
+          <#if (f.description?length gt 0)>
+    /** ${f.description}  ${f.temporalType!}*/
+          </#if>
+    ${fun}_${f}.formPropsUtils = formPropsUtils;
+    ${fun}_${f}.config.<@genFormConfigs f 'queryRule' />;
       </#list>
-    }
 
-    <#list fun.params as param>
-    <#if !canDrawParam(param)>
-        <#continue>
-    </#if>
-    result.${param}.editor = <@genFormNode param 'result.'+param/>;
+    return {
+    <#list fun.params as f>
+      <#if !canDrawParam(f)>
+          <#continue>
+      </#if>
+      ${f}: ${fun}_${f},
     </#list>
-
-    return result;
+    }
   }
   </#if>
 </#list>

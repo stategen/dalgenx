@@ -33,28 +33,45 @@ export interface ${bean}FormConfigs extends FormConfigs {
 
 </#list>
   [columnName: string]: FormItemConfigs,
-
 }
-
-export const get${bean}FormConfigs = (${bean?uncap_first}: ${bean}<@genBeanType bean 'any'/>): ${bean}FormConfigs => {
-  const result: ${bean}FormConfigs = {
-    <#list bean.allFields as f>
+<#list bean.allFields as f>
     <#if !canDrawField(f)>
         <#continue>
     </#if>
-    <@genFormConfigs f bean />
-    </#list>
+    <#if (f.description?length gt 0)>
+/** ${f.description}  ${f.temporalType!}*/
+    </#if>
+export const ${bean}_${f}: FormItemConfigs = {
+    <#assign text><@genFieldProps f /></#assign>
+    <@indent text "  "/>
+};
+
+    <#assign text><@genFormFunctions bean f/></#assign>
+export const ${bean}_${f}_editor =
+    <@indent text ''/>
+${bean}_${f}.editor = ${bean}_${f}_editor;
+
+</#list>
+export const get${bean}FormConfigs = (${bean?uncap_first}: ${bean}<@genBeanType bean 'any'/>, formPropsUtils?: FormPropsUtils): ${bean}FormConfigs => {
+<#list bean.allFields as f>
+    <#if !canDrawField(f)>
+        <#continue>
+    </#if>
+    <#if (f.description?length gt 0)>
+  /** ${f.description}  ${f.temporalType!}*/
+    </#if>
+  ${bean}_${f}.formPropsUtils = formPropsUtils;
+  ${bean}_${f}.config.<@genFormConfigs f bean />;
+</#list>
+
+  return {
+<#list bean.allFields as f>
+    <#if !canDrawField(f)>
+        <#continue>
+    </#if>
+    ${f}: ${bean}_${f},
+</#list>
   }
-
-
-  <#list bean.allFields as f>
-  <#if !canDrawField(f)>
-      <#continue>
-  </#if>
-  result.${f}.editor = <@genFormNode f 'result.'+f />;
-  </#list>
-
-  return result;
 }
 
 

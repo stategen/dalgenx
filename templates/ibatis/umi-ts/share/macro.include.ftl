@@ -136,104 +136,115 @@ ${import.wholeImportPath};
 const ${f.type?uncap_first}SelectOptions= makeSelectOptions(${f.type?uncap_first}Options);
 </#macro>
 
-<#macro  genFormConfigs field bean>
-    <#if (field.description?length gt 0)>
-    /** ${field.description}  ${field.temporalType!}*/
-    </#if>
-    ${field}: {
-      name: '${field}',
-    <#if field.hidden>
-      hidden: true,
-    </#if>
-    <#if field.isId>
-      isId: true,
-    </#if>
-    <#if field.isEnum>
-      isEnum: true,
-      options: <#if field.isGeneric>${field.generic?uncap_first}<#else>${field.type?uncap_first}</#if>Options,
-    </#if>
-    <#if field.isImage>
-      isImage: true,
-    </#if>
-    <#if field.isArray>
-      isArray: true,
-    </#if>
-    <#if field.temporalType??>
-      format: ${field.temporalType}_FORMAT,
-    </#if>
-      label: "${field.title}",
-      config: {
-      <#if bean?has_content>
-        initialValue: <#compress>
-        <#if field.temporalType??>
-            <#assign initialValue>${bean?uncap_first}.${field} ? moment(${bean?uncap_first}.${field}) : null</#assign>
-            ${initialValue},
-        <#else>
-            ${bean?uncap_first}.${field},
-        </#if>
-      </#compress>
-
-      </#if>
-      <#if field.rules?size gt 0>
-        rules: [
+<#macro  genFieldProps field>
+name: '${field}',
+<#if field.hidden>
+hidden: true,
+</#if>
+<#if field.isId>
+isId: true,
+</#if>
+<#if field.isEnum>
+isEnum: true,
+options: <#if field.isGeneric>${field.generic?uncap_first}<#else>${field.type?uncap_first}</#if>Options,
+</#if>
+<#if field.isImage>
+isImage: true,
+</#if>
+<#if field.isArray>
+isArray: true,
+</#if>
+<#if field.temporalType??>
+format: ${field.temporalType}_FORMAT,
+</#if>
+label: "${field.title}",
+config: {
+    <#if field.rules?size gt 0>
+  rules: [
         <#list field.rules as rule>
-          {
+    {
             <#if (rule.required?? && rule.required ) || (field.required?? && field.required)>
-            required: true,
+      required: true,
             </#if>
             <#if rule.max??>
-            max: ${rule.max},
+      max: ${rule.max?c},
             </#if>
             <#if rule.min??>
-            min: ${rule.min},
+      min: ${rule.min?c},
             </#if>
             <#if rule.message??>
-            message: "${rule.message}",
+      message: "${rule.message}",
             </#if>
             <#if rule.pattern??>
-            pattern: /${rule.pattern}/,
+      pattern: /${rule.pattern}/,
             </#if>
             <#if rule.whitespace??>
-            whitespace: true,
+      whitespace: true,
             </#if>
-          },
-        </#list>
-        ],
-      </#if>
-      }
     },
+        </#list>
+  ],
+    </#if>
+}
+</#macro>
+
+<#macro  genFormConfigs field bean>
+  <#if bean?has_content>
+initialValue = <#compress>
+        <#if field.temporalType??>
+            <#assign initialValue>${bean?uncap_first}.${field} ? moment(${bean?uncap_first}.${field}) : null</#assign>
+            ${initialValue}
+        <#else>
+            ${bean?uncap_first}.${field}
+        </#if>
+    </#compress>
+    </#if>
 </#macro>
 
 
-<#macro  genFormNode field configName>
+
+<#macro  genFormNode field>
     <#compress>
+    <#assign options=''>
+    <#assign format=''>
+    <#assign configName=field>
     <#if field.temporalType??>
         <#assign format>${field.temporalType}_FORMAT</#assign>
         <#if field.temporalType=='TIMESTAMP'>
-            <#assign customBuild='UIUtil.buildTimeStampEditor'>
+            <#assign customBuild='buildTimeStampEditor'>
         <#elseif field.temporalType=='TIME'>
-            <#assign customBuild='UIUtil.buildTimePickerEditor'>
+            <#assign customBuild='buildTimePickerEditor'>
         <#else>
-            <#assign customBuild='UIUtil.buildDatePickerEditor'>
+            <#assign customBuild='buildDatePickerEditor'>
         </#if>
-        <#assign customBuild>${customBuild}(${configName}, ${format})</#assign>
+        <#assign customBuild>${customBuild}</#assign>
     <#elseif field.isEnum>
         <#assign options><#if field.isGeneric>${field.generic?uncap_first}<#else>${field.type?uncap_first}</#if>Options</#assign>
-        <#assign  customBuild>UIUtil.buildEnumEditor(${configName}, ${options})</#assign>
+        <#assign  customBuild>buildEnumEditor</#assign>
     <#elseif field.isImage>
-        <#assign customBuild>UIUtil.buildImageEditor(${configName})</#assign>
+        <#assign customBuild>buildImageEditor</#assign>
     <#else>
-        <#assign customBuild='UIUtil.buildInputEditor(${configName})'>
+        <#assign customBuild='buildInputEditor'>
     </#if>
     ${customBuild}
 </#compress>
 </#macro>
+<#macro genFormFunctions fun field>
+  (props) => {
+    return UIUtil.<@genFormNode field/>({...props, formItemConfigs: ${fun}_${field}})
+  };
+<#if options?length gt 0>
+${fun}_${field}.options = ${options};
+    </#if>
+    <#if format?length gt 0>
+${fun}_${field}.format = ${format};
+    </#if>
+</#macro>
 
 <#macro formImports>
 import UIUtil from "@utils/UIUtil";
-import {FormItemConfigs,FormConfigs , ObjectMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT} from "@utils/DvaUtil";
+import {FormItemConfigs,FormConfigs , ObjectMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, FormPropsUtils} from "@utils/DvaUtil";
 import moment from 'moment';
-import locale from 'antd/lib/date-picker/locale/zh_CN';
 </#macro>
 <#macro genBeanType bean genName><#if bean.genericFields?? ><<#list bean.genericFields as g><#if genName?length gt 0>${genName}<#else>${g.genericName}</#if><#if g_has_next>, </#if></#list>></#if></#macro>
 <#function genType p>
@@ -291,3 +302,10 @@ import locale from 'antd/lib/date-picker/locale/zh_CN';
 <#function refreshEffectName fun>
     <#return fun+'_refresh'>
 </#function>
+
+<#macro indent text dest>
+<#local lines =StringUtil.toLines(text)>
+<#list lines as line>
+${dest}${line}
+</#list>
+</#macro>
