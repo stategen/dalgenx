@@ -81,7 +81,7 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
     <#if column.javaType="java.lang.String">
     @Max(${column.size})
       <#if column.JDBCType='LONGVARCHAR'>
-    @Editor(EditorType.textarea)
+    @Editor(EditorType.textArea)
       </#if>
     </#if>
     <#if column.javaType="java.util.Date">

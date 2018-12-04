@@ -212,7 +212,9 @@ config: {
 
 <#function  getEditorName field>
     <#assign configName=field>
-    <#if field.temporalType??>
+    <#if field.editorType?length gt 0>
+        <#assign customBuild=field.editorType?cap_first>
+    <#elseif field.temporalType??>
         <#assign format>${field.temporalType}_FORMAT</#assign>
         <#if field.temporalType=='TIMESTAMP'>
             <#assign customBuild='TimeStamp'>
@@ -226,12 +228,6 @@ config: {
         <#assign  customBuild>Enum</#assign>
     <#elseif field.isImage>
         <#assign customBuild>Image</#assign>
-    <#elseif field.editorType='textarea'>
-        <#assign customBuild='TextArea'>
-    <#elseif field.editorType='hidden'>
-        <#assign customBuild='Hidden'>
-    <#elseif field.editorType='password'>
-        <#assign customBuild='Password'>
     <#else>
         <#assign customBuild='Input'>
     </#if>
