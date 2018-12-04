@@ -55,7 +55,7 @@ public interface ${tableConfig.className}${dao_name_suffix} {
     &#64;ApiParam(<#if !isObject && column??>"${column.title}"</#if>)<#if param.listParam>&#64;RequestParam(required =false,name="${param.paramName?uncap_first}")</#if> ${paramName} ${param.paramName?uncap_first},
     </#list>
     <#if isObject>
-    &#64;ApiParam(hidden = true) ${tableConfig.className} ${tableConfig.className?uncap_first},
+    &#64;ApiParam(hidden = true) ${tableConfig.className} ${tableConfig.className?uncap_first}
     </#if>
     <#if sql.paging>Pagination pagination</#if>
     </pre>

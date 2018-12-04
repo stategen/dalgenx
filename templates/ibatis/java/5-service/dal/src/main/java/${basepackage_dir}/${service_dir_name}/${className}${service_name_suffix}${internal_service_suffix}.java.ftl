@@ -59,10 +59,14 @@ public interface ${tableConfig.className}${service_name_suffix}${internal_servic
 </#list>
 
    <#assign pojoName>${tableConfig.className?uncap_first}</#assign>
-    /*** 保存${pojoName},有id时更新，没有id时插入,并带回新的id，返回 ${pojoName}*/
+    /*** 保存${pojoName},有id时更新，没有id时插入,并带回新的id，返回 ${pojoName}
+     * @see ${tableConfig.basepackage}.${dao_dir_name}.${tableConfig.className}${dao_name_suffix}#insert
+     */
     public ${tableConfig.className} save${tableConfig.className}(${tableConfig.className} ${pojoName});
 
-    /*** 批量保存${pojoName}s,有id时更新，没有id时插入,并带回新的id，返回 ${pojoName}s*/
+    /** 批量保存${pojoName}s,有id时更新，没有id时插入,并带回新的id，返回 ${pojoName}s
+     * @see ${tableConfig.basepackage}.${dao_dir_name}.${tableConfig.className}${dao_name_suffix}#insert
+     */
     public List<${tableConfig.className}> save${tableConfig.className}s(List<${tableConfig.className}> ${pojoName}s);
 }
 

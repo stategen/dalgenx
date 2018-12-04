@@ -40,7 +40,7 @@ const ${fun}_${f} = {
     <@indent text "  "/>
 };
   <#assign text><@genFormFunctions fun f/></#assign>
-${fun}_${f}.editor =
+${fun}_${f}.Editor =
   <@indent text "  "/>
 
   </#list>
@@ -85,7 +85,7 @@ export namespace ${api}ApiForms {
       <#if !canDrawParam(f)>
           <#continue>
       </#if>
-      ${f}: ${fun}_${f},
+      ${f?cap_first}: ${fun}_${f},
     </#list>
     }
   }

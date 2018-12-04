@@ -35,7 +35,7 @@ const ${bean}_${f} = {
     <@indent text "  "/>
 };
 <#assign text><@genFormFunctions bean f/></#assign>
-${bean}_${f}.editor =
+${bean}_${f}.Editor =
 <@indent text "  "/>
 
 </#list>
@@ -68,7 +68,7 @@ export const get${bean?cap_first}FormConfigs = (${bean?uncap_first}: ${bean}<@ge
     <#if !canDrawField(f)>
         <#continue>
     </#if>
-    ${f}: ${bean}_${f},
+    ${f?cap_first}: ${bean}_${f},
 </#list>
   }
 }
