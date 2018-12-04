@@ -225,7 +225,7 @@ export interface BaseProps extends ConnectionPros {
   children?,
 }
 
-export interface FormItemConfigs {
+export interface FormItemConfig {
   name?: string,
   hidden?: boolean,
   isId?: boolean,
@@ -240,7 +240,7 @@ export interface FormItemConfigs {
 }
 
 export interface FormConfigs {
-  [itemname: string]: FormItemConfigs;
+  [itemname: string]: FormItemConfig;
 }
 
 export interface Bean {

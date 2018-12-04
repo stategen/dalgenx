@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <@genCopyrightCanEdit api/>
-import {Effect, Effects, Reducers, IModel, BaseState, modelPathsProxy, BaseProps, Subscriptions, Reducer, AreaState, mergeObjects} from '@utils/DvaUtil';
+import {Effect, Effects, Reducers, IModel, BaseState, modelPathsProxy, ConnectionPros, Subscriptions, Reducer, AreaState, mergeObjects} from '@utils/DvaUtil';
 <@genImports api.imports,'@i/'/>
 import {${api}State} from '@i/interfaces/${api}Faces';
 

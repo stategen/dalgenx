@@ -23,24 +23,6 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
     </#if>
 </#list>
 
-export namespace ${api}ApiForms {
-<#list api.functions as fun>
-  <#if !fun.genForm>
-      <#continue >
-  </#if>
-  <#if fun.params?? && fun.params?size gt 0>
-  export interface ${fun?cap_first}FormConfigs extends FormConfigs {
-    <#list fun.params as param>
-        <#if !canDrawParam(param)>
-            <#continue>
-        </#if>
-        <#assign text><@genFormConfigsInteface param /><#t></#assign>
-        <@indent text "  "/>
-    </#list>
-  }
-
-  </#if>
-</#list>
 <#list api.functions as fun>
   <#if fun.params?? && fun.params?size gt 0>
   <#if !fun.genForm>
@@ -51,20 +33,37 @@ export namespace ${api}ApiForms {
           <#continue>
       </#if>
           <#if (f.description?length gt 0)>
-  /** ${f.description}  ${f.temporalType!}*/
+/** ${f.description}  ${f.temporalType!}*/
           </#if>
-  export const ${fun}_${f}: FormItemConfigs = {
-      <#assign text><@genFieldProps f /></#assign>
-      <@indent text "    "/>
-  };
-
+const ${fun}_${f} = {
+    <#assign text><@genFieldProps fun f /></#assign>
+    <@indent text "  "/>
+};
   <#assign text><@genFormFunctions fun f/></#assign>
-  export const ${fun}_${f}_editor =
-  <@indent text '  '/>
-  ${fun}_${f}.editor = ${fun}_${f}_editor;
+${fun}_${f}.editor =
+  <@indent text "  "/>
 
   </#list>
-  export const ${fun?uncap_first}FormConfigs = (queryRule: ObjectMap<any> = {}, formPropsUtils?: FormPropsUtils): ${fun?cap_first}FormConfigs => {
+
+export namespace ${api}ApiForms {
+      <#list api.functions as fun>
+          <#if !fun.genForm>
+              <#continue >
+          </#if>
+          <#if fun.params?? && fun.params?size gt 0>
+  export interface ${fun?cap_first}FormConfigs extends FormConfigs {
+          <#list fun.params as param>
+              <#if !canDrawParam(param)>
+                  <#continue>
+              </#if>
+  <#assign text><@genFormConfigsInteface fun param /><#t></#assign>
+  <@indent text "  "/>
+          </#list>
+  }
+          </#if>
+      </#list>
+
+  export const get${fun?cap_first}FormConfigs = (queryRule: ObjectMap<any> = {}, formPropsUtils?: FormPropsUtils): ${fun?cap_first}FormConfigs => {
       <#if !fun.genForm>
           <#continue >
       </#if>
@@ -76,7 +75,9 @@ export namespace ${api}ApiForms {
     /** ${f.description}  ${f.temporalType!}*/
           </#if>
     ${fun}_${f}.formPropsUtils = formPropsUtils;
-    ${fun}_${f}.config.<@genFormConfigs f 'queryRule' />;
+    <#assign value=genValueConfigs(f, 'queryRule')>
+    ${fun}_${f}.config.initialValue = ${value};
+    ${fun}_${f}.value = ${value};
       </#list>
 
     return {

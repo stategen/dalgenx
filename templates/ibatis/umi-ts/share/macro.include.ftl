@@ -125,18 +125,18 @@ ${import.wholeImportPath};
 <#return areaName>
 </#function>
 
-<#macro genFormConfigsInteface f>
+<#macro genFormConfigsInteface bean f>
   <#if (f.description?length gt 0)>
   /** ${f.description}  ${f.temporalType!}*/
   </#if>
-  ${f}?: FormItemConfigs,
+  ${f}?: typeof ${bean}_${f} & FormItemConfig,
 </#macro>
 
 <#macro genSelectOptionConsts f>
 const ${f.type?uncap_first}SelectOptions= makeSelectOptions(${f.type?uncap_first}Options);
 </#macro>
 
-<#macro  genFieldProps field>
+<#macro  genFieldProps bean field>
 name: '${field}',
 <#if field.hidden>
 hidden: true,
@@ -158,7 +158,14 @@ isArray: true,
 format: ${field.temporalType}_FORMAT,
 </#if>
 label: "${field.title}",
+<#if field.editorType??>
+type: "${field.editorType}",
+</#if>
+editor: UIUtil.build${getEditorName(field)}Editor,
+value: null,
+formPropsUtils: null,
 config: {
+  initialValue: null,
     <#if field.rules?size gt 0>
   rules: [
         <#list field.rules as rule>
@@ -188,62 +195,58 @@ config: {
 }
 </#macro>
 
-<#macro  genFormConfigs field bean>
-  <#if bean?has_content>
-initialValue = <#compress>
-        <#if field.temporalType??>
-            <#assign initialValue>${bean?uncap_first}.${field} ? moment(${bean?uncap_first}.${field}) : null</#assign>
-            ${initialValue}
-        <#else>
-            ${bean?uncap_first}.${field}
-        </#if>
-    </#compress>
-    </#if>
-</#macro>
+<#function  genValueConfigs field bean>
+  <#assign value>
+      <#compress>
+          <#if field.temporalType??>
+              <#assign initialValue>${bean?uncap_first}.${field} ? moment(${bean?uncap_first}.${field}) : null</#assign>
+              ${initialValue}
+          <#else>
+              ${bean?uncap_first}.${field}
+          </#if>
+      </#compress>
+  </#assign>
+  <#return value>
+</#function>
 
-
-
-<#macro  genFormNode field>
-    <#compress>
-    <#assign options=''>
-    <#assign format=''>
+<#function  getEditorName field>
     <#assign configName=field>
     <#if field.temporalType??>
         <#assign format>${field.temporalType}_FORMAT</#assign>
         <#if field.temporalType=='TIMESTAMP'>
-            <#assign customBuild='buildTimeStampEditor'>
+            <#assign customBuild='TimeStamp'>
         <#elseif field.temporalType=='TIME'>
-            <#assign customBuild='buildTimePickerEditor'>
+            <#assign customBuild='TimePicker'>
         <#else>
-            <#assign customBuild='buildDatePickerEditor'>
+            <#assign customBuild='DatePicker'>
         </#if>
         <#assign customBuild>${customBuild}</#assign>
     <#elseif field.isEnum>
-        <#assign options><#if field.isGeneric>${field.generic?uncap_first}<#else>${field.type?uncap_first}</#if>Options</#assign>
-        <#assign  customBuild>buildEnumEditor</#assign>
+        <#assign  customBuild>Enum</#assign>
     <#elseif field.isImage>
-        <#assign customBuild>buildImageEditor</#assign>
+        <#assign customBuild>Image</#assign>
+    <#elseif field.editorType='textarea'>
+        <#assign customBuild='TextArea'>
+    <#elseif field.editorType='hidden'>
+        <#assign customBuild='Hidden'>
+    <#elseif field.editorType='password'>
+        <#assign customBuild='Password'>
     <#else>
-        <#assign customBuild='buildInputEditor'>
+        <#assign customBuild='Input'>
     </#if>
-    ${customBuild}
-</#compress>
-</#macro>
+    <#return customBuild>
+</#function>
 <#macro genFormFunctions fun field>
-  (props) => {
-    return UIUtil.<@genFormNode field/>({...props, formItemConfigs: ${fun}_${field}})
-  };
-<#if options?length gt 0>
-${fun}_${field}.options = ${options};
-    </#if>
-    <#if format?length gt 0>
-${fun}_${field}.format = ${format};
-    </#if>
+  <#assign customBuild=getEditorName(field)>
+(props: UIUtil.${customBuild}EditorProps) => {
+  props ={...props, formItemConfig: ${fun}_${field}};
+  return UIUtil.build${customBuild}Editor(props);
+}
 </#macro>
 
 <#macro formImports>
 import UIUtil from "@utils/UIUtil";
-import {FormItemConfigs,FormConfigs , ObjectMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, FormPropsUtils} from "@utils/DvaUtil";
+import {FormItemConfig, FormConfigs, ObjectMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, FormPropsUtils} from "@utils/DvaUtil";
 import moment from 'moment';
 </#macro>
 <#macro genBeanType bean genName><#if bean.genericFields?? ><<#list bean.genericFields as g><#if genName?length gt 0>${genName}<#else>${g.genericName}</#if><#if g_has_next>, </#if></#list>></#if></#macro>

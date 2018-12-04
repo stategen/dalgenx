@@ -4,7 +4,7 @@ import { connect } from 'dva'
 import { Button, Row, Form, Input } from 'antd'
 import { config } from '@utils/index'
 import styles from './index.less'
-import {ConnectionPros, FormItemConfigs} from "@utils/DvaUtil";
+import {ConnectionPros, FormItemConfig} from "@utils/DvaUtil";
 import {FormComponentProps} from "antd/lib/form/Form";
 import {LoginDispatch} from "@i/interfaces/LoginFaces";
 import FormItem from "antd/lib/form/FormItem";

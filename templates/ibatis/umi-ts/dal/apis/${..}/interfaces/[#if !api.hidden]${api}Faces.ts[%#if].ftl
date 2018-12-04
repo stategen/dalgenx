@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <@genCopyright api/>
-import {Effect, Effects, Reducers, IModel, BaseState, modelPathsProxy, BaseProps, Reducer, AreaState, Subscription,
+import {Effect, Effects, Reducers, IModel, BaseState, modelPathsProxy, ConnectionPros, Reducer, AreaState, Subscription,
         Subscriptions, RouterReduxPushPros, SetupParamsFun, mergeObjects, initAreaState} from '@utils/DvaUtil';
 import {${api?uncap_first}CustomState,${api}CustomSubscriptions , ${api}CustomEffects, ${api}CustomReducers} from '@pages/${api.route}/${api}CustomFaces'
 <@genImports api.imports,'../'/>
@@ -90,7 +90,7 @@ export interface ${api}Model extends IModel<${api}State, ${api}Reducers, ${api}E
 </#if>
 }
 
-export interface ${api}Props extends BaseProps {
+export interface ${api}Props extends ConnectionPros {
   ${api?uncap_first}State?: ${api}State,
 }
 

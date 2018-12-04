@@ -80,6 +80,9 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
     </#if>
     <#if column.javaType="java.lang.String">
     @Max(${column.size})
+      <#if column.JDBCType='LONGVARCHAR'>
+    @Editor(EditorType.textarea)
+      </#if>
     </#if>
     <#if column.javaType="java.util.Date">
     @Temporal(TemporalType.${column.JDBCType})

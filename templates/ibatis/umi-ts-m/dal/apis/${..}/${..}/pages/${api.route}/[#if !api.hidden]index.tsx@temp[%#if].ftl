@@ -23,7 +23,7 @@ import {Table, Modal, Col, Button, Popconfirm} from "antd";
 import Page from "@components/Page/Page";
 import DropOption from "@components/DropOption/DropOption";
 import {get${api}FormConfigs} from "@i/forms/${api}FormConfigs";
-import {BaseProps, ConnectionPros, operateOptions, cleanSelectRowsProps} from "@utils/DvaUtil";
+import {ConnectionPros, operateOptions, cleanSelectRowsProps} from "@utils/DvaUtil";
 import {AppProps} from "@i/interfaces/AppFaces";
 import {TableProps, TableRowSelection} from "antd/lib/table";
 import Row from "antd/lib/grid/row";
@@ -33,7 +33,7 @@ import StatesAlias from "@i/configs/${systemName}Cms-statesAlias";
 
 const {confirm} = Modal;
 
-const ${api?uncap_first}Page = ({location, dispatch, ${api?uncap_first}State, appState, loading}: ${api}Props & AppProps & BaseProps) => {
+const ${api?uncap_first}Page = ({location, dispatch, ${api?uncap_first}State, appState, loading}: ${api}Props & AppProps) => {
   const {pathname} = location;
   const ${api?uncap_first}Area = ${api?uncap_first}State.${api?uncap_first}Area;
   const ${api?uncap_first}Columns = Object.values(${api?uncap_first}DefaultColumns);

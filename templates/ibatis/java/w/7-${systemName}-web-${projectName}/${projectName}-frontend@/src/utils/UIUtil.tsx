@@ -1,6 +1,6 @@
 import {Form, Input, InputNumber, Radio, Modal, Cascader, DatePicker, TimePicker, Select} from 'antd';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
-import {Options, FormItemConfigs} from "./DvaUtil";
+import {Options, FormItemConfig} from "./DvaUtil";
 import Menu from "@i/beans/Menu";
 import Icon from "antd/lib/icon";
 import Link from "umi/link";
@@ -26,25 +26,25 @@ export default class UIUtil {
   }
 
 
-  static buildInputEditor(formItemConfigs: FormItemConfigs=null,props:InputProps=null) {
+  static buildInputEditor(formItemConfig: FormItemConfig=null,props:InputProps=null) {
     return (<Input {...props}/>)
   }
 
-  static buildTimeStampEditor(formItemConfigs: FormItemConfigs=null, format: string,props:DatePickerProps=null) {
+  static buildTimeStampEditor(formItemConfig: FormItemConfig=null, format: string,props:DatePickerProps=null) {
     return (<DatePicker showTime locale={locale} format={format} {...props}/>)
   }
 
-  static buildTimePickerEditor(formItemConfigs: FormItemConfigs=null, format: string,props:TimePickerProps=null) {
+  static buildTimePickerEditor(formItemConfig: FormItemConfig=null, format: string,props:TimePickerProps=null) {
     return (<TimePicker format={format} {...props}/>)
   }
 
-  static buildDatePickerEditor(formItemConfigs: FormItemConfigs=null, format: string,props:DatePickerProps=null) {
+  static buildDatePickerEditor(formItemConfig: FormItemConfig=null, format: string,props:DatePickerProps=null) {
 
     return (<DatePicker locale={locale} format={format} {...props}/>)
   }
 
-  static buildEnumEditor(formItemConfigs: FormItemConfigs={}, options: Options,props:SelectProps=null) {
-    const muti = formItemConfigs.isArray ? {mode: "multiple"} : null;
+  static buildEnumEditor(formItemConfig: FormItemConfig={}, options: Options,props:SelectProps=null) {
+    const muti = formItemConfig.isArray ? {mode: "multiple"} : null;
 
     return (
       <Select {...muti} style={{width: 150}} {...props}>
@@ -53,20 +53,20 @@ export default class UIUtil {
     )
   }
 
-  static buildImageEditor(formItemConfigs: FormItemConfigs={},props:InputProps=null) {
+  static buildImageEditor(formItemConfig: FormItemConfig={},props:InputProps=null) {
     return (<Input {...props}/>)
   }
 
   static buildFormItems(wrappedForm:WrappedFormUtils,formConfigs:FormConfigs,formItemProps:FormItemProps){
     let formItems = Object.keys(formConfigs).map((fieldName:string) => {
-      const formItemConfigs:FormItemConfigs = formConfigs[fieldName];
-      if (formItemConfigs.isId || formItemConfigs.hidden) {
+      const formItemConfig:FormItemConfig = formConfigs[fieldName];
+      if (formItemConfig.isId || formItemConfig.hidden) {
         return;
       }
 
       return (
-        <FormItem {...formItemProps} key={fieldName} label={formItemConfigs.label}>
-          {wrappedForm.getFieldDecorator(formItemConfigs.name, formItemConfigs.config)(formItemConfigs.editor)}
+        <FormItem {...formItemProps} key={fieldName} label={formItemConfig.label}>
+          {wrappedForm.getFieldDecorator(formItemConfig.name, formItemConfig.config)(formItemConfig.editor)}
         </FormItem>
       )
     });

@@ -1,7 +1,7 @@
 import {Table, Form, Modal, Col, Button, Popconfirm,} from "antd";
 import {
   BaseState, Bean, optimizeFieldPostValues, Dispatch, FormConfigs,
-  AreaState, Payload, FormItemConfigs
+  AreaState, Payload, FormItemConfig
 } from "@utils/DvaUtil";
 import {ModalFuncProps} from "antd/lib/modal";
 import {FormItemProps} from "antd/lib/form/FormItem";
@@ -29,14 +29,14 @@ export const createModelPage = <T extends Bean, F extends FormConfigs>
   const modalPage = (formComponentProps: FormComponentProps) => {
     let formItems=UIUtil.buildFormItems(formComponentProps.form,formConfigs,formItemLayout)
     // let formItems = Object.keys(formConfigs).map((fieldName:string) => {
-    //   const formItemConfigs:FormItemConfigs = formConfigs[fieldName];
-    //   if (formItemConfigs.isId || formItemConfigs.hidden) {
+    //   const formItemConfig:FormItemConfig = formConfigs[fieldName];
+    //   if (formItemConfig.isId || formItemConfig.hidden) {
     //     return;
     //   }
     //
     //   return (
-    //     <FormItem {...formItemLayout} key={fieldName} label={formItemConfigs.label}>
-    //       {formComponentProps.form.getFieldDecorator(formItemConfigs.name, formItemConfigs.config)(formItemConfigs.editor)}
+    //     <FormItem {...formItemLayout} key={fieldName} label={formItemConfig.label}>
+    //       {formComponentProps.form.getFieldDecorator(formItemConfig.name, formItemConfig.config)(formItemConfig.editor)}
     //     </FormItem>
     //   )
     // });

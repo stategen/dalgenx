@@ -23,17 +23,6 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
     </#if>
 </#list>
 
-<#assign gens><#if bean.genericFields?? ><<#list bean.genericFields as g>${g.genericName}<#if g_has_next>,</#if></#list>></#if></#assign>
-export interface ${bean}FormConfigs extends FormConfigs {
-<#list bean.allFields as f>
-    <#if !canDrawField(f)>
-      <#continue>
-    </#if>
-    <@genFormConfigsInteface f/>
-
-</#list>
-  [columnName: string]: FormItemConfigs,
-}
 <#list bean.allFields as f>
     <#if !canDrawField(f)>
         <#continue>
@@ -41,18 +30,26 @@ export interface ${bean}FormConfigs extends FormConfigs {
     <#if (f.description?length gt 0)>
 /** ${f.description}  ${f.temporalType!}*/
     </#if>
-export const ${bean}_${f}: FormItemConfigs = {
-    <#assign text><@genFieldProps f /></#assign>
+const ${bean}_${f} = {
+    <#assign text><@genFieldProps bean f /></#assign>
     <@indent text "  "/>
 };
-
-    <#assign text><@genFormFunctions bean f/></#assign>
-export const ${bean}_${f}_editor =
-    <@indent text ''/>
-${bean}_${f}.editor = ${bean}_${f}_editor;
+<#assign text><@genFormFunctions bean f/></#assign>
+${bean}_${f}.editor =
+<@indent text "  "/>
 
 </#list>
-export const get${bean}FormConfigs = (${bean?uncap_first}: ${bean}<@genBeanType bean 'any'/>, formPropsUtils?: FormPropsUtils): ${bean}FormConfigs => {
+export interface ${bean}FormConfigs extends FormConfigs {
+<#list bean.allFields as f>
+    <#if !canDrawField(f)>
+        <#continue>
+    </#if>
+    <@genFormConfigsInteface bean f/>
+
+</#list>
+  [columnName: string]: FormItemConfig,
+}
+export const get${bean?cap_first}FormConfigs = (${bean?uncap_first}: ${bean}<@genBeanType bean 'any'/>, formPropsUtils?: FormPropsUtils): ${bean}FormConfigs => {
 <#list bean.allFields as f>
     <#if !canDrawField(f)>
         <#continue>
@@ -61,7 +58,9 @@ export const get${bean}FormConfigs = (${bean?uncap_first}: ${bean}<@genBeanType 
   /** ${f.description}  ${f.temporalType!}*/
     </#if>
   ${bean}_${f}.formPropsUtils = formPropsUtils;
-  ${bean}_${f}.config.<@genFormConfigs f bean />;
+  <#assign value=genValueConfigs(f,bean)>
+  ${bean}_${f}.config.initialValue = ${value};
+  ${bean}_${f}.value = ${value};
 </#list>
 
   return {
