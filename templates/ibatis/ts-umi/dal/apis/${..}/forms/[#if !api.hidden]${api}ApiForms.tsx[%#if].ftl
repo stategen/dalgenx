@@ -24,60 +24,48 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
 </#list>
 
 <#list api.functions as fun>
-  <#if fun.params?? && fun.params?size gt 0>
-  <#if !fun.genForm>
+  <#if !fun.genForm || !fun.params?? || fun.params?size <= 0 >
+     <#continue >
+  </#if>
+  <#list fun.params as f>
+    <#if !canDrawParam(f)>
+      <#continue>
+    </#if>
+<@genFieldDescription f ''/>
+const ${fun}_${f} = {
+  <@genFieldProps fun f "  "/>
+};
+${fun}_${f}.Editor =
+<@genFormFunctions fun f "  "/>
+
+   </#list>
+</#list>
+
+export namespace ${api}ApiForms {
+  <#list api.functions as fun>
+    <#if !fun.genForm || !fun.params?? || fun.params?size <= 0 >
       <#continue >
   </#if>
+  export interface ${api}Api${fun?cap_first}FormConfigs extends FormConfigs {
+    <#list fun.params as param>
+      <#if !canDrawParam(param)>
+          <#continue>
+      </#if>
+      <@genFormConfigsInteface fun param "    "/>
+    </#list>
+  }
+
+  export const get${fun?cap_first}FormConfigs = (queryRule: ObjectMap<any> = {}, formPropsUtils?: FormPropsUtils): ${api}Api${fun?cap_first}FormConfigs => {
   <#list fun.params as f>
       <#if !canDrawParam(f)>
           <#continue>
       </#if>
-          <#if (f.description?length gt 0)>
-/** ${f.description}  ${f.temporalType!}*/
-          </#if>
-const ${fun}_${f} = {
-    <#assign text><@genFieldProps fun f /></#assign>
-    <@indent text "  "/>
-};
-  <#assign text><@genFormFunctions fun f/></#assign>
-${fun}_${f}.Editor =
-  <@indent text "  "/>
-
-  </#list>
-
-export namespace ${api}ApiForms {
-      <#list api.functions as fun>
-          <#if !fun.genForm>
-              <#continue >
-          </#if>
-          <#if fun.params?? && fun.params?size gt 0>
-  export interface ${fun?cap_first}FormConfigs extends FormConfigs {
-          <#list fun.params as param>
-              <#if !canDrawParam(param)>
-                  <#continue>
-              </#if>
-  <#assign text><@genFormConfigsInteface fun param /><#t></#assign>
-  <@indent text "  "/>
-          </#list>
-  }
-          </#if>
-      </#list>
-
-  export const get${fun?cap_first}FormConfigs = (queryRule: ObjectMap<any> = {}, formPropsUtils?: FormPropsUtils): ${fun?cap_first}FormConfigs => {
-      <#if !fun.genForm>
-          <#continue >
-      </#if>
-      <#list fun.params as f>
-          <#if !canDrawParam(f)>
-              <#continue>
-          </#if>
-          <#if (f.description?length gt 0)>
-    /** ${f.description}  ${f.temporalType!}*/
-          </#if>
-    ${fun}_${f}.formPropsUtils = formPropsUtils;
+  <@genFieldDescription f '    '/>
+    ${fun?uncap_first}_${f}.formPropsUtils = formPropsUtils;
     <#assign value=genValueConfigs(f, 'queryRule')>
-    ${fun}_${f}.config.initialValue = ${value};
-    ${fun}_${f}.value = ${value};
+    const ${fun?uncap_first}_${f}Value =${value};
+    ${fun?uncap_first}_${f}.config.initialValue = ${fun?uncap_first}_${f}Value;
+    ${fun?uncap_first}_${f}.value = ${fun?uncap_first}_${f}Value;
       </#list>
 
     return {
@@ -85,10 +73,9 @@ export namespace ${api}ApiForms {
       <#if !canDrawParam(f)>
           <#continue>
       </#if>
-      ${f?cap_first}: ${fun}_${f},
+      ${f?cap_first}: ${fun?uncap_first}_${f},
     </#list>
     }
   }
-  </#if>
-</#list>
+  </#list>
 }

@@ -27,16 +27,12 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
     <#if !canDrawField(f)>
         <#continue>
     </#if>
-    <#if (f.description?length gt 0)>
-/** ${f.description}  ${f.temporalType!}*/
-    </#if>
-const ${bean}_${f} = {
-    <#assign text><@genFieldProps bean f /></#assign>
-    <@indent text "  "/>
+    <@genFieldDescription f ''/>
+const ${bean?uncap_first}_${f} = {
+    <@genFieldProps bean f "  "/>
 };
-<#assign text><@genFormFunctions bean f/></#assign>
-${bean}_${f}.Editor =
-<@indent text "  "/>
+${bean?uncap_first}_${f}.Editor =
+<@genFormFunctions bean f "  "/>
 
 </#list>
 export interface ${bean}FormConfigs extends FormConfigs {
@@ -44,23 +40,21 @@ export interface ${bean}FormConfigs extends FormConfigs {
     <#if !canDrawField(f)>
         <#continue>
     </#if>
-    <@genFormConfigsInteface bean f/>
+    <@genFormConfigsInteface bean f '  '/>
 
 </#list>
-  [columnName: string]: FormItemConfig,
 }
 export const get${bean?cap_first}FormConfigs = (${bean?uncap_first}: ${bean}<@genBeanType bean 'any'/>, formPropsUtils?: FormPropsUtils): ${bean}FormConfigs => {
 <#list bean.allFields as f>
-    <#if !canDrawField(f)>
+   <#if !canDrawField(f)>
         <#continue>
-    </#if>
-    <#if (f.description?length gt 0)>
-  /** ${f.description}  ${f.temporalType!}*/
-    </#if>
-  ${bean}_${f}.formPropsUtils = formPropsUtils;
+   </#if>
+  <@genFieldDescription f '  '/>
+  ${bean?uncap_first}_${f}.formPropsUtils = formPropsUtils;
   <#assign value=genValueConfigs(f,bean)>
-  ${bean}_${f}.config.initialValue = ${value};
-  ${bean}_${f}.value = ${value};
+  const ${bean?uncap_first}_${f}Value =${value};
+  ${bean?uncap_first}_${f}.config.initialValue = ${bean?uncap_first}_${f}Value;
+  ${bean?uncap_first}_${f}.value = ${bean?uncap_first}_${f}Value;
 </#list>
 
   return {
@@ -68,7 +62,7 @@ export const get${bean?cap_first}FormConfigs = (${bean?uncap_first}: ${bean}<@ge
     <#if !canDrawField(f)>
         <#continue>
     </#if>
-    ${f?cap_first}: ${bean}_${f},
+    ${f?cap_first}: ${bean?uncap_first}_${f},
 </#list>
   }
 }

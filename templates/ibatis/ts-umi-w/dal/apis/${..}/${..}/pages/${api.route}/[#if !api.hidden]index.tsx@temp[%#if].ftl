@@ -33,9 +33,12 @@ import StatesAlias from "@i/configs/${systemName}Cms-statesAlias";
 
 const {confirm} = Modal;
 
-const ${api?uncap_first}Page = ({location, dispatch, ${api?uncap_first}State, appState, loading}: ${api}Props & AppProps) => {
-  const {pathname} = location;
-  const ${api?uncap_first}Area = ${api?uncap_first}State.${api?uncap_first}Area;
+type ${api}PageProps =AppProps & ${api}Props;
+
+const ${api?uncap_first}Page = (props: ${api}PageProps) => {
+  const dispatch = props.dispatch;
+  const pathname = props.location;
+  const ${api?uncap_first}Area = props.${api?uncap_first}State.${api?uncap_first}Area;
   const ${api?uncap_first}Columns = Object.values(${api?uncap_first}DefaultColumns);
 
   const onAdd = () => {
@@ -184,10 +187,15 @@ const ${api?uncap_first}Page = ({location, dispatch, ${api?uncap_first}State, ap
   )
 };
 
-const ${api}Page = connect(({${api?uncap_first}: ${api?uncap_first}State, app: appState, loading}: StatesAlias & ConnectionPros) => ({
-  ${api?uncap_first}State,
-  appState,
-  loading
-}))(${api?uncap_first}Page);
+const mapStateToProps = (states: StatesAlias & ConnectionPros) : ${api}PageProps =>{
+  let result: ${api}PageProps = {
+    appState: states.app,
+    ${api?uncap_first}State: states.${api?uncap_first},
+    loading: states.loading,
+  }
+  return result;
+}
+
+const ${api}Page = connect(mapStateToProps)(${api?uncap_first}Page);
 
 export default ${api}Page;

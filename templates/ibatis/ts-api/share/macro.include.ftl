@@ -14,6 +14,12 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+<#macro indent text dest>
+<#assign lines =StringUtil.toLines(text)>
+<#list lines as line>
+${dest}${line}
+</#list>
+</#macro>
 <#macro genCopyright entity>
 /**
  *  Do not remove this unless you get business authorization.
@@ -37,19 +43,19 @@
 <#function genResultName fun>
     <#if !fun.return.isSimple>
         <#if fun.return.generic??>
-            <#local resultName>${fun.return.generic?uncap_first}<#if fun.return.isArray>s</#if><#if fun.return.isPageList>PageList</#if></#local>
+            <#assign resultName>${fun.return.generic?uncap_first}<#if fun.return.isArray>s</#if><#if fun.return.isPageList>PageList</#if></#assign>
         <#else>
-            <#local resultName>${fun.return?uncap_first}<#if fun.return.isArray>s</#if></#local>
+            <#assign resultName>${fun.return?uncap_first}<#if fun.return.isArray>s</#if></#assign>
         </#if>
     <#else>
-        <#local resultName>${fun}</#local>
-        <#local resultName><#if resultName?starts_with("get")>${resultName?substring(3)?uncap_first}<#else>${resultName}</#if></#local>
-        <#local indexBy=resultName?index_of("By")/>
-        <#local resultName><#if indexBy gt 0 >${resultName?substring(0,indexBy)}<#else>${resultName}</#if></#local>
-        <#local resultName><#if resultName?starts_with("create")>${resultName?substring(6)}<#else>${resultName}</#if></#local>
-        <#local resultName><#if resultName?starts_with("delete")>result<#else>${resultName}</#if></#local>
-        <#local resultName><#if resultName?length =0><@genTypeWithGeneric fun.return/><#else>result</#if></#local>
-        <#local resultName>${resultName?uncap_first}</#local>
+        <#assign resultName>${fun}</#assign>
+        <#assign resultName><#if resultName?starts_with("get")>${resultName?substring(3)?uncap_first}<#else>${resultName}</#if></#assign>
+        <#assign indexBy=resultName?index_of("By")/>
+        <#assign resultName><#if indexBy gt 0 >${resultName?substring(0,indexBy)}<#else>${resultName}</#if></#assign>
+        <#assign resultName><#if resultName?starts_with("create")>${resultName?substring(6)}<#else>${resultName}</#if></#assign>
+        <#assign resultName><#if resultName?starts_with("delete")>result<#else>${resultName}</#if></#assign>
+        <#assign resultName><#if resultName?length =0><@genTypeWithGeneric fun.return/><#else>result</#if></#assign>
+        <#assign resultName>${resultName?uncap_first}</#assign>
     </#if>
     <#return resultName>
 </#function>
@@ -121,22 +127,26 @@ ${import.wholeImportPath};
 </#macro>
 
 <#function genArea bean>
-<#local areaName>${bean?uncap_first}Area</#local>
+<#assign areaName>${bean?uncap_first}Area</#assign>
 <#return areaName>
 </#function>
 
-<#macro genFormConfigsInteface bean f>
+<#macro genFormConfigsInteface bean f ind>
+<#assign text>
   <#if (f.description?length gt 0)>
-  /** ${f.description}  ${f.temporalType!}*/
+/** ${f.description}  ${f.temporalType!}*/
   </#if>
-  ${f?cap_first}?: typeof ${bean}_${f} & FormItemConfig,
+${f?cap_first}?: typeof ${bean?uncap_first}_${f} & FormItemConfig,
+</#assign>
+<@indent text ind/>
 </#macro>
 
 <#macro genSelectOptionConsts f>
 const ${f.type?uncap_first}SelectOptions= makeSelectOptions(${f.type?uncap_first}Options);
 </#macro>
 
-<#macro  genFieldProps bean field>
+<#macro  genFieldProps bean field ind>
+<#assign text>
 name: '${field}',
 <#if field.hidden>
 hidden: true,
@@ -194,6 +204,8 @@ config: {
   ],
     </#if>
 }
+</#assign>
+<@indent text ind/>
 </#macro>
 
 <#function  genValueConfigs field bean>
@@ -233,12 +245,15 @@ config: {
     </#if>
     <#return customBuild>
 </#function>
-<#macro genFormFunctions fun field>
+<#macro genFormFunctions fun field ind>
   <#assign customBuild=getEditorName(field)>
+  <#assign text>
 (props: UIUtil.${customBuild}EditorProps) => {
-  props ={...props, formItemConfig: ${fun}_${field}};
+  props = {...props, formItemConfig: ${fun?uncap_first}_${field}};
   return UIUtil.Build${customBuild}Editor(props);
 }
+</#assign>
+<@indent text ind/>
 </#macro>
 
 <#macro formImports>
@@ -249,46 +264,46 @@ import moment from 'moment';
 <#macro genBeanType bean genName><#if bean.genericFields?? ><<#list bean.genericFields as g><#if genName?length gt 0>${genName}<#else>${g.genericName}</#if><#if g_has_next>, </#if></#list>></#if></#macro>
 <#function genType p>
     <#if p.isArray>${p.generic}
-      <#local result>[]</#local>
+      <#assign result>[]</#assign>
     <#else>
-        <#local result>${p.type}<#if p.isGeneric><${p.generic}></#if></#local>
+        <#assign result>${p.type}<#if p.isGeneric><${p.generic}></#if></#assign>
     </#if>
     <#return result>
 </#function>
 
 <#function appendParam paramsStr pStr>
-   <#local result=paramsStr>
+   <#assign result=paramsStr>
    <#if pStr?length gt 0>
-   <#local result>${paramsStr}<#if paramsStr?length gt 0>, </#if>${pStr}</#local>
+   <#assign result>${paramsStr}<#if paramsStr?length gt 0>, </#if>${pStr}</#assign>
    </#if>
    <#return result>
 </#function>
 
 <#function genTypeAndNames params doRequired>
-   <#local hasPage=false>
-   <#local hasPageSize=false>
+   <#assign hasPage=false>
+   <#assign hasPageSize=false>
    <#list params as p>
    <#if p=='page'>
-       <#local hasPage=true>
+       <#assign hasPage=true>
    </#if>
    <#if p=='pageSize'>
-       <#local hasPageSize=true>
+       <#assign hasPageSize=true>
    </#if>
   </#list>
-  <#local paramsStr=''>
+  <#assign paramsStr=''>
   <#list params as p>
     <#if p.type=='PaginationProps' || p.type=='Pagination'>
-        <#local paginationStr=''>
+        <#assign paginationStr=''>
         <#if !hasPage>
-           <#local paginationStr>${appendParam(paginationStr,'page?: number')}</#local>
+           <#assign paginationStr>${appendParam(paginationStr,'page?: number')}</#assign>
         </#if>
         <#if !hasPageSize>
-           <#local paginationStr>${appendParam(paginationStr,'pageSize?: number')}</#local>
+           <#assign paginationStr>${appendParam(paginationStr,'pageSize?: number')}</#assign>
         </#if>
-        <#local paramsStr>${appendParam(paramsStr,paginationStr)}</#local>
+        <#assign paramsStr>${appendParam(paramsStr,paginationStr)}</#assign>
     <#else>
-        <#local pStr>${p}<#if !p.required || !doRequired>?</#if>: ${genType(p)}</#local>
-        <#local paramsStr>${appendParam(paramsStr,pStr)}</#local>
+        <#assign pStr>${p}<#if !p.required || !doRequired>?</#if>: ${genType(p)}</#assign>
+        <#assign paramsStr>${appendParam(paramsStr,pStr)}</#assign>
     </#if>
   </#list>
   <#return  paramsStr>
@@ -303,9 +318,15 @@ import moment from 'moment';
     <#return fun+'_refresh'>
 </#function>
 
-<#macro indent text dest>
-<#local lines =StringUtil.toLines(text)>
-<#list lines as line>
-${dest}${line}
-</#list>
+
+
+<#macro genFieldDescription f ind>
+<#assign text>
+<#if (f.description?length gt 0)>
+/** ${f.description} ${f.temporalType!}*/
+</#if>
+</#assign>
+<#if text?? && text?length gt 0>
+<@indent text ind/>
+</#if>
 </#macro>
