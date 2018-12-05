@@ -39,6 +39,14 @@ ${dest}${line}
 <#macro genTypeWithGeneric r><#if r.isArray>${r.generic}[]<#else>${r.type}<#if r.isGeneric><${r.generic}></#if></#if></#macro>
 <#macro getSimpleType r><#if r.isArray>${r.generic}[]<#else>${r.type}</#if></#macro>
 <#macro getReduceName fun genEffect>${fun}<#if genEffect>_success</#if></#macro>
+<#function isNotEmpty str>
+  <#return str?? && str?length gt 0>
+</#function>
+<#function isEmpty str>
+  <#return !str?? || str?length <= 0>
+</#function>
+
+
 
 <#function genResultName fun>
     <#if !fun.return.isSimple>
@@ -136,7 +144,7 @@ ${import.wholeImportPath};
   <#if (f.description?length gt 0)>
 /** ${f.description}  ${f.temporalType!}*/
   </#if>
-${f?cap_first}?: typeof ${bean?uncap_first}_${f} & FormItemConfig,
+${f?cap_first}?: typeof ${bean?uncap_first}_${f} & Partial<FormItemConfig>,
 </#assign>
 <@indent text ind/>
 </#macro>
@@ -169,12 +177,12 @@ temporalType : TemporalType.${field.temporalType},
 format: ${field.temporalType}_FORMAT,
 </#if>
 label: "${field.title}",
-<#if field.editorType??>
+<#if isNotEmpty(field.editorType!)>
 type: "${field.editorType}",
 </#if>
 Editor: UIUtil.Build${getEditorName(field)}Editor,
-value: null,
-formPropsUtils: null,
+data: null,
+form: null,
 config: {
   initialValue: null,
     <#if field.rules?size gt 0>
@@ -248,7 +256,7 @@ config: {
 <#macro genFormFunctions fun field ind>
   <#assign customBuild=getEditorName(field)>
   <#assign text>
-(props: UIUtil.${customBuild}EditorProps) => {
+(props?: UIUtil.${customBuild}EditorProps) => {
   props = {...props, formItemConfig: ${fun?uncap_first}_${field}};
   return UIUtil.Build${customBuild}Editor(props);
 }
@@ -258,7 +266,7 @@ config: {
 
 <#macro formImports>
 import UIUtil from "@utils/UIUtil";
-import {FormItemConfig, FormConfigs, ObjectMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, FormPropsUtils, TemporalType} from "@utils/DvaUtil";
+import {FormItemConfig, FormItemConfigs, ObjectMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, FormPropsUtils, TemporalType} from "@utils/DvaUtil";
 import moment from 'moment';
 </#macro>
 <#macro genBeanType bean genName><#if bean.genericFields?? ><<#list bean.genericFields as g><#if genName?length gt 0>${genName}<#else>${g.genericName}</#if><#if g_has_next>, </#if></#list>></#if></#macro>

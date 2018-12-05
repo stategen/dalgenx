@@ -169,7 +169,7 @@ export class ${api}Command {
     <#if !state.genEffect && ((state.areaExtraProps?size gt 0) || (state.stateExtraProps?size gt 0))>
         <#assign mergedState>mergedState</#assign>
     const ${mergedState}: ${api}State = {
-        <#if fun.area?? && fun.area.idKeyName?? && (state.areaExtraProps?size gt 0)>
+        <#if fun.area?? && fun.area.idKeyName??>
             ${genArea(fun.area)}: {
         ...{
             <#list state.areaExtraProps as prop>

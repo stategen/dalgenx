@@ -35,7 +35,7 @@ ${bean?uncap_first}_${f}.Editor =
 <@genFormFunctions bean f "  "/>
 
 </#list>
-export interface ${bean}FormConfigs extends FormConfigs {
+export interface ${bean}FormItemConfigs extends FormItemConfigs {
 <#list bean.allFields as f>
     <#if !canDrawField(f)>
         <#continue>
@@ -44,17 +44,17 @@ export interface ${bean}FormConfigs extends FormConfigs {
 
 </#list>
 }
-export const get${bean?cap_first}FormConfigs = (${bean?uncap_first}: ${bean}<@genBeanType bean 'any'/>, formPropsUtils?: FormPropsUtils): ${bean}FormConfigs => {
+export const get${bean?cap_first}FormItemConfigs = (${bean?uncap_first}: ${bean}<@genBeanType bean 'any'/>, form?: FormPropsUtils): ${bean}FormItemConfigs => {
 <#list bean.allFields as f>
    <#if !canDrawField(f)>
         <#continue>
    </#if>
   <@genFieldDescription f '  '/>
-  ${bean?uncap_first}_${f}.formPropsUtils = formPropsUtils;
+  ${bean?uncap_first}_${f}.form = form;
   <#assign value=genValueConfigs(f,bean)>
   const ${bean?uncap_first}_${f}Value =${value};
   ${bean?uncap_first}_${f}.config.initialValue = ${bean?uncap_first}_${f}Value;
-  ${bean?uncap_first}_${f}.value = ${bean?uncap_first}_${f}Value;
+  ${bean?uncap_first}_${f}.data = ${bean?uncap_first}_${f}Value;
 </#list>
 
   return {

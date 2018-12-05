@@ -24,7 +24,7 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
 </#list>
 
 <#list api.functions as fun>
-  <#if !fun.genForm || !fun.params?? || fun.params?size <= 0 >
+  <#if !fun.genForm || isEmpty(fun.params) >
      <#continue >
   </#if>
   <#list fun.params as f>
@@ -43,10 +43,10 @@ ${fun}_${f}.Editor =
 
 export namespace ${api}ApiForms {
   <#list api.functions as fun>
-    <#if !fun.genForm || !fun.params?? || fun.params?size <= 0 >
+    <#if !fun.genForm || isEmpty(fun.params) >
       <#continue >
   </#if>
-  export interface ${api}Api${fun?cap_first}FormConfigs extends FormConfigs {
+  export interface ${api}Api${fun?cap_first}FormItemConfigs extends FormItemConfigs {
     <#list fun.params as param>
       <#if !canDrawParam(param)>
           <#continue>
@@ -55,17 +55,17 @@ export namespace ${api}ApiForms {
     </#list>
   }
 
-  export const get${fun?cap_first}FormConfigs = (queryRule: ObjectMap<any> = {}, formPropsUtils?: FormPropsUtils): ${api}Api${fun?cap_first}FormConfigs => {
+  export const get${fun?cap_first}FormItemConfigs = (queryRule: ObjectMap<any> = {}, form?: FormPropsUtils): ${api}Api${fun?cap_first}FormItemConfigs => {
   <#list fun.params as f>
       <#if !canDrawParam(f)>
           <#continue>
       </#if>
   <@genFieldDescription f '    '/>
-    ${fun?uncap_first}_${f}.formPropsUtils = formPropsUtils;
+    ${fun?uncap_first}_${f}.form = form;
     <#assign value=genValueConfigs(f, 'queryRule')>
     const ${fun?uncap_first}_${f}Value =${value};
     ${fun?uncap_first}_${f}.config.initialValue = ${fun?uncap_first}_${f}Value;
-    ${fun?uncap_first}_${f}.value = ${fun?uncap_first}_${f}Value;
+    ${fun?uncap_first}_${f}.data = ${fun?uncap_first}_${f}Value;
       </#list>
 
     return {

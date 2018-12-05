@@ -22,7 +22,7 @@ import {${api?uncap_first}DefaultColumns} from "@i/columns/${api}Columns";
 import {Table, Modal, Col, Button, Popconfirm} from "antd";
 import Page from "@components/Page/Page";
 import DropOption from "@components/DropOption/DropOption";
-import {get${api}FormConfigs} from "@i/forms/${api}FormConfigs";
+import {get${api}FormItemConfigs} from "@i/forms/${api}FormConfigs";
 import {ConnectionPros, operateOptions, cleanSelectRowsProps} from "@utils/DvaUtil";
 import {AppProps} from "@i/interfaces/AppFaces";
 import {TableProps, TableRowSelection} from "antd/lib/table";
@@ -102,8 +102,8 @@ const ${api?uncap_first}Page = (props: ${api}PageProps) => {
     const isCreate = ${api?uncap_first}Area.type === `${'$'}{${api?uncap_first}Effects.insert}`;
     const title = isCreate ? 'Create' : 'Update';
     const current${api}: ${api} = isCreate ? {} : ${api?uncap_first}Area.item;
-    let ${api?uncap_first}FormConfigs = get${api}FormConfigs(current${api});
-    ${api}EditorModalPage = createModelPage(true, title, ${api?uncap_first}Area, ${api?uncap_first}FormConfigs, ${api}_ID, dispatch);
+    let ${api?uncap_first}FormItemConfigs = get${api}FormItemConfigs(current${api});
+    ${api}EditorModalPage = createModelPage(true, title, ${api?uncap_first}Area, ${api?uncap_first}FormItemConfigs, ${api}_ID, dispatch);
   }
 
   const onFilter = () => {

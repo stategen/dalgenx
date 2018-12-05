@@ -22,7 +22,7 @@ import {${api?uncap_first}DefaultColumns} from "@i/columns/${api}Columns";
 import {Table, Modal, Col, Button, Popconfirm} from "antd";
 import Page from "@components/Page/Page";
 import DropOption from "@components/DropOption/DropOption";
-import {get${api}FormConfigs} from "@i/forms/${api}FormConfigs";
+import {get${api}FormItemConfigs} from "@i/forms/${api}FormConfigs";
 import {ConnectionPros, operateOptions, cleanSelectRowsProps} from "@utils/DvaUtil";
 import {AppProps} from "@i/interfaces/AppFaces";
 import {TableProps, TableRowSelection} from "antd/lib/table";
