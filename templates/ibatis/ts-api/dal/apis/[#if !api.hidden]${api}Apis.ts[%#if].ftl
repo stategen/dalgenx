@@ -22,7 +22,7 @@ import {apiUrlKey} from "../${configDir}/${projectName}-config";
 
 export default class ${api}Apis {
 <#list api.functions as fun>
-    <#assign p_is_empty=isEmpty(fun.params)>
+    <#assign p_is_empty=isEmptyList(fun.params)>
     <#assign method><#if fun.method??>${fun.method}<#else>GET</#if></#assign>
     <#assign url><#list fun.urlParts as u><#if u.isParam>:${u}<#else>${u}</#if></#list></#assign>
   /**

@@ -42,8 +42,13 @@ ${dest}${line}
 <#function isNotEmpty str>
   <#return str?? && str?length gt 0>
 </#function>
+
 <#function isEmpty str>
   <#return !str?? || str?length <= 0>
+</#function>
+
+<#function isEmptyList list>
+    <#return !(list??) || (list?size <= 0) >
 </#function>
 
 
@@ -271,8 +276,8 @@ import moment from 'moment';
 </#macro>
 <#macro genBeanType bean genName><#if bean.genericFields?? ><<#list bean.genericFields as g><#if genName?length gt 0>${genName}<#else>${g.genericName}</#if><#if g_has_next>, </#if></#list>></#if></#macro>
 <#function genType p>
-    <#if p.isArray>${p.generic}
-      <#assign result>[]</#assign>
+    <#if p.isArray>
+      <#assign result>${p.generic}[]</#assign>
     <#else>
         <#assign result>${p.type}<#if p.isGeneric><${p.generic}></#if></#assign>
     </#if>
@@ -316,12 +321,13 @@ import moment from 'moment';
   </#list>
   <#return  paramsStr>
 </#function>
-<#function isEmpty list>
-    <#return !(list??) || (list?size <= 0) >
-</#function>
+
+
+
 <#function nextEffectName fun>
     <#return fun+'_next'>
 </#function>
+
 <#function refreshEffectName fun>
     <#return fun+'_refresh'>
 </#function>

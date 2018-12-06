@@ -24,7 +24,7 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
 </#list>
 
 <#list api.functions as fun>
-  <#if !fun.genForm || isEmpty(fun.params) >
+  <#if !fun.genForm || isEmptyList(fun.params) >
      <#continue >
   </#if>
   <#list fun.params as f>
@@ -43,7 +43,7 @@ ${fun}_${f}.Editor =
 
 export namespace ${api}ApiForms {
   <#list api.functions as fun>
-    <#if !fun.genForm || isEmpty(fun.params) >
+    <#if !fun.genForm || isEmptyList(fun.params) >
       <#continue >
   </#if>
   export interface ${api}Api${fun?cap_first}FormItemConfigs extends FormItemConfigs {

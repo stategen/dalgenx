@@ -139,7 +139,7 @@ export class ${api}Dispatch {
     return routerRedux.push(pushRoute);
   }
 <#function buildParams fun>
-    <#local params><#if isEmpty(fun.params)>params?: {}<#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>params: { ${genTypeAndNames(fun.params,false)} }</#if></#if>, areaExtraProps__?: AreaState<any>, stateExtraProps__?: ${api}State</#local>
+    <#local params><#if isEmptyList(fun.params)>params?: {}<#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>params: { ${genTypeAndNames(fun.params,false)} }</#if></#if>, areaExtraProps__?: AreaState<any>, stateExtraProps__?: ${api}State</#local>
     <#return params>
 </#function>
 <#if api.inits?size gt 0>
@@ -178,7 +178,7 @@ export class ${api}Dispatch {
 <#list api.functions as fun>
   <#if fun.state.genEffect>
 
-    <#assign p_is_empty=isEmpty(fun.params)>
+    <#assign p_is_empty=isEmptyList(fun.params)>
     <#assign method><#if fun.method??>${fun.method}<#else>GET</#if></#assign>
     <#assign url><#list fun.urlParts as u><#if u.isParam>:${u}<#else>${u}</#if></#list></#assign>
   /** ${fun.description} */

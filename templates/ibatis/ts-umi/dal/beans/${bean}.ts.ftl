@@ -25,12 +25,14 @@ export const ${bean}_ID: string = '${f}';
   <#break>
   </#if>
 </#list>
+<#--
 export enum ${bean}Fields {
 <#list bean.fields as f>
   /** ${f} */
   ${f} = '${f}',
 </#list>
 }
+-->
 
 export default interface ${bean}<@genBeanType bean ''/> extends Bean<#if bean.extend>, ${bean.parentBean}</#if> {
 
