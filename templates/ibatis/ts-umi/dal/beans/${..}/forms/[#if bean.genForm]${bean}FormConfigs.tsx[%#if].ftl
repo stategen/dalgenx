@@ -35,7 +35,7 @@ ${bean?uncap_first}_${f}.Editor =
 <@genFormFunctions bean f "  "/>
 
 </#list>
-export interface ${bean}FormItemConfigs extends FormItemConfigs {
+export interface ${bean}FormItemConfigMap extends FormItemConfigMap {
 <#list bean.allFields as f>
     <#if !canDrawField(f)>
         <#continue>
@@ -44,7 +44,7 @@ export interface ${bean}FormItemConfigs extends FormItemConfigs {
 
 </#list>
 }
-export const get${bean?cap_first}FormItemConfigs = (${bean?uncap_first}: ${bean}<@genBeanType bean 'any'/>, form?: FormPropsUtils): ${bean}FormItemConfigs => {
+export const get${bean?cap_first}FormItemConfigMap = (${bean?uncap_first}: ${bean}<@genBeanType bean 'any'/>, form?: FormPropsUtils): ${bean}FormItemConfigMap => {
 <#list bean.allFields as f>
    <#if !canDrawField(f)>
         <#continue>

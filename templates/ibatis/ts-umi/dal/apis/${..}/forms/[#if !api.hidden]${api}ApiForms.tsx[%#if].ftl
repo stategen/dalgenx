@@ -46,7 +46,7 @@ export namespace ${api}ApiForms {
     <#if !fun.genForm || isEmptyList(fun.params) >
       <#continue >
   </#if>
-  export interface ${api}Api${fun?cap_first}FormItemConfigs extends FormItemConfigs {
+  export interface ${api}Api${fun?cap_first}FormItemConfigMap extends FormItemConfigMap {
     <#list fun.params as param>
       <#if !canDrawParam(param)>
           <#continue>
@@ -55,7 +55,7 @@ export namespace ${api}ApiForms {
     </#list>
   }
 
-  export const get${fun?cap_first}FormItemConfigs = (queryRule: ObjectMap<any> = {}, form?: FormPropsUtils): ${api}Api${fun?cap_first}FormItemConfigs => {
+  export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, form?: FormPropsUtils): ${api}Api${fun?cap_first}FormItemConfigMap => {
   <#list fun.params as f>
       <#if !canDrawParam(f)>
           <#continue>
