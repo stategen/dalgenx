@@ -262,7 +262,9 @@ config: {
   <#assign customBuild=getEditorName(field)>
   <#assign text>
 (props?: UIUtil.${customBuild}EditorProps) => {
-  props = {...props, formItemConfig: ${fun?uncap_first}_${field}};
+  let formItemConfig = props ? props.formItemConfig : null;
+  formItemConfig = formItemConfig || ${fun?uncap_first}_${field};
+  props = {...props, formItemConfig};
   return UIUtil.Build${customBuild}Editor(props);
 }
 </#assign>

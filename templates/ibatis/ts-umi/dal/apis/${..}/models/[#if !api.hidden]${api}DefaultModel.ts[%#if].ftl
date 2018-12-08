@@ -65,7 +65,7 @@ export class ${api}Command {
     <#if fun.return.isPageList && fun.area??>
       <#assign oldAreaStr=genOldAreaStr(fun)>
     ${oldAreaStr}
-    payload ={...old${genArea(fun.area)?cap_first}.queryRule, ...payload};
+    payload = {...old${genArea(fun.area)?cap_first}.queryRule, ...payload};
     </#if>
     <#if !fun.return.isVoid>const ${resultName}: <@genTypeWithGeneric fun.return/> = </#if>yield call(${api}Apis.${fun}, payload);
     <#if !fun.return.isVoid>
@@ -116,7 +116,7 @@ export class ${api}Command {
           <#if state.areaExtraProps?size gt 0>
         ...{
               <#list state.areaExtraProps as prop>
-                  ${prop},
+          ${prop},
               </#list>
         },
           </#if>
@@ -166,14 +166,15 @@ export class ${api}Command {
   /** ${fun.description} <#if fun.state.genEffect> 成功后</#if> 更新状态*/
   static <@getReduceName fun fun.state.genEffect/>_reducer = (state: ${api}State, payload): ${api}State => {
     <#assign state =fun.state>
+    <#assign mergedState="">
     <#if !state.genEffect && ((state.areaExtraProps?size gt 0) || (state.stateExtraProps?size gt 0))>
         <#assign mergedState>mergedState</#assign>
     const ${mergedState}: ${api}State = {
         <#if fun.area?? && fun.area.idKeyName??>
-            ${genArea(fun.area)}: {
+      ${genArea(fun.area)}: {
         ...{
             <#list state.areaExtraProps as prop>
-                ${prop},
+          ${prop},
             </#list>
         },
         ...payload ? payload.areaExtraProps__ : null,
@@ -182,7 +183,7 @@ export class ${api}Command {
         <#if state.stateExtraProps?size gt 0>
       ...{
             <#list state.stateExtraProps as prop>
-                ${prop},
+        ${prop},
             </#list>
       },
       ...payload ? payload.stateExtraProps__ : null,
@@ -192,8 +193,8 @@ export class ${api}Command {
     </#if>
     return mergeObjects(
       state,
-    <#if mergedState??>
-        ${mergedState},
+    <#if isNotEmpty(mergedState)>
+      ${mergedState},
     </#if>
       payload,
     );
