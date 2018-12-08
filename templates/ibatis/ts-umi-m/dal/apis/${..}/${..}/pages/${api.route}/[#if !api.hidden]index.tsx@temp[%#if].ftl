@@ -33,7 +33,30 @@ import StatesAlias from "@i/configs/${systemName}Cms-statesAlias";
 
 const {confirm} = Modal;
 
-const ${api?uncap_first}Page = ({location, dispatch, ${api?uncap_first}State, appState, loading}: ${api}Props & AppProps) => {
+type ${api}PageProps =AppProps & ${api}Props;
+
+const ${api?uncap_first}Page = (props: ${api}PageProps) => {
+  const dispatch = props.dispatch;
+  const pathname = props.location;
+  const ${api?uncap_first}Area = props.${api?uncap_first}State.${api?uncap_first}Area;
+  const ${api?uncap_first}Columns = Object.values(${api?uncap_first}DefaultColumns);
+
+  return (
+    <div>
+      ${api?uncap_first}Page
+    <div>
+  )
 }
+
+const mapStateToProps = (states: StatesAlias & ConnectionPros) : ${api}PageProps =>{
+  const props: ${api}PageProps = {
+    appState: states.app,
+    ${api?uncap_first}State: states.${api?uncap_first},
+    loading: states.loading,
+  }
+  return props;
+}
+
+const ${api}Page = connect(mapStateToProps)(${api?uncap_first}Page);
 
 export default ${api}Page;

@@ -188,12 +188,12 @@ const ${api?uncap_first}Page = (props: ${api}PageProps) => {
 };
 
 const mapStateToProps = (states: StatesAlias & ConnectionPros) : ${api}PageProps =>{
-  let result: ${api}PageProps = {
+  const props: ${api}PageProps = {
     appState: states.app,
     ${api?uncap_first}State: states.${api?uncap_first},
     loading: states.loading,
   }
-  return result;
+  return props;
 }
 
 const ${api}Page = connect(mapStateToProps)(${api?uncap_first}Page);
