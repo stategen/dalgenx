@@ -16,7 +16,7 @@
         <result property="icon" column="icon" javaType="java.lang.String" jdbcType="VARCHAR"  />
         <result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
         <result property="route" column="route" javaType="java.lang.String" jdbcType="VARCHAR"  />
-        <result property="visitType" column="visit_type" javaType="org.stategen.framework.lite.enums.VisitType" jdbcType="VARCHAR"  />
+        <result property="visitType" column="visit_type" javaType="org.stategen.framework.lite.enums.MenuType" jdbcType="VARCHAR"  />
         <result property="checkType" column="check_type" javaType="org.stategen.framework.lite.enums.VisitCheckType" jdbcType="VARCHAR"  />
         <result property="createTime" column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
         <result property="updateTime" column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP"  />

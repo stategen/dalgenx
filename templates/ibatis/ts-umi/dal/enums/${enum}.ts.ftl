@@ -27,8 +27,12 @@ enum ${enum} {
 
 }
 
-export const ${enum?uncap_first}Options: Options = {
+export const ${enum?uncap_first}Options = {
 <#list enum.enums as e>
+  _None:{
+    value: null,
+    title: '请选择',
+  },
     <#if (e.description?length>0)>
   /** ${e.description} */
   </#if>

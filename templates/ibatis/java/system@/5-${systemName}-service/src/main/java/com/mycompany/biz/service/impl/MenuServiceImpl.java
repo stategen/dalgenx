@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 import org.stategen.framework.lite.PageList;
-import org.stategen.framework.lite.enums.VisitType;
+import org.stategen.framework.lite.enums.MenuType;
 import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.StringUtil;
 
@@ -165,7 +165,7 @@ public class MenuServiceImpl implements MenuService {
      * @see ${packageName}.service.MenuService#getMenusByVisitType
      */
     @Override
-    public List<Menu> getMenusByVisitType(org.stategen.framework.lite.enums.VisitType visitType, String projectName) {
+    public List<Menu> getMenusByVisitType(org.stategen.framework.lite.enums.MenuType visitType, String projectName) {
         return menuDao.getMenusByVisitType(visitType, projectName);
     }
 
@@ -185,7 +185,7 @@ public class MenuServiceImpl implements MenuService {
      * @see ${packageName}.service.MenuService#getMenusByUserId
      */
     @Override
-    public List<Long> getMenusByUserId(String userId, org.stategen.framework.lite.enums.VisitType visitType) {
+    public List<Long> getMenusByUserId(String userId, org.stategen.framework.lite.enums.MenuType visitType) {
         return menuDao.getMenusByUserId(userId, visitType);
     }
 

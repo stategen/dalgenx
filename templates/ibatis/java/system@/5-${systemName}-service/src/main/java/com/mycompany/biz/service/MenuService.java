@@ -68,7 +68,7 @@ public interface MenuService extends MenuServiceFacade {
      * 
      * @see ${packageName}.dao.MenuDao#getMenusByVisitType
      */
-    public List<Menu> getMenusByVisitType(org.stategen.framework.lite.enums.VisitType visitType, String projectName);
+    public List<Menu> getMenusByVisitType(org.stategen.framework.lite.enums.MenuType visitType, String projectName);
 
     /**
      * 
@@ -80,7 +80,7 @@ public interface MenuService extends MenuServiceFacade {
      * 
      * @see ${packageName}.dao.MenuDao#getMenusByUserId
      */
-    public List<Long> getMenusByUserId(String userId, org.stategen.framework.lite.enums.VisitType visitType);
+    public List<Long> getMenusByUserId(String userId, org.stategen.framework.lite.enums.MenuType visitType);
 
     /**
      * 

@@ -6,7 +6,7 @@
     <!-- <column name="currency_Unit" javaType="java.util.Currency"/> -->
     <!-- <column name="status" javaType="aa.bb.cc.StatusEnum"/> -->
     <!-- <column name="sex" javaType="aa.bb.cc.SexEnum"/> -->
-    <column name="visit_type" javaType="org.stategen.framework.lite.enums.VisitType" />
+    <column name="visit_type" javaType="org.stategen.framework.lite.enums.MenuType" />
     <column name="check_type" javaType="org.stategen.framework.lite.enums.VisitCheckType" />
 
     <operation name="insert" paramType="object" remarks="">

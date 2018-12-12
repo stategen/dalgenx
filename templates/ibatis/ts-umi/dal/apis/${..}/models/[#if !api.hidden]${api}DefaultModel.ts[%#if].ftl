@@ -17,11 +17,12 @@
 <@genCopyright api/>
 import {${api?uncap_first}InitModel, ${api}Model, ${api}State} from "../interfaces/${api}Faces";
 import ${api}Apis from "../apis/${api}Apis";
-import {abstractModel, updateArray, delateArray, mergeObjects, AreaState} from "@utils/DvaUtil";
+import {abstractModel, updateArray, delateArray, mergeObjects, AreaState, BaseCommand} from "@utils/DvaUtil";
 import RouteUtil from "@utils/RouteUtil";
 <@genImports api.imports,'../'/>
 
-export class ${api}Command {
+
+export class ${api}Command extends BaseCommand {
 <#if api.inits?size gt 0>
   static * ${setupName()}_effect({payload}, {call, put, select}) {
     let newPayload = {};
@@ -38,13 +39,18 @@ export class ${api}Command {
     /** ${fun.description} */
         <#if fun.state.genEffect>
     const ${fun}Payload = yield ${api}Command.${fun}_effect({payload<#if api.inits?size gt 1>: {...lastParams, ...${fun}Params}</#if>}, {call, put, select});
-    newPayload = ${api}Command.<@getReduceName fun fun.state.genEffect/>_reducer(<${api}State>newPayload, ${fun}Payload);
+    newPayload = ${api}Command.${getReduceName(fun, fun.state.genEffect)}_reducer(<${api}State>newPayload, ${fun}Payload);
         <#else>
-    newPayload = ${api}Command.<@getReduceName fun fun.state.genEffect/>_reducer(<${api}State>newPayload, {});
+    newPayload = ${api}Command.${getReduceName(fun, fun.state.genEffect)}_reducer(<${api}State>newPayload, {});
         </#if>
     </#list>
     return newPayload;
   };
+
+  <#assign reducerName>${getReduceName(setupName(), true)}</#assign>
+  static ${reducerName}_type(payload) {
+    return {type: "${reducerName}", payload: payload};
+  }
 
 </#if>
 <#function genOldAreaStr fun>
@@ -53,6 +59,7 @@ export class ${api}Command {
 </#function>
 <#list api.functions as fun>
   <#if fun.state.genEffect>
+  <#assign genEffect=true>
   /** ${fun.description} */
   static * ${fun}_effect({payload}, {call, put, select}) {
     <#assign state =fun.state>
@@ -65,7 +72,7 @@ export class ${api}Command {
     <#if fun.return.isPageList && fun.area??>
       <#assign oldAreaStr=genOldAreaStr(fun)>
     ${oldAreaStr}
-    payload = {...old${genArea(fun.area)?cap_first}.queryRule, ...payload};
+    payload = {<#if fun.return.isPageList>page: 1, pageSize: 10, </#if>...old${genArea(fun.area)?cap_first}.queryRule, ...payload};
     </#if>
     <#if !fun.return.isVoid>const ${resultName}: <@genTypeWithGeneric fun.return/> = </#if>yield call(${api}Apis.${fun}, payload);
     <#if !fun.return.isVoid>
@@ -137,6 +144,11 @@ export class ${api}Command {
     };
     return newPayload;
   };
+
+  <#assign reducerName>${getReduceName(fun, genEffect)}</#assign>
+  static ${reducerName}_type(payload) {
+    return {type: "${reducerName}", payload: payload};
+  }
     <#if fun.return.isPageList && fun.area??>
 
   static * ${nextEffectName(fun)}_effect({payload}, {call, put, select}) {
@@ -160,11 +172,10 @@ export class ${api}Command {
     return newPayload;
   }
       </#if>
-
   </#if>
 
   /** ${fun.description} <#if fun.state.genEffect> 成功后</#if> 更新状态*/
-  static <@getReduceName fun fun.state.genEffect/>_reducer = (state: ${api}State, payload): ${api}State => {
+  static ${getReduceName(fun, fun.state.genEffect)}_reducer = (state: ${api}State, payload): ${api}State => {
     <#assign state =fun.state>
     <#assign mergedState="">
     <#if !state.genEffect && ((state.areaExtraProps?size gt 0) || (state.stateExtraProps?size gt 0))>
@@ -209,25 +220,30 @@ export const ${api?uncap_first}DefaultModel: ${api}Model = <${api}Model>(mergeOb
 ${api?uncap_first}DefaultModel.subscriptions.${setupName()} = ({dispatch, history}) => {
   history.listen((listener) => {
     const pathname = listener.pathname;
-    const match = RouteUtil.getMatch(${api?uncap_first}DefaultModel.pathname, pathname);
+    const keys = [];
+    const match = RouteUtil.getMatch(${api?uncap_first}DefaultModel.pathname, pathname,keys);
     if (!match) {
       return;
     }
-    let payload = {page: 1, pageSize: 10, ...RouteUtil.getQuery(listener)} ;
-    <#if api.inits?size gt 0>
+    let payload = {...RouteUtil.getQuery(listener)} ;
         <#assign paramNames=''>
         <#list api.inits as fun>
-    const ${fun}Params = ${api?uncap_first}DefaultModel.${fun}InitParamsFn ? ${api?uncap_first}DefaultModel.${fun}InitParamsFn({pathname, match}) : null;
+    const ${fun}Params = ${api?uncap_first}DefaultModel.${fun}InitParamsFn ? ${api?uncap_first}DefaultModel.${fun}InitParamsFn({pathname, match, keys}) : null;
         <#assign paramNames><#if paramNames?length gt 0>${paramNames}, </#if>${fun}Params</#assign>
         </#list>
     payload = {...payload, <#if api.inits?size gt 1>${paramNames}<#else>...${paramNames}</#if>}
-    </#if>
     dispatch({
       type: '${api?uncap_first}/${setupName()}',
       payload,
     })
   })
 };
+<#if api.route?contains("/$")>
+<#list api.inits as fun>
+<#assign path>${api.route?uncap_first?replace('/$','/:')}</#assign>
+${api?uncap_first}DefaultModel.${fun}InitParamsFn = RouteUtil.getParams;
+</#list>
+</#if>
 
 ${api?uncap_first}DefaultModel.effects.${setupName()} = function* ({payload}, {call, put, select}) {
   const appState = yield select(_ => _.app);
@@ -236,20 +252,17 @@ ${api?uncap_first}DefaultModel.effects.${setupName()} = function* ({payload}, {c
     return;
   }
 
-  if (${api?uncap_first}DefaultModel.getInitState){
-    const initState =${api?uncap_first}DefaultModel.getInitState();
-    yield put({
-        type: 'updateState',
-        payload: initState,
-      }
-    )
+  if (${api?uncap_first}DefaultModel.getInitState) {
+    const initState = ${api?uncap_first}DefaultModel.getInitState();
+    yield put(${api}Command.updateState_type(initState));
   }
 
   const newPayload = yield ${api}Command.${setupName()}_effect({payload}, {call, put, select});
-  <@genEffectPut setupName() true/>
+  <#assign reducerName>${getReduceName(setupName(), true)}</#assign>
+  yield put(${api}Command.${reducerName}_type(newPayload));
 };
 
-${api?uncap_first}DefaultModel.reducers.<@getReduceName setupName() true/> = (state: ${api}State, {payload}): ${api}State => {
+${api?uncap_first}DefaultModel.reducers.${getReduceName(setupName(), true)} = (state: ${api}State, {payload}): ${api}State => {
   return mergeObjects(
     state,
     payload,
@@ -262,26 +275,26 @@ ${api?uncap_first}DefaultModel.reducers.<@getReduceName setupName() true/> = (st
 /** ${fun.description} */
 ${api?uncap_first}DefaultModel.effects.${fun} = function* ({payload}, {call, put, select}) {
   const newPayload = yield ${api}Command.${fun}_effect({payload}, {call, put, select});
-  <@genEffectPut fun fun.state.genEffect />
+  yield put(${api}Command.${getReduceName(fun, fun.state.genEffect)}_type(newPayload));
 };
 <#if fun.return.isPageList && fun.area??>
 
 ${api?uncap_first}DefaultModel.effects.${nextEffectName(fun)} = function* ({payload}, {call, put, select}) {
   const newPayload = yield ${api}Command.${nextEffectName(fun)}_effect({payload}, {call, put, select});
-    <@genEffectPut fun fun.state.genEffect />
+  yield put(${api}Command.${getReduceName(fun, fun.state.genEffect)}_type(newPayload));
 };
 </#if>
 <#if fun.state.genRefresh>
 
 ${api?uncap_first}DefaultModel.effects.${refreshEffectName(fun)} = function* ({payload}, {call, put, select}) {
   const newPayload = yield ${api}Command.${refreshEffectName(fun)}_effect({payload}, {call, put, select});
-    <@genEffectPut fun fun.state.genEffect />
+  yield put(${api}Command.${getReduceName(fun, fun.state.genEffect)}_type(newPayload));
 };
 </#if>
 </#if>
 
-${api?uncap_first}DefaultModel.reducers.<@getReduceName fun fun.state.genEffect/> = (state: ${api}State, {payload}): ${api}State => {
-  return ${api}Command.<@getReduceName fun fun.state.genEffect/>_reducer(state, payload);
+${api?uncap_first}DefaultModel.reducers.${getReduceName(fun, fun.state.genEffect)} = (state: ${api}State, {payload}): ${api}State => {
+  return ${api}Command.${getReduceName(fun, fun.state.genEffect)}_reducer(state, payload);
 };
 
 </#list>

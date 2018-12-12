@@ -141,7 +141,7 @@ public interface MenuDao {
 	 * 
 	 * sql:select a.menu_id, a.mpid, a.bpid, a.project_name, a.controller_name, a.method_name, a.url, a.icon, a.name, a.route, a.visit_type, a.check_type, a.create_time, a.update_time, a.delete_flag from menu a where a.visit_type=? and a.project_name=? and a.delete_flag = 0
 	 */
-	public List<Menu> getMenusByVisitType(org.stategen.framework.lite.enums.VisitType visitType, String projectName) throws DataAccessException;
+	public List<Menu> getMenusByVisitType(org.stategen.framework.lite.enums.MenuType visitType, String projectName) throws DataAccessException;
 	
 	/**
     <pre>
@@ -162,7 +162,7 @@ public interface MenuDao {
 	 * 
 	 * sql:select a.menu_id from menu a left join role_menu rm on rm.menu_id=a.menu_id left JOIN role r on r.role_id=rm.role_id left JOIN user_role ur on ur.role_id =r.role_id where a.delete_flag = 0 and rm.delete_flag=0 and r.delete_flag=0 and ur.delete_flag=0 and ur.user_id=? and a.visit_type=?
 	 */
-	public List<Long> getMenusByUserId(String userId, org.stategen.framework.lite.enums.VisitType visitType) throws DataAccessException;
+	public List<Long> getMenusByUserId(String userId, org.stategen.framework.lite.enums.MenuType visitType) throws DataAccessException;
 	
 	/**
     <pre>

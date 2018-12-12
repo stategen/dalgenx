@@ -30,7 +30,7 @@ export interface ${api}InitState extends BaseState {
 </#list>
 }
 
-export type ${api}State = ${api}InitState & typeof ${api?uncap_first}CustomState;
+export type ${api}State = ${api}InitState & Partial<typeof ${api?uncap_first}CustomState>;
 
 export interface ${api}InitSubscriptions extends Subscriptions{
 <#if api.inits?size gt 0>
@@ -62,11 +62,11 @@ export type ${api}Effects = ${api}InitEffects & ${api}CustomEffects;
 
 interface ${api}InitReducers<S extends ${api}State> extends Reducers<S> {
 <#if api.inits?size gt 0>
-  <@getReduceName setupName() true/>?: Reducer<${api}State>,
+  ${getReduceName(setupName(), true)}?: Reducer<${api}State>,
 </#if>
 <#list api.functions as fun>
   /** ${fun.description} <#if fun.state.genEffect> 成功后</#if> 更新状态*/
-  <@getReduceName fun fun.state.genEffect/>?: Reducer<${api}State>,
+  ${getReduceName(fun, fun.state.genEffect)}?: Reducer<${api}State>,
 </#list>
 }
 
@@ -218,12 +218,12 @@ export class ${api}Dispatch {
       </#if>
   <#else>
 
-  static <@getReduceName fun fun.state.genEffect/>_reducer(${api?uncap_first}State: ${api}State) {
+  static ${getReduceName(fun, fun.state.genEffect)}_reducer(${api?uncap_first}State: ${api}State) {
     <#if !findUpdateState>
         <#if fun=="updateState"><#assign findUpdateState=true></#if>
     </#if>
     return {
-      type: ${api?uncap_first}InitModel.namespace + '/<@getReduceName fun fun.state.genEffect/>',
+      type: ${api?uncap_first}InitModel.namespace + '/${getReduceName(fun, fun.state.genEffect)}',
       payload: {
         ...${api?uncap_first}State,
       }

@@ -52,12 +52,12 @@ public interface ${tableConfig.className}${dao_name_suffix} {
     <#if paramName?starts_with("List")>
         <#assign paramName ='Array'+ paramName>
     </#if>
-    &#64;ApiParam(<#if !isObject && column??>"${column.title}"</#if>)<#if param.listParam>&#64;RequestParam(required =false,name="${param.paramName?uncap_first}")</#if> ${paramName} ${param.paramName?uncap_first},
+    &#64;ApiParam(<#if !isObject && column??>"${column.title}"</#if>)<#if param.listParam>&#64;RequestParam(required =false,name="${param.paramName?uncap_first}")</#if> ${paramName} ${param.paramName?uncap_first}<#if param_has_next>,</#if>
     </#list>
     <#if isObject>
-    &#64;ApiParam(hidden = true) ${tableConfig.className} ${tableConfig.className?uncap_first}
+    ,&#64;ApiParam(hidden = true) ${tableConfig.className} ${tableConfig.className?uncap_first}
     </#if>
-    <#if sql.paging>Pagination pagination</#if>
+    <#if sql.paging>,Pagination pagination</#if>
     </pre>
 	 * ${sql.remarks!}
 	 * sql:<#compress>${StringHelper.removeCrlf(sql.executeSql)?trim}</#compress>

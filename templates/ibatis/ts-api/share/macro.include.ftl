@@ -38,7 +38,7 @@ ${dest}${line}
 </#macro>
 <#macro genTypeWithGeneric r><#if r.isArray>${r.generic}[]<#else>${r.type}<#if r.isGeneric><${r.generic}></#if></#if></#macro>
 <#macro getSimpleType r><#if r.isArray>${r.generic}[]<#else>${r.type}</#if></#macro>
-<#macro getReduceName fun genEffect>${fun}<#if genEffect>_success</#if></#macro>
+<#function getReduceName fun genEffect><#assign text>${fun}<#if genEffect>_success</#if></#assign><#return text></#function>
 <#function isNotEmpty str>
   <#return str?? && str?length gt 0>
 </#function>
@@ -50,8 +50,6 @@ ${dest}${line}
 <#function isEmptyList list>
     <#return !(list??) || (list?size <= 0) >
 </#function>
-
-
 
 <#function genResultName fun>
     <#if !fun.return.isSimple>
@@ -99,14 +97,6 @@ ${dest}${line}
     </#if>
     <#return ''>
 </#function>
-
-<#macro genEffectPut fun genEffect>
-  yield put({
-      type: '<@getReduceName fun genEffect/>',
-      payload: newPayload,
-    }
-  )
-</#macro>
 
 <#function setupName>
 <#return 'setup'>
