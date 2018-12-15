@@ -55,18 +55,14 @@ export namespace ${api}ApiForms {
     </#list>
   }
 
-  export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, form?: FormPropsUtils): ${api}Api${fun?cap_first}FormItemConfigMap => {
+  export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, pagesProps: PagesProps): ${api}Api${fun?cap_first}FormItemConfigMap => {
   <#list fun.params as f>
       <#if !canDrawParam(f)>
           <#continue>
       </#if>
-  <@genFieldDescription f '    '/>
-    ${fun?uncap_first}_${f}.form = form;
-    <#assign value=genValueConfigs(f, 'queryRule')>
-    const ${fun?uncap_first}_${f}Value =${value};
-    ${fun?uncap_first}_${f}.config.initialValue = ${fun?uncap_first}_${f}Value;
-    ${fun?uncap_first}_${f}.data = ${fun?uncap_first}_${f}Value;
-      </#list>
+    <@genFieldDescription f '    '/>
+    <@assginField fun f 'queryRule' '    '/>
+  </#list>
 
     return {
     <#list fun.params as f>

@@ -175,9 +175,12 @@ label: "${field.title}",
 <#if isNotEmpty(field.editorType!)>
 type: "${field.editorType}",
 </#if>
+<#if field.selectProvidor?length gt 0>
+optionProvidor: "${field.selectProvidor}",
+</#if>
 Editor: UIUtil.Build${getEditorName(field)}Editor,
+pagesProps: null,
 data: null,
-form: null,
 config: {
   initialValue: null,
     <#if field.rules?size gt 0>
@@ -243,6 +246,8 @@ config: {
         <#assign  customBuild>Enum</#assign>
     <#elseif field.isImage>
         <#assign customBuild>Image</#assign>
+    <#elseif field.selectProvidor?length gt 0>
+        <#assign customBuild>Select</#assign>
     <#else>
         <#assign customBuild='Input'>
     </#if>
@@ -263,7 +268,7 @@ config: {
 
 <#macro formImports>
 import UIUtil from "@utils/UIUtil";
-import {FormItemConfig, FormItemConfigMap, ObjectMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, FormPropsUtils, TemporalType} from "@utils/DvaUtil";
+import {FormItemConfig, FormItemConfigMap, ObjectMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, TemporalType, PagesProps} from "@utils/DvaUtil";
 import moment from 'moment';
 </#macro>
 <#macro genBeanType bean genName><#if bean.genericFields?? ><<#list bean.genericFields as g><#if genName?length gt 0>${genName}<#else>${g.genericName}</#if><#if g_has_next>, </#if></#list>></#if></#macro>
@@ -331,6 +336,19 @@ import moment from 'moment';
 <#if (f.description?length gt 0)>
 /** ${f.description} ${f.temporalType!}*/
 </#if>
+</#assign>
+<#if text?? && text?length gt 0>
+<@indent text ind/>
+</#if>
+</#macro>
+
+<#macro assginField bean f dataName ind>
+<#assign text>
+${bean?uncap_first}_${f}.pagesProps = pagesProps;
+<#assign value=genValueConfigs(f, dataName)>
+const ${bean?uncap_first}_${f}Value =${value};
+${bean?uncap_first}_${f}.config.initialValue = ${bean?uncap_first}_${f}Value;
+${bean?uncap_first}_${f}.data = ${bean?uncap_first}_${f}Value;
 </#assign>
 <#if text?? && text?length gt 0>
 <@indent text ind/>

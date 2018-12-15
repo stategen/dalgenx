@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
 
 import org.stategen.framework.lite.IMenu;
-import org.stategen.framework.lite.Image;
+import org.stategen.framework.annotation.Image;
 import org.stategen.framework.lite.TreeNode;
 import org.stategen.framework.lite.enums.VisitCheckType;
 import org.stategen.framework.lite.enums.VisitType;

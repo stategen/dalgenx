@@ -15,11 +15,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <@genCopyrightCanEdit api/>
-import {${api?uncap_first}DefaultModel} from "@i/models/${api}DefaultModel";
+import {${api?uncap_first}Model} from "@i/models/${api}Model";
 import {${api}Model} from "@i/interfaces/${api}Faces";
 import ${api}Apis from "@i/apis/${api}Apis";
 <@genImports api.imports,'@i/'/>
 
-const ${api?uncap_first}Model: ${api}Model = ${api?uncap_first}DefaultModel;
+
 
 export default ${api?uncap_first}Model;

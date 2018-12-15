@@ -214,21 +214,21 @@ export class ${api}Command extends BaseCommand {
 </#list>
 }
 
-export const ${api?uncap_first}DefaultModel: ${api}Model = <${api}Model>(mergeObjects(abstractModel, ${api?uncap_first}InitModel));
+export const ${api?uncap_first}Model: ${api}Model = <${api}Model>(mergeObjects(abstractModel, ${api?uncap_first}InitModel));
 <#if api.inits?size gt 0>
 
-${api?uncap_first}DefaultModel.subscriptions.${setupName()} = ({dispatch, history}) => {
+${api?uncap_first}Model.subscriptions.${setupName()} = ({dispatch, history}) => {
   history.listen((listener) => {
     const pathname = listener.pathname;
     const keys = [];
-    const match = RouteUtil.getMatch(${api?uncap_first}DefaultModel.pathname, pathname,keys);
+    const match = RouteUtil.getMatch(${api?uncap_first}Model.pathname, pathname,keys);
     if (!match) {
       return;
     }
     let payload = {...RouteUtil.getQuery(listener)} ;
         <#assign paramNames=''>
         <#list api.inits as fun>
-    const ${fun}Params = ${api?uncap_first}DefaultModel.${fun}InitParamsFn ? ${api?uncap_first}DefaultModel.${fun}InitParamsFn({pathname, match, keys}) : null;
+    const ${fun}Params = ${api?uncap_first}Model.${fun}InitParamsFn ? ${api?uncap_first}Model.${fun}InitParamsFn({pathname, match, keys}) : null;
         <#assign paramNames><#if paramNames?length gt 0>${paramNames}, </#if>${fun}Params</#assign>
         </#list>
     payload = {...payload, <#if api.inits?size gt 1>${paramNames}<#else>...${paramNames}</#if>}
@@ -241,19 +241,19 @@ ${api?uncap_first}DefaultModel.subscriptions.${setupName()} = ({dispatch, histor
 <#if api.route?contains("/$")>
 <#list api.inits as fun>
 <#assign path>${api.route?uncap_first?replace('/$','/:')}</#assign>
-${api?uncap_first}DefaultModel.${fun}InitParamsFn = RouteUtil.getParams;
+${api?uncap_first}Model.${fun}InitParamsFn = RouteUtil.getParams;
 </#list>
 </#if>
 
-${api?uncap_first}DefaultModel.effects.${setupName()} = function* ({payload}, {call, put, select}) {
+${api?uncap_first}Model.effects.${setupName()} = function* ({payload}, {call, put, select}) {
   const appState = yield select(_ => _.app);
-  const routeOpend = RouteUtil.isRouteOpend(appState.routeOrders, ${api?uncap_first}DefaultModel.pathname);
+  const routeOpend = RouteUtil.isRouteOpend(appState.routeOrders, ${api?uncap_first}Model.pathname);
   if (!routeOpend) {
     return;
   }
 
-  if (${api?uncap_first}DefaultModel.getInitState) {
-    const initState = ${api?uncap_first}DefaultModel.getInitState();
+  if (${api?uncap_first}Model.getInitState) {
+    const initState = ${api?uncap_first}Model.getInitState();
     yield put(${api}Command.updateState_type(initState));
   }
 
@@ -262,7 +262,7 @@ ${api?uncap_first}DefaultModel.effects.${setupName()} = function* ({payload}, {c
   yield put(${api}Command.${reducerName}_type(newPayload));
 };
 
-${api?uncap_first}DefaultModel.reducers.${getReduceName(setupName(), true)} = (state: ${api}State, {payload}): ${api}State => {
+${api?uncap_first}Model.reducers.${getReduceName(setupName(), true)} = (state: ${api}State, {payload}): ${api}State => {
   return mergeObjects(
     state,
     payload,
@@ -273,27 +273,27 @@ ${api?uncap_first}DefaultModel.reducers.${getReduceName(setupName(), true)} = (s
 <#list api.functions as fun>
 <#if fun.state.genEffect>
 /** ${fun.description} */
-${api?uncap_first}DefaultModel.effects.${fun} = function* ({payload}, {call, put, select}) {
+${api?uncap_first}Model.effects.${fun} = function* ({payload}, {call, put, select}) {
   const newPayload = yield ${api}Command.${fun}_effect({payload}, {call, put, select});
   yield put(${api}Command.${getReduceName(fun, fun.state.genEffect)}_type(newPayload));
 };
 <#if fun.return.isPageList && fun.area??>
 
-${api?uncap_first}DefaultModel.effects.${nextEffectName(fun)} = function* ({payload}, {call, put, select}) {
+${api?uncap_first}Model.effects.${nextEffectName(fun)} = function* ({payload}, {call, put, select}) {
   const newPayload = yield ${api}Command.${nextEffectName(fun)}_effect({payload}, {call, put, select});
   yield put(${api}Command.${getReduceName(fun, fun.state.genEffect)}_type(newPayload));
 };
 </#if>
 <#if fun.state.genRefresh>
 
-${api?uncap_first}DefaultModel.effects.${refreshEffectName(fun)} = function* ({payload}, {call, put, select}) {
+${api?uncap_first}Model.effects.${refreshEffectName(fun)} = function* ({payload}, {call, put, select}) {
   const newPayload = yield ${api}Command.${refreshEffectName(fun)}_effect({payload}, {call, put, select});
   yield put(${api}Command.${getReduceName(fun, fun.state.genEffect)}_type(newPayload));
 };
 </#if>
 </#if>
 
-${api?uncap_first}DefaultModel.reducers.${getReduceName(fun, fun.state.genEffect)} = (state: ${api}State, {payload}): ${api}State => {
+${api?uncap_first}Model.reducers.${getReduceName(fun, fun.state.genEffect)} = (state: ${api}State, {payload}): ${api}State => {
   return ${api}Command.${getReduceName(fun, fun.state.genEffect)}_reducer(state, payload);
 };
 

@@ -19,7 +19,7 @@
     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <#assign className=tableConfig.className/>    
 <#assign classNameLowerCase=tableConfig.className?lower_case/>    
-<#macro namespace>${tableConfig.className}.${systemName}</#macro>
+<#assign nameSpace>${tableConfig.className}.${systemName}</#assign>
 <!-- 本文件由dalgen生成，任何在本文件上的手工修改将会在下次生成时被覆盖 -->
 <sqlMap>
 
@@ -74,7 +74,7 @@
     </resultMap>
 	</#if>
 	
-	<#assign selectSqlId>${sql.operation}.<@namespace/></#assign>	
+	<#assign selectSqlId>${sql.operation}.${nameSpace}</#assign>
 	<select id="${selectSqlId}" <@genResultMapOrResultClassForSelectSql sql/> >
     	<#if sql.hasSqlMap>
     	${StringHelper.insertTokenIntoSelectSql(CompatibleHelper.replaceColumnCase(sql.sqlmap),(' /* '+selectSqlId+' */ '))}
@@ -86,7 +86,7 @@
     	</#if>
 	</select>	
 
-	<#assign selectSqlIdForPaging>${sql.operation}.<@namespace/>.count</#assign>	
+	<#assign selectSqlIdForPaging>${sql.operation}.${nameSpace}.count</#assign>
 	<#if sql.paging>
 	<select id="${selectSqlIdForPaging}" resultClass="long" >
 		<#if sql.hasSqlMap>
@@ -100,7 +100,7 @@
 </#if>
 	
 <#if sql.updateSql>
-	<update id="${sql.operation}.<@namespace/>">
+	<update id="${sql.operation}.${nameSpace}">
 		<#if sql.hasSqlMap>
 		${CompatibleHelper.replaceColumnCase(sql.sqlmap)}
 		<#else>
@@ -110,7 +110,7 @@
 </#if>
 	
 <#if sql.deleteSql>
-	<delete id="${sql.operation}.<@namespace/>">
+	<delete id="${sql.operation}.${nameSpace}">
 		<#if sql.hasSqlMap>
 		${CompatibleHelper.replaceColumnCase(sql.sqlmap)}
 		<#else>
@@ -120,7 +120,7 @@
 </#if>
     
 <#if sql.insertSql>
-	<insert id="${sql.operation}.<@namespace/>">
+	<insert id="${sql.operation}.${nameSpace}">
 		<#if sql.hasSqlMap>
 		${CompatibleHelper.replaceColumnCase(sql.sqlmap)}
         <#else>             

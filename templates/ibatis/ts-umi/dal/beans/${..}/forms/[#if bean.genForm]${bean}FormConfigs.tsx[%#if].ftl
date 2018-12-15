@@ -44,17 +44,13 @@ export interface ${bean}FormItemConfigMap extends FormItemConfigMap {
 
 </#list>
 }
-export const get${bean?cap_first}FormItemConfigMap = (${bean?uncap_first}: ${bean}<@genBeanType bean 'any'/>, form?: FormPropsUtils): ${bean}FormItemConfigMap => {
+export const get${bean?cap_first}FormItemConfigMap = (${bean?uncap_first}: ${bean}<@genBeanType bean 'any'/>, pagesProps: PagesProps): ${bean}FormItemConfigMap => {
 <#list bean.allFields as f>
    <#if !canDrawField(f)>
         <#continue>
    </#if>
   <@genFieldDescription f '  '/>
-  ${bean?uncap_first}_${f}.form = form;
-  <#assign value=genValueConfigs(f,bean)>
-  const ${bean?uncap_first}_${f}Value =${value};
-  ${bean?uncap_first}_${f}.config.initialValue = ${bean?uncap_first}_${f}Value;
-  ${bean?uncap_first}_${f}.data = ${bean?uncap_first}_${f}Value;
+  <@assginField bean f bean?uncap_first '  '/>
 </#list>
 
   return {
