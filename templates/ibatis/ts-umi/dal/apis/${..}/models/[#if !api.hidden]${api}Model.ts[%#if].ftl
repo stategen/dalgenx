@@ -17,7 +17,7 @@
 <@genCopyright api/>
 import {${api?uncap_first}InitModel, ${api}Model, ${api}State} from "../interfaces/${api}Faces";
 import ${api}Apis from "../apis/${api}Apis";
-import {abstractModel, updateArray, delateArray, mergeObjects, AreaState, BaseCommand} from "@utils/DvaUtil";
+import {updateArray, delateArray, mergeObjects, AreaState, BaseCommand} from "@utils/DvaUtil";
 import RouteUtil from "@utils/RouteUtil";
 <@genImports api.imports,'../'/>
 
@@ -214,7 +214,7 @@ export class ${api}Command extends BaseCommand {
 </#list>
 }
 
-export const ${api?uncap_first}Model: ${api}Model = <${api}Model>(mergeObjects(abstractModel, ${api?uncap_first}InitModel));
+export const ${api?uncap_first}Model: ${api}Model = ${api?uncap_first}InitModel;
 <#if api.inits?size gt 0>
 
 ${api?uncap_first}Model.subscriptions.${setupName()} = ({dispatch, history}) => {

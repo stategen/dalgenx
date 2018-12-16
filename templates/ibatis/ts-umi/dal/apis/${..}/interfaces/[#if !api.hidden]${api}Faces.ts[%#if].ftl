@@ -16,7 +16,7 @@
 -->
 <@genCopyright api/>
 import {Effect, Effects, Reducers, IModel, BaseState, modelPathsProxy, ConnectionPros, Reducer, AreaState, Subscription,
-        Subscriptions, RouterReduxPushPros, SetupParamsFun, mergeObjects, initAreaState} from '@utils/DvaUtil';
+        Subscriptions, RouterReduxPushPros, SetupParamsFun, mergeObjects, initAreaState, abstractModel} from '@utils/DvaUtil';
 import {${api?uncap_first}CustomState,${api}CustomSubscriptions , ${api}CustomEffects, ${api}CustomReducers} from '@pages/${api.route}/${api}CustomFaces'
 <@genImports api.imports,'../'/>
 import {routerRedux} from 'dva/router';
@@ -95,7 +95,7 @@ export interface ${api}Props extends ConnectionPros {
 }
 
 <#assign path>${api.route?uncap_first?replace('/$','/:')}</#assign>
-export const ${api?uncap_first}InitModel: ${api}Model = <${api}Model>{
+export let ${api?uncap_first}InitModel: ${api}Model = <${api}Model>{
   namespace: '${api?uncap_first}',
   pathname: '/${path}',
   state: {},
@@ -121,6 +121,7 @@ ${api?uncap_first}InitModel.getInitState = () => {
 }
 
 ${api?uncap_first}InitModel.state=${api?uncap_first}InitModel.getInitState();
+${api?uncap_first}InitModel = (mergeObjects(abstractModel, ${api?uncap_first}InitModel));
 
 /***把 namespace 带过来，以便生成路径*/
 export const ${api?uncap_first}Effects = modelPathsProxy<${api}Effects>(${api?uncap_first}InitModel);

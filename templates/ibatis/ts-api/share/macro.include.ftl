@@ -178,6 +178,7 @@ type: "${field.editorType}",
 <#if field.selectProvidor?length gt 0>
 optionProvidor: "${field.selectProvidor}",
 </#if>
+UIEditor: UIUtil.Build${getEditorName(field)}Editor,
 Editor: UIUtil.Build${getEditorName(field)}Editor,
 pagesProps: null,
 data: null,
@@ -256,12 +257,9 @@ config: {
 <#macro genFormFunctions fun field ind>
   <#assign customBuild=getEditorName(field)>
   <#assign text>
-(props?: UIUtil.${customBuild}EditorProps) => {
-  let formItemConfig = props ? props.formItemConfig : null;
-  formItemConfig = formItemConfig || ${fun?uncap_first}_${field};
-  props = {...props, formItemConfig};
-  return UIUtil.Build${customBuild}Editor(props);
-}
+((props?: UIUtil.${customBuild}EditorProps) => {
+  return UIUtil.rebuildEditor(props, ${fun?uncap_first}_${field});
+}) as any;
 </#assign>
 <@indent text ind/>
 </#macro>
