@@ -102,17 +102,19 @@ ${dest}${line}
 <#return 'setup'>
 </#function>
 
-<#function canDrawField f>
+<#function canDrawFormField f>
     <#if f="deleteFlag">
         <#return false>
     <#elseif f.isArray>
+        <#return false>
+    <#elseif !(f.isSimple || f.isEnum)>
         <#return false>
     <#else>
         <#return true>
     </#if>
 </#function>
 
-<#function canDrawParam p>
+<#function canDrawFormParam p>
     <#if p="deleteFlag" || p="page" || p="pageSize" || p="pageNum" || p.isPagination>
         <#return false>
     <#else>
@@ -171,17 +173,23 @@ isArray: true,
 temporalType : TemporalType.${field.temporalType},
 format: ${field.temporalType}_FORMAT,
 </#if>
-label: "${field.title}",
+label: '${field.title}',
 <#if isNotEmpty(field.editorType!)>
-type: "${field.editorType}",
+type: '${field.editorType}',
 </#if>
-<#if field.selectProvidor?length gt 0>
-optionProvidor: "${field.selectProvidor}",
+<#if field.optionConfig??>
+optionConfig: {
+  bean: '${field.optionConfig.bean}',
+  <#if field.optionConfig.none??>
+  none: '${field.optionConfig.none}',
+  </#if>
+  <#if field.optionConfig.changeBy??>
+  changeBy: '${field.optionConfig.changeBy}',
+  </#if>
+},
 </#if>
 UIEditor: UIUtil.Build${getEditorName(field)}Editor,
 Editor: UIUtil.Build${getEditorName(field)}Editor,
-pagesProps: null,
-data: null,
 config: {
   initialValue: null,
     <#if field.rules?size gt 0>
@@ -247,7 +255,7 @@ config: {
         <#assign  customBuild>Enum</#assign>
     <#elseif field.isImage>
         <#assign customBuild>Image</#assign>
-    <#elseif field.selectProvidor?length gt 0>
+    <#elseif field.optionConfig??>
         <#assign customBuild>Select</#assign>
     <#else>
         <#assign customBuild='Input'>
@@ -266,7 +274,10 @@ config: {
 
 <#macro formImports>
 import UIUtil from "@utils/UIUtil";
-import {FormItemConfig, FormItemConfigMap, ObjectMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, TemporalType, PagesProps} from "@utils/DvaUtil";
+import {
+  FormItemConfig, FormItemConfigMap, ObjectMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT,
+  TemporalType, PagesProps, rebuildFormItemConfigs
+} from "@utils/DvaUtil";
 import moment from 'moment';
 </#macro>
 <#macro genBeanType bean genName><#if bean.genericFields?? ><<#list bean.genericFields as g><#if genName?length gt 0>${genName}<#else>${g.genericName}</#if><#if g_has_next>, </#if></#list>></#if></#macro>
@@ -342,11 +353,8 @@ import moment from 'moment';
 
 <#macro assginField bean f dataName ind>
 <#assign text>
-${bean?uncap_first}_${f}.pagesProps = pagesProps;
 <#assign value=genValueConfigs(f, dataName)>
-const ${bean?uncap_first}_${f}Value =${value};
-${bean?uncap_first}_${f}.config.initialValue = ${bean?uncap_first}_${f}Value;
-${bean?uncap_first}_${f}.data = ${bean?uncap_first}_${f}Value;
+const ${bean?uncap_first}_${f}Value = ${value};
 </#assign>
 <#if text?? && text?length gt 0>
 <@indent text ind/>

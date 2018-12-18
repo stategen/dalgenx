@@ -29,7 +29,8 @@ export default class ${api}Apis {
    * ${method} ${url}
    * ${fun.description}
    */
-  static ${fun}(<#if p_is_empty>params?: {}<#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>params: { ${genTypeAndNames(fun.params,true)} }</#if></#if>): ${genType(fun.return)} {
+  <#assign one="">
+  static ${fun}(<#if p_is_empty>params?: {}<#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>params: { ${genTypeAndNames(fun.params,true)} }<#if fun.params?size==1><#assign one=fun.params[0]> | ${genType(one)}</#if></#if></#if>): ${genType(fun.return)} {
     let requestInit: RequestInitEx = <RequestInitEx>{};
     requestInit.apiUrlKey = apiUrlKey;
     requestInit.url = '${url}';
@@ -39,7 +40,7 @@ export default class ${api}Apis {
     requestInit.mediaType = MediaType.FORM;
     <#else>
     </#if>
-    requestInit.data = <#if fun.json??>${fun.json}<#else>params</#if>;
+    requestInit.data = <#if fun.json??>${fun.json}<#else><#if one?has_content>params instanceof Object ? params : {${one}: params}<#else>params</#if></#if>;
     requestInit.method = Method.${method};
     return Net.fetch(requestInit);
   }

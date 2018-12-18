@@ -28,7 +28,7 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
      <#continue >
   </#if>
   <#list fun.params as f>
-    <#if !canDrawParam(f)>
+    <#if !canDrawFormParam(f)>
       <#continue>
     </#if>
 <@genFieldDescription f ''/>
@@ -39,6 +39,15 @@ ${fun}_${f}.Editor =
 <@genFormFunctions fun f "  "/>
 
    </#list>
+rebuildFormItemConfigs([
+    <#list fun.params as f>
+        <#if !canDrawFormParam(f)>
+            <#continue>
+        </#if>
+    ${fun?uncap_first}_${f},
+    </#list>
+  ]
+);
 </#list>
 
 export namespace ${api}ApiForms {
@@ -48,7 +57,7 @@ export namespace ${api}ApiForms {
   </#if>
   export interface ${api}Api${fun?cap_first}FormItemConfigMap extends FormItemConfigMap {
     <#list fun.params as param>
-      <#if !canDrawParam(param)>
+      <#if !canDrawFormParam(param)>
           <#continue>
       </#if>
       <@genFormConfigsInteface fun param "    "/>
@@ -57,19 +66,18 @@ export namespace ${api}ApiForms {
 
   export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, pagesProps: PagesProps): ${api}Api${fun?cap_first}FormItemConfigMap => {
   <#list fun.params as f>
-      <#if !canDrawParam(f)>
+      <#if !canDrawFormParam(f)>
           <#continue>
       </#if>
-    <@genFieldDescription f '    '/>
     <@assginField fun f 'queryRule' '    '/>
   </#list>
 
     return {
     <#list fun.params as f>
-      <#if !canDrawParam(f)>
+      <#if !canDrawFormParam(f)>
           <#continue>
       </#if>
-      ${f?cap_first}: ${fun?uncap_first}_${f},
+      ${f?cap_first}: {...${fun?uncap_first}_${f}, initialValue: ${fun?uncap_first}_${f}Value, pagesProps},
     </#list>
     }
   }

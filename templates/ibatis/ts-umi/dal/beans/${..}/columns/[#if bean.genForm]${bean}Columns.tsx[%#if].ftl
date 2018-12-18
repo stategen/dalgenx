@@ -28,7 +28,7 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
 <#assign genericProps><#if bean.genericFields?? ><<#list bean.genericFields as g>${g.genericName}<#if g_has_next>,</#if></#list>></#if></#assign>
 export interface ${bean}Columns<${bean?substring(0,1)}> {
 <#list bean.allFields as f>
-    <#if !canDrawField(f)>
+    <#if !canDrawFormField(f)>
       <#continue>
     </#if>
     <#if (f.description?length gt 0)>
@@ -47,7 +47,7 @@ export interface ${bean}Columns<${bean?substring(0,1)}> {
 export const ${bean?uncap_first}DefaultColumns: ${bean}Columns<${bean}${genericProps}> = {
 
   <#list bean.allFields as f>
-  <#if !canDrawField(f)>
+  <#if !canDrawFormField(f)>
       <#continue>
   </#if>
   <#if (f.description?length gt 0)>

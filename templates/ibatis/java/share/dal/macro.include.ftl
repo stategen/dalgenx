@@ -37,10 +37,12 @@
     </#if>
     <#if sql.columnsInSameTable && !sql.hasCustomResultClass>
         <#local resultClassName=tableConfig.className/>
-    <#elseif 'object'==sql.resultClass >
+    <#elseif 'object'==sql.resultClass>
         <#local resultClassName=tableConfig.className />
     <#elseif 'dto'==sql.resultClass>
         <#local resultClassName=tableConfig.className+dto_name_suffix/>
+    <#else>
+        <#local resultClassName=tableConfig.className />
     </#if>
 
     <#if pojo_package_name!=''>

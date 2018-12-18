@@ -24,7 +24,7 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
 </#list>
 
 <#list bean.allFields as f>
-    <#if !canDrawField(f)>
+    <#if !canDrawFormField(f)>
         <#continue>
     </#if>
     <@genFieldDescription f ''/>
@@ -35,30 +35,42 @@ ${bean?uncap_first}_${f}.Editor =
 <@genFormFunctions bean f "  "/>
 
 </#list>
+
+
 export interface ${bean}FormItemConfigMap extends FormItemConfigMap {
 <#list bean.allFields as f>
-    <#if !canDrawField(f)>
+    <#if !canDrawFormField(f)>
         <#continue>
     </#if>
     <@genFormConfigsInteface bean f '  '/>
 
 </#list>
 }
+
+rebuildFormItemConfigs([
+<#list bean.allFields as f>
+    <#if !canDrawFormField(f)>
+        <#continue>
+    </#if>
+    ${bean?uncap_first}_${f},
+</#list>
+  ]
+);
+
 export const get${bean?cap_first}FormItemConfigMap = (${bean?uncap_first}: ${bean}<@genBeanType bean 'any'/>, pagesProps: PagesProps): ${bean}FormItemConfigMap => {
 <#list bean.allFields as f>
-   <#if !canDrawField(f)>
+   <#if !canDrawFormField(f)>
         <#continue>
    </#if>
-  <@genFieldDescription f '  '/>
   <@assginField bean f bean?uncap_first '  '/>
 </#list>
 
   return {
 <#list bean.allFields as f>
-    <#if !canDrawField(f)>
+    <#if !canDrawFormField(f)>
         <#continue>
     </#if>
-    ${f?cap_first}: ${bean?uncap_first}_${f},
+    ${f?cap_first}: {...${bean?uncap_first}_${f}, initialValue: ${bean?uncap_first}_${f}Value, pagesProps},
 </#list>
   }
 }
