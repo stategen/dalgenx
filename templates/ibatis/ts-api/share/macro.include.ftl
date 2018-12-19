@@ -186,6 +186,9 @@ optionConfig: {
   <#if field.optionConfig.changeBy??>
   changeBy: '${field.optionConfig.changeBy}',
   </#if>
+  <#if field.optionConfig.defaultOption??>
+  defaultOption: '${field.optionConfig.defaultOption}',
+  </#if>
 },
 </#if>
 UIEditor: UIUtil.Build${getEditorName(field)}Editor,

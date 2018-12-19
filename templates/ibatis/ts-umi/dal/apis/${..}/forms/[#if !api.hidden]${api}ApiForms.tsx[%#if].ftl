@@ -77,7 +77,7 @@ export namespace ${api}ApiForms {
       <#if !canDrawFormParam(f)>
           <#continue>
       </#if>
-      ${f?cap_first}: {...${fun?uncap_first}_${f}, initialValue: ${fun?uncap_first}_${f}Value, pagesProps},
+      ${f?cap_first}: {...${fun?uncap_first}_${f}, initialValue: ${fun?uncap_first}_${f}Value, pagesProps, record: queryRule },
     </#list>
     }
   }
