@@ -64,7 +64,7 @@ export namespace ${api}ApiForms {
     </#list>
   }
 
-  export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, pagesProps: PagesProps): ${api}Api${fun?cap_first}FormItemConfigMap => {
+  export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, pagesProps: PagesProps ): ${api}Api${fun?cap_first}FormItemConfigMap => {
   <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
@@ -72,12 +72,14 @@ export namespace ${api}ApiForms {
     <@assginField fun f 'queryRule' '    '/>
   </#list>
 
+    queryRule.lastOptions__ ? null: queryRule.lastOptions__ = {};
+    const componetMap ={};
     return {
     <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
       </#if>
-      ${f?cap_first}: {...${fun?uncap_first}_${f}, initialValue: ${fun?uncap_first}_${f}Value, pagesProps, record: queryRule },
+      ${f?cap_first}: {...${fun?uncap_first}_${f}, initialValue: ${fun?uncap_first}_${f}Value, pagesProps, record: queryRule, componetMap },
     </#list>
     }
   }

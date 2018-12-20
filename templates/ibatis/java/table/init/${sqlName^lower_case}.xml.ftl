@@ -25,9 +25,7 @@
 ↑请检查上面className是否正确,按驼峰写法修改类名，将非法字符"?"去掉,并删除本行↑
    </#if>
     <!-- 不需要配置的列请删除-->
-    <!-- <column name="currency_Unit" javaType="java.util.Currency"/> -->
-    <!-- <column name="status" javaType="aa.bb.cc.StatusEnum"/> -->
-    <!-- <column name="sex" javaType="aa.bb.cc.SexEnum"/> -->
+    <!-- <column name="status" javaType="${packageName}.enums.StatusEnum"/> -->
 
     <#function getCommonOrderByFields>
         <#assign text="">

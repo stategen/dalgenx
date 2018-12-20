@@ -179,7 +179,7 @@ type: '${field.editorType}',
 </#if>
 <#if field.optionConfig??>
 optionConfig: {
-  bean: '${field.optionConfig.bean}',
+  api: '${field.optionConfig.api}',
   <#if field.optionConfig.none??>
   none: '${field.optionConfig.none}',
   </#if>
@@ -279,7 +279,7 @@ config: {
 import UIUtil from "@utils/UIUtil";
 import {
   FormItemConfig, FormItemConfigMap, ObjectMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT,
-  TemporalType, PagesProps, rebuildFormItemConfigs
+  TemporalType, PagesProps, rebuildFormItemConfigs, OptionMap
 } from "@utils/DvaUtil";
 import moment from 'moment';
 </#macro>

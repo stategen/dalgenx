@@ -25,9 +25,15 @@ import java.util.List;
         <#break>
     </#if>
 </#list>
-import ${tableConfig.basepackage}.${pojo_dir_name}.${className}${pojo_name_suffix};
-import ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}${internal_service_suffix};
-import ${tableConfig.basepackage}.${dao_dir_name}.${tableConfig.className}${dao_name_suffix};
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+
+import javax.annotation.Resource;
+
+
 <#list tableConfig.sqls as sql>
 <#if sql.paging>
 
@@ -36,7 +42,12 @@ import org.stategen.framework.lite.PageList;
 </#if>
 </#list>
 
-import javax.annotation.Resource;
+import org.stategen.framework.util.CollectionUtil;
+import org.stategen.framework.util.StringUtil;
+
+import ${tableConfig.basepackage}.${pojo_dir_name}.${className}${pojo_name_suffix};
+import ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}${internal_service_suffix};
+import ${tableConfig.basepackage}.${dao_dir_name}.${tableConfig.className}${dao_name_suffix};
 
 /**
  * ${tableConfig.className}${service_name_suffix}${impl_name_suffix}
@@ -97,4 +108,19 @@ public class ${tableConfig.className}${service_name_suffix}${impl_name_suffix}  
         }
         return ${pojoName}s;
     }
+
+    <#assign bean>${tableConfig.className}</#assign>
+    <#assign type>${tableConfig.pkColumn.shortJavaType}</#assign>
+    <#assign id>${tableConfig.pkColumn.columnName}</#assign>
+    @Override
+    public <D> void assignBeanTo(Collection<D> dests, Function<? super D, ${type}> destGetMethod, BiConsumer<D, ${tableConfig.className}> destSetMethod) {
+        if (CollectionUtil.isNotEmpty(dests)) {
+            Set<${type}> ${id}s = CollectionUtil.toSet(dests, destGetMethod);
+            List<${bean}> ${bean?uncap_first}s = this.get${bean}sBy${id?cap_first}s(new ArrayList<${type}>(${id}s));
+            if (CollectionUtil.isNotEmpty(${bean?uncap_first}s)) {
+                CollectionUtil.setModelByList(dests, ${bean?uncap_first}s, destGetMethod, destSetMethod, ${bean}::get${id?cap_first});
+            }
+        }
+    }
+
 }
