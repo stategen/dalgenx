@@ -69,11 +69,20 @@ export namespace ${api}ApiForms {
     </#list>
   }
 
+  /**
+    <#list fun.params as f>
+      <#if !canDrawFormParam(f)>
+          <#continue>
+      </#if>
+    const ${f?cap_first}Editor = formItemConfigMap.${f?cap_first}.Editor;
+    </#list>
+  */
   export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, pagesProps: PagesProps): ${fun?cap_first}FormItemConfigMap => {
   <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
       </#if>
+    /** ${getEditorName(f)} */
     <@assginField fun f 'queryRule' '    '/>
   </#list>
     queryRule.lastOptions__ ? null : queryRule.lastOptions__ = {};
