@@ -278,8 +278,8 @@ config: {
 <#macro formImports>
 import UIUtil from "@utils/UIUtil";
 import {
-  FormItemConfig, FormItemConfigMap, ObjectMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT,
-  TemporalType, PagesProps, rebuildFormItemConfigs, OptionMap
+  FormItemConfig, FormItemConfigMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT,
+  TemporalType, PagesProps, rebuildFormItemConfigs
 } from "@utils/DvaUtil";
 import moment from 'moment';
 </#macro>

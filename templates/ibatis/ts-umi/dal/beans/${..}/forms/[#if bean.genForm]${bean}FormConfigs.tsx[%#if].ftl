@@ -64,13 +64,13 @@ export const get${bean?cap_first}FormItemConfigMap = (${bean?uncap_first}: ${bea
    </#if>
   <@assginField bean f bean?uncap_first '  '/>
 </#list>
-  const componetMap ={};
+  const componentMap ={};
   return {
 <#list bean.allFields as f>
     <#if !canDrawFormField(f)>
         <#continue>
     </#if>
-    ${f?cap_first}: {...${bean?uncap_first}_${f}, initialValue: ${bean?uncap_first}_${f}Value, pagesProps, record: ${bean?uncap_first}, componetMap},
+    ${f?cap_first}: {...${bean?uncap_first}_${f}, initialValue: ${bean?uncap_first}_${f}Value, pagesProps, record: ${bean?uncap_first}, componentMap},
 </#list>
   }
 }

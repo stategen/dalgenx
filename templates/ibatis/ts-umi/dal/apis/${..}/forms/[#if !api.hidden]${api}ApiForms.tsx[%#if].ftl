@@ -73,13 +73,13 @@ export namespace ${api}ApiForms {
   </#list>
 
     queryRule.lastOptions__ ? null: queryRule.lastOptions__ = {};
-    const componetMap ={};
+    const componentMap ={};
     return {
     <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
       </#if>
-      ${f?cap_first}: {...${fun?uncap_first}_${f}, initialValue: ${fun?uncap_first}_${f}Value, pagesProps, record: queryRule, componetMap },
+      ${f?cap_first}: {...${fun?uncap_first}_${f}, initialValue: ${fun?uncap_first}_${f}Value, pagesProps, record: queryRule, componentMap },
     </#list>
     }
   }
