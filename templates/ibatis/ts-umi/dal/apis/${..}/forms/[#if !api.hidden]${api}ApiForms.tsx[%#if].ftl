@@ -16,7 +16,12 @@
 -->
 <@genCopyright api/>
 <@genImports api.imports,'../'/>
-<@formImports/>
+import UIUtil from "@utils/UIUtil";
+import {
+  FormItemConfig, FormItemConfigMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, ObjectMap,
+  TemporalType, PagesProps, rebuildFormItemConfigs
+} from "@utils/DvaUtil";
+import moment from 'moment';
 <#list api.imports as imp>
     <#if imp.isEnum>
 import {${imp?uncap_first}Options} from '../enums/${imp}';
@@ -37,7 +42,6 @@ const ${fun}_${f} = {
 };
 ${fun}_${f}.Editor =
 <@genFormFunctions fun f "  "/>
-
    </#list>
 rebuildFormItemConfigs([
     <#list fun.params as f>
@@ -55,7 +59,8 @@ export namespace ${api}ApiForms {
     <#if !fun.genForm || isEmptyList(fun.params) >
       <#continue >
   </#if>
-  export interface ${api}Api${fun?cap_first}FormItemConfigMap extends FormItemConfigMap {
+
+  export interface ${fun?cap_first}FormItemConfigMap extends FormItemConfigMap {
     <#list fun.params as param>
       <#if !canDrawFormParam(param)>
           <#continue>
@@ -64,24 +69,30 @@ export namespace ${api}ApiForms {
     </#list>
   }
 
-  export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, pagesProps: PagesProps ): ${api}Api${fun?cap_first}FormItemConfigMap => {
+  export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, pagesProps: PagesProps): ${fun?cap_first}FormItemConfigMap => {
   <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
       </#if>
     <@assginField fun f 'queryRule' '    '/>
   </#list>
-
-    queryRule.lastOptions__ ? null: queryRule.lastOptions__ = {};
-    const componentMap ={};
+    queryRule.lastOptions__ ? null : queryRule.lastOptions__ = {};
+    const componentMap = {};
     return {
     <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
       </#if>
-      ${f?cap_first}: {...${fun?uncap_first}_${f}, initialValue: ${fun?uncap_first}_${f}Value, pagesProps, record: queryRule, componentMap },
+      ${f?cap_first}: {
+        ...${fun?uncap_first}_${f},
+        initialValue: ${fun?uncap_first}_${f}Value,
+        pagesProps,
+        record: queryRule,
+        componentMap
+      },
     </#list>
     }
   }
   </#list>
 }
+export default ${api}ApiForms;

@@ -170,7 +170,7 @@ isImage: true,
 isArray: true,
 </#if>
 <#if field.temporalType??>
-temporalType : TemporalType.${field.temporalType},
+temporalType: TemporalType.${field.temporalType},
 format: ${field.temporalType}_FORMAT,
 </#if>
 label: '${field.title}',
@@ -275,14 +275,7 @@ config: {
 <@indent text ind/>
 </#macro>
 
-<#macro formImports>
-import UIUtil from "@utils/UIUtil";
-import {
-  FormItemConfig, FormItemConfigMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT,
-  TemporalType, PagesProps, rebuildFormItemConfigs
-} from "@utils/DvaUtil";
-import moment from 'moment';
-</#macro>
+
 <#macro genBeanType bean genName><#if bean.genericFields?? ><<#list bean.genericFields as g><#if genName?length gt 0>${genName}<#else>${g.genericName}</#if><#if g_has_next>, </#if></#list>></#if></#macro>
 <#function genType p>
     <#if p.isArray>
