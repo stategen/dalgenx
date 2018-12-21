@@ -150,85 +150,7 @@ ${f?cap_first}?: typeof ${bean?uncap_first}_${f} & Partial<FormItemConfig>,
 const ${f.type?uncap_first}SelectOptions= makeSelectOptions(${f.type?uncap_first}Options);
 </#macro>
 
-<#macro  genFieldProps bean field ind>
-<#assign text>
-name: '${field}',
-<#if field.hidden>
-hidden: true,
-</#if>
-<#if field.isId>
-isId: true,
-</#if>
-<#if field.isEnum>
-isEnum: true,
-</#if>
-<#if field.isImage>
-isImage: true,
-</#if>
-<#if field.isArray>
-isArray: true,
-</#if>
-<#if field.temporalType??>
-temporalType: TemporalType.${field.temporalType},
-format: ${field.temporalType}_FORMAT,
-</#if>
-label: '${field.title}',
-<#if isNotEmpty(field.editorType!)>
-type: '${field.editorType}',
-</#if>
-<#if isNotEmpty(field.changeBy!)>
-changeBy: '${field.changeBy}',
-</#if>
-<#if field.optionConfig??>
-optionConfig: {
-  <#if field.isEnum>
-  options: <#if field.isGeneric>${field.generic?uncap_first}<#else>${field.type?uncap_first}</#if>Options,
-  </#if>
-  <#if field.optionConfig.api??>
-  api: '${field.optionConfig.api}',
-  </#if>
-  <#if field.optionConfig.none??>
-  none: '${field.optionConfig.none}',
-  </#if>
-  <#if field.optionConfig.defaultOption??>
-  defaultOption: '${field.optionConfig.defaultOption}',
-  </#if>
-},
-</#if>
-UIEditor: UIUtil.Build${getEditorName(field)}Editor,
-Editor: UIUtil.Build${getEditorName(field)}Editor,
-config: {
-  initialValue: null,
-    <#if field.rules?size gt 0>
-  rules: [
-        <#list field.rules as rule>
-    {
-            <#if (rule.required?? && rule.required ) || (field.required?? && field.required)>
-      required: true,
-            </#if>
-            <#if rule.max??>
-      max: ${rule.max?c},
-            </#if>
-            <#if rule.min??>
-      min: ${rule.min?c},
-            </#if>
-            <#if rule.message??>
-      message: "${rule.message}",
-            </#if>
-            <#if rule.pattern??>
-      pattern: /${rule.pattern}/,
-            </#if>
-            <#if rule.whitespace??>
-      whitespace: true,
-            </#if>
-    },
-        </#list>
-  ],
-    </#if>
-}
-</#assign>
-<@indent text ind/>
-</#macro>
+
 
 <#function  genValueConfigs field bean>
   <#assign value>
@@ -243,42 +165,6 @@ config: {
   </#assign>
   <#return value>
 </#function>
-
-<#function  getEditorName field>
-    <#assign configName=field>
-    <#if field.editorType?length gt 0>
-        <#assign customBuild=field.editorType?cap_first>
-    <#elseif field.temporalType??>
-        <#assign format>${field.temporalType}_FORMAT</#assign>
-        <#if field.temporalType=='TIMESTAMP'>
-            <#assign customBuild='TimeStamp'>
-        <#elseif field.temporalType=='TIME'>
-            <#assign customBuild='TimePicker'>
-        <#else>
-            <#assign customBuild='DatePicker'>
-        </#if>
-        <#assign customBuild>${customBuild}</#assign>
-    <#elseif field.isEnum>
-        <#assign  customBuild>Enum</#assign>
-    <#elseif field.isImage>
-        <#assign customBuild>Image</#assign>
-    <#elseif field.optionConfig??>
-        <#assign customBuild>Select</#assign>
-    <#else>
-        <#assign customBuild='Input'>
-    </#if>
-    <#return customBuild>
-</#function>
-<#macro genFormFunctions fun field ind>
-  <#assign customBuild=getEditorName(field)>
-  <#assign text>
-((props?: UIUtil.${customBuild}EditorProps) => {
-  return UIUtil.rebuildEditor(props, ${fun?uncap_first}_${field});
-}) as any;
-</#assign>
-<@indent text ind/>
-</#macro>
-
 
 <#macro genBeanType bean genName><#if bean.genericFields?? ><<#list bean.genericFields as g><#if genName?length gt 0>${genName}<#else>${g.genericName}</#if><#if g_has_next>, </#if></#list>></#if></#macro>
 <#function genType p>

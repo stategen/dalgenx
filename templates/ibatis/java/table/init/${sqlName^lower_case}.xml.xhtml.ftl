@@ -156,7 +156,7 @@
           <#continue>
         <#elseif sqlNameUp?ends_with('IMG') || sqlNameUp?ends_with('IMAGE') || sqlNameUp?ends_with('ICON') || sqlNameUp?ends_with('URL')>
           <#continue>
-        <#elseif StringUtil.endsWithIgnoreCase(column.sqlName,"id") || StringUtil.endsWithIgnoreCase(column.sqlName,"type") || (column.columnAlias?? && StringUtil.containsIgnoreCase(column.columnAlias,"enum"))>
+        <#elseif StringUtil.endsWithIgnoreCase(column.sqlName,"id") || StringUtil.endsWithIgnoreCase(column.sqlName,"type") || StringUtil.endsWithIgnoreCase(column.sqlName,"enum") || StringUtil.containsIgnoreCase(column.columnAlias!,"enum")>
           <#assign beginIs>
             ${beginIs?trim}
             <isNull property="${column.columnName}">
@@ -250,7 +250,7 @@
     </#if>
     </#list>-->
     <#list table.columns as column>
-    <#if column.unique || column.pk>
+    <#if column.unique || column.pk || StringUtil.containsIgnoreCase(column.columnAlias!,"fk") || StringUtil.containsIgnoreCase(column.columnAlias!,"select")>
 
     <operation name="get${table.className}sBy${column.columnName?cap_first}s" multiplicity="many" remarks="">
         <sql>

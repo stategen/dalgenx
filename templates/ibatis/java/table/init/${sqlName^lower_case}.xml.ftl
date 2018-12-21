@@ -50,7 +50,7 @@
         ${commonOrderByFields}
     </sql>
     <#list table.columns as column>
-        <#if column.unique || column.pk>
+        <#if column.unique || column.pk || StringUtil.containsIgnoreCase(column.columnAlias!,"fk") || StringUtil.containsIgnoreCase(column.columnAlias!,"select")>
     <sql id="get${table.className}sBy${column.columnName?cap_first}sOrderBy">
         ${commonOrderByFields}
     </sql>
