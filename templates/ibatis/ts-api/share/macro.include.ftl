@@ -161,7 +161,6 @@ isId: true,
 </#if>
 <#if field.isEnum>
 isEnum: true,
-options: <#if field.isGeneric>${field.generic?uncap_first}<#else>${field.type?uncap_first}</#if>Options,
 </#if>
 <#if field.isImage>
 isImage: true,
@@ -177,14 +176,19 @@ label: '${field.title}',
 <#if isNotEmpty(field.editorType!)>
 type: '${field.editorType}',
 </#if>
+<#if isNotEmpty(field.changeBy!)>
+changeBy: '${field.changeBy}',
+</#if>
 <#if field.optionConfig??>
 optionConfig: {
+  <#if field.isEnum>
+  options: <#if field.isGeneric>${field.generic?uncap_first}<#else>${field.type?uncap_first}</#if>Options,
+  </#if>
+  <#if field.optionConfig.api??>
   api: '${field.optionConfig.api}',
+  </#if>
   <#if field.optionConfig.none??>
   none: '${field.optionConfig.none}',
-  </#if>
-  <#if field.optionConfig.changeBy??>
-  changeBy: '${field.optionConfig.changeBy}',
   </#if>
   <#if field.optionConfig.defaultOption??>
   defaultOption: '${field.optionConfig.defaultOption}',
