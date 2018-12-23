@@ -63,6 +63,7 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
 </#macro>
 <#macro  genFieldProps bean field ind>
 <#assign text>
+<#assign editorName>${getEditorName(field)}</#assign>
 name: '${field}',
 <#if field.hidden>
 hidden: true,
@@ -106,10 +107,15 @@ optionConfig: {
   </#if>
 },
 </#if>
-UIEditor: UIUtil.Build${getEditorName(field)}Editor,
-Editor: UIUtil.Build${getEditorName(field)}Editor,
+UIEditor: UIUtil.Build${editorName}Editor,
+Editor: UIUtil.Build${editorName}Editor,
+<#if isNotEmpty(field.props!)>
+props: {${field.props}},
+</#if>
 config: {
-  initialValue: null,
+  <#if editorName=='Switch'>
+  valuePropName: 'checked',
+  </#if>
     <#if field.rules?size gt 0>
   rules: [
         <#list field.rules as rule>

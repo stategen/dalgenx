@@ -70,8 +70,6 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
     @Id
     <#elseif !column.nullable>
     @NotNull
-    <#elseif column.indexed>
-    @NotNull
     <#elseif column.unique>
     @NotNull
     </#if>
