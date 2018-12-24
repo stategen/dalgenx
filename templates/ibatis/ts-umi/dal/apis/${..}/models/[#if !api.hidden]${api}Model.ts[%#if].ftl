@@ -59,6 +59,7 @@ export class ${api}Command extends BaseCommand {
 </#function>
 <#list api.functions as fun>
   <#if fun.state.genEffect>
+
   <#assign genEffect=true>
   /** ${fun.description} */
   static * ${fun}_effect({payload}, {call, put, select}) {
@@ -144,12 +145,14 @@ export class ${api}Command extends BaseCommand {
     };
     return newPayload;
   };
+  <#if canGenReducer(fun)>
 
   <#assign reducerName>${getReduceName(fun, genEffect)}</#assign>
   static ${reducerName}_type(payload) {
     return {type: "${reducerName}", payload: payload};
   }
-    <#if fun.return.isPageList && fun.area??>
+  </#if>
+      <#if fun.return.isPageList && fun.area??>
 
   static * ${nextEffectName(fun)}_effect({payload}, {call, put, select}) {
     const old${genArea(fun.area)?cap_first} = yield select((_) => _.${api?uncap_first}.${genArea(fun.area)});
@@ -173,6 +176,7 @@ export class ${api}Command extends BaseCommand {
   }
       </#if>
   </#if>
+  <#if canGenReducer(fun)>
 
   /** ${fun.description} <#if fun.state.genEffect> 成功后</#if> 更新状态*/
   static ${getReduceName(fun, fun.state.genEffect)}_reducer = (state: ${api}State, payload): ${api}State => {
@@ -210,7 +214,7 @@ export class ${api}Command extends BaseCommand {
       payload,
     );
   };
-
+  </#if>
 </#list>
 }
 
@@ -268,10 +272,10 @@ ${api?uncap_first}Model.reducers.${getReduceName(setupName(), true)} = (state: $
     payload,
   );
 };
-
 </#if>
 <#list api.functions as fun>
 <#if fun.state.genEffect>
+
 /** ${fun.description} */
 ${api?uncap_first}Model.effects.${fun} = function* ({payload}, {call, put, select}) {
   const newPayload = yield ${api}Command.${fun}_effect({payload}, {call, put, select});
@@ -292,9 +296,10 @@ ${api?uncap_first}Model.effects.${refreshEffectName(fun)} = function* ({payload}
 };
 </#if>
 </#if>
+<#if canGenReducer(fun)>
 
 ${api?uncap_first}Model.reducers.${getReduceName(fun, fun.state.genEffect)} = (state: ${api}State, {payload}): ${api}State => {
   return ${api}Command.${getReduceName(fun, fun.state.genEffect)}_reducer(state, payload);
 };
-
+</#if>
 </#list>

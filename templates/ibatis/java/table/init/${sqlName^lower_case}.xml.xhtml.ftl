@@ -154,7 +154,7 @@
         <#assign sqlNameUp=column.sqlName?upper_case>
         <#if CollectionUtil.mapContainsKey(soft_delete_fields,sqlNameUp)>
           <#continue>
-        <#elseif sqlNameUp?ends_with('IMG') || sqlNameUp?ends_with('IMAGE') || sqlNameUp?ends_with('ICON') || sqlNameUp?ends_with('URL')>
+        <#elseif sqlNameUp?ends_with('IMG') || sqlNameUp?ends_with('IMAGE') || sqlNameUp?ends_with('ICON') || sqlNameUp?ends_with('URL') || sqlNameUp?ends_with('FILE')>
           <#continue>
         <#elseif StringUtil.endsWithIgnoreCase(column.sqlName,"id") || StringUtil.endsWithIgnoreCase(column.sqlName,"type") || StringUtil.endsWithIgnoreCase(column.sqlName,"enum") || StringUtil.containsIgnoreCase(column.columnAlias!,"enum")>
           <#assign beginIs>

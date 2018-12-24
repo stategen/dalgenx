@@ -22,7 +22,6 @@ import {apiUrlKey} from "../${configDir}/${projectName}-config";
 
 export default class ${api}Apis {
 <#list api.functions as fun>
-    <#assign p_is_empty=isEmptyList(fun.params)>
     <#assign method><#if fun.method??>${fun.method}<#else>GET</#if></#assign>
     <#assign url><#list fun.urlParts as u><#if u.isParam>:${u}<#else>${u}</#if></#list></#assign>
   /**
@@ -30,7 +29,7 @@ export default class ${api}Apis {
    * ${fun.description}
    */
   <#assign one="">
-  static ${fun}(<#if p_is_empty>params?: {}<#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>params: { ${genTypeAndNames(fun.params,true)} }<#if fun.params?size==1><#assign one=fun.params[0]> | ${genType(one)}</#if></#if></#if>): ${genType(fun.return)} {
+  static ${fun}(<#if isEmptyList(fun.params)>params?: {}<#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>params: { ${genTypeAndNames(fun.params,true)} }<#if fun.params?size==1><#assign one=fun.params[0]> | ${genType(one)}</#if></#if></#if>): ${genType(fun.return)} {
     let requestInit: RequestInitEx = <RequestInitEx>{};
     requestInit.apiUrlKey = apiUrlKey;
     requestInit.url = '${url}';

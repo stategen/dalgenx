@@ -66,7 +66,9 @@ interface ${api}InitReducers<S extends ${api}State> extends Reducers<S> {
 </#if>
 <#list api.functions as fun>
   /** ${fun.description} <#if fun.state.genEffect> 成功后</#if> 更新状态*/
+  <#if canGenReducer(fun)>
   ${getReduceName(fun, fun.state.genEffect)}?: Reducer<${api}State>,
+  </#if>
 </#list>
 }
 
@@ -219,6 +221,7 @@ export class ${api}Dispatch {
       </#if>
   <#else>
 
+  <#if canGenReducer(fun)>
   static ${getReduceName(fun, fun.state.genEffect)}_reducer(${api?uncap_first}State: ${api}State) {
     <#if !findUpdateState>
         <#if fun=="updateState"><#assign findUpdateState=true></#if>
@@ -230,6 +233,7 @@ export class ${api}Dispatch {
       }
     }
   }
+  </#if>
   </#if>
 
 </#list>

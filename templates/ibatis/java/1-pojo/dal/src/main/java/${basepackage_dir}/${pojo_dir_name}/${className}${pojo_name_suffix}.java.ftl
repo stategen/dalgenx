@@ -79,14 +79,14 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
     <#if column.javaType="java.lang.String">
     @Max(${column.size})
       <#if column.JDBCType='LONGVARCHAR'>
-    @Editor(EditorType.textArea)
+    @Editor(EditorType.Textarea.class)
       </#if>
     </#if>
     <#if column.javaType="java.util.Date">
     @Temporal(TemporalType.${column.JDBCType})
     </#if>
     <#if StringUtil.endsWithIgnoreCase(column.sqlName,"img") || StringUtil.endsWithIgnoreCase(column.sqlName,"image") || StringUtil.endsWithIgnoreCase(column.sqlName,"icon")>
-    @Image
+    @Editor(EditorType.Image.class)
     </#if>
     private ${column.shortJavaType} ${column.columnName};
 

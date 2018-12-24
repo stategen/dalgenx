@@ -38,6 +38,9 @@ ${dest}${line}
 </#macro>
 <#macro genTypeWithGeneric r><#if r.isArray>${r.generic}[]<#else>${r.type}<#if r.isGeneric><${r.generic}></#if></#if></#macro>
 <#macro getSimpleType r><#if r.isArray>${r.generic}[]<#else>${r.type}</#if></#macro>
+<#function canGenReducer fun>
+<#return fun.state.genEffect || fun.state.genReducer>
+</#function>
 <#function getReduceName fun genEffect><#assign text>${fun}<#if genEffect>_success</#if></#assign><#return text></#function>
 <#function isNotEmpty str>
   <#return str?? && str?length gt 0>

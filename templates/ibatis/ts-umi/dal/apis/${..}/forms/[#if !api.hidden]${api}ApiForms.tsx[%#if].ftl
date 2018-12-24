@@ -43,8 +43,6 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
         <#assign customBuild>${customBuild}</#assign>
     <#elseif field.isEnum>
         <#assign  customBuild>Select</#assign>
-    <#elseif field.isImage>
-        <#assign customBuild>Image</#assign>
     <#elseif field.optionConfig??>
         <#assign customBuild>Select</#assign>
     <#else>
@@ -73,9 +71,6 @@ isId: true,
 </#if>
 <#if field.isEnum>
 isEnum: true,
-</#if>
-<#if field.isImage>
-isImage: true,
 </#if>
 <#if field.isArray>
 isArray: true,
@@ -115,6 +110,9 @@ props: {${field.props}},
 config: {
   <#if editorName=='Switch'>
   valuePropName: 'checked',
+  </#if>
+  <#if editorName=='Image' || editorName=='Upload'>
+  valuePropName: 'fileList',
   </#if>
     <#if field.rules?size gt 0>
   rules: [
