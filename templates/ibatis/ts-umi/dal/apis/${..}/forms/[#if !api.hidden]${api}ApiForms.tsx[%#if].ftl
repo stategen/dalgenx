@@ -43,7 +43,7 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
         <#assign customBuild>${customBuild}</#assign>
     <#elseif field.isEnum>
         <#assign  customBuild>Select</#assign>
-    <#elseif field.optionConfig??>
+    <#elseif field.referConfig??>
         <#assign customBuild>Select</#assign>
     <#else>
         <#assign customBuild='Input'>
@@ -86,19 +86,19 @@ type: '${field.editorType}',
 <#if isNotEmpty(field.changeBy!)>
 changeBy: '${field.changeBy}',
 </#if>
-<#if field.optionConfig??>
-optionConfig: {
+<#if field.referConfig??>
+referConfig: {
   <#if field.isEnum>
   options: <#if field.isGeneric>${field.generic?uncap_first}<#else>${field.type?uncap_first}</#if>Options,
   </#if>
-  <#if field.optionConfig.api??>
-  api: '${field.optionConfig.api}',
+  <#if field.referConfig.api??>
+  api: '${field.referConfig.api}',
   </#if>
-  <#if field.optionConfig.none??>
-  none: '${field.optionConfig.none}',
+  <#if field.referConfig.none??>
+  none: '${field.referConfig.none}',
   </#if>
-  <#if field.optionConfig.defaultOption??>
-  defaultOption: '${field.optionConfig.defaultOption}',
+  <#if field.referConfig.referField??>
+  referField: '${field.referConfig.referField}',
   </#if>
 },
 </#if>
@@ -111,9 +111,9 @@ config: {
   <#if editorName=='Switch'>
   valuePropName: 'checked',
   </#if>
-  <#if editorName=='Image' || editorName=='Upload'>
+<#--  <#if editorName=='Image' || editorName=='Upload'>
   valuePropName: 'fileList',
-  </#if>
+  </#if>-->
     <#if field.rules?size gt 0>
   rules: [
         <#list field.rules as rule>
