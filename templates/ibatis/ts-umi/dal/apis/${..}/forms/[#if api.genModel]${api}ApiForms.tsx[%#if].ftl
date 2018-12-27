@@ -54,7 +54,7 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
   <#assign customBuild=getEditorName(field)>
   <#assign text>
 ((props?: UIUtil.${customBuild}EditorProps) => {
-  return UIUtil.rebuildEditor(props, ${fun?uncap_first}_${field});
+  return UIUtil.rebuildEditor(props, ${fun?uncap_first}FormItemConfigMap.${field?cap_first});
 }) as any;
 </#assign>
 <@indent text ind/>
@@ -104,6 +104,7 @@ referConfig: {
 </#if>
 UIEditor: UIUtil.Build${editorName}Editor,
 Editor: UIUtil.Build${editorName}Editor,
+nullLablel: '${field.nullLablel}',
 <#if isNotEmpty(field.props!)>
 props: {${field.props}},
 </#if>
@@ -157,8 +158,6 @@ config: {
 const ${fun}_${f} = {
   <@genFieldProps fun f "  "/>
 };
-${fun}_${f}.Editor =
-<@genFormFunctions fun f "  "/>
    </#list>
 rebuildFormItemConfigs([
     <#list fun.params as f>
@@ -193,7 +192,22 @@ export namespace ${api}ApiForms {
       </#if>
     const ${f?cap_first}Editor = formItemConfigMap.${f?cap_first}.Editor;
     </#list>
+
+      <#list fun.params as f>
+          <#if !canDrawFormParam(f)>
+              <#continue>
+          </#if>
+    <${f?cap_first}Editor
+    >
+    </${f?cap_first}Editor>
+      </#list>
   */
+  <#list fun.params as f>
+      <#if !canDrawFormParam(f)>
+          <#continue>
+      </#if>
+  let ${fun}_${f?cap_first}Editor = null;
+  </#list>
   export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, pagesProps: PagesProps): ${fun?cap_first}FormItemConfigMap => {
   <#list fun.params as f>
       <#if !canDrawFormParam(f)>
@@ -204,20 +218,31 @@ export namespace ${api}ApiForms {
   </#list>
     queryRule.lastOptions__ ? null : queryRule.lastOptions__ = {};
     const componentMap = {};
-    return {
+    const ${fun?uncap_first}FormItemConfigMap = {
     <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
       </#if>
       ${f?cap_first}: {
         ...${fun?uncap_first}_${f},
-        initialValue: ${fun?uncap_first}_${f}Value,
+        config: {...${fun?uncap_first}_${f}.config, initialValue: ${fun?uncap_first}_${f}Value},
         pagesProps,
         record: queryRule,
         componentMap
       },
     </#list>
     }
+  <#list fun.params as f>
+      <#if !canDrawFormParam(f)>
+          <#continue>
+      </#if>
+    if (!${fun}_${f?cap_first}Editor) {
+      ${fun}_${f?cap_first}Editor =
+      <@genFormFunctions fun f "        "/>
+    }
+    ${fun?uncap_first}FormItemConfigMap.${f?cap_first}.Editor = ${fun}_${f?cap_first}Editor;
+  </#list>
+    return ${fun?uncap_first}FormItemConfigMap;
   }
   </#list>
 }
