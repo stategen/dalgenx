@@ -50,15 +50,6 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
     </#if>
     <#return customBuild>
 </#function>
-<#macro genFormFunctions fun field ind>
-  <#assign customBuild=getEditorName(field)>
-  <#assign text>
-((props?: UIUtil.${customBuild}EditorProps) => {
-  return UIUtil.rebuildEditor(props, ${fun?uncap_first}FormItemConfigMap.${field?cap_first});
-}) as any;
-</#assign>
-<@indent text ind/>
-</#macro>
 <#macro  genFieldProps bean field ind>
 <#assign text>
 <#assign editorName>${getEditorName(field)}</#assign>
@@ -202,12 +193,27 @@ export namespace ${api}ApiForms {
     </${f?cap_first}Editor>
       </#list>
   */
+  let ${fun?uncap_first}FormItemConfigMap = null;
+  export const remove${fun?cap_first}FormItemConfigMapRef = ((ref) => ref ? null : ${fun?uncap_first}FormItemConfigMap = null);
   <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
       </#if>
-  let ${fun}_${f?cap_first}Editor = null;
+      <#assign customBuild=getEditorName(f)>
+  ${fun}_${f}.Editor = ((props?: UIUtil.${customBuild}EditorProps) => {
+      const formItemConfig = ${fun?uncap_first}FormItemConfigMap.${f?cap_first};
+      const UIEditor = formItemConfig.UIEditor;
+      return (
+        <UIEditor
+          ref={remove${fun?cap_first}FormItemConfigMapRef}
+          formItemConfig={formItemConfig}
+          {...props}
+        >
+        </UIEditor>
+      )
+    }) as any;
   </#list>
+
   export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, pagesProps: PagesProps): ${fun?cap_first}FormItemConfigMap => {
   <#list fun.params as f>
       <#if !canDrawFormParam(f)>
@@ -218,7 +224,7 @@ export namespace ${api}ApiForms {
   </#list>
     queryRule.lastOptions__ ? null : queryRule.lastOptions__ = {};
     const componentMap = {};
-    const ${fun?uncap_first}FormItemConfigMap = {
+    ${fun?uncap_first}FormItemConfigMap = {
     <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
@@ -232,16 +238,6 @@ export namespace ${api}ApiForms {
       },
     </#list>
     }
-  <#list fun.params as f>
-      <#if !canDrawFormParam(f)>
-          <#continue>
-      </#if>
-    if (!${fun}_${f?cap_first}Editor) {
-      ${fun}_${f?cap_first}Editor =
-      <@genFormFunctions fun f "        "/>
-    }
-    ${fun?uncap_first}FormItemConfigMap.${f?cap_first}.Editor = ${fun}_${f?cap_first}Editor;
-  </#list>
     return ${fun?uncap_first}FormItemConfigMap;
   }
   </#list>
