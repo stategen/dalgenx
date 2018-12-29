@@ -177,22 +177,21 @@ export namespace ${api}ApiForms {
   }
 
   /**
-    <#list fun.params as f>
-      <#if !canDrawFormParam(f)>
-          <#continue>
-      </#if>
-    const ${f?cap_first}Editor = formItemConfigMap.${f?cap_first}.Editor;
-    </#list>
-
-      <#list fun.params as f>
-          <#if !canDrawFormParam(f)>
-              <#continue>
-          </#if>
-    <${f?cap_first}Editor
-    >
-    </${f?cap_first}Editor>
-      </#list>
-  */
+   <#list fun.params as f>
+     <#if !canDrawFormParam(f)>
+         <#continue>
+     </#if>
+   const ${f?cap_first}Editor = formItemConfigMap.${f?cap_first}.Editor;
+   </#list>
+     <#list fun.params as f>
+         <#if !canDrawFormParam(f)>
+             <#continue>
+         </#if>
+   <${f?cap_first}Editor
+   >
+   </${f?cap_first}Editor>
+     </#list>
+   */
   let ${fun?uncap_first}FormItemConfigMap = null;
   export const remove${fun?cap_first}FormItemConfigMapRef = ((ref) => ref ? null : ${fun?uncap_first}FormItemConfigMap = null);
   <#list fun.params as f>
@@ -201,17 +200,8 @@ export namespace ${api}ApiForms {
       </#if>
       <#assign customBuild=getEditorName(f)>
   ${fun}_${f}.Editor = ((props?: UIUtil.${customBuild}EditorProps) => {
-      const formItemConfig = ${fun?uncap_first}FormItemConfigMap.${f?cap_first};
-      const UIEditor = formItemConfig.UIEditor;
-      return (
-        <UIEditor
-          ref={remove${fun?cap_first}FormItemConfigMapRef}
-          formItemConfig={formItemConfig}
-          {...props}
-        >
-        </UIEditor>
-      )
-    }) as any;
+    return UIUtil.rebuildEditor(props, ${fun?uncap_first}FormItemConfigMap.${f?cap_first}, remove${fun?cap_first}FormItemConfigMapRef);
+  }) as any;
   </#list>
 
   export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, pagesProps: PagesProps): ${fun?cap_first}FormItemConfigMap => {
