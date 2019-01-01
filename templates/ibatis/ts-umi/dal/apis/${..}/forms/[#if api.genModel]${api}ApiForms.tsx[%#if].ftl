@@ -85,11 +85,34 @@ referConfig: {
   <#if field.referConfig.api??>
   api: '${field.referConfig.api}',
   </#if>
-  <#if field.referConfig.none??>
-  none: '${field.referConfig.none}',
-  </#if>
   <#if field.referConfig.referField??>
   referField: '${field.referConfig.referField}',
+  </#if>
+  <#if field.referConfig.optionConvertor??>
+      <#assign url>${field.referConfig.optionConvertor.url!}</#assign>
+      <#assign parentId>${field.referConfig.optionConvertor.parentId!}</#assign>
+      <#assign value>${field.referConfig.optionConvertor.value!}</#assign>
+      <#assign title>${field.referConfig.optionConvertor.title!}</#assign>
+      <#assign label>${field.referConfig.optionConvertor.label!}</#assign>
+  <#if isNotEmpty(value) || isNotEmpty(title) || isNotEmpty(url) || isNotEmpty(parentId)>
+  optionConvertor: {
+    <#if isNotEmpty(value)>
+    value: '${value}',
+    </#if>
+    <#if isNotEmpty(title)>
+    title: '${title}',
+    </#if>
+    <#if isNotEmpty(url)>
+    url: '${url}',
+    </#if>
+    <#if isNotEmpty(parentId)>
+    parentId: '${parentId}',
+    </#if>
+    <#if isNotEmpty(label)>
+    label: '${label}',
+    </#if>
+  },
+  </#if>
   </#if>
 },
 </#if>
