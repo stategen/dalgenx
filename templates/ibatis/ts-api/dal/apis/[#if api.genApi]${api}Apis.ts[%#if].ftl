@@ -39,7 +39,7 @@ export default class ${api}Apis {
     requestInit.mediaType = MediaType.FORM;
     <#else>
     </#if>
-    requestInit.data = <#if fun.json??>${fun.json}<#else><#if one?has_content>params instanceof Object ? params : {${one}: params}<#else>params</#if></#if>;
+    requestInit.data = <#if fun.json??>${fun.json}<#else><#if one?has_content>(params instanceof Object && !Array.isArray(params)) ? params : {${one}: params}<#else>params</#if></#if>;
     requestInit.method = Method.${method};
     return Net.fetch(requestInit);
   }
