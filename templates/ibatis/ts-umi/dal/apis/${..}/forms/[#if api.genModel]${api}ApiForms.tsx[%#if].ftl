@@ -19,7 +19,7 @@
 import UIUtil from "@utils/UIUtil";
 import {
   FormItemConfig, FormItemConfigMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, ObjectMap,
-  TemporalType, PagesProps, rebuildFormItemConfigs
+  TemporalType, FormProps, confirmChanges<#if web!>, FormItemProps</#if>
 } from "@utils/DvaUtil";
 import moment from 'moment';
 <#list api.imports as imp>
@@ -173,7 +173,7 @@ const ${fun}_${f} = {
   <@genFieldProps fun f "  "/>
 };
    </#list>
-rebuildFormItemConfigs([
+confirmChanges([
     <#list fun.params as f>
         <#if !canDrawFormParam(f)>
             <#continue>
@@ -190,7 +190,7 @@ export namespace ${api}ApiForms {
       <#continue >
   </#if>
 
-  export interface ${fun?cap_first}FormItemConfigMap extends FormItemConfigMap {
+  export interface I${fun?cap_first}FormItemConfigMap extends FormItemConfigMap {
     <#list fun.params as param>
       <#if !canDrawFormParam(param)>
           <#continue>
@@ -199,15 +199,15 @@ export namespace ${api}ApiForms {
     </#list>
   }
 
-  let ${fun?uncap_first}FormItemConfigMap = null;
-  export const remove${fun?cap_first}FormItemConfigMapRef = ((ref) => ref ? null : ${fun?uncap_first}FormItemConfigMap = null);
+  let ${removeGet(fun)?cap_first}FormItemConfigMap = null;
+  export const remove${fun?cap_first}FormItemConfigMapRef = ((ref) => ref ? null : ${removeGet(fun)?cap_first}FormItemConfigMap = null);
   <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
       </#if>
       <#assign customBuild=getEditorName(f)>
   ${fun}_${f}.Editor = ((props?: UIUtil.${customBuild}EditorProps) => {
-    return UIUtil.rebuildEditor(props, ${fun?uncap_first}FormItemConfigMap.${f?cap_first}, remove${fun?cap_first}FormItemConfigMapRef);
+    return UIUtil.rebuildEditor(props, ${removeGet(fun)?cap_first}FormItemConfigMap.${f?cap_first}, remove${fun?cap_first}FormItemConfigMapRef);
   }) as any;
   </#list>
 
@@ -216,7 +216,7 @@ export namespace ${api}ApiForms {
      <#if !canDrawFormParam(f)>
          <#continue>
      </#if>
-   const ${f?cap_first}Editor = formItemConfigMap.${f?cap_first}.Editor;
+   const ${f?cap_first}Editor = ${removeGet(fun)?uncap_first}FormItemConfigMap.${f?cap_first}.Editor;
    </#list>
      <#list fun.params as f>
          <#if !canDrawFormParam(f)>
@@ -227,7 +227,7 @@ export namespace ${api}ApiForms {
    </${f?cap_first}Editor>
      </#list>
    */
-  export const get${fun?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, pagesProps: PagesProps): ${fun?cap_first}FormItemConfigMap => {
+  export const get${removeGet(fun)?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, formProps?: FormProps<#if web!>, formItemProps?: FormItemProps</#if>): I${fun?cap_first}FormItemConfigMap => {
   <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
@@ -237,7 +237,7 @@ export namespace ${api}ApiForms {
   </#list>
     queryRule.lastOptions__ ? null : queryRule.lastOptions__ = {};
     const componentMap = {};
-    ${fun?uncap_first}FormItemConfigMap = {
+    ${removeGet(fun)?cap_first}FormItemConfigMap = {
     <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
@@ -245,13 +245,14 @@ export namespace ${api}ApiForms {
       ${f?cap_first}: {
         ...${fun?uncap_first}_${f},
         config: {...${fun?uncap_first}_${f}.config, initialValue: ${fun?uncap_first}_${f}Value},
-        pagesProps,
+        formProps,
         record: queryRule,
-        componentMap
+        componentMap,
+        <#if web!>formItemProps,</#if>
       },
     </#list>
     }
-    return ${fun?uncap_first}FormItemConfigMap;
+    return ${removeGet(fun)?cap_first}FormItemConfigMap;
   }
   </#list>
 }

@@ -249,3 +249,6 @@ const ${bean?uncap_first}_${f}Value = ${value};
 <@indent text ind/>
 </#if>
 </#macro>
+<#function removeGet name>
+  <#return StringUtil.trimePrefixIgnoreCase(name,'get')>
+</#function>
