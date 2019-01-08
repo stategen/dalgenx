@@ -15,10 +15,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <@genCopyright bean/>
-import {TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT} from "@utils/DvaUtil";
+import {TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, ColumnConfig, KeyValue, TemporalType} from "@utils/DvaUtil";
 import ${bean} from "../beans/${bean}"
-import {ColumnProps} from "antd/lib/table";
-import moment from 'moment';
+import UIColumns from "@utils/UIColumns";
 <#list bean.imports as imp>
     <#if imp.isEnum>
 import {${imp?uncap_first}Options} from '../enums/${imp}';
@@ -26,49 +25,33 @@ import {${imp?uncap_first}Options} from '../enums/${imp}';
 </#list>
 
 <#assign genericProps><#if bean.genericFields?? ><<#list bean.genericFields as g>${g.genericName}<#if g_has_next>,</#if></#list>></#if></#assign>
-export interface ${bean}Columns<${bean?substring(0,1)}> {
-<#list bean.allFields as f>
-    <#if !canDrawFormField(f)>
-      <#continue>
-    </#if>
-    <#if (f.description?length gt 0)>
-  /** ${f.description}  ${f.temporalType!}*/
-    </#if>
-  ${f}?: ColumnProps<${bean?substring(0,1)}>,
-
-</#list>
- /** 操作 */
- Operation?: ColumnProps<${bean?substring(0,1)}>,
-
- [columnName: string]: ColumnProps<${bean?substring(0,1)}>,
-
-}
-
-export const ${bean?uncap_first}DefaultColumns: ${bean}Columns<${bean}${genericProps}> = {
+namespace ${bean}Columns {
 
   <#list bean.allFields as f>
-  <#if !canDrawFormField(f)>
-      <#continue>
-  </#if>
   <#if (f.description?length gt 0)>
   /** ${f.description}  ${f.temporalType!}*/
   </#if>
-  ${f}: {
-    title: '${f.title}',
-    dataIndex: '${f}',
-    key: '${f}',
-    <#if f.temporalType??>
-      <#assign format>${f.temporalType}_FORMAT</#assign>
-    render: (text: any, record: ${bean}${genericProps}, index: number) => record.${f} ? moment(record.${f}).format(${format}) : null,
-    <#elseif f.isImage>
-    render: (text: any, record: ${bean}${genericProps}, index: number) => <img width={24} src={text} />,
-    <#elseif f.isEnum>
-    render: (text: any, record: ${bean}${genericProps}, index: number) => {
-      const optionProp = ${f.type?uncap_first}Options[text];
-      return optionProp != null ? optionProp.title : null;
+  export const ${f} = {
+    <@genFieldProps bean f '    '/>
+    <#if !f.noJson>
+        <#assign edidtorName>${getEditorName(f)}</#assign>
+    render: (text: any, record: ${bean}${genericProps}, index: number) =>{
+      return ${f}.columnRender(record, text, index, ${f});
     },
     </#if>
-  },
+  } as ColumnConfig<${bean}${genericProps}>;
 
   </#list>
+
+  export const ${bean?uncap_first}columns = {
+    <#list bean.allFields as f>
+       <#if !canDrawFormField(f)>
+           <#continue>
+       </#if>
+    ${f},
+    </#list>
+  }
+
 }
+
+export default ${bean}Columns;

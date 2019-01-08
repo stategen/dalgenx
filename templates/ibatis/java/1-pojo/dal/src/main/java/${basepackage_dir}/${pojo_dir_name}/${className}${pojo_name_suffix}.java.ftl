@@ -85,9 +85,6 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
     <#if column.javaType="java.util.Date">
     @Temporal(TemporalType.${column.JDBCType})
     </#if>
-    <#if StringUtil.endsWithIgnoreCase(column.sqlName,"img") || StringUtil.endsWithIgnoreCase(column.sqlName,"image") || StringUtil.endsWithIgnoreCase(column.sqlName,"icon")>
-    @Editor(EditorType.Image.class)
-    </#if>
     private ${column.shortJavaType} ${column.columnName};
 
   </#list>
@@ -127,7 +124,8 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
     @Temporal(TemporalType.${column.JDBCType})
     </#if>
     </#if>
-    private transient ${param.preferredParameterJavaType} ${param.paramName?uncap_first};
+    @JSONField(serialize = false)
+    private ${param.preferredParameterJavaType} ${param.paramName?uncap_first};
 
 </#list>
 

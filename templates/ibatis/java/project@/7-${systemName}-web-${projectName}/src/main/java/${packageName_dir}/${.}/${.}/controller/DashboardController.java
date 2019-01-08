@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.stategen.framework.annotation.ApiConfig;
 import org.stategen.framework.annotation.ApiRequestMappingAutoWithMethodName;
 import org.stategen.framework.annotation.Wrap;
-import org.stategen.framework.spring.util.JSONUtil;
+import org.stategen.framework.util.JSONUtil;
 
 @Controller
 @ApiConfig

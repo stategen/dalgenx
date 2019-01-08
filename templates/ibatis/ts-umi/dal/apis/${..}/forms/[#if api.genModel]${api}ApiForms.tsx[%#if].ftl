@@ -16,150 +16,22 @@
 -->
 <@genCopyright api/>
 <@genImports api.imports,'../'/>
-import UIUtil from "@utils/UIUtil";
+import UIEditors from "@utils/UIEditors";
 import {
   FormItemConfig, FormItemConfigMap, TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, ObjectMap,
-  TemporalType, FormProps, confirmChanges<#if web!>, FormItemProps</#if>
+  TemporalType, FormProps, confirmChanges<#if webFlag?? && webFlag>, FormItemProps</#if>, moment
 } from "@utils/DvaUtil";
-import moment from 'moment';
+import UIColumns from "@utils/UIColumns";
 <#list api.imports as imp>
     <#if imp.isEnum>
 import {${imp?uncap_first}Options} from '../enums/${imp}';
+    <#elseif imp.isBean>
+import ${imp}Columns from '../columns/${imp}Columns';
     </#if>
 </#list>
-<#function  getEditorName field>
-    <#assign configName=field>
-    <#if field.editorType?length gt 0>
-        <#assign customBuild=field.editorType?cap_first>
-    <#elseif field.temporalType??>
-        <#assign format>${field.temporalType}_FORMAT</#assign>
-        <#if field.temporalType=='TIMESTAMP'>
-            <#assign customBuild='TimeStamp'>
-        <#elseif field.temporalType=='TIME'>
-            <#assign customBuild='TimePicker'>
-        <#else>
-            <#assign customBuild='DatePicker'>
-        </#if>
-        <#assign customBuild>${customBuild}</#assign>
-    <#elseif field.isEnum>
-        <#assign  customBuild>Select</#assign>
-    <#elseif field.referConfig??>
-        <#assign customBuild>Select</#assign>
-    <#else>
-        <#assign customBuild='Input'>
-    </#if>
-    <#return customBuild>
-</#function>
-<#macro  genFieldProps bean field ind>
-<#assign text>
-<#assign editorName>${getEditorName(field)}</#assign>
-name: '${field}',
-<#if field.hidden>
-hidden: true,
-</#if>
-<#if field.isId>
-isId: true,
-</#if>
-<#if field.isEnum>
-isEnum: true,
-</#if>
-<#if field.isArray>
-isArray: true,
-</#if>
-<#if field.temporalType??>
-temporalType: TemporalType.${field.temporalType},
-format: ${field.temporalType}_FORMAT,
-</#if>
-label: '${field.title}',
-<#if isNotEmpty(field.editorType!)>
-type: '${field.editorType}',
-</#if>
-<#if isNotEmpty(field.changeBy!)>
-changeBy: '${field.changeBy}',
-</#if>
-<#if field.referConfig??>
-referConfig: {
-  <#if field.isEnum>
-  options: <#if field.isGeneric>${field.generic?uncap_first}<#else>${field.type?uncap_first}</#if>Options,
-  </#if>
-  <#if field.referConfig.api??>
-  api: '${field.referConfig.api}',
-  </#if>
-  <#if field.referConfig.referField??>
-  referField: '${field.referConfig.referField}',
-  </#if>
-  <#if field.referConfig.optionConvertor??>
-      <#assign url>${field.referConfig.optionConvertor.url!}</#assign>
-      <#assign parentId>${field.referConfig.optionConvertor.parentId!}</#assign>
-      <#assign value>${field.referConfig.optionConvertor.value!}</#assign>
-      <#assign title>${field.referConfig.optionConvertor.title!}</#assign>
-      <#assign label>${field.referConfig.optionConvertor.label!}</#assign>
-  <#if isNotEmpty(value) || isNotEmpty(title) || isNotEmpty(url) || isNotEmpty(parentId)>
-  optionConvertor: {
-    <#if isNotEmpty(value)>
-    value: '${value}',
-    </#if>
-    <#if isNotEmpty(title)>
-    title: '${title}',
-    </#if>
-    <#if isNotEmpty(url)>
-    url: '${url}',
-    </#if>
-    <#if isNotEmpty(parentId)>
-    parentId: '${parentId}',
-    </#if>
-    <#if isNotEmpty(label)>
-    label: '${label}',
-    </#if>
-  },
-  </#if>
-  </#if>
-},
-</#if>
-UIEditor: UIUtil.Build${editorName}Editor,
-Editor: UIUtil.Build${editorName}Editor,
-nullLablel: '${field.nullLablel}',
-<#if isNotEmpty(field.props!)>
-props: {${field.props}},
-</#if>
-config: {
-  <#if editorName=='Switch'>
-  valuePropName: 'checked',
-  </#if>
-<#--  <#if editorName=='Image' || editorName=='Upload'>
-  valuePropName: 'fileList',
-  </#if>-->
-    <#if field.rules?size gt 0>
-  rules: [
-        <#list field.rules as rule>
-    {
-            <#if (rule.required?? && rule.required ) || (field.required?? && field.required)>
-      required: true,
-            </#if>
-            <#if rule.max??>
-      max: ${rule.max?c},
-            </#if>
-            <#if rule.min??>
-      min: ${rule.min?c},
-            </#if>
-            <#if rule.message??>
-      message: "${rule.message}",
-            </#if>
-            <#if rule.pattern??>
-      pattern: /${rule.pattern}/,
-            </#if>
-            <#if rule.whitespace??>
-      whitespace: true,
-            </#if>
-    },
-        </#list>
-  ],
-    </#if>
-}
-</#assign>
-<@indent text ind/>
-</#macro>
 
+
+namespace ${api}ApiForms {
 <#list api.functions as fun>
   <#if !fun.genForm || isEmptyList(fun.params) >
      <#continue >
@@ -168,23 +40,33 @@ config: {
     <#if !canDrawFormParam(f)>
       <#continue>
     </#if>
-<@genFieldDescription f ''/>
-const ${fun}_${f} = {
-  <@genFieldProps fun f "  "/>
-};
+<@genFieldDescription f '  '/>
+  const ${fun}_${f} = {
+  <#if f.field??>
+  <#assign fieldText><@genFieldProps fun f.field "    "/></#assign>
+  <#else>
+  <#assign fieldText></#assign>
+  </#if>
+  <#assign paramText><@genFieldProps fun f "    "/></#assign>
+  <#if StringUtil.equals(fieldText,paramText)>
+    ...${f.field.owner}Columns.${f},
+  <#else>
+${paramText}
+  </#if>
+  <@genParamProps fun f "    "/>
+  };
    </#list>
-confirmChanges([
+  confirmChanges([
     <#list fun.params as f>
         <#if !canDrawFormParam(f)>
             <#continue>
         </#if>
-    ${fun?uncap_first}_${f},
+      ${fun?uncap_first}_${f},
     </#list>
-  ]
-);
+    ]
+  );
 </#list>
 
-export namespace ${api}ApiForms {
   <#list api.functions as fun>
     <#if !fun.genForm || isEmptyList(fun.params) >
       <#continue >
@@ -206,8 +88,8 @@ export namespace ${api}ApiForms {
           <#continue>
       </#if>
       <#assign customBuild=getEditorName(f)>
-  ${fun}_${f}.Editor = ((props?: UIUtil.${customBuild}EditorProps) => {
-    return UIUtil.rebuildEditor(props, ${removeGet(fun)?cap_first}FormItemConfigMap.${f?cap_first}, remove${fun?cap_first}FormItemConfigMapRef);
+  ${fun}_${f}.Editor = ((props?: UIEditors.${customBuild}EditorProps) => {
+    return UIEditors.rebuildEditor(props, ${removeGet(fun)?cap_first}FormItemConfigMap.${f?cap_first}, remove${fun?cap_first}FormItemConfigMapRef);
   }) as any;
   </#list>
 
@@ -227,7 +109,7 @@ export namespace ${api}ApiForms {
    </${f?cap_first}Editor>
      </#list>
    */
-  export const get${removeGet(fun)?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, formProps?: FormProps<#if web!>, formItemProps?: FormItemProps</#if>): I${fun?cap_first}FormItemConfigMap => {
+  export const get${removeGet(fun)?cap_first}FormItemConfigMap = (queryRule: ObjectMap<any> = {}, formProps?: FormProps<#if webFlag?? && webFlag>, formItemProps?: FormItemProps</#if>): I${fun?cap_first}FormItemConfigMap => {
   <#list fun.params as f>
       <#if !canDrawFormParam(f)>
           <#continue>
@@ -248,7 +130,7 @@ export namespace ${api}ApiForms {
         formProps,
         record: queryRule,
         componentMap,
-        <#if web!>formItemProps,</#if>
+        <#if webFlag?? && webFlag>formItemProps,</#if>
       },
     </#list>
     }

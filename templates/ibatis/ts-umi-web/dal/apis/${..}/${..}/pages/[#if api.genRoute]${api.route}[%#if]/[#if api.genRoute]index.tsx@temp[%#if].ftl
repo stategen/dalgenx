@@ -19,7 +19,7 @@ import {TableProps, TableRowSelection} from "antd/lib/table";
 import Row from "antd/lib/grid/row";
 import {${api}ApiForms} from "@i/forms/${api}ApiForms";
 import StatesAlias from "@i/configs/tradeCms-statesAlias";
-import UIUtil from "@utils/UIUtil";
+import UIEditors from "@utils/UIEditors";
 import FormItem, {FormItemProps} from "antd/es/form/FormItem";
 import {createModelPage} from "@components/QueryModal/QueryModal";
 import Link from "umi/link";
@@ -125,7 +125,7 @@ const ${api?uncap_first}Page = (props: ${api}PageProps) => {
     ${bean}EditorModalPage = createModelPage(true, title, ${bean?uncap_first}Area, dispatch, ${bean?uncap_first}FormConfigs, null);
 
     //3.写定义组件
-    // const customBuildFormItem: UIUtil.CustomBuildFormItem<${bean}FormItemConfigMap> = (formItemPropsMap: KeyValue<${bean}FormItemConfigMap, FormItemProps>) => {
+    // const customBuildFormItem: UIEditors.CustomBuildFormItem<${bean}FormItemConfigMap> = (formItemPropsMap: KeyValue<${bean}FormItemConfigMap, FormItemProps>) => {
     //   return (
     //     <>
     //       <FormItem

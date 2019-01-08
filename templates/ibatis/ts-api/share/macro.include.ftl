@@ -108,13 +108,23 @@ ${dest}${line}
 <#function canDrawFormField f>
     <#if f="deleteFlag">
         <#return false>
-    <#elseif f.isArray>
-        <#return false>
-    <#elseif !(f.isSimple || f.isEnum)>
-        <#return false>
-    <#else>
-        <#return true>
     </#if>
+
+    <#if !(f.isSimple || f.isEnum)>
+        <#return false>
+    </#if>
+
+    <#if f.isArray>
+       <#if f.generic?? && !(f.generic.isSimple || f.generic.isEnum)>
+           <#return false>
+       </#if>
+    </#if>
+
+    <#if f.noJson>
+        <#return false>
+    </#if>
+
+    <#return true>
 </#function>
 
 <#function canDrawFormParam p>
@@ -249,6 +259,164 @@ const ${bean?uncap_first}_${f}Value = ${value};
 <@indent text ind/>
 </#if>
 </#macro>
+
+
 <#function removeGet name>
   <#return StringUtil.trimePrefixIgnoreCase(name,'get')>
 </#function>
+
+<#function  getEditorName field>
+    <#assign configName=field>
+    <#if field.editorType?length gt 0>
+        <#assign customBuild=field.editorType?cap_first>
+    <#elseif field.temporalType??>
+        <#assign format>${field.temporalType}_FORMAT</#assign>
+        <#if field.temporalType=='TIMESTAMP'>
+            <#assign customBuild='TimeStamp'>
+        <#elseif field.temporalType=='TIME'>
+            <#assign customBuild='TimePicker'>
+        <#else>
+            <#assign customBuild='DatePicker'>
+        </#if>
+        <#assign customBuild>${customBuild}</#assign>
+    <#elseif field.isEnum>
+        <#assign  customBuild>Select</#assign>
+    <#elseif field.referConfig??>
+        <#assign customBuild>Select</#assign>
+    <#else>
+        <#assign customBuild='Input'>
+    </#if>
+    <#return customBuild>
+</#function>
+
+<#macro  genFieldProps beanOrFun p ind>
+<#if !beanOrFun??>
+<#return></return>
+</#if>
+<#assign text>
+<#assign editorName>${getEditorName(p)}</#assign>
+key: '${p}',
+dataIndex: '${p}',
+title: '${p.title}',
+<#if p.noJson>
+noJson: true,
+<#else>
+columnRender: UIColumns.${editorName}Render,
+</#if>
+<#if p.hidden>
+hidden: true,
+</#if>
+<#if p.isId>
+isId: true,
+</#if>
+<#if p.isEnum>
+isEnum: true,
+</#if>
+<#if p.isArray>
+isArray: true,
+</#if>
+<#if p.temporalType??>
+temporalType: TemporalType.${p.temporalType},
+format: ${p.temporalType}_FORMAT,
+</#if>
+<#if p.editorType?? && p.editorType='Hidden'>
+typeIsHidden: true,
+</#if>
+<#if isNotEmpty(p.changeBy!)>
+changeBy: '${p.changeBy}',
+</#if>
+<#if editorName=='Image'>
+renderImage: true,
+</#if>
+<#if p.referConfig??>
+referConfig: {
+  <#if p.isEnum>
+  options: <#if p.isGeneric>${p.generic?uncap_first}<#else>${p.type?uncap_first}</#if>Options,
+  </#if>
+  <#if p.referConfig.api??>
+  api: '${p.referConfig.api}',
+  </#if>
+  <#if p.referConfig.referField??>
+  referField: '${p.referConfig.referField}',
+  </#if>
+  <#if p.referConfig.optionConvertor??>
+      <#assign url>${p.referConfig.optionConvertor.url!}</#assign>
+      <#assign parentId>${p.referConfig.optionConvertor.parentId!}</#assign>
+      <#assign value>${p.referConfig.optionConvertor.value!}</#assign>
+      <#assign title>${p.referConfig.optionConvertor.title!}</#assign>
+      <#assign label>${p.referConfig.optionConvertor.label!}</#assign>
+  <#if isNotEmpty(value) || isNotEmpty(title) || isNotEmpty(url) || isNotEmpty(parentId)>
+  optionConvertor: {
+    <#if isNotEmpty(value)>
+    value: '${value}',
+    </#if>
+    <#if isNotEmpty(title)>
+    title: '${title}',
+    </#if>
+    <#if isNotEmpty(url)>
+    url: '${url}',
+    </#if>
+    <#if isNotEmpty(parentId)>
+    parentId: '${parentId}',
+    </#if>
+    <#if isNotEmpty(label)>
+    label: '${label}',
+    </#if>
+  },
+  </#if>
+  </#if>
+},
+</#if>
+config: {
+  <#if editorName=='Switch'>
+  valuePropName: 'checked',
+  </#if>
+<#--  <#if editorName=='Image' || editorName=='Upload'>
+  valuePropName: 'fileList',
+  </#if>-->
+    <#if p.rules?size gt 0>
+  rules: [
+        <#list p.rules as rule>
+    {
+            <#if (rule.required?? && rule.required ) || (p.required?? && p.required)>
+      required: true,
+            </#if>
+            <#if rule.max??>
+      max: ${rule.max?c},
+            </#if>
+            <#if rule.min??>
+      min: ${rule.min?c},
+            </#if>
+            <#if rule.message??>
+      message: "${rule.message}",
+            </#if>
+            <#if rule.pattern??>
+      pattern: /${rule.pattern}/,
+            </#if>
+            <#if rule.whitespace??>
+      whitespace: true,
+            </#if>
+    },
+        </#list>
+  ],
+    </#if>
+},
+<#if isNotEmpty(p.nullLablel!)>
+nullLablel: '${p.nullLablel}',
+</#if>
+<#if isNotEmpty(p.props!)>
+props: {${p.props}},
+</#if>
+</#assign>
+<@indent text ind/>
+</#macro>
+
+
+<#macro  genParamProps fun param ind>
+<#assign text>
+<#assign editorName>${getEditorName(param)}</#assign>
+UIEditor: UIEditors.Build${editorName}Editor,
+Editor: UIEditors.Build${editorName}Editor,
+</#assign>
+<@indent text ind/>
+</#macro>
