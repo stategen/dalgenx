@@ -118,8 +118,9 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
 <#list table.fieldParameters as param>
     <#assign column=param.column>
     <#if column??>
+    <#assign subfix>${StringUtil.trimLeft(param.paramName,column.columnName)}</#assign>
     /*** ${column.columnAlias}${StringUtil.trimLeft(param.paramName,column.columnName)}<#if param.sql??> in ${param.sql.operation}</#if> */
-    @ApiModelProperty("${column.title}${StringUtil.trimLeft(param.paramName,column.columnName)}")
+    @ApiModelProperty("${column.title}<#if subfix='s'> s<#else>${subfix}</#if>")
     <#if column.javaType="java.util.Date">
     @Temporal(TemporalType.${column.JDBCType})
     </#if>

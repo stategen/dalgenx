@@ -43,7 +43,7 @@ namespace ${bean}Columns {
 
   </#list>
 
-  export const ${bean?uncap_first}columns = {
+  export const ${bean?uncap_first}RenderColumns = {
     <#list bean.allFields as f>
        <#if !canDrawFormField(f)>
            <#continue>
