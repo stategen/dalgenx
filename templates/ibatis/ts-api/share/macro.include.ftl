@@ -401,8 +401,8 @@ config: {
   ],
     </#if>
 },
-<#if isNotEmpty(p.nullLablel!)>
-nullLablel: '${p.nullLablel}',
+<#if isNotEmpty(p.falseTitle!)>
+falseTitle: '${p.falseTitle}',
 </#if>
 <#if isNotEmpty(p.props!)>
 props: {${p.props}},
