@@ -404,6 +404,12 @@ config: {
 <#if isNotEmpty(p.falseTitle!)>
 falseTitle: '${p.falseTitle}',
 </#if>
+<#if isNotEmpty(p.nullTitle!)>
+nullTitle: '${p.nullTitle}',
+</#if>
+<#if isNotEmpty(p.trueTitle!)>
+trueTitle: '${p.trueTitle}',
+</#if>
 <#if isNotEmpty(p.props!)>
 props: {${p.props}},
 </#if>
