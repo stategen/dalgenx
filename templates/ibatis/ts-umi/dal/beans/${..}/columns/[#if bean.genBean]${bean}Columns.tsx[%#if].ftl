@@ -36,7 +36,7 @@ namespace ${bean}Columns {
     <#if !f.noJson>
         <#assign edidtorName>${getEditorName(f)}</#assign>
     render: (text: any, record: ${bean}${genericProps}, index: number) =>{
-      return ${f}.columnRender(record, text, index, ${f});
+      return ${f}.renderColumn(record, text, index, ${f});
     },
     </#if>
   } as ColumnConfig<${bean}${genericProps}>;

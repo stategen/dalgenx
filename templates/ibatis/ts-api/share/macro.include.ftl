@@ -301,7 +301,7 @@ title: '${p.title}',
 <#if p.noJson>
 noJson: true,
 <#else>
-columnRender: UIColumns.${editorName}Render,
+renderColumn: UIColumns.${editorName}Render,
 </#if>
 <#if p.hidden>
 hidden: true,
@@ -415,7 +415,7 @@ props: {${p.props}},
 <#macro  genParamProps fun param ind>
 <#assign text>
 <#assign editorName>${getEditorName(param)}</#assign>
-UIEditor: UIEditors.Build${editorName}Editor,
+UIEditor__: UIEditors.Build${editorName}Editor,
 Editor: UIEditors.Build${editorName}Editor,
 </#assign>
 <@indent text ind/>
