@@ -42,16 +42,21 @@ ${dest}${line}
 <#return fun.state.genEffect || fun.state.genReducer>
 </#function>
 <#function getReduceName fun genEffect><#assign text>${fun}<#if genEffect>_success</#if></#assign><#return text></#function>
+
 <#function isNotEmpty str>
-  <#return str?? && str?length gt 0>
+  <#return (str??) && str?length gt 0>
 </#function>
 
 <#function isEmpty str>
-  <#return !str?? || str?length <= 0>
+  <#return !isNotEmpty(str!)>
+</#function>
+
+<#function isNotEmptyList list>
+    <#return (list??) && (list?size gt 0) >
 </#function>
 
 <#function isEmptyList list>
-    <#return !(list??) || (list?size <= 0) >
+    <#return !isNotEmptyList(list!) >
 </#function>
 
 <#function genResultName fun>
@@ -374,7 +379,7 @@ config: {
 <#--  <#if editorName=='Image' || editorName=='Upload'>
   valuePropName: 'fileList',
   </#if>-->
-    <#if p.rules?size gt 0>
+    <#if isNotEmptyList(p.rules!)>
   rules: [
         <#list p.rules as rule>
     {
