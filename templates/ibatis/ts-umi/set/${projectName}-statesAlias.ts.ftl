@@ -16,14 +16,14 @@
 -->
 <@genCopyright '${projectName} states alias'/>
 <#list apis as api>
-<#if !api.hidden>
+<#if api.genModel>
 import {${api}State} from "../interfaces/${api}Faces";
 </#if>
 </#list>
 
 export default interface StatesAlias {
 <#list apis as api>
-<#if !api.hidden>
+<#if api.genModel>
   ${api?uncap_first}: ${api}State;
 </#if>
 </#list>
