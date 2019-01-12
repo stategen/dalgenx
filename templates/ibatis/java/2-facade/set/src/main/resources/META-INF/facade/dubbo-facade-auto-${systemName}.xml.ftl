@@ -27,7 +27,7 @@
     <!-- ======================================================================================================= -->
     
 <#list tableConfigSet.tableConfigs as tableConfig>
-    <dubbo:reference timeout="8000" retries="0" registry="${systemName}-reg-addr" id="${tableConfig.className?uncap_first}${service_name_suffix}" interface="${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}${facade_service_suffix}"/>
+    <dubbo:reference timeout="8000" retries="0" registry="${systemName}-reg-addr" id="${tableConfig.className?uncap_first}${service_name_suffix}${systemName?cap_first}" interface="${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}${systemName?cap_first}"/>
 </#list>
 	
 </beans>

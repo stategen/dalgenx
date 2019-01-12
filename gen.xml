@@ -44,7 +44,6 @@
     <entry key="impl_dir_name">impl</entry>
     <entry key="impl_name_suffix">Impl</entry>
     <entry key="internal_service_suffix"></entry>
-    <entry key="facade_service_suffix">Facade</entry>
 
     <entry key="updated_date_field">update_time,updateTime,gmt_update,modify_time</entry>
     <entry key="created_date_field">create_time,createTime,gmt_create</entry>

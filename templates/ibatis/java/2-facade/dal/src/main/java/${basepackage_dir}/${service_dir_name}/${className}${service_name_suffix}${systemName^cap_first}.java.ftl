@@ -24,7 +24,7 @@ package ${tableConfig.basepackage}.${service_dir_name};
  * 因此该类可以修改任何部分
  * </pre>
  */
-public interface ${tableConfig.className}${service_name_suffix}${facade_service_suffix} {
+public interface ${tableConfig.className}${service_name_suffix}${systemName?cap_first} {
 
 <#list tableConfig.sqls as sql>
 <#if sql.facade>
