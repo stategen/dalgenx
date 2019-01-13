@@ -1,7 +1,8 @@
-package ${packageName}.checker;
+package com.mycompany.biz.checker;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -9,8 +10,9 @@ import java.lang.annotation.Target;
 import org.stategen.framework.annotation.Check;
 import org.stategen.framework.annotation.CookieCheck;
 
-import ${packageName}.enums.CookieType;
-import ${packageName}.enums.ResponseStatus;
+import com.mycompany.biz.enums.CookieType;
+import com.mycompany.biz.enums.CookieType.LOGIN;
+import com.mycompany.biz.enums.ResponseStatus;
 /***
  * 该标识是用cookie检测实现，查看cookie中是否有被不能篡改的name为 login 的cookie
  * 
@@ -21,7 +23,8 @@ import ${packageName}.enums.ResponseStatus;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Check
-@CookieCheck(cookieTypeClz =CookieType.BASE.class,responseStatusClzOfCheckFail = ResponseStatus.NOT_LOGIN.class , cookieName = "login")
+@CookieCheck(cookieTypeClz =CookieType.LOGIN.class,responseStatusClzOfCheckFail = ResponseStatus.NOT_LOGIN.class , cookieName =LOGIN.USER_ID)
+@Inherited
 public @interface LoginCheck {
     
 }

@@ -1,4 +1,4 @@
-package ${packageName}.enums;
+package com.mycompany.biz.enums;
 
 import org.stategen.framework.lite.ValuedEnum;
 

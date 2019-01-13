@@ -6,9 +6,9 @@
 
     <!-- 分布式本地缓存，接收zookeeper通知清空本地缓存，以备重新加载，保持一致性 -->
     <bean id="localCacheZkConfig" class="org.stategen.framework.cache.LocalCacheZkConfig">
-        <property name="connectString" value="${'$'}{localCacheZkConfig.connectString}" />
-        <property name="rootPath" value="${'$'}{localCacheZkConfig.rootPath}" />
-        <property name="connectionTimeout" value="${'$'}{localCacheZkConfig.connectionTimeout}" />
+        <property name="connectString" value="${localCacheZkConfig.connectString}" />
+        <property name="rootPath" value="${localCacheZkConfig.rootPath}" />
+        <property name="connectionTimeout" value="${localCacheZkConfig.connectionTimeout}" />
     </bean>
     <!--
         <bean id="xxxCacheParent" abstract="true">

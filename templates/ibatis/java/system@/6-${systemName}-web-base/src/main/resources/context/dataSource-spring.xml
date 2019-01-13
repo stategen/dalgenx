@@ -17,19 +17,14 @@
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <!-- 基本属性 url、user、password -->
-        <!-- <property name="url" value="jdbc:mysql://localhost:3306/ibatis?useUnicode=true&amp;characterEncoding=utf8" />
-            <property name="username" value="root" />
-            <property name="password" value="" /> -->
-        
-        <property name="url" value="${'$'}{${systemName}.jdbc.url}" />
-        <property name="username" value="${'$'}{${systemName}.jdbc.username}" />
-        <property name="password" value="${'$'}{${systemName}.jdbc.password}" />
+        <property name="url" value="${trade.jdbc.url}" />
+        <property name="username" value="${trade.jdbc.username}" />
+        <property name="password" value="${trade.jdbc.password}" />
         <!-- 配置初始化大小、最小、最大 最大执行时间-->
-        <property name="initialSize" value="${'$'}{jdbc.initialSize}" />
-        <property name="minIdle" value="${'$'}{jdbc.minIdle}"  />
-        <property name="maxActive" value="${'$'}{jdbc.maxActive}"  />
-        <property name="maxWait" value="${'$'}{jdbc.maxWait}"  />
+        <property name="initialSize" value="${jdbc.initialSize}" />
+        <property name="minIdle" value="${jdbc.minIdle}"  />
+        <property name="maxActive" value="${jdbc.maxActive}"  />
+        <property name="maxWait" value="${jdbc.maxWait}"  />
 
         <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
         <property name="timeBetweenEvictionRunsMillis" value="60000" />
@@ -48,6 +43,7 @@
 
         <!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 -->
         <property name="filters" value="stat" />
+        <property name="connectionInitSqls" value="set names utf8mb4;"/>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager" />

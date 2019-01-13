@@ -2,10 +2,15 @@
  * Copyright (c) 2016 - 2116 All Rights Reserved.
  * Powered By [rapid-generator]
  */
-package ${packageName}.service.impl;
+package com.mycompany.biz.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,9 +20,9 @@ import org.stategen.framework.lite.enums.MenuType;
 import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.StringUtil;
 
-import ${packageName}.dao.MenuDao;
-import ${packageName}.domain.Menu;
-import ${packageName}.service.MenuService;
+import com.mycompany.biz.dao.MenuDao;
+import com.mycompany.biz.domain.Menu;
+import com.mycompany.biz.service.MenuService;
 
 /**
  * MenuServiceImpl
@@ -32,11 +37,11 @@ import ${packageName}.service.MenuService;
  */
 public class MenuServiceImpl implements MenuService {
 
+    @Value("${project.name}")
+    private String projectName;
+
     @Resource(name = "menuDao")
     MenuDao menuDao;
-
-    @Value("${'$'}{project.name}")
-    private String projectName;
 
     private class VisitKeyCalculator implements CollectionUtil.KeyCalculator<String, Menu> {
 
@@ -47,51 +52,34 @@ public class MenuServiceImpl implements MenuService {
         }
     }
 
-    @Override
-    public boolean updateMenus(List<Menu> allControllerMenus) {
-        //更新visitId
-        VisitKeyCalculator visitKeyCalculator = new VisitKeyCalculator();
-        Map<String, Menu> allControllerVisitMap = CollectionUtil.toMap(new LinkedCaseInsensitiveMap<Menu>(), allControllerMenus, visitKeyCalculator);
-        List<Menu> oldVisits = this.getMenusByProjectName(getProjectName());
-        for (Menu oldVisit : oldVisits) {
-            String oldVisitKey = visitKeyCalculator.calculateKey(oldVisit);
-            Menu menu = allControllerVisitMap.get(oldVisitKey);
-            if (menu != null) {
-                menu.setMenuId(oldVisit.getMenuId());
+    private void insertOrUpdateMenus(Long parentMenuId, List<Menu> menus, Map<String, Menu> oldMenuMap, VisitKeyCalculator visitKeyCalculator) {
+        if (CollectionUtil.isNotEmpty(menus)) {
+            for (Menu menu : menus) {
+                menu.setMpid(parentMenuId);
+                menu.setProjectName(projectName);
+                menu.setDeleteFlag(0);
+                String key = visitKeyCalculator.calculateKey(menu);
+                Menu oldMenu = oldMenuMap.get(key);
+                if (oldMenu != null) {
+                    menu.setMenuId(oldMenu.getMenuId());
+                    this.forceUpdateById(menu);
+                } else {
+                    this.insert(menu);
+                }
+                insertOrUpdateMenus(menu.getMenuId(), menu.getMenuChildren(), oldMenuMap, visitKeyCalculator);
             }
         }
-        //新的全部插入
-        for (Menu menu : allControllerMenus) {
-            menu.setDeleteFlag(0);
-            menu.setProjectName(projectName);
-            Long menuId = menu.getMenuId();
-            if (menuId == null) {
-                //插入后，即可获取menuId
-                this.insert(menu);
-            }
-        }
-        //更新mpid
-        for (Menu menu : allControllerMenus) {
-            Menu menuParent = menu.getParent();
-            if (menuParent != null) {
-                Long menuParentMenuId = menuParent.getMenuId();
-                String route = menu.getRoute();
-                Long mpid = (StringUtil.isNotEmpty(route) && route.indexOf(StringUtil.COLON) > 0) ? -1L : menuParentMenuId;
-                menu.setMpid(mpid);
-            }
-            Menu breadParent = menu.getBreadParent();
-            if (breadParent != null) {
-                Long breadParentMenuId = breadParent.getMenuId();
-                menu.setBpid(breadParentMenuId);
-            }
-            this.forceUpdateById(menu);
-        }
-        return true;
     }
 
     @Override
-    public List<Menu> getAllMenus() {
-        return this.getMenusByVisitType(VisitType.MENU, getProjectName());
+    public List<Menu> updateMenus(List<Menu> allControllerMenus) {
+        //更新visitId
+        VisitKeyCalculator visitKeyCalculator = new VisitKeyCalculator();
+        List<Menu> oldMenus = this.getMenusByProjectName(getProjectName(), null);
+        Map<String, Menu> oldMenuMap = CollectionUtil.toMap(new LinkedCaseInsensitiveMap<Menu>(), visitKeyCalculator, oldMenus);
+        Long parentMenuId = null;
+        this.insertOrUpdateMenus(parentMenuId, allControllerMenus, oldMenuMap, visitKeyCalculator);
+        return allControllerMenus;
     }
 
     @Override
@@ -99,10 +87,16 @@ public class MenuServiceImpl implements MenuService {
         return projectName;
     }
 
+    //<#--
+    @Override
+    public List<Menu> getAllMenus() {
+        return this.getMenusByProjectName(getProjectName(), MenuType.MENU);
+    }
+
     /**
      * 
-     * @see ${packageName}.dao.MenuDao#insert
-     * @see ${packageName}.service.MenuService#insert
+     * @see com.mycompany.biz.dao.MenuDao#insert
+     * @see com.mycompany.biz.service.MenuService#insert
      */
     @Override
     public Menu insert(Menu menu) {
@@ -111,8 +105,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see ${packageName}.dao.MenuDao#update
-     * @see ${packageName}.service.MenuService#update
+     * @see com.mycompany.biz.dao.MenuDao#update
+     * @see com.mycompany.biz.service.MenuService#update
      */
     @Override
     public Menu update(Menu menu) {
@@ -121,8 +115,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see ${packageName}.dao.MenuDao#getMenuByMenuId
-     * @see ${packageName}.service.MenuService#getMenuByMenuId
+     * @see com.mycompany.biz.dao.MenuDao#getMenuByMenuId
+     * @see com.mycompany.biz.service.MenuService#getMenuByMenuId
      */
     @Override
     public Menu getMenuByMenuId(Long menuId) {
@@ -131,18 +125,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see ${packageName}.dao.MenuDao#getMenuPageListByDefaultQuery
-     * @see ${packageName}.service.MenuService#getMenuPageListByDefaultQuery
-     */
-    @Override
-    public PageList<Menu> getMenuPageListByDefaultQuery(Menu menu, int pageSize, int pageNum) {
-        return menuDao.getMenuPageListByDefaultQuery(menu, pageSize, pageNum);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#getMenusByMenuIds
-     * @see ${packageName}.service.MenuService#getMenusByMenuIds
+     * @see com.mycompany.biz.dao.MenuDao#getMenusByMenuIds
+     * @see com.mycompany.biz.service.MenuService#getMenusByMenuIds
      */
     @Override
     public List<Menu> getMenusByMenuIds(java.util.List<Long> menuIds) {
@@ -151,8 +135,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see ${packageName}.dao.MenuDao#deleteByMenuIds
-     * @see ${packageName}.service.MenuService#deleteByMenuIds
+     * @see com.mycompany.biz.dao.MenuDao#deleteByMenuIds
+     * @see com.mycompany.biz.service.MenuService#deleteByMenuIds
      */
     @Override
     public List<Long> deleteByMenuIds(java.util.List<Long> menuIds) {
@@ -161,38 +145,18 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see ${packageName}.dao.MenuDao#getMenusByVisitType
-     * @see ${packageName}.service.MenuService#getMenusByVisitType
+     * @see com.mycompany.biz.dao.MenuDao#getMenusByUserId
+     * @see com.mycompany.biz.service.MenuService#getMenusByUserId
      */
     @Override
-    public List<Menu> getMenusByVisitType(org.stategen.framework.lite.enums.MenuType visitType, String projectName) {
-        return menuDao.getMenusByVisitType(visitType, projectName);
+    public List<Long> getMenusByUserId(String userId, org.stategen.framework.lite.enums.MenuType menuType) {
+        return menuDao.getMenusByUserId(userId, menuType);
     }
 
     /**
      * 
-     * @see ${packageName}.dao.MenuDao#getMenusByProjectName
-     * @see ${packageName}.service.MenuService#getMenusByProjectName
-     */
-    @Override
-    public List<Menu> getMenusByProjectName(String projectName) {
-        return menuDao.getMenusByProjectName(projectName);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#getMenusByUserId
-     * @see ${packageName}.service.MenuService#getMenusByUserId
-     */
-    @Override
-    public List<Long> getMenusByUserId(String userId, org.stategen.framework.lite.enums.MenuType visitType) {
-        return menuDao.getMenusByUserId(userId, visitType);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#forceUpdateById
-     * @see ${packageName}.service.MenuService#forceUpdateById
+     * @see com.mycompany.biz.dao.MenuDao#forceUpdateById
+     * @see com.mycompany.biz.service.MenuService#forceUpdateById
      */
     @Override
     public Long forceUpdateById(Menu menu) {
@@ -224,11 +188,44 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see ${packageName}.dao.MenuDao#delete
-     * @see ${packageName}.service.MenuService#delete
+     * @see com.mycompany.biz.dao.MenuDao#delete
+     * @see com.mycompany.biz.service.MenuService#delete
      */
     @Override
     public Long delete(Long menuId) {
         return menuDao.delete(menuId);
     }
+
+    /**
+     * 
+     * @see com.mycompany.biz.dao.MenuDao#getMenuPageList
+     * @see com.mycompany.biz.service.MenuService#getMenuPageList
+     */
+    @Override
+    public PageList<Menu> getMenuPageList(Menu menu, int pageSize, int pageNum) {
+        return menuDao.getMenuPageList(menu, pageSize, pageNum);
+    }
+
+    /**
+     * 
+     * @see com.mycompany.biz.dao.MenuDao#getMenusByProjectName
+     * @see com.mycompany.biz.service.MenuService#getMenusByProjectName
+     */
+    @Override
+    public List<Menu> getMenusByProjectName(String projectName, org.stategen.framework.lite.enums.MenuType menuType) {
+        return menuDao.getMenusByProjectName(projectName, menuType);
+    }
+
+    @Override
+    public <D> void assignBeanTo(Collection<D> dests, Function<? super D, Long> destGetMethod, BiConsumer<D, Menu> destSetMethod) {
+        if (CollectionUtil.isNotEmpty(dests)) {
+            Set<Long> menuIds = CollectionUtil.toSet(dests, destGetMethod);
+            List<Menu> menus = this.getMenusByMenuIds(new ArrayList<Long>(menuIds));
+            if (CollectionUtil.isNotEmpty(menus)) {
+                CollectionUtil.setModelByList(dests, menus, destGetMethod, destSetMethod, Menu::getMenuId);
+            }
+        }
+    }
+    //-->
+    //
 }

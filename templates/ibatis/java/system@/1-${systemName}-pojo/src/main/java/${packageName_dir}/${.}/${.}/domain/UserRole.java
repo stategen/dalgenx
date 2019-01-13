@@ -3,7 +3,7 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package ${packageName}.domain;
+package com.mycompany.biz.domain;
 
 import java.text.SimpleDateFormat;
 
@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
+
+import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 
 import lombok.Getter;
@@ -54,17 +56,17 @@ public class UserRole implements java.io.Serializable {
     private String roleType;
 
     /***创建时间   db_column: create_time TIMESTAMP */
-    @ApiModelProperty("创建时间")
+    @ApiModelProperty(value = "创建时间", hidden = true)
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date createTime;
 
     /***更新时间   db_column: update_time TIMESTAMP */
-    @ApiModelProperty("更新时间")
+    @ApiModelProperty(value = "更新时间", hidden = true)
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date updateTime;
 
     /***是否删除(0:正常，1删除)   db_column: delete_flag INTEGER */
-    @ApiModelProperty("是否删除(0:正常，1删除)")
+    @ApiModelProperty(value = "是否删除(0:正常，1删除)", hidden = true)
     private Integer deleteFlag;
 
     /*----------------getter & setter ignore by lombok -------------------*/
@@ -91,39 +93,47 @@ public class UserRole implements java.io.Serializable {
         return sb.toString();
     }
 
-    /*** ids in getUserRolePageListByDefaultQuery */
-    @ApiModelProperty("ids")
-    private transient java.util.List<Long> ids;
+    /*** ids in getUserRolePageList */
+    @ApiModelProperty("id s")
+    @JSONField(serialize = false)
+    private java.util.List<Long> ids;
 
-    /*** userIds in getUserRolePageListByDefaultQuery */
-    @ApiModelProperty("userIds")
-    private transient java.util.List<String> userIds;
+    /*** userIds in getUserRolePageList */
+    @ApiModelProperty("userId s")
+    @JSONField(serialize = false)
+    private java.util.List<String> userIds;
 
-    /*** roleIds in getUserRolePageListByDefaultQuery */
-    @ApiModelProperty("roleIds")
-    private transient java.util.List<String> roleIds;
+    /*** roleIds in getUserRolePageList */
+    @ApiModelProperty("roleId s")
+    @JSONField(serialize = false)
+    private java.util.List<String> roleIds;
 
-    /*** roleTypes in getUserRolePageListByDefaultQuery */
-    @ApiModelProperty("roleTypes")
-    private transient java.util.List<String> roleTypes;
+    /*** roleTypes in getUserRolePageList */
+    @ApiModelProperty("roleType s")
+    @JSONField(serialize = false)
+    private java.util.List<String> roleTypes;
 
-    /*** 创建时间Min in getUserRolePageListByDefaultQuery */
+    /*** 创建时间Min in getUserRolePageList */
     @ApiModelProperty("创建时间Min")
     @Temporal(TemporalType.TIMESTAMP)
-    private transient java.util.Date createTimeMin;
+    @JSONField(serialize = false)
+    private java.util.Date createTimeMin;
 
-    /*** 创建时间Max in getUserRolePageListByDefaultQuery */
+    /*** 创建时间Max in getUserRolePageList */
     @ApiModelProperty("创建时间Max")
     @Temporal(TemporalType.TIMESTAMP)
-    private transient java.util.Date createTimeMax;
+    @JSONField(serialize = false)
+    private java.util.Date createTimeMax;
 
-    /*** 更新时间Min in getUserRolePageListByDefaultQuery */
+    /*** 更新时间Min in getUserRolePageList */
     @ApiModelProperty("更新时间Min")
     @Temporal(TemporalType.TIMESTAMP)
-    private transient java.util.Date updateTimeMin;
+    @JSONField(serialize = false)
+    private java.util.Date updateTimeMin;
 
-    /*** 更新时间Max in getUserRolePageListByDefaultQuery */
+    /*** 更新时间Max in getUserRolePageList */
     @ApiModelProperty("更新时间Max")
     @Temporal(TemporalType.TIMESTAMP)
-    private transient java.util.Date updateTimeMax;
+    @JSONField(serialize = false)
+    private java.util.Date updateTimeMax;
 }

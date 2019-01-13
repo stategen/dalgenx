@@ -1,12 +1,10 @@
-package ${packageName}.domain;
+package com.mycompany.biz.domain;
 
-import org.stategen.framework.annotation.GenForm;
 import org.stategen.framework.lite.BaseResponse;
 
-import ${packageName}.enums.ResponseStatus;
+import com.mycompany.biz.enums.ResponseStatus;
 
 
-@GenForm(false)
 public class Response<T> extends BaseResponse<T> {
     
    // private String test1="test1";

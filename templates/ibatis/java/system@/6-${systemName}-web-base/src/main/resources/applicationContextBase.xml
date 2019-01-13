@@ -19,7 +19,7 @@
     <import resource="classpath*:context/applicatonContextProperties.xml" />
 
     <!-- 返回以对象包装的类 ,id必须是response -->
-    <bean id="response" class="${packageName}.domain.Response" scope="prototype">
+    <bean id="response" class="com.mycompany.biz.domain.Response" scope="prototype">
     </bean>
 
     <bean class="org.stategen.framework.spring.mvc.SpringContextHolder" />
@@ -28,21 +28,21 @@
     <bean class="org.stategen.framework.util.ValuedEnumScanner">
         <property name="packages">
             <list>
-                <value>${packageName}.enums</value>
+                <value>com.mycompany.biz.enums</value>
             </list>
         </property>
     </bean>
 
     <bean class="configs.Configration">
-        <property name="maxRequestPerIpSecond" value="${'$'}{framework_max_request_per_ip_second}" />
+        <property name="maxRequestPerIpSecond" value="${framework_max_request_per_ip_second}" />
         <property name="wrapperResponse" value="true" />
-        <property name="enableSwagger" value="${'$'}{swagger.enable}"/>
+        <property name="enableSwagger" value="${swagger.enable}"/>
     </bean>
 
     <bean id="localCacheZkConfig" class="org.stategen.framework.cache.LocalCacheZkConfig">
-        <property name="connectString" value="${'$'}{localCacheZkConfig.connectString}" />
-        <property name="rootPath" value="${'$'}{localCacheZkConfig.rootPath}" />
-        <property name="connectionTimeout" value="${'$'}{localCacheZkConfig.connectionTimeout}" />
+        <property name="connectString" value="${localCacheZkConfig.connectString}" />
+        <property name="rootPath" value="${localCacheZkConfig.rootPath}" />
+        <property name="connectionTimeout" value="${localCacheZkConfig.connectionTimeout}" />
     </bean>
 
     <import resource="classpath*:context/dao-beans-auto-*.xml" />

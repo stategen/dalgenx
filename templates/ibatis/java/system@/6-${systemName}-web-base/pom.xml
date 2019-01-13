@@ -2,21 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>${packageName}</groupId>
-        <artifactId>${systemName}-parent</artifactId>
+        <groupId>com.mycompany.biz</groupId>
+        <artifactId>trade-parent</artifactId>
         <version>1.0.0</version>
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>${systemName}-web-base</artifactId>
-    <version>${'$'}{systemVersion}</version>
+    <artifactId>trade-web-base</artifactId>
+    <version>${systemVersion}</version>
     <packaging>jar</packaging>
-    <name>6-${systemName}-web-base</name>
+    <name>6-trade-web-base</name>
 
     <dependencies>
         <dependency>
-            <groupId>${packageName}</groupId>
-            <artifactId>${systemName}-service</artifactId>
+            <groupId>com.mycompany.biz</groupId>
+            <artifactId>trade-service</artifactId>
         </dependency>
 		
         <!-- swagger-mvc -->
@@ -49,7 +49,7 @@
             <groupId>org.stategen.framework</groupId>
             <artifactId>aa-stategen-dubbox</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
@@ -235,6 +235,7 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
 

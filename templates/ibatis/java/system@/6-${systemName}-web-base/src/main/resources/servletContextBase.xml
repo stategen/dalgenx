@@ -7,7 +7,7 @@
     http://www.springframework.org/schema/context  
     http://www.springframework.org/schema/context/spring-context.xsd  
     http://www.springframework.org/schema/mvc  
-    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+    http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
     http://www.springframework.org/schema/tx 
     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
     http://www.springframework.org/schema/task  
@@ -19,7 +19,8 @@
     <aop:aspectj-autoproxy />
 
     <bean id="viewResolver" class="org.stategen.framework.spring.mvc.MultiViewResolver">
-        <property name="defaultViewResolver" ref="thymeleafResolver" />
+        <property name="defaultViewResolver" ref="jspViewResolver" />
+        <property name="order" value="0" />
         <property name="viewResolverMap">
             <map>
                 <entry>
@@ -42,14 +43,14 @@
                     <ref bean="thymeleafResolver" />
                 </entry>
 
-                <entry>
+<!--                 <entry>
                     <key>
                         <set>
                             <value>.js</value>
                         </set>
                     </key>
                     <ref bean="freeMarkerViewResolver" />
-                </entry>
+                </entry> -->
             </map>
         </property>
     </bean>
@@ -57,13 +58,13 @@
     <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" />
     <!--<bean id="multiRequestMappingInterceptor" class="org.stategen.framework.spring.mvc.MultiRequestMappingInterceptor" /> -->
 
-<!--     <context:component-scan base-package="${packageName}.controller">
+<!--     <context:component-scan base-package="com.mycompany.biz.controller">
         <context:include-filter type="regex" expression=".controller.*Controller" />
     </context:component-scan> -->
     
     <!-- 使用Annotation自动注册Bean,只扫描@Controller -->
     <!-- base-package 如果多个，用“,”分隔 -->
-    <context:component-scan base-package="${packageName}.controller" use-default-filters="false">
+    <context:component-scan base-package="com.mycompany.biz.controller" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
 
@@ -88,11 +89,11 @@
 
     <!-- 权限拦截,由各自的annotain check 处理 -->
     <bean id="authCheckerHandlerInterceptor" class="org.stategen.framework.spring.mvc.AuthCheckerHandlerInterceptor">
-        <property name="responseStatusClzOfCheckFailDefault" value="${packageName}.enums.ResponseStatus.NO_TOKEN" />
+        <property name="responseStatusClzOfCheckFailDefault" value="com.mycompany.biz.enums.ResponseStatus.NOT_LOGIN" />
     </bean>
     
     <!-- 
-    <bean id="testGetUsersHandlerInterceptor" class="${packageName}.utils.TestGetUsersHandlerInterceptor">
+    <bean id="testGetUsersHandlerInterceptor" class="com.mycompany.biz.utils.TestGetUsersHandlerInterceptor">
     </bean>
 	  -->
 
@@ -109,24 +110,19 @@
 
     <!-- 所有异常处理 -->
     <bean class="org.stategen.framework.spring.mvc.CollectExceptionJsonHandler">
-        <property name="responseStatusClzOfException" value="${packageName}.enums.ResponseStatus.ERROR" />
+        <property name="responseStatusClzOfException" value="com.mycompany.biz.enums.ResponseStatus.ERROR" />
     </bean>
 
     <!-- 处理结果拦截，转换为包装类 -->
     <bean class="org.stategen.framework.spring.mvc.ResponseBodyAdviceWrapper">
         <property name="packages">
             <list>
-                <value>${packageName}.controller</value>
+                <value>com.mycompany.biz.controller</value>
             </list>
         </property>
-        <property name="responseStatusClzOfResult" value="${packageName}.enums.ResponseStatus.OK" />
+        <property name="responseStatusClzOfResult" value="com.mycompany.biz.enums.ResponseStatus.OK" />
     </bean>
 
-    <!-- 验证cookie分组 ,该类可以多个，配置不同的分组 -->
-    <bean id="baseCookieGroup" class="org.stategen.framework.web.cookie.CookieGroup">
-        <property name="cookieTypeClz" value="${packageName}.enums.CookieType.BASE" />
-        <property name="responseStatusClzOfTokenError" value="${packageName}.enums.ResponseStatus.NO_TOKEN" />
-    </bean>
 
     <!-- 处理方法级别上的@RequestMapping注解 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
@@ -144,18 +140,26 @@
     </bean>
 
     <bean class="org.stategen.framework.checker.DefaultCookieCheckChecker" />
-    <bean class="${packageName}.checker.VisitChecker" />
-    <bean class="${packageName}.checker.LoginChecker" />
+    <bean class="com.mycompany.biz.checker.VisitChecker" />
+    <bean class="com.mycompany.biz.checker.LoginChecker" />
     <bean class="org.stategen.framework.spring.mvc.SwaggerConfig" />
 
     <!-- 文档转文档 -->
     <mvc:resources mapping="/doc/**" location="classpath:/doc/" />
+    <mvc:resources mapping="/uploads/**" location="file:/uploads/" />
 
     <!-- 前端静态页面转前端页面 -->
     <mvc:resources mapping="/pages/static/**" location="pages/static/" />
-    <mvc:resources mapping="/static/**" location="pages/static/" />
-    <mvc:resources mapping="/pages/service-worker.js" location="pages/" />
-
+    <!-- 因为umi@2生成的js,css等与index.html是平行的，刷新页面等会有问题，需要以下配置才能解决，希望umi改进 -->
+    <mvc:resources mapping="/pages/{:.*}/static/**" location="pages/static/">
+        <mvc:resource-chain resource-cache="true">
+            <mvc:resolvers>
+                <bean class="org.stategen.framework.spring.mvc.MultiPathResourceResolver">
+                    <property name="trimTo" value="static/" />
+                </bean>
+            </mvc:resolvers>
+        </mvc:resource-chain>
+    </mvc:resources>
 
     <import resource="classpath*:servlet/*-spring.xml" />
 </beans>

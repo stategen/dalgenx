@@ -3,7 +3,7 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package ${packageName}.domain;
+package com.mycompany.biz.domain;
 
 import java.text.SimpleDateFormat;
 
@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
+
+import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 
 import lombok.Getter;
@@ -48,17 +50,17 @@ public class RoleMenu implements java.io.Serializable {
     private Long menuId;
 
     /***数据创建时间   db_column: create_time TIMESTAMP */
-    @ApiModelProperty("数据创建时间")
+    @ApiModelProperty(value = "数据创建时间", hidden = true)
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date createTime;
 
     /***数据更新时间   db_column: update_time TIMESTAMP */
-    @ApiModelProperty("数据更新时间")
+    @ApiModelProperty(value = "数据更新时间", hidden = true)
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date updateTime;
 
     /***是否删除(0:正常，1删除)   db_column: delete_flag INTEGER */
-    @ApiModelProperty("是否删除(0:正常，1删除)")
+    @ApiModelProperty(value = "是否删除(0:正常，1删除)", hidden = true)
     private Integer deleteFlag;
 
     /*----------------getter & setter ignore by lombok -------------------*/
@@ -83,35 +85,42 @@ public class RoleMenu implements java.io.Serializable {
         return sb.toString();
     }
 
-    /*** ids in getRoleMenuPageListByDefaultQuery */
-    @ApiModelProperty("ids")
-    private transient java.util.List<Long> ids;
+    /*** ids in getRoleMenuPageList */
+    @ApiModelProperty("id s")
+    @JSONField(serialize = false)
+    private java.util.List<Long> ids;
 
-    /*** roleIds in getRoleMenuPageListByDefaultQuery */
-    @ApiModelProperty("roleIds")
-    private transient java.util.List<String> roleIds;
+    /*** roleIds in getRoleMenuPageList */
+    @ApiModelProperty("roleId s")
+    @JSONField(serialize = false)
+    private java.util.List<String> roleIds;
 
-    /*** menuIds in getRoleMenuPageListByDefaultQuery */
-    @ApiModelProperty("menuIds")
-    private transient java.util.List<Long> menuIds;
+    /*** menuIds in getRoleMenuPageList */
+    @ApiModelProperty("menuId s")
+    @JSONField(serialize = false)
+    private java.util.List<Long> menuIds;
 
-    /*** 数据创建时间Min in getRoleMenuPageListByDefaultQuery */
+    /*** 数据创建时间Min in getRoleMenuPageList */
     @ApiModelProperty("数据创建时间Min")
     @Temporal(TemporalType.TIMESTAMP)
-    private transient java.util.Date createTimeMin;
+    @JSONField(serialize = false)
+    private java.util.Date createTimeMin;
 
-    /*** 数据创建时间Max in getRoleMenuPageListByDefaultQuery */
+    /*** 数据创建时间Max in getRoleMenuPageList */
     @ApiModelProperty("数据创建时间Max")
     @Temporal(TemporalType.TIMESTAMP)
-    private transient java.util.Date createTimeMax;
+    @JSONField(serialize = false)
+    private java.util.Date createTimeMax;
 
-    /*** 数据更新时间Min in getRoleMenuPageListByDefaultQuery */
+    /*** 数据更新时间Min in getRoleMenuPageList */
     @ApiModelProperty("数据更新时间Min")
     @Temporal(TemporalType.TIMESTAMP)
-    private transient java.util.Date updateTimeMin;
+    @JSONField(serialize = false)
+    private java.util.Date updateTimeMin;
 
-    /*** 数据更新时间Max in getRoleMenuPageListByDefaultQuery */
+    /*** 数据更新时间Max in getRoleMenuPageList */
     @ApiModelProperty("数据更新时间Max")
     @Temporal(TemporalType.TIMESTAMP)
-    private transient java.util.Date updateTimeMax;
+    @JSONField(serialize = false)
+    private java.util.Date updateTimeMax;
 }

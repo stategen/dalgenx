@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE
+    table SYSTEM "http://sources.alipay.net/svn/dtd/table-config-1.0.dtd"
+    [<!ENTITY CITY SYSTEM "city.xml.xhtml">
+]>
+<table sqlName="city" className="City">
+    <!-- 不需要配置的列请删除-->
+    <!-- <column name="currency_Unit" javaType="java.util.Currency"/> -->
+    <!-- <column name="status" javaType="aa.bb.cc.StatusEnum"/> -->
+    <!-- <column name="sex" javaType="aa.bb.cc.SexEnum"/> -->
+
+    <sql id="getCityPageListOrderBy">
+        a.update_time desc, a.create_time desc
+    </sql>
+    <sql id="getCitysByCityIdsOrderBy">
+        a.update_time desc, a.create_time desc
+    </sql>
+
+    <!-- 引用 city.xml.xhml ,表修改后，需重新执行 gen.sh table city -e -->
+    &CITY;
+    <!-- 引用 city.xml.xhml 结束 -->
+
+    <!-- 自定义方法请写在下面 需要自动提示，请将dalgenX目录下的 gen.schemas-1.0.dtd 配到 eclipse 或 idea中
+      file:gen.schemas-1.0.dtd
+      System Id
+      http://sources.alipay.net/svn/dtd/table-config-1.0.dtd
+    -->
+    <!--
+    <operation name="..." remarks="">
+        <sql>
+            ...
+        </sql>
+    </operation>
+    -->
+    
+    <operation name="getCityOptions" multiplicity="many" remarks="">
+        <sql>
+            select
+            a.city_id,
+            a.name,
+            a.province_id
+            from city a
+            where
+            a.delete_flag = 0
+            and a.province_id = ?
+        </sql>
+    </operation>
+
+</table>

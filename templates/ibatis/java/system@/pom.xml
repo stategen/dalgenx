@@ -7,26 +7,28 @@
         <version>2.0.1.stategen.RELEASE</version>
     </parent>
 
-    <groupId>${packageName}</groupId>
-    <artifactId>${systemName}-parent</artifactId>
+    <groupId>com.mycompany.biz</groupId>
+    <artifactId>trade-parent</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
-    <name>0-${systemName}-parent</name>
+    <name>0-trade-parent</name>
 
     <modules>
-        <module>1-${systemName}-pojo</module>
-        <module>2-${systemName}-facade</module>
-        <module>3-${systemName}-intergrade</module>
-        <module>4-${systemName}-dao</module>
-        <module>5-${systemName}-service</module>
-        <module>6-${systemName}-web-base</module>
+        <module>1-trade-pojo</module>
+        <module>2-trade-facade</module>
+        <module>3-trade-intergrade</module>
+        <module>4-trade-dao</module>
+        <module>5-trade-service</module>
+        <module>6-trade-web-base</module>
+        <module>7-trade-web-app</module>
+        <module>7-trade-web-cms</module>
     </modules>
 
     <properties>
         <!-- 发到公司私有maven仓库中，即pojo和facade(dubbo服务的版本) -->
-        <${systemName}-facade-version>1.0.0-release</${systemName}-facade-version>
+        <trade-facade-version>1.0.0-release</trade-facade-version>
         <!-- 本系统的版本，不会被发布到maven仓库中，故以snapshort结尾,后续pom.xml已控制,避免误发 -->
-        <systemVersion>${systemName}-1.0.0-snapshot</systemVersion>
+        <systemVersion>trade-1.0.0-snapshot</systemVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <distribution-id>thirdparty</distribution-id>
@@ -36,8 +38,8 @@
 
     <distributionManagement>
         <repository>
-            <id>${'$'}{distribution-id}</id>
-            <url>${'$'}{distribution-url}</url>
+            <id>${distribution-id}</id>
+            <url>${distribution-url}</url>
         </repository>
     </distributionManagement>
     <dependencies>
@@ -53,44 +55,44 @@
             <dependency>
                 <groupId>org.stategen.framework</groupId>
                 <artifactId>aa-stategen-ibatis-util</artifactId>
-                <version>${'$'}{stategen-version}</version>
+                <version>${stategen-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.stategen.framework</groupId>
                 <artifactId>stategen-dto-lite</artifactId>
-                <version>${'$'}{stategen-version}</version>
+                <version>${stategen-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.stategen.framework</groupId>
                 <artifactId>stategen-cache</artifactId>
-                <version>${'$'}{stategen-version}</version>
+                <version>${stategen-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.stategen.framework</groupId>
                 <artifactId>aa-stategen-logback</artifactId>
-                <version>${'$'}{stategen-version}</version>
+                <version>${stategen-version}</version>
                 <scope>runtime</scope>
             </dependency>
 
             <dependency>
                 <groupId>org.stategen.framework</groupId>
                 <artifactId>stategen-mvc</artifactId>
-                <version>${'$'}{stategen-version}</version>
+                <version>${stategen-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.stategen.framework</groupId>
                 <artifactId>stategen-util</artifactId>
-                <version>${'$'}{stategen-version}</version>
+                <version>${stategen-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>dubbo</artifactId>
-                <version>${'$'}{dubbo-version}</version>
+                <version>${dubbo-version}</version>
                 <exclusions>
                     <exclusion>
                         <artifactId>log4j</artifactId>
@@ -106,79 +108,86 @@
             <dependency>
                 <groupId>org.stategen.framework</groupId>
                 <artifactId>aa-stategen-dubbox</artifactId>
-                <version>${'$'}{stategen-version}</version>
+                <version>${stategen-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.stategen.framework</groupId>
                 <artifactId>progen</artifactId>
-                <version>${'$'}{stategen-version}</version>
+                <version>${stategen-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.stategen.framework</groupId>
                 <artifactId>swagger2-ui</artifactId>
-                <version>${'$'}{stategen-version}</version>
+                <version>${stategen-version}</version>
             </dependency>
 
             <dependency>
-                <groupId>${packageName}</groupId>
-                <artifactId>${systemName}-pojo</artifactId>
-                <version>${'$'}{${systemName}-facade-version}</version>
+                <groupId>com.mycompany.biz</groupId>
+                <artifactId>trade-pojo</artifactId>
+                <version>${trade-facade-version}</version>
             </dependency>
 
             <dependency>
-                <groupId>${packageName}</groupId>
-                <artifactId>${systemName}-facade</artifactId>
-                <version>${'$'}{${systemName}-facade-version}</version>
+                <groupId>com.mycompany.biz</groupId>
+                <artifactId>trade-facade</artifactId>
+                <version>${trade-facade-version}</version>
             </dependency>
 
             <dependency>
-                <groupId>${packageName}</groupId>
-                <artifactId>${systemName}-intergrade</artifactId>
-                <version>${'$'}{systemVersion}</version>
+                <groupId>com.mycompany.biz</groupId>
+                <artifactId>trade-intergrade</artifactId>
+                <version>${systemVersion}</version>
             </dependency>
 
             <dependency>
-                <groupId>${packageName}</groupId>
-                <artifactId>${systemName}-dao</artifactId>
-                <version>${'$'}{systemVersion}</version>
+                <groupId>com.mycompany.biz</groupId>
+                <artifactId>trade-dao</artifactId>
+                <version>${systemVersion}</version>
             </dependency>
 
             <dependency>
-                <groupId>${packageName}</groupId>
-                <artifactId>${systemName}-service</artifactId>
-                <version>${'$'}{systemVersion}</version>
+                <groupId>com.mycompany.biz</groupId>
+                <artifactId>trade-service</artifactId>
+                <version>${systemVersion}</version>
             </dependency>
 
             <dependency>
-                <groupId>${packageName}</groupId>
-                <artifactId>${systemName}-web-base</artifactId>
-                <version>${'$'}{systemVersion}</version>
+                <groupId>com.mycompany.biz</groupId>
+                <artifactId>trade-web-base</artifactId>
+                <version>${systemVersion}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
-                <version>${'$'}{spring.version}</version>
+                <version>${spring.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>${'$'}{spring.version}</version>
+                <version>${spring.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
-                <version>${'$'}{spring.version}</version>
+                <version>${spring.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>commons-logging</groupId>
                         <artifactId>commons-logging</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>
@@ -203,7 +212,7 @@
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>${'$'}{logback-version}</version>
+                <version>${logback-version}</version>
             </dependency>
 
             <dependency>
@@ -270,7 +279,7 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
-                <version>${'$'}{fastjson-version}</version>
+                <version>${fastjson-version}</version>
             </dependency>
 
             <dependency>
@@ -315,7 +324,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
-                <version>${'$'}{spring.version}</version>
+                <version>${spring.version}</version>
                 <scope>test</scope>
             </dependency>
 
@@ -340,7 +349,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
-                <version>${'$'}{spring.version}</version>
+                <version>${spring.version}</version>
             </dependency>
 
             <dependency>
@@ -368,7 +377,7 @@
             <dependency>
                 <groupId>com.taobao.pamirs.schedule</groupId>
                 <artifactId>DISchedule</artifactId>
-                <version>${'$'}{DI-tbSchedule-version}</version>
+                <version>${DI-tbSchedule-version}</version>
             </dependency>
 
             <dependency>
@@ -392,13 +401,13 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context-support</artifactId>
-                <version>${'$'}{spring.version}</version>
+                <version>${spring.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aop</artifactId>
-                <version>${'$'}{spring.version}</version>
+                <version>${spring.version}</version>
             </dependency>
 
             <dependency>
@@ -420,7 +429,7 @@
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-redis</artifactId>
-                <version>${'$'}{spring-data-redis-version}</version>
+                <version>${spring-data-redis-version}</version>
                 <exclusions>
                     <exclusion>
                         <artifactId>spring-context-support</artifactId>
@@ -520,7 +529,7 @@
                 <artifactId>httpmime</artifactId>
                 <version>4.5.1</version>
             </dependency>
-
+            
             <dependency>
                 <groupId>org.apache.ibatis</groupId>
                 <artifactId>ibatis-sqlmap</artifactId>
@@ -609,6 +618,7 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
 

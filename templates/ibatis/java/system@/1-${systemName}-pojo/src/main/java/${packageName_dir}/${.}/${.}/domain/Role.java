@@ -3,7 +3,7 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package ${packageName}.domain;
+package com.mycompany.biz.domain;
 
 import java.text.SimpleDateFormat;
 
@@ -13,7 +13,10 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
-import ${packageName}.enums.RoleType;
+import org.stategen.framework.annotation.Editor;
+import org.stategen.framework.lite.enums.EditorType;
+
+import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 
 import lombok.Getter;
@@ -40,6 +43,7 @@ public class Role implements java.io.Serializable {
     @ApiModelProperty("角色ID")
     @Id
     @Max(64)
+    @Editor(EditorType.Hidden.class)
     private String roleId;
 
     /***角色名称   db_column: role_name VARCHAR */
@@ -69,8 +73,9 @@ public class Role implements java.io.Serializable {
     private Integer deleteFlag;
 
     /***角色类型 enum   db_column: role_type VARCHAR */
-    @ApiModelProperty("roleType")
-    private RoleType roleType;
+    @ApiModelProperty("角色类型 enum")
+    @Max(64)
+    private String roleType;
 
     /*----------------getter & setter ignore by lombok -------------------*/
     public String toString() {
@@ -96,39 +101,47 @@ public class Role implements java.io.Serializable {
         return sb.toString();
     }
 
-    /*** 角色IDs in getRolePageListByDefaultQuery */
-    @ApiModelProperty("角色IDs")
-    private transient java.util.List<String> roleIds;
+    /*** 角色IDs in getRolePageList */
+    @ApiModelProperty("角色ID s")
+    @JSONField(serialize = false)
+    private java.util.List<String> roleIds;
 
-    /*** 角色名称Like in getRolePageListByDefaultQuery */
+    /*** 角色名称Like in getRolePageList */
     @ApiModelProperty("角色名称Like")
-    private transient String roleNameLike;
+    @JSONField(serialize = false)
+    private String roleNameLike;
 
-    /*** 描述Like in getRolePageListByDefaultQuery */
+    /*** 描述Like in getRolePageList */
     @ApiModelProperty("描述Like")
-    private transient String descriptionLike;
+    @JSONField(serialize = false)
+    private String descriptionLike;
 
-    /*** 创建时间Min in getRolePageListByDefaultQuery */
+    /*** 创建时间Min in getRolePageList */
     @ApiModelProperty("创建时间Min")
     @Temporal(TemporalType.TIMESTAMP)
-    private transient java.util.Date createTimeMin;
+    @JSONField(serialize = false)
+    private java.util.Date createTimeMin;
 
-    /*** 创建时间Max in getRolePageListByDefaultQuery */
+    /*** 创建时间Max in getRolePageList */
     @ApiModelProperty("创建时间Max")
     @Temporal(TemporalType.TIMESTAMP)
-    private transient java.util.Date createTimeMax;
+    @JSONField(serialize = false)
+    private java.util.Date createTimeMax;
 
-    /*** 更新时间Min in getRolePageListByDefaultQuery */
+    /*** 更新时间Min in getRolePageList */
     @ApiModelProperty("更新时间Min")
     @Temporal(TemporalType.TIMESTAMP)
-    private transient java.util.Date updateTimeMin;
+    @JSONField(serialize = false)
+    private java.util.Date updateTimeMin;
 
-    /*** 更新时间Max in getRolePageListByDefaultQuery */
+    /*** 更新时间Max in getRolePageList */
     @ApiModelProperty("更新时间Max")
     @Temporal(TemporalType.TIMESTAMP)
-    private transient java.util.Date updateTimeMax;
+    @JSONField(serialize = false)
+    private java.util.Date updateTimeMax;
 
-    /*** 角色类型 enums in getRolePageListByDefaultQuery */
-    @ApiModelProperty("角色类型s")
-    private transient java.util.List<${packageName}.enums.RoleType> roleTypes;
+    /*** 角色类型 enums in getRolePageList */
+    @ApiModelProperty("角色类型 s")
+    @JSONField(serialize = false)
+    private java.util.List<String> roleTypes;
 }

@@ -8,6 +8,6 @@
     <!-- ======================================================================= -->
     <!-- dubbo provider configs: 手动提供服务==================================== -->
     <!-- ======================================================================= -->
-    <!-- <dubbo:service registry="${systemName}-reg-server" ref="xxxService" interface="${packageName}.service.xxxService"/> -->
+    <!-- <dubbo:service registry="trade-reg-server" ref="xxxService" interface="com.mycompany.biz.service.xxxService"/> -->
 
 </beans>

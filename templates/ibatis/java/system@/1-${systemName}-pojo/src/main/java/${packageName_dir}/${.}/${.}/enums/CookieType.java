@@ -1,20 +1,26 @@
-package ${packageName}.enums;
+package com.mycompany.biz.enums;
 
 import org.stategen.framework.lite.ICookieType;
+import org.stategen.framework.lite.IResponseStatus;
+
+import com.mycompany.biz.enums.ResponseStatus.NOT_LOGIN;
+import com.mycompany.biz.enums.ResponseStatus.PAY_NO_TOKEN;
 
 public enum CookieType implements  ICookieType{
-    BASE(BASE.class,"_tk_"),
+    LOGIN(LOGIN.class,"_tk_",NOT_LOGIN.class),
     
-    PAY_LOGIN(PAY_LOGIN.class,"_pay_"),
+    PAY_LOGIN(PAY_LOGIN.class,"_pay_",PAY_NO_TOKEN.class),
     ;
     
     private String cookiePrefixName;
     private Class<? extends ICookieType> cookieTypeClz;
+    private Class<? extends IResponseStatus> responseStatusClzOfTokenError;
     
-    CookieType(Class<? extends ICookieType> cookieTypeClz,String cookiePrefixName){
+    CookieType(Class<? extends ICookieType> cookieTypeClz,String cookiePrefixName,Class<? extends IResponseStatus> responseStatusClzOfTokenError){
         this.cookiePrefixName =cookiePrefixName;
         this.cookieTypeClz =cookieTypeClz;
-        regist();
+        this.responseStatusClzOfTokenError =responseStatusClzOfTokenError;
+        register();
     }
     
     @Override
@@ -28,7 +34,16 @@ public enum CookieType implements  ICookieType{
         return cookieTypeClz;
     }
     
-    public static abstract class BASE implements ICookieType {
+    @Override
+    public Class<? extends IResponseStatus> getResponseStatusClzOfTokenError() {
+        return responseStatusClzOfTokenError;
+    }
+    
+    public static abstract class LOGIN implements ICookieType {
+        public static enum LoginCookieNames{
+            userId,
+        }
+        public static final String USER_ID ="userId"; 
     }
     
     public static abstract class PAY_LOGIN implements ICookieType {

@@ -4,6 +4,6 @@
          http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd"
     default-autowire="byName"
 >
-    <!-- <bean id="xxxService" class="${packageName}.impl.xxxServiceImpl" /> -->
+    <!-- <bean id="xxxService" class="com.mycompany.biz.impl.xxxServiceImpl" /> -->
 
 </beans>

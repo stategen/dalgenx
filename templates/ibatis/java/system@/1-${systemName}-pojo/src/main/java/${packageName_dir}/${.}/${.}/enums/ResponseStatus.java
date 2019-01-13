@@ -1,51 +1,37 @@
-package ${packageName}.enums;
+package com.mycompany.biz.enums;
 
 import org.stategen.framework.lite.IResponseStatus;
 
 public enum ResponseStatus implements IResponseStatus {
 
     //OK(200, "操作成功"),
-    OK(OK.class, true, 200, "操作成功",null,false),
-    
-//    Ok(Ok.class, true, 200, "操作成功",null,false),
+    OK(OK.class, true, 200, "操作成功", null, false),
 
-    NO_TOKEN(NO_TOKEN.class, false, 203, "权限校验没有通过","login.html",true),
+    ERROR(ERROR.class, false, 500, "服务器内部错误", "500.html", false),
 
-    ERROR(ERROR.class, false, 500, "服务器内部错误","500.html",false),
+    MISSED(MISSED.class, false, 404, "没有资源", "404.html", false),
 
-    MISSED(MISSED.class, false, 404, "没有资源","404.html",false),
+    PAY_NO_TOKEN(PAY_NO_TOKEN.class, false, 311, "权限校验没有通过", "pay.html", true),
 
-    PAY_NO_TOKEN(PAY_NO_TOKEN.class, false, 311, "权限校验没有通过","pay.html",true),
-
-    NOT_LOGIN(NOT_LOGIN.class, false, 211, "没有登录!","login.html",true),
-    
-    NO_USER_ID(NO_USER_ID.class, false, 211, "权限校验没有通过","login.html",true),
+    NOT_LOGIN(NOT_LOGIN.class, false, 211, "没有登录!", "login.html", true),
 
     ;
 
     public static abstract class OK implements IResponseStatus {
-    };
-    
-//    public static abstract class Ok implements IResponseStatus {
-//    };
-
-    public static abstract class NO_TOKEN implements IResponseStatus {
-    };
+    }
 
     public static abstract class ERROR implements IResponseStatus {
-    };
+    }
 
     public static abstract class MISSED implements IResponseStatus {
-    };
+    }
 
     public static abstract class PAY_NO_TOKEN implements IResponseStatus {
-    };
+    }
 
     public static abstract class NOT_LOGIN implements IResponseStatus {
-    };
+    }
 
-    public static abstract class NO_USER_ID implements IResponseStatus {
-    };
 
     private Integer status;
     private String message;
@@ -54,13 +40,14 @@ public enum ResponseStatus implements IResponseStatus {
     private String errorPage;
     private boolean redirect;
 
-    ResponseStatus(Class<? extends IResponseStatus> responseStatusClz, Boolean success, Integer statusCode, String message,String errorPage,boolean redirect) {
+    ResponseStatus(Class<? extends IResponseStatus> responseStatusClz, Boolean success, Integer statusCode, String message, String errorPage,
+                   boolean redirect) {
         this.status = statusCode;
         this.message = message;
         this.responseStatusClz = responseStatusClz;
         this.success = success;
-        this.errorPage =errorPage;
-        this.redirect=redirect;
+        this.errorPage = errorPage;
+        this.redirect = redirect;
         regist();
     }
 
@@ -74,7 +61,7 @@ public enum ResponseStatus implements IResponseStatus {
         return message;
     }
 
-	/***不让fastjson序列化*/
+    /***不让fastjson序列化*/
     @Override
     public Class<? extends IResponseStatus> _getResonseStatusClz() {
         return responseStatusClz;
@@ -84,12 +71,12 @@ public enum ResponseStatus implements IResponseStatus {
     public Boolean getSuccess() {
         return success;
     }
-    
+
     @Override
     public String getErrorPage() {
         return errorPage;
     }
-    
+
     @Override
     public boolean isRedirect() {
         return redirect;

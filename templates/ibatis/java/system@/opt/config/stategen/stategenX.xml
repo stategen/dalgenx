@@ -7,20 +7,20 @@
     <!--生成环境不生成api文档，请将该值设为false,其它环境可以设为true -->
     <entry key="swagger.enable">true</entry>
 
-    <entry key="mysql.ip.port">jdbc:mysql://localhost:3306/${systemName}?useUnicode=true</entry>
+    <entry key="mysql.ip.port">jdbc:mysql://localhost:3306/trade?useUnicode=true</entry>
 	<entry key="mysql.username">stategen</entry>
 	<entry key="mysql.password">stategen</entry>
         
 
-    <entry key="common.zk.ip.port">zookeeper://${'$'}{THIS_IP}:2181</entry>
-    <entry key="local.zk.ip.port">zookeeper://${'$'}{THIS_IP}:2181</entry>
+    <entry key="common.zk.ip.port">zookeeper://${THIS_IP}:2181</entry>
+    <entry key="local.zk.ip.port">zookeeper://${THIS_IP}:2181</entry>
 
 
     <entry key="elastic.host">192.168.0.42</entry>
     <entry key="redis.host">192.168.0.42</entry>
     <entry key="redis.port">6379</entry>
     
-    <entry key="dubbo.protocol.host">${'$'}{THIS_IP}</entry>   
+    <entry key="dubbo.protocol.host">${THIS_IP}</entry>   
 	
 
     <!-- 数据库通用 -->  
@@ -44,12 +44,12 @@
     <entry key="framework_max_request_per_ip_second">20</entry>    
 
     <!-- 一级缓存 -->
-    <entry key="localCacheZkConfig.connectString">${'$'}{common.zk.ip.port}</entry>
+    <entry key="localCacheZkConfig.connectString">${common.zk.ip.port}</entry>
     <entry key="localCacheZkConfig.rootPath">/resourceNameCache</entry>
     <entry key="localCacheZkConfig.connectionTimeout" >10000</entry> 
 
     <!-- 调度中心 -->
-    <entry key="scheduleManagerFactory.zkConfig.zkConnectString">${'$'}{common.zk.ip.port}</entry>
+    <entry key="scheduleManagerFactory.zkConfig.zkConnectString">${common.zk.ip.port}</entry>
     <entry key="scheduleManagerFactory.zkConfig.rootPath">/tbSchedule/test</entry>
     <entry key="scheduleManagerFactory.zkConfig.userName">zookeeper</entry>
     <entry key="scheduleManagerFactory.zkConfig.password">zookeeper</entry>
@@ -57,23 +57,23 @@
     <entry key="scheduleManagerFactory.zkConfig.isCheckParentPath">true</entry>  
     
 
-    <!--${systemName} system sql configs ,vendor cms appapi schedule-->
-    <entry key="${systemName}.dubbo.registry.address">${'$'}{local.zk.ip.port}</entry> 
-    <entry key="${systemName}.dubbo.protocol.host">${'$'}{THIS_IP}</entry>
-    <entry key="${systemName}.dubbo.protocol.port">20872</entry>
+    <!--trade system sql configs ,vendor cms appapi schedule-->
+    <entry key="trade.dubbo.registry.address">${local.zk.ip.port}</entry> 
+    <entry key="trade.dubbo.protocol.host">${THIS_IP}</entry>
+    <entry key="trade.dubbo.protocol.port">20872</entry>
 
-    <entry key="${systemName}.jdbc.url">${'$'}{mysql.ip.port}/yaoke_order_activity?useUnicode=true</entry>
-    <entry key="${systemName}.jdbc.username">${'$'}{mysql.username}</entry>
-    <entry key="${systemName}.jdbc.password">${'$'}{mysql.password}</entry>  
+    <entry key="trade.jdbc.url">${mysql.ip.port}/yaoke_order_activity?useUnicode=true</entry>
+    <entry key="trade.jdbc.username">${mysql.username}</entry>
+    <entry key="trade.jdbc.password">${mysql.password}</entry>  
     
     <!--特别注意这一行，检查 elasticsearch 集群名称-->
-    <entry key="${systemName}.es.clustername">my-application</entry>
-    <entry key="${systemName}.es.host">${'$'}{elastic.host}</entry>
+    <entry key="trade.es.clustername">my-application</entry>
+    <entry key="trade.es.host">${elastic.host}</entry>
 
-    <entry key="${systemName}.redis.host">${'$'}{redis.host}</entry>
-    <entry key="${systemName}.redis.port">${'$'}{redis.port}</entry>
+    <entry key="trade.redis.host">${redis.host}</entry>
+    <entry key="trade.redis.port">${redis.port}</entry>
 
-    <entry key="${systemName}Cms_url">http://localhost:8080/${systemName}Cms</entry>
-    <entry key="${systemName}App_url">http://localhost:8080/${systemName}App</entry>
+    <entry key="tradeCms_url">http://localhost:8080/tradeCms</entry>
+    <entry key="tradeApp_url">http://localhost:8080/tradeApp</entry>
 
 </properties>
