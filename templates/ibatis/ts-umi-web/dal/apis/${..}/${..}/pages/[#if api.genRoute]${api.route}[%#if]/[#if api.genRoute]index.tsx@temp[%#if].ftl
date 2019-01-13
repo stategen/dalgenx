@@ -26,7 +26,7 @@ import {ConnectionPros, operateOptions, cleanSelectRowsProps} from "@utils/DvaUt
 import {AppProps} from "@i/interfaces/AppFaces";
 import {TableProps, TableRowSelection} from "antd/lib/table";
 import Row from "antd/lib/grid/row";
-import StatesAlias from "@i/configs/tradeCms-statesAlias";
+import StatesAlias from "@i/configs/trade${projectName}-statesAlias";
 import {FormItemProps} from "antd/es/form/FormItem";
 import {ModelPage, ModelPageProps} from "@components/QueryModal/QueryModal";
 import Link from "umi/link";
@@ -58,9 +58,9 @@ const ${api?uncap_first}Page = (props: ${api}PageProps) => {
   const dispatch = props.dispatch;
   const ${api?uncap_first}Area = props.${api?uncap_first}State.${api?uncap_first}Area;
   //自定义渲染
-  const ${api?uncap_first}RenderColumns = ${api}Columns.${api?uncap_first}RenderColumns;
-  ${api?uncap_first}RenderColumns.${api?uncap_first}Id.render = ${api?uncap_first}IdRender;
-  const ${api?uncap_first}Columns = Object.values(${api?uncap_first}RenderColumns);
+  const renderColumns = ${api}Columns.renderColumns;
+  renderColumns.${api?uncap_first}Id.render = ${api?uncap_first}IdRender;
+  const ${api?uncap_first}Columns = Object.values(renderColumns);
 
   const onAdd = () => {
     const ${api?uncap_first}State: ${api}State = {

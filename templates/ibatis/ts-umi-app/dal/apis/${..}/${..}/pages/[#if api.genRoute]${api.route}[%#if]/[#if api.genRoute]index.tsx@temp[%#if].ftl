@@ -15,23 +15,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <@genCopyrightCanEdit api/>
+import React from 'react';
 import {connect} from 'dva';
 import {${api}Dispatch, ${api?uncap_first}Effects, ${api}Props, ${api?uncap_first}Reducers, ${api}State} from '@i/interfaces/${api}Faces';
-import ${api}, {${api}_ID} from "@i/beans/${api}";
-import {${api?uncap_first}DefaultColumns} from "@i/columns/${api}Columns";
-import {Table, Modal, Col, Button, Popconfirm} from "antd";
-import Page from "@components/Page/Page";
-import DropOption from "@components/DropOption/DropOption";
-import {get${api}FormItemConfigMap} from "@i/forms/${api}FormConfigs";
 import {ConnectionPros, operateOptions, cleanSelectRowsProps} from "@utils/DvaUtil";
 import {AppProps} from "@i/interfaces/AppFaces";
-import {TableProps, TableRowSelection} from "antd/lib/table";
-import Row from "antd/lib/grid/row";
-import {createModelPage} from "@components/QueryModal/QueryModal";
-import {${api}ApiForms} from "@i/forms/${api}ApiForms";
-import StatesAlias from "@i/configs/${systemName}Cms-statesAlias";
+import StatesAlias from "@i/configs/tradeApp-statesAlias";
 
-const {confirm} = Modal;
+
 
 type ${api}PageProps =AppProps & ${api}Props;
 
@@ -39,12 +30,11 @@ const ${api?uncap_first}Page = (props: ${api}PageProps) => {
   const dispatch = props.dispatch;
   const pathname = props.location;
   const ${api?uncap_first}Area = props.${api?uncap_first}State.${api?uncap_first}Area;
-  const ${api?uncap_first}Columns = Object.values(${api?uncap_first}DefaultColumns);
 
   return (
     <div>
-      ${api?uncap_first}Page
-    <div>
+      {"${api}Page"}
+    </div>
   )
 }
 
