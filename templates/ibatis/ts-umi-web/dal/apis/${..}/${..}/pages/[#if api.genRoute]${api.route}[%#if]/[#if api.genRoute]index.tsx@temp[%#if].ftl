@@ -1,28 +1,37 @@
-/**
- *  Do not remove this unless you get business authorization.
- *  ${api}
- *  init by [stategen.progen] ,can be edit manually ,keep when "keep this"
- *  由 [stategen.progen]代码生成器初始化，可以手工修改,但如果遇到 keep this ,请保留导出设置以备外部自动化调用
- */
-<#assign bean>${StringUtil.trimLeftTo(api,'_')?cap_first}</#assign>
+<#--
+    Copyright (C) 2018  niaoge<78493244@qq.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<@genCopyrightCanEdit api/>
+import React from 'react';
 import {connect} from 'dva';
 import {${api}Dispatch, ${api?uncap_first}Effects, ${api}Props, ${api?uncap_first}Reducers, ${api}State} from '@i/interfaces/${api}Faces';
-import ${bean} from "@i/beans/${bean}";
-import {${bean?uncap_first}DefaultColumns} from "@i/columns/${bean}Columns";
-import {Table, Modal, Col, Button, Popconfirm, Form} from "antd";
+import ${api} from "@i/beans/${api}";
+import {Table, Modal, Col, Button, Popconfirm} from "antd";
 import Page from "@components/Page/Page";
 import DropOption from "@components/DropOption/DropOption";
-import {get${bean}FormItemConfigMap, ${bean}FormItemConfigMap} from "@i/forms/${bean}FormConfigs";
-import {ConnectionPros, operateOptions, cleanSelectRowsProps, KeyValue,} from "@utils/DvaUtil";
+import {ConnectionPros, operateOptions, cleanSelectRowsProps} from "@utils/DvaUtil";
 import {AppProps} from "@i/interfaces/AppFaces";
 import {TableProps, TableRowSelection} from "antd/lib/table";
 import Row from "antd/lib/grid/row";
-import {${api}ApiForms} from "@i/forms/${api}ApiForms";
 import StatesAlias from "@i/configs/tradeCms-statesAlias";
-import UIEditors from "@utils/UIEditors";
-import FormItem, {FormItemProps} from "antd/es/form/FormItem";
-import {createModelPage} from "@components/QueryModal/QueryModal";
+import {FormItemProps} from "antd/es/form/FormItem";
+import {ModelPage, ModelPageProps} from "@components/QueryModal/QueryModal";
 import Link from "umi/link";
+import ${api}Columns from "@i/columns/${api}Columns";
+import ${api}ApiForms from "@i/forms/${api}ApiForms";
 
 
 const {confirm} = Modal;
@@ -30,12 +39,16 @@ const {confirm} = Modal;
 type ${api}PageProps = AppProps & ${api}Props;
 
 interface HandleMenuClick {
-  (e, record: ${bean}, index: number): any;
+  (e, record: ${api}, index: number): any;
 }
 
-const ${bean?uncap_first}IdRender = (text: any, record: ${bean}, index: number) =>{
+const formItemProps: FormItemProps = {
+  labelCol: {span: 7},
+  wrapperCol: {span: 12},
+}
+const ${api?uncap_first}IdRender = (text: any, record: ${api}, index: number) => {
   return (
-    <Link to={"#"} key={record.${bean?uncap_first}Id} title={text}>
+    <Link to={"#"} key={record.${api?uncap_first}Id} title={text}>
       {text}
     </Link>
   )
@@ -43,14 +56,15 @@ const ${bean?uncap_first}IdRender = (text: any, record: ${bean}, index: number) 
 const ${api?uncap_first}Page = (props: ${api}PageProps) => {
   const loading = props.loading;
   const dispatch = props.dispatch;
-  const ${bean?uncap_first}Area = props.${api?uncap_first}State.${bean?uncap_first}Area;
+  const ${api?uncap_first}Area = props.${api?uncap_first}State.${api?uncap_first}Area;
   //自定义渲染
-  ${bean?uncap_first}DefaultColumns.${bean?uncap_first}Id.render=${bean?uncap_first}IdRender;
-  const ${bean?uncap_first}Columns = Object.values(${bean?uncap_first}DefaultColumns);
+  const ${api?uncap_first}RenderColumns = ${api}Columns.${api?uncap_first}RenderColumns;
+  ${api?uncap_first}RenderColumns.${api?uncap_first}Id.render = ${api?uncap_first}IdRender;
+  const ${api?uncap_first}Columns = Object.values(${api?uncap_first}RenderColumns);
 
   const onAdd = () => {
     const ${api?uncap_first}State: ${api}State = {
-      ${bean?uncap_first}Area: {
+      ${api?uncap_first}Area: {
         type: ${api?uncap_first}Effects.insert,
         index: -1,
         doEdit: true,
@@ -64,16 +78,16 @@ const ${api?uncap_first}Page = (props: ${api}PageProps) => {
   };
 
   const onDeleteItem = (index) => {
-    const ${bean?uncap_first} = props.${api?uncap_first}State.${bean?uncap_first}Area.list[index];
-    if (${bean?uncap_first}) {
-      dispatch(${api}Dispatch.delete_effect({${bean?uncap_first}Id: ${bean?uncap_first}.${bean?uncap_first}Id}, cleanSelectRowsProps))
+    const ${api?uncap_first} = props.${api?uncap_first}State.${api?uncap_first}Area.list[index];
+    if (${api?uncap_first}) {
+      dispatch(${api}Dispatch.delete_effect({${api?uncap_first}Id: ${api?uncap_first}.${api?uncap_first}Id}, cleanSelectRowsProps))
     }
   };
 
 
   const onEditItem = (index) => {
     dispatch(${api}Dispatch.updateState_reducer({
-      ${bean?uncap_first}Area: {
+      ${api?uncap_first}Area: {
         type: ${api?uncap_first}Effects.update,
         index,
         doEdit: true,
@@ -86,7 +100,7 @@ const ${api?uncap_first}Page = (props: ${api}PageProps) => {
     }))
   };
 
-  const handleMenuClick = function (e, record: ${bean}, index: number) {
+  const handleMenuClick = function (e, record: ${api}, index: number) {
     if (e.key === 'Update') {
       onEditItem(index);
     } else if (e.key === 'Delete') {
@@ -99,62 +113,160 @@ const ${api?uncap_first}Page = (props: ${api}PageProps) => {
     }
   } as HandleMenuClick;
 
-  ${bean?uncap_first}Columns.push({
+  ${api?uncap_first}Columns.push({
     title: 'Operation',
     key: 'operation',
     width: 100,
-    render: function (text, record: ${bean}, index: number) {
+    render: function (text, record: ${api}, index: number) {
       return <DropOption key={index} onMenuClick={e => handleMenuClick(e, record, index)} menuOptions={operateOptions}/>
     },
   });
 
-  let ${bean}EditorModalPage = null;
-  if (${bean?uncap_first}Area.doEdit) {
-    const index = ${bean?uncap_first}Area.index;
+  let EditorModalPage = null;
+  if (${api?uncap_first}Area.doEdit) {
+    const index = ${api?uncap_first}Area.index;
     const isCreate = index < 0;
     const title = isCreate ? '创建' : '更新';
-    const current${bean}: ${bean} = isCreate ? {} : ${bean?uncap_first}Area.list[index];
-    const ${bean?uncap_first}FormConfigMap = get${bean}FormItemConfigMap(current${bean});
-    //1.调整顺序，自动生成 1,2,3任选
-    const ${bean?uncap_first}FormConfigs = Object.values(${bean?uncap_first}FormConfigMap);
-    //2.调整顺序
-    // const ${bean?uncap_first}FormConfigs: FormItemConfig[] = [];
-    // ${bean?uncap_first}FormConfigs.push(${bean?uncap_first}FormConfigMap.${bean}Name)
-    // ${bean?uncap_first}FormConfigs.push(${bean?uncap_first}FormConfigMap.${bean}Id)
-    // ${bean?uncap_first}FormConfigs.push(${bean?uncap_first}FormConfigMap.${bean}Type)
-    ${bean}EditorModalPage = createModelPage(true, title, ${bean?uncap_first}Area, dispatch, ${bean?uncap_first}FormConfigs, null);
+    const current: ${api} = isCreate ? {} : ${api?uncap_first}Area.list[index];
+    let formItemConfigMap = null;
+    let getEditors = null;
+    if (isCreate) {
+      const insertFormItemConfigMap = ${api}ApiForms.getInsertFormItemConfigMap(current, null, formItemProps);
+      //可选1,自动排版，不漂亮,调整顺序也可以
+      formItemConfigMap = insertFormItemConfigMap;
+    } else {
+      //点击 getUpdateFormItemConfigMap 进去即可将以下内容复制出来,然后自定义排版
+      const updateFormItemConfigMap = ${api}ApiForms.getUpdateFormItemConfigMap(current, null, formItemProps);
+      formItemConfigMap = updateFormItemConfigMap;
+      //2.也可以自定义排版，属性可以提示
+      getEditors = () => {
+        const ${api}IdEditor = updateFormItemConfigMap.${api}Id.Editor;
+        const NameEditor = updateFormItemConfigMap.Name.Editor;
 
-    //3.写定义组件
-    // const customBuildFormItem: UIEditors.CustomBuildFormItem<${bean}FormItemConfigMap> = (formItemPropsMap: KeyValue<${bean}FormItemConfigMap, FormItemProps>) => {
-    //   return (
-    //     <>
-    //       <FormItem
-    //         {...formItemPropsMap.${api}Id}
-    //       >
-    //       </FormItem>
-    //
-    //       <FormItem
-    //         {...formItemPropsMap.${api}Type}
-    //       >
-    //       </FormItem>
-    //       <FormItem
-    //         {...formItemPropsMap.${api}Name}
-    //       >
-    //       </FormItem>
-    //       <FormItem
-    //         {...formItemPropsMap.Description}
-    //       >
-    //       </FormItem>
-    //     </>
-    //   )
-    // }
-    // ${bean}EditorModalPage = createModelPage(true, title, ${bean?uncap_first}Area, dispatch, ${bean?uncap_first}FormConfigMap, customBuildFormItem);
+        //<#--
+        const HoppyIdsEditor = updateFormItemConfigMap.HoppyIds.Editor;
+        const CascaderPostAddressIdsEditor = updateFormItemConfigMap.CascaderPostAddressIds.Editor;
+        const ${api}nameEditor = updateFormItemConfigMap.${api}name.Editor;
+        const PasswordEditor = updateFormItemConfigMap.Password.Editor;
+        const RoleTypeEditor = updateFormItemConfigMap.RoleType.Editor;
+        const NickNameEditor = updateFormItemConfigMap.NickName.Editor;
+        const AgeEditor = updateFormItemConfigMap.Age.Editor;
+        const AddressEditor = updateFormItemConfigMap.Address.Editor;
+        const AvatarImgIdEditor = updateFormItemConfigMap.AvatarImgId.Editor;
+        const EmailEditor = updateFormItemConfigMap.Email.Editor;
+        const ValiDatetimeEditor = updateFormItemConfigMap.ValiDatetime.Editor;
+        const BirthdayDateEditor = updateFormItemConfigMap.BirthdayDate.Editor;
+        const WorkTimeEditor = updateFormItemConfigMap.WorkTime.Editor;
+        const ProvinceIdEditor = updateFormItemConfigMap.ProvinceId.Editor;
+        const CityIdEditor = updateFormItemConfigMap.CityId.Editor;
+        const StatusEditor = updateFormItemConfigMap.Status.Editor;
+        const GradeEditor = updateFormItemConfigMap.Grade.Editor;
+        const SexEditor = updateFormItemConfigMap.Sex.Editor;
+        const PostAddressIdEditor = updateFormItemConfigMap.PostAddressId.Editor;
+        //-->
+        //
+        return (
+          <>
+            <${api}IdEditor
+              readOnly
+            >
+            </${api}IdEditor>
+            <NameEditor
+            >
+            </NameEditor>
+            //{/*<#--*/}
+            <HoppyIdsEditor
+            >
+            </HoppyIdsEditor>
+            <CascaderPostAddressIdsEditor
+            >
+            </CascaderPostAddressIdsEditor>
+            <${api}nameEditor
+            >
+            </${api}nameEditor>
+            <PasswordEditor
+            >
+            </PasswordEditor>
+            <RoleTypeEditor
+            >
+            </RoleTypeEditor>
+
+            <NickNameEditor
+            >
+            </NickNameEditor>
+            <AgeEditor
+            >
+            </AgeEditor>
+            <AddressEditor
+            >
+            </AddressEditor>
+            <AvatarImgIdEditor
+            >
+            </AvatarImgIdEditor>
+            <EmailEditor
+            >
+            </EmailEditor>
+            <ValiDatetimeEditor
+            >
+            </ValiDatetimeEditor>
+            <BirthdayDateEditor
+            >
+            </BirthdayDateEditor>
+            <WorkTimeEditor
+            >
+            </WorkTimeEditor>
+            <ProvinceIdEditor
+            >
+            </ProvinceIdEditor>
+            <CityIdEditor
+            >
+            </CityIdEditor>
+            <StatusEditor
+            >
+            </StatusEditor>
+            <GradeEditor
+            >
+            </GradeEditor>
+            <SexEditor
+            >
+            </SexEditor>
+            <PostAddressIdEditor
+            >
+            </PostAddressIdEditor>
+            // --> */};
+            //
+          </>
+        )
+
+      }
+    }
+
+
+    /*1.调整顺序，自动生成 1,2,3任选*/
+    const ${api?uncap_first}FormConfigs = Object.values(formItemConfigMap);
+    /*2.或者 调整顺序 */
+    // const ${api?uncap_first}FormConfigs: FormItemConfig[] = [];
+    // ${api?uncap_first}FormConfigs.push(formItemConfigMap.${api}Name)
+    // ${api?uncap_first}FormConfigs.push(formItemConfigMap.${api}Id)
+    // ${api?uncap_first}FormConfigs.push(formItemConfigMap.${api}Type)
+    /* 自定义排序*/
+
+    const modelPageProps: ModelPageProps<${api}> = {
+      record: current,
+      isEditor: true,
+      title,
+      areaState: ${api?uncap_first}Area,
+      dispatch,
+      formItemConfigs: ${api?uncap_first}FormConfigs,
+      getEditors,
+    };
+    EditorModalPage = <ModelPage {...modelPageProps} />;
   }
 
   const onFilter = () => {
     dispatch(${api}Dispatch.updateState_reducer({
-      ${bean?uncap_first}Area: {
-        type: ${api?uncap_first}Effects.get${bean}PageList,
+      ${api?uncap_first}Area: {
+        type: ${api?uncap_first}Effects.get${api}PageList,
         doQuery: true,
         cancelState: {
           type: ${api?uncap_first}Reducers.updateState,
@@ -165,48 +277,50 @@ const ${api?uncap_first}Page = (props: ${api}PageProps) => {
   }
 
 
-  let ${bean}QueryForm = null;
-  if (${bean?uncap_first}Area.doQuery) {
-    const title = 'Query';
-    const ${bean?uncap_first}PageListFormItemConfigMap = ${api}ApiForms.getGet${bean}PageListFormItemConfigMap(${bean?uncap_first}Area.queryRule ? ${bean?uncap_first}Area.queryRule : {});
-    const formItemConfigs = Object.values(${bean?uncap_first}PageListFormItemConfigMap);
-    ${bean}QueryForm = createModelPage(false, title, ${bean?uncap_first}Area, dispatch, formItemConfigs);
+  let ${api}QueryForm = null;
+  if (${api?uncap_first}Area.doQuery) {
+    const title = '查询';
+    const record = ${api?uncap_first}Area.queryRule || {};
+    const ${api?uncap_first}PageListFormItemConfigMap = ${api}ApiForms.get${api}PageListFormItemConfigMap(record);
+    const formItemConfigs = Object.values(${api?uncap_first}PageListFormItemConfigMap);
+    const modelPageProps = {record, isEditor: false, title, areaState: ${api?uncap_first}Area, dispatch, formItemConfigs}
+    ${api}QueryForm = <ModelPage {...modelPageProps}/>;
   }
 
-  const rowSelection: TableRowSelection<${bean}> = {
+  const rowSelection: TableRowSelection<${api}> = {
     onChange: (selectedRowKeys, selectedRows) => {
       const dispachData: ${api}State = {
-        ${bean?uncap_first}Area: {
+        ${api?uncap_first}Area: {
           selectedRowKeys
         }
       }
       dispatch(${api}Dispatch.updateState_reducer(dispachData));
     },
     getCheckboxProps: (record) => ({
-      disabled: false,//record.${bean?uncap_first}Id === 'ADMIN',
+      disabled: false,//record.${api?uncap_first}Id === 'ADMIN',
       /*name: record.name,*/
     }),
   };
 
   const handleDeleteItems = () => {
-    dispatch(${api}Dispatch.deleteBy${bean}Ids_effect({${bean?uncap_first}Ids: ${bean?uncap_first}Area.selectedRowKeys}, cleanSelectRowsProps));
+    dispatch(${api}Dispatch.deleteBy${api}Ids_effect({${api?uncap_first}Ids: ${api?uncap_first}Area.selectedRowKeys}, cleanSelectRowsProps));
   };
 
-  const pagination = ${bean?uncap_first}Area.pagination;
+  const pagination = ${api?uncap_first}Area.pagination;
   if (pagination) {
     pagination.onChange = (page: number, pageSize?: number) => {
-      dispatch(${api}Dispatch.get${bean}PageList_effect({...${bean?uncap_first}Area.queryRule, pageSize, page}));
+      dispatch(${api}Dispatch.get${api}PageList_effect({...${api?uncap_first}Area.queryRule, pageSize, page}));
     };
     pagination.showSizeChanger = true;
   }
 
-  const tableProps: TableProps<${bean}> = {
+  const tableProps: TableProps<${api}> = {
     rowSelection: rowSelection,
     bordered: true,
-    rowKey: (${bean?uncap_first}: ${bean}) => ${bean?uncap_first}.${bean?uncap_first}Id,
-    dataSource: ${bean?uncap_first}Area.list,
-    loading: loading.effects[${api?uncap_first}Effects.get${bean}PageList.toString()],
-    columns: ${bean?uncap_first}Columns,
+    rowKey: (${api?uncap_first}: ${api}) => ${api?uncap_first}.${api?uncap_first}Id,
+    dataSource: ${api?uncap_first}Area.list,
+    loading: loading.effects[${api?uncap_first}Effects.get${api}PageList.toString()],
+    columns: ${api?uncap_first}Columns,
     pagination: pagination,
   }
 
@@ -219,17 +333,17 @@ const ${api?uncap_first}Page = (props: ${api}PageProps) => {
           <Button type="ghost" onClick={onAdd}>创建</Button>
           <Button type="ghost" onClick={onFilter}>查询</Button>
           {
-            ${bean?uncap_first}Area.selectedRowKeys.length > 0 &&
+            ${api?uncap_first}Area.selectedRowKeys.length > 0 &&
             <Popconfirm title="Are you sure delete these items?" placement="left" onConfirm={handleDeleteItems}>
               <Button type="primary" style={{marginLeft: 8}}>删除</Button>
-              {'Selected '+${bean?uncap_first}Area.selectedRowKeys.length+' items' }
+              {'Selected ' + ${api?uncap_first}Area.selectedRowKeys.length + ' items'}
             </Popconfirm>
           }
         </Col>
       </Row>
       <Table {...tableProps} />
-      {${bean}EditorModalPage && <${bean}EditorModalPage/>}
-      {${bean}QueryForm && <${bean}QueryForm/>}
+      {EditorModalPage && {...EditorModalPage}}
+      {${api}QueryForm && {...${api}QueryForm}}
     </Page>
   )
 };

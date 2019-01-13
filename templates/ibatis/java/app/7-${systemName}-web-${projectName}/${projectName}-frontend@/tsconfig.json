@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "module": "es6",
+    "target": "es5",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "baseUrl": "./",
+    "allowSyntheticDefaultImports": true,
+
+    "experimentalDecorators": true,
+    "allowJs": false,
+    "lib": ["es2017","dom"],
+
+    "noImplicitAny": false,
+    "emitDecoratorMetadata": true,
+    "paths": {
+      /*for webstorm*/
+      "@/*": ["./src/*"],
+      "@i/*": ["./src/intergrade/*"],
+
+
+      "themes/*": ["./src/themes/*"],
+      "@components/*": ["./src/components/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@images/*": ["./src/images/*"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "bower_components",
+    "jspm_packages",
+    "tmp",
+    "temp"
+  ]
+}

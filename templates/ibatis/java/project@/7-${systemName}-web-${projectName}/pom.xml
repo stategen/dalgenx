@@ -2,26 +2,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>${packageName}</groupId>
-        <artifactId>${systemName}-parent</artifactId>
+        <groupId>com.mycompany.biz</groupId>
+        <artifactId>trade-parent</artifactId>
         <version>1.0.0</version>
         <relativePath>../</relativePath>
     </parent>
 
     <properties>
-        <frontend>${projectName}-frontend</frontend>
-        <warName>${systemName}${projectName?cap_first}</warName>
+        <frontend>cms-frontend</frontend>
+        <warName>tradeCms</warName>
     </properties>
 
-    <artifactId>${systemName}-web-${projectName}</artifactId>
-    <version>${'$'}{systemVersion}</version>
+    <artifactId>trade-web-cms</artifactId>
+    <version>${systemVersion}</version>
     <packaging>war</packaging>
-    <name>7-${systemName}-web-${projectName}</name>
+    <name>7-trade-web-cms</name>
 
     <dependencies>
         <dependency>
-            <groupId>${packageName}</groupId>
-            <artifactId>${systemName}-web-base</artifactId>
+            <groupId>com.mycompany.biz</groupId>
+            <artifactId>trade-web-base</artifactId>
         </dependency>
 
         <dependency>
@@ -94,6 +94,7 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
 
@@ -104,7 +105,7 @@
                     <failOnError>true</failOnError>
                     <filesets>
 <!--                         <fileset>
-                            <directory>./${'$'}{frontend}/dist/</directory>
+                            <directory>./${frontend}/dist/</directory>
                             <includes>
                                 <include>**/*</include>
                             </includes>
@@ -133,7 +134,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>${packageName}.facadegen.UmiFacadeProcessor</mainClass>
+                            <mainClass>com.mycompany.biz.facadegen.UmiFacadeProcessor</mainClass>
                             <classpathScope>test</classpathScope>
                         </configuration>
                     </execution>
@@ -146,7 +147,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <workingDirectory>./${'$'}{frontend}/</workingDirectory>
+                            <workingDirectory>./${frontend}/</workingDirectory>
                             <executable>yarn</executable>
                             <arguments>
                                 <!-- <argument>install</argument> -->
@@ -164,7 +165,7 @@
                         </goals>
 
                         <configuration>
-                            <workingDirectory>./${'$'}{frontend}/</workingDirectory>
+                            <workingDirectory>./${frontend}/</workingDirectory>
                             <executable>yarn</executable>
                             <arguments>
                                 <argument>run</argument>
@@ -186,10 +187,10 @@
                         </goals>
 
                         <configuration>
-                            <outputDirectory>${'$'}{basedir}/WebRoot/pages</outputDirectory>
+                            <outputDirectory>${basedir}/WebRoot/pages</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>./${'$'}{frontend}/dist</directory>
+                                    <directory>./${frontend}/dist</directory>
                                     <includes>
                                         <include>**/*</include>
                                     </includes>
@@ -203,8 +204,8 @@
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <warSourceDirectory>${'$'}{basedir}/WebRoot</warSourceDirectory>
-                    <warName>${'$'}{warName}</warName>
+                    <warSourceDirectory>${basedir}/WebRoot</warSourceDirectory>
+                    <warName>${warName}</warName>
                     <packagingExcludes>
                         node_modules/**
                     </packagingExcludes>

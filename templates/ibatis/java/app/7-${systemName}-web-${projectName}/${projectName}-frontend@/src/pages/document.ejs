@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-touch-fullscreen" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="telephone=no,email=no" name="format-detection">
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+  <script src="https://as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js"></script>
+  <script>
+    if ('addEventListener' in document) {
+      document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+      }, false);
+    }
+    if(!window.Promise) {
+      document.writeln('<script src="https://as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"'+'>'+'<'+'/'+'script>');
+    }
+  </script>
+  <title>CNode-with-umi</title>
+
+
+
+</head>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  window.tradeApp_url = /*[[${@urls.tradeApp_url}]]*/"/tradeApp";
+  /*]]>*/
+</script>
+<script>
+  if (window.routerBase && window.routerBase !== '') {
+    var _idxOf_rb = location.pathname.indexOf(window.routerBase);
+    if (_idxOf_rb > -1) {
+      window.routerBase = location.pathname.substr(0, _idxOf_rb) + window.routerBase;
+      if (window.publicPath && window.publicPath !=='' && window.publicPath !=='/' ) {
+        window.publicPath = window.routerBase + window.publicPath;
+      }
+
+      if (window.routerBase.slice(-1) !== '/') {
+        window.routerBase += '/'
+      }
+
+      if (window.publicPath.slice(-1) !== '/') {
+        window.publicPath += '/'
+      }
+    }
+  }
+  console.log('window.routerBase:',window.routerBase);
+  console.log('window.publicPath:',window.publicPath);
+</script>
+
+<body>
+  <div id="root"></div>
+</body>
+</html>
