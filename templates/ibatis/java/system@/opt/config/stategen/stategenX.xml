@@ -6,8 +6,10 @@
     <entry key="THIS_IP">127.0.0.1</entry>
     <!--生成环境不生成api文档，请将该值设为false,其它环境可以设为true -->
     <entry key="swagger.enable">true</entry>
+    <!-- 开发时，将此值设为false,以便浏览器可以查看cookies,生产环境上，该值设为false-->
+    <entry key="loginCookieGroupHttpOnly">false</entry>
 
-    <entry key="mysql.ip.port">jdbc:mysql://localhost:3306/trade?useUnicode=true</entry>
+    <entry key="mysql.ip.port">jdbc:mysql://localhost:3306/trade?useUnicode=true&amp;characterEncoding=UTF8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;allowMultiQueries=true</entry>
 	<entry key="mysql.username">stategen</entry>
 	<entry key="mysql.password">stategen</entry>
         
@@ -62,7 +64,7 @@
     <entry key="trade.dubbo.protocol.host">${THIS_IP}</entry>
     <entry key="trade.dubbo.protocol.port">20872</entry>
 
-    <entry key="trade.jdbc.url">${mysql.ip.port}/yaoke_order_activity?useUnicode=true</entry>
+    <entry key="trade.jdbc.url">${mysql.ip.port}</entry>
     <entry key="trade.jdbc.username">${mysql.username}</entry>
     <entry key="trade.jdbc.password">${mysql.password}</entry>  
     
