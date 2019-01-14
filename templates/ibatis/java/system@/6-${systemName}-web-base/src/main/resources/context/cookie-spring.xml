@@ -17,8 +17,8 @@
 
     <!-- 验证cookie分组 ,该类可以多个，配置不同的分组 -->
     <bean id="loginCookieGroup" class="org.stategen.framework.web.cookie.CookieGroup">
-        <property name="cookieTypeClz" value="com.mycompany.biz.enums.CookieType.LOGIN" />
-        <property name="httpOnly" value="${loginCookieGroupHttpOnly}"/>
+        <property name="cookieTypeClz" value="${packageName}.enums.CookieType.LOGIN" />
+        <property name="httpOnly" value="${'${'}loginCookieGroupHttpOnly}"/>
     </bean>
 
 </beans>

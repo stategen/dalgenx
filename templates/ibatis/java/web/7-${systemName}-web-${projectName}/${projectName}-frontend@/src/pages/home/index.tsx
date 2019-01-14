@@ -6,7 +6,7 @@ import { NumberCard, Quote, Sales, Weather, RecentSales, Comments, Completed, Br
 import styles from './index.less'
 import Page from "@components/Page/Page";
 import {ConnectionPros} from "@utils/DvaUtil";
-import StatesAlias from "@i/configs/tradeCms-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}${projectName?cap_first}-statesAlias";
 import {AppProps} from "@i/interfaces/AppFaces";
 import {HomeProps} from "@i/interfaces/HomeFaces";
 

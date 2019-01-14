@@ -3,7 +3,7 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package com.mycompany.biz.domain;
+package ${packageName}.domain;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

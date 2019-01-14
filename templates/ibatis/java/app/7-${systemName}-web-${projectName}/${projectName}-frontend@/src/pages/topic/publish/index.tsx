@@ -8,7 +8,7 @@ import styles from './publish.css';
 import Link from "umi/link";
 import Nav from "@components/nav";
 import Footer from "@components/tabs";
-import StatesAlias from "@i/configs/tradeApp-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}App-statesAlias";
 import {ConnectionPros, FormProps} from "@utils/DvaUtil";
 import {AppProps} from "@i/interfaces/AppFaces";
 import {Topic_publishDispatch, Topic_publishProps} from "@i/interfaces/Topic_publishFaces";

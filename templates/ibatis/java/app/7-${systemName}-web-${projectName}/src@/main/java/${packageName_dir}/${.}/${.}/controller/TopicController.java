@@ -1,4 +1,4 @@
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -16,9 +16,9 @@ import org.stategen.framework.lite.Pagination;
 import org.stategen.framework.util.DatetimeUtil;
 import org.stategen.framework.web.cookie.CookieGroup;
 
-import com.mycompany.biz.domain.Topic;
-import com.mycompany.biz.enums.CookieType.LOGIN.LoginCookieNames;
-import com.mycompany.biz.enums.TopicType;
+import ${packageName}.domain.Topic;
+import ${packageName}.enums.CookieType.LOGIN.LoginCookieNames;
+import ${packageName}.enums.TopicType;
 
 import io.swagger.annotations.ApiParam;
 

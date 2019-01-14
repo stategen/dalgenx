@@ -7,7 +7,7 @@ import {dateFormat} from '@utils/index';
 import styles from './topicDetail.css';
 import UserImage, {avatarImgIdRender} from "@components/userImage";
 import Comment from "./components/comment";
-import StatesAlias from "@i/configs/tradeApp-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}App-statesAlias";
 import {AppProps} from "@i/interfaces/AppFaces";
 import {ConnectionPros} from "@utils/DvaUtil";
 import TopicReply from "@i/beans/TopicReply";
@@ -92,7 +92,7 @@ class TopicDetail extends React.Component <TopicDetailProps, TopicDetailState> {
 
     const separator = (sectionID, rowID) => (
       <div
-        key={`${sectionID}-${rowID}`}
+        key={`${'${'}sectionID}-${'${'}rowID}`}
         style={{
           backgroundColor: '#F5F5F9',
           height: 3,
@@ -132,7 +132,7 @@ class TopicDetail extends React.Component <TopicDetailProps, TopicDetailState> {
                         to={ RouteUtil.compileRoute(user_detail_$usernameInitModel.pathname,{username:topicReply.author.username})}>{topicReply.author.username}</Link>
                        {dateFormat(topicReply.createTime)}
                 </div>
-                <div className={styles.replyInfo_floor}>#{idx + 1}</div>
+                <div className={styles.replyInfo_floor}>${'#{'}idx + 1}</div>
               </div>
               <div className="replyContent content markdown-body"
                    dangerouslySetInnerHTML={{__html: topicReply.content}}

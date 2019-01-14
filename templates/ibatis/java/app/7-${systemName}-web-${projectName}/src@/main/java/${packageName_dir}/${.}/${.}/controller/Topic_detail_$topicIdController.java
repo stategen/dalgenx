@@ -1,4 +1,4 @@
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import java.util.Arrays;
 
@@ -14,13 +14,13 @@ import org.stategen.framework.enums.DataOpt;
 import org.stategen.framework.lite.PageList;
 import org.stategen.framework.lite.Pagination;
 
-import com.mycompany.biz.checker.LoginCheck;
-import com.mycompany.biz.domain.Topic;
-import com.mycompany.biz.domain.TopicReply;
-import com.mycompany.biz.enums.CookieType.LOGIN.LoginCookieNames;
-import com.mycompany.biz.service.TopicReplyService;
-import com.mycompany.biz.service.TopicUpService;
-import com.mycompany.biz.service.UserService;
+import ${packageName}.checker.LoginCheck;
+import ${packageName}.domain.Topic;
+import ${packageName}.domain.TopicReply;
+import ${packageName}.enums.CookieType.LOGIN.LoginCookieNames;
+import ${packageName}.service.TopicReplyService;
+import ${packageName}.service.TopicUpService;
+import ${packageName}.service.UserService;
 
 import io.swagger.annotations.ApiParam;
 
@@ -54,7 +54,7 @@ public class Topic_detail_$topicIdController extends TopicControllerBase {
                                                 Pagination pagination) {
 
         String userId = loginCookieGroup.getCookieValue(LoginCookieNames.userId);
-        PageList<TopicReply> topicReplyPageList = topicReplyService.getTopicReplyPageList(topicReply, userId, pagination.getPageSize(),
+        PageList<TopicReply> topicReplyPageList = topicReplyService.getTopicReplyPageList(topicReply, pagination.getPageSize(),
             pagination.getPage());
         topicReplyService.assignRepliesExtraProperties(userId, topicReplyPageList.getItems());
         return topicReplyPageList;

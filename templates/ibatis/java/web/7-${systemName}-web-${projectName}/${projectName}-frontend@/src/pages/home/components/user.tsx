@@ -26,7 +26,7 @@ function User ({
   return (<div className={styles.user}>
     <div className={styles.header}>
       <div className={styles.headerinner}>
-        <div className={styles.avatar} style={{ backgroundImage: `url(${avatar})` }} />
+        <div className={styles.avatar} style={{ backgroundImage: `url(${'${'}avatar})` }} />
         <h5 className={styles.name}>{name}</h5>
         <p>{email}</p>
       </div>

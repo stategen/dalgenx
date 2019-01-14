@@ -3,14 +3,14 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package com.mycompany.biz.service;
+package ${packageName}.service;
 
 import java.util.List;
 
 import org.stategen.framework.lite.PageList;
 import org.stategen.framework.util.AssignSerice;
 
-import com.mycompany.biz.domain.TopicReply;
+import ${packageName}.domain.TopicReply;
 
 /**
  * TopicReplyService
@@ -23,46 +23,48 @@ import com.mycompany.biz.domain.TopicReply;
  * 因此该类可以修改任何部分
  * </pre>
  */
-public interface TopicReplyService extends AssignSerice<TopicReply, String>, TopicReplyServiceTrade {
+public interface TopicReplyService extends AssignSerice<TopicReply, String>, TopicReplyService${systemName?cap_first} {
 
     TopicReply replyUp(String replyId, String authorId);
 
     void assignRepliesExtraProperties(String authorId, List<TopicReply> replies);
+	
+
 
     //<#--
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#insert
+     * @see ${packageName}.dao.TopicReplyDao#insert
      */
     public TopicReply insert(TopicReply topicReply);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#delete
+     * @see ${packageName}.dao.TopicReplyDao#delete
      */
     public String delete(String replyId);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#update
+     * @see ${packageName}.dao.TopicReplyDao#update
      */
     public TopicReply update(TopicReply topicReply);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#getTopicReplyByReplyId
+     * @see ${packageName}.dao.TopicReplyDao#getTopicReplyByReplyId
      */
     public TopicReply getTopicReplyByReplyId(String replyId);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#getTopicReplysByReplyIds
+     * @see ${packageName}.dao.TopicReplyDao#getTopicReplysByReplyIds
      */
     public List<TopicReply> getTopicReplysByReplyIds(java.util.List<String> replyIds);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#deleteByReplyIds
+     * @see ${packageName}.dao.TopicReplyDao#deleteByReplyIds
      */
     public java.util.List<String> deleteByReplyIds(java.util.List<String> replyIds);
 
@@ -71,12 +73,13 @@ public interface TopicReplyService extends AssignSerice<TopicReply, String>, Top
 
     /*** 批量保存topicReplys,有id时更新，没有id时插入,并带回新的id，返回 topicReplys*/
     public List<TopicReply> saveTopicReplys(List<TopicReply> topicReplys);
-
-    /**
+	
+	/**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#getTopicReplyPageList
+     * @see ${packageName}.dao.TopicReplyDao#getTopicReplyPageList
      */
-    public PageList<TopicReply> getTopicReplyPageList(TopicReply topicReply, String authorId, int pageSize, int pageNum);
+    public PageList<TopicReply> getTopicReplyPageList(TopicReply topicReply, int pageSize, int pageNum);
+
     //-->
     //
 }

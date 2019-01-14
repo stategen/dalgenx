@@ -3,7 +3,7 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package com.mycompany.biz.service.impl;
+package ${packageName}.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,9 +18,9 @@ import org.stategen.framework.lite.PageList;
 import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.StringUtil;
 
-import com.mycompany.biz.dao.FileSummaryDao;
-import com.mycompany.biz.domain.FileSummary;
-import com.mycompany.biz.service.FileSummaryService;
+import ${packageName}.dao.FileSummaryDao;
+import ${packageName}.domain.FileSummary;
+import ${packageName}.service.FileSummaryService;
 
 /**
  * FileSummaryServiceImpl
@@ -35,7 +35,7 @@ import com.mycompany.biz.service.FileSummaryService;
  */
 public class FileSummaryServiceImpl implements FileSummaryService {
 
-    @Value("${project.name}")
+    @Value("${'${'}project.name}")
     private String projectName;
 
     @Resource(name = "fileSummaryDao")
@@ -48,8 +48,8 @@ public class FileSummaryServiceImpl implements FileSummaryService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#insert
-     * @see com.mycompany.biz.service.FileSummaryService#insert
+     * @see ${packageName}.dao.FileSummaryDao#insert
+     * @see ${packageName}.service.FileSummaryService#insert
      */
     @Override
     public FileSummary insert(FileSummary fileSummary) {
@@ -58,8 +58,8 @@ public class FileSummaryServiceImpl implements FileSummaryService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#delete
-     * @see com.mycompany.biz.service.FileSummaryService#delete
+     * @see ${packageName}.dao.FileSummaryDao#delete
+     * @see ${packageName}.service.FileSummaryService#delete
      */
     @Override
     public String delete(String fileId) {
@@ -68,8 +68,8 @@ public class FileSummaryServiceImpl implements FileSummaryService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#update
-     * @see com.mycompany.biz.service.FileSummaryService#update
+     * @see ${packageName}.dao.FileSummaryDao#update
+     * @see ${packageName}.service.FileSummaryService#update
      */
     @Override
     public FileSummary update(FileSummary fileSummary) {
@@ -78,8 +78,8 @@ public class FileSummaryServiceImpl implements FileSummaryService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#getFileSummaryByFileId
-     * @see com.mycompany.biz.service.FileSummaryService#getFileSummaryByFileId
+     * @see ${packageName}.dao.FileSummaryDao#getFileSummaryByFileId
+     * @see ${packageName}.service.FileSummaryService#getFileSummaryByFileId
      */
     @Override
     public FileSummary getFileSummaryByFileId(String fileId) {
@@ -88,8 +88,8 @@ public class FileSummaryServiceImpl implements FileSummaryService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#getFileSummaryPageList
-     * @see com.mycompany.biz.service.FileSummaryService#getFileSummaryPageList
+     * @see ${packageName}.dao.FileSummaryDao#getFileSummaryPageList
+     * @see ${packageName}.service.FileSummaryService#getFileSummaryPageList
      */
     @Override
     public PageList<FileSummary> getFileSummaryPageList(FileSummary fileSummary, int pageSize, int pageNum) {
@@ -98,8 +98,8 @@ public class FileSummaryServiceImpl implements FileSummaryService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#getFileSummarysByFileIds
-     * @see com.mycompany.biz.service.FileSummaryService#getFileSummarysByFileIds
+     * @see ${packageName}.dao.FileSummaryDao#getFileSummarysByFileIds
+     * @see ${packageName}.service.FileSummaryService#getFileSummarysByFileIds
      */
     @Override
     public List<FileSummary> getFileSummarysByFileIds(java.util.List<String> fileIds) {
@@ -108,8 +108,8 @@ public class FileSummaryServiceImpl implements FileSummaryService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#deleteByFileIds
-     * @see com.mycompany.biz.service.FileSummaryService#deleteByFileIds
+     * @see ${packageName}.dao.FileSummaryDao#deleteByFileIds
+     * @see ${packageName}.service.FileSummaryService#deleteByFileIds
      */
     @Override
     public java.util.List<String> deleteByFileIds(java.util.List<String> fileIds) {

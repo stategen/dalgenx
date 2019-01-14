@@ -3,14 +3,14 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package com.mycompany.biz.service;
+package ${packageName}.service;
 
 import java.util.List;
 
 import org.stategen.framework.lite.PageList;
 import org.stategen.framework.util.AssignSerice;
 
-import com.mycompany.biz.domain.FileSummary;
+import ${packageName}.domain.FileSummary;
 
 /**
  * FileSummaryService
@@ -23,61 +23,62 @@ import com.mycompany.biz.domain.FileSummary;
  * 因此该类可以修改任何部分
  * </pre>
  */
-public interface FileSummaryService extends AssignSerice<FileSummary, String>, FileSummaryServiceTrade {
+public interface FileSummaryService extends AssignSerice<FileSummary, String>, FileSummaryService${systemName?cap_first} {
 
     String getProjectName();
 
     //<#--
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#insert
+     * @see ${packageName}.dao.FileSummaryDao#insert
      */
     public FileSummary insert(FileSummary fileSummary);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#delete
+     * @see ${packageName}.dao.FileSummaryDao#delete
      */
     public String delete(String fileId);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#update
+     * @see ${packageName}.dao.FileSummaryDao#update
      */
     public FileSummary update(FileSummary fileSummary);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#getFileSummaryByFileId
+     * @see ${packageName}.dao.FileSummaryDao#getFileSummaryByFileId
      */
     public FileSummary getFileSummaryByFileId(String fileId);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#getFileSummaryPageList
+     * @see ${packageName}.dao.FileSummaryDao#getFileSummaryPageList
      */
     public PageList<FileSummary> getFileSummaryPageList(FileSummary fileSummary, int pageSize, int pageNum);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#getFileSummarysByFileIds
+     * @see ${packageName}.dao.FileSummaryDao#getFileSummarysByFileIds
      */
     public List<FileSummary> getFileSummarysByFileIds(java.util.List<String> fileIds);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.FileSummaryDao#deleteByFileIds
+     * @see ${packageName}.dao.FileSummaryDao#deleteByFileIds
      */
     public java.util.List<String> deleteByFileIds(java.util.List<String> fileIds);
 
     /*** 保存fileSummary,有id时更新，没有id时插入,并带回新的id，返回 fileSummary
-     * @see com.mycompany.biz.dao.FileSummaryDao#insert
+     * @see ${packageName}.dao.FileSummaryDao#insert
      */
     public FileSummary saveFileSummary(FileSummary fileSummary);
 
     /** 批量保存fileSummarys,有id时更新，没有id时插入,并带回新的id，返回 fileSummarys
-     * @see com.mycompany.biz.dao.FileSummaryDao#insert
+     * @see ${packageName}.dao.FileSummaryDao#insert
      */
     public List<FileSummary> saveFileSummarys(List<FileSummary> fileSummarys);
     // -->
+    //
 }

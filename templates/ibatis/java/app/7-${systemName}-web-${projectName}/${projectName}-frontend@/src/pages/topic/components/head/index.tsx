@@ -3,7 +3,7 @@ import {connect} from 'dva';
 import {SegmentedControl} from 'antd-mobile';
 
 import styles from './index.css';
-import StatesAlias from "@i/configs/tradeApp-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}App-statesAlias";
 import TopicType, {topicTypeOptions} from "@i/enums/TopicType";
 import {TopicDispatch, TopicProps, TopicState} from "@i/interfaces/TopicFaces";
 import {ConnectionPros} from "@utils/DvaUtil";

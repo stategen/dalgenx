@@ -7,7 +7,7 @@ import Link from "umi/link";
 import Nav from "@components/nav";
 import Footer from "@components/tabs";
 import UserInfo from "../components/userInfo";
-import StatesAlias from "@i/configs/tradeApp-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}App-statesAlias";
 import {AppDispatch, AppProps} from "@i/interfaces/AppFaces";
 import {ConnectionPros, FormProps} from "@utils/DvaUtil";
 import {User_meDispatch, user_meEffects, User_meProps} from "@i/interfaces/User_meFaces";

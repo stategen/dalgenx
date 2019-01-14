@@ -3,7 +3,7 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package com.mycompany.biz.service;
+package ${packageName}.service;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
 import org.stategen.framework.lite.PageList;
 import org.stategen.framework.util.AssignSerice;
 
-import com.mycompany.biz.domain.Region;
+import ${packageName}.domain.Region;
 
 /**
  * RegionService
@@ -24,72 +24,72 @@ import com.mycompany.biz.domain.Region;
  * 因此该类可以修改任何部分
  * </pre>
  */
-public interface RegionService extends AssignSerice<Region, Long>, RegionServiceTrade {
+public interface RegionService extends AssignSerice<Region, Long>, RegionService${systemName?cap_first} {
 
     Map<Long, Region> getRegionMapIfHasParent(List<Long> regionIds);
 
     //<#--
     /**
      * 
-     * @see com.mycompany.biz.dao.RegionDao#insert
+     * @see ${packageName}.dao.RegionDao#insert
      */
     public Region insert(Region region);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.RegionDao#delete
+     * @see ${packageName}.dao.RegionDao#delete
      */
     public Long delete(Long regionId);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.RegionDao#update
+     * @see ${packageName}.dao.RegionDao#update
      */
     public Region update(Region region);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.RegionDao#getRegionByRegionId
+     * @see ${packageName}.dao.RegionDao#getRegionByRegionId
      */
     public Region getRegionByRegionId(Long regionId);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.RegionDao#getRegionPageList
+     * @see ${packageName}.dao.RegionDao#getRegionPageList
      */
     public PageList<Region> getRegionPageList(Region region, int pageSize, int pageNum);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.RegionDao#getRegionsByRegionIds
+     * @see ${packageName}.dao.RegionDao#getRegionsByRegionIds
      */
     public List<Region> getRegionsByRegionIds(java.util.List<Long> regionIds);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.RegionDao#deleteByRegionIds
+     * @see ${packageName}.dao.RegionDao#deleteByRegionIds
      */
     public java.util.List<Long> deleteByRegionIds(java.util.List<Long> regionIds);
 
     /*** 保存region,有id时更新，没有id时插入,并带回新的id，返回 region
-     * @see com.mycompany.biz.dao.RegionDao#insert
+     * @see ${packageName}.dao.RegionDao#insert
      */
     public Region saveRegion(Region region);
 
     /** 批量保存regions,有id时更新，没有id时插入,并带回新的id，返回 regions
-     * @see com.mycompany.biz.dao.RegionDao#insert
+     * @see ${packageName}.dao.RegionDao#insert
      */
     public List<Region> saveRegions(List<Region> regions);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.RegionDao#getRegionOptions
+     * @see ${packageName}.dao.RegionDao#getRegionOptions
      */
     public List<Region> getRegionOptions(List<Long> parentRegionIds);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.RegionDao#getRegionsWithIsLeafByRegionIds
+     * @see ${packageName}.dao.RegionDao#getRegionsWithIsLeafByRegionIds
      */
     public List<Region> getRegionsWithIsLeafByRegionIds(java.util.List<Long> regionIds);
     //-->

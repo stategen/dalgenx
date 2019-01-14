@@ -1,4 +1,4 @@
-package com.mycompany.biz.utils;
+package ${packageName}.utils;
 
 import java.lang.reflect.Method;
 
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.stategen.framework.lite.IResponseStatus;
 import org.stategen.framework.response.ResponseUtil;
 
-import com.mycompany.biz.enums.ResponseStatus;
+import ${packageName}.enums.ResponseStatus;
 
 public class TestGetUsersHandlerInterceptor implements HandlerInterceptor {
 

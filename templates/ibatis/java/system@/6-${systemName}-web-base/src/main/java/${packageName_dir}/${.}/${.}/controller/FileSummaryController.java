@@ -1,4 +1,4 @@
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.stategen.framework.annotation.ApiConfig;
 import org.stategen.framework.annotation.ApiRequestMappingAutoWithMethodName;
 
-import com.mycompany.biz.domain.FileSummary;
+import ${packageName}.domain.FileSummary;
 
 import io.swagger.annotations.ApiParam;
 

@@ -1,4 +1,4 @@
-package com.mycompany.biz.annotion;
+package ${packageName}.annotion;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.FIELD;

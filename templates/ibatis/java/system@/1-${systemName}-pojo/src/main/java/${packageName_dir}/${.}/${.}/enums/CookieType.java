@@ -1,10 +1,10 @@
-package com.mycompany.biz.enums;
+package ${packageName}.enums;
 
 import org.stategen.framework.lite.ICookieType;
 import org.stategen.framework.lite.IResponseStatus;
 
-import com.mycompany.biz.enums.ResponseStatus.NOT_LOGIN;
-import com.mycompany.biz.enums.ResponseStatus.PAY_NO_TOKEN;
+import ${packageName}.enums.ResponseStatus.NOT_LOGIN;
+import ${packageName}.enums.ResponseStatus.PAY_NO_TOKEN;
 
 public enum CookieType implements  ICookieType{
     LOGIN(LOGIN.class,"_tk_",NOT_LOGIN.class),

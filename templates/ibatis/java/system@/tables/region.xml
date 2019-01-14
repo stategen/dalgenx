@@ -5,8 +5,8 @@
 ]>
 <table sqlName="region" className="Region">
     <!-- 不需要配置的列请删除-->
-    <!-- <column name="status" javaType="com.mycompany.biz.enums.StatusEnum"/> -->
-    <column name="region_type" javaType="com.mycompany.biz.enums.RegionType"/>
+    <!-- <column name="status" javaType="${packageName}.enums.StatusEnum"/> -->
+    <column name="region_type" javaType="${packageName}.enums.RegionType"/>
     <column name="isLeaf" javaType="Boolean"/>
 
     <sql id="getRegionPageListOrderBy">

@@ -13,7 +13,7 @@ class DataTable extends React.Component {
       dataSource, pagination = {
         showSizeChanger: true,
         showQuickJumper: true,
-        showTotal: total => `共 ${total} 条`,
+        showTotal: total => `共 ${'${'}total} 条`,
         current: 1,
         total: 100,
       },

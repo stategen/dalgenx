@@ -3,7 +3,7 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package com.mycompany.biz.domain;
+package ${packageName}.domain;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,8 +22,8 @@ import org.stategen.framework.annotation.ReferConfig;
 import org.stategen.framework.lite.enums.EditorType;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.mycompany.biz.enums.RoleType;
-import com.mycompany.biz.enums.StatusEnum;
+import ${packageName}.enums.RoleType;
+import ${packageName}.enums.StatusEnum;
 import io.swagger.annotations.ApiModelProperty;
 
 import lombok.Getter;
@@ -275,7 +275,7 @@ public class User implements java.io.Serializable {
     /*** 用户角色 ADMIN,DEFAULT,DEVELOPERs in getUserPageList */
     @ApiModelProperty("用户角色 s")
     @JSONField(serialize = false)
-    private java.util.List<com.mycompany.biz.enums.RoleType> roleTypes;
+    private java.util.List<${packageName}.enums.RoleType> roleTypes;
 
     /*** 用户名nameLike in getUserPageList */
     @ApiModelProperty("用户名nameLike")
@@ -365,7 +365,7 @@ public class User implements java.io.Serializable {
     @ApiModelProperty("状态 s")
     @JSONField(serialize = false)
     @Editor(EditorType.CheckboxGroup.class)
-    private java.util.List<com.mycompany.biz.enums.StatusEnum> statuss;
+    private java.util.List<${packageName}.enums.StatusEnum> statuss;
 
     /*** 级别Min in getUserPageList */
     @ApiModelProperty("级别Min")

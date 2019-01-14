@@ -1,13 +1,13 @@
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.stategen.framework.annotation.ApiRequestMappingAutoWithMethodName;
 
-import com.mycompany.biz.domain.Response;
-import com.mycompany.biz.enums.ResponseStatus;
-import com.mycompany.biz.enums.RoleType;
+import ${packageName}.domain.Response;
+import ${packageName}.enums.ResponseStatus;
+import ${packageName}.enums.RoleType;
 
 @Controller
 @RequestMapping("/api")

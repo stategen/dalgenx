@@ -1,4 +1,4 @@
-package com.mycompany.biz.checker;
+package ${packageName}.checker;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
 import org.stategen.framework.annotation.Check;
 import org.stategen.framework.annotation.CookieCheck;
 
-import com.mycompany.biz.enums.CookieType;
-import com.mycompany.biz.enums.CookieType.LOGIN;
-import com.mycompany.biz.enums.ResponseStatus;
+import ${packageName}.enums.CookieType;
+import ${packageName}.enums.CookieType.LOGIN;
+import ${packageName}.enums.ResponseStatus;
 /***
  * 该标识是用cookie检测实现，查看cookie中是否有被不能篡改的name为 login 的cookie
  * 

@@ -1,4 +1,4 @@
-package com.mycompany.biz.enums;
+package ${packageName}.enums;
 
 public enum RegionType {
     STATES,

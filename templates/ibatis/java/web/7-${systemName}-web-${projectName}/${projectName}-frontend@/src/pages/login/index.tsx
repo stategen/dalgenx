@@ -9,7 +9,7 @@ import {LoginDispatch, LoginProps} from "@i/interfaces/LoginFaces";
 import UIEditors from "@utils/UIEditors";
 import LoginApiForms from "@i/forms/LoginApiForms";
 import {AppProps} from "@i/interfaces/AppFaces";
-import StatesAlias from "@i/configs/tradeCms-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}${projectName?cap_first}-statesAlias";
 
 // const FormItem = Form.Item
 

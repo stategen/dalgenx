@@ -2,7 +2,7 @@
  * Copyright (c) 2016 - 2116 All Rights Reserved.
  * Powered By [rapid-generator]
  */
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,19 +17,19 @@ import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.TreeUtil;
 import org.stategen.framework.web.cookie.CookieGroup;
 
-import com.mycompany.biz.domain.FileSummary;
-import com.mycompany.biz.domain.Hoppy;
-import com.mycompany.biz.domain.Region;
-import com.mycompany.biz.domain.User;
-import com.mycompany.biz.domain.UserHoppy;
-import com.mycompany.biz.enums.CookieType.LOGIN.LoginCookieNames;
-import com.mycompany.biz.service.CityService;
-import com.mycompany.biz.service.FileSummaryService;
-import com.mycompany.biz.service.HoppyService;
-import com.mycompany.biz.service.ProvinceService;
-import com.mycompany.biz.service.RegionService;
-import com.mycompany.biz.service.UserHoppyService;
-import com.mycompany.biz.service.UserService;
+import ${packageName}.domain.FileSummary;
+import ${packageName}.domain.Hoppy;
+import ${packageName}.domain.Region;
+import ${packageName}.domain.User;
+import ${packageName}.domain.UserHoppy;
+import ${packageName}.enums.CookieType.LOGIN.LoginCookieNames;
+import ${packageName}.service.CityService;
+import ${packageName}.service.FileSummaryService;
+import ${packageName}.service.HoppyService;
+import ${packageName}.service.ProvinceService;
+import ${packageName}.service.RegionService;
+import ${packageName}.service.UserHoppyService;
+import ${packageName}.service.UserService;
 
 @RequestMapping("/api/user")
 @Wrap

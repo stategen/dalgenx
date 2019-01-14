@@ -1,4 +1,4 @@
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import java.io.IOException;
 

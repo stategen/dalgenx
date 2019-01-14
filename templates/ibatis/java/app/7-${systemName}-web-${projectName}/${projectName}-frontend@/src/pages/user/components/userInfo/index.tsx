@@ -30,8 +30,8 @@ function UserInfo({user}: UserInfoProps) {
           <UserImage imageUrl={avatarImgIdRender.renderColumn(user)} width={80} height={80}/>
           <span className={styles.userName}>{user.username}</span>
           <div className={styles.userInfo}>
-            <span>{`积分：${user.score}`}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span>{`注册于：${dateFormat(user.createTime)}`}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>{`积分：${'${'}user.score}`}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>{`注册于：${'${'}dateFormat(user.createTime)}`}</span>&nbsp;&nbsp;&nbsp;&nbsp;
             <span>{UserColumns.sex.renderColumn(user,'：')}</span>
           </div>
         </div>

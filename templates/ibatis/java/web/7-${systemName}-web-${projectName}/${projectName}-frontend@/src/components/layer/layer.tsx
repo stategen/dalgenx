@@ -21,9 +21,9 @@ const layer = {
 
 layer.close = index => new Promise((resolve, reject) => {
   const { prefixCls } = layer
-  let div = document.getElementById(`${prefixCls}-reference-${index}`)
+  let div = document.getElementById(`${'${'}prefixCls}-reference-${'${'}index}`)
   if (index === undefined) {
-    const references = document.querySelectorAll(`.${prefixCls}-reference`)
+    const references = document.querySelectorAll(`.${'${'}prefixCls}-reference`)
     div = references[references.length - 1]
   }
   if (!div) {
@@ -41,7 +41,7 @@ layer.close = index => new Promise((resolve, reject) => {
 
 layer.closeAll = () => {
   const { prefixCls } = layer
-  const references = document.querySelectorAll(`.${prefixCls}-reference`)
+  const references = document.querySelectorAll(`.${'${'}prefixCls}-reference`)
   let i = 0
   while (i < references.length) {
     layer.close()
@@ -57,8 +57,8 @@ layer.open = (config) => {
   layer.index += 1
   const { index } = layer
   let div = document.createElement('div')
-  div.id = `${prefixCls}-reference-${index}`
-  div.className = `${prefixCls}-reference`
+  div.id = `${'${'}prefixCls}-reference-${'${'}index}`
+  div.className = `${'${'}prefixCls}-reference`
   document.body.appendChild(div)
 
   ReactDOM.render(<Modal
@@ -74,9 +74,9 @@ layer.open = (config) => {
       }}
     {...modalProps}
     wrapClassName={classnames({ [styles.verticalCenter]: verticalCenter, [wrapClassName]: true })}
-    className={classnames(prefixCls, className, [`${prefixCls}-${index}`])}
+    className={classnames(prefixCls, className, [`${'${'}prefixCls}-${'${'}index}`])}
   >
-    <div className={`${prefixCls}-body-wrapper`} style={{ maxHeight: document.body.clientHeight - 256 }}>
+    <div className={`${'${'}prefixCls}-body-wrapper`} style={{ maxHeight: document.body.clientHeight - 256 }}>
       {content}
     </div>
   </Modal>, div)

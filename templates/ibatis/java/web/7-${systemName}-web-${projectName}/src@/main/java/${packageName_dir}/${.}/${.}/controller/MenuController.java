@@ -1,4 +1,4 @@
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import java.util.List;
 
@@ -10,10 +10,10 @@ import org.stategen.framework.annotation.ApiRequestMappingAutoWithMethodName;
 import org.stategen.framework.annotation.VisitCheck;
 import org.stategen.framework.generator.util.ControllerHelpers;
 
-import com.mycompany.biz.domain.Menu;
-import com.mycompany.biz.domain.RoleMenu;
-import com.mycompany.biz.service.RoleMenuService;
-import com.mycompany.biz.service.RoleService;
+import ${packageName}.domain.Menu;
+import ${packageName}.domain.RoleMenu;
+import ${packageName}.service.RoleMenuService;
+import ${packageName}.service.RoleService;
 
 @Controller
 public class MenuController extends MenuControllerBase {

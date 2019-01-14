@@ -3,7 +3,7 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package com.mycompany.biz.domain;
+package ${packageName}.domain;
 
 import java.text.SimpleDateFormat;
 
@@ -16,7 +16,7 @@ import org.stategen.framework.annotation.Editor;
 import org.stategen.framework.lite.enums.EditorType;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.mycompany.biz.enums.TopicType;
+import ${packageName}.enums.TopicType;
 import io.swagger.annotations.ApiModelProperty;
 
 import lombok.Getter;
@@ -152,7 +152,7 @@ public class Topic implements java.io.Serializable {
     /*** 主题类型s in getTopicPageList */
     @ApiModelProperty("主题类型 s")
     @JSONField(serialize = false)
-    private java.util.List<com.mycompany.biz.enums.TopicType> topicTypes;
+    private java.util.List<${packageName}.enums.TopicType> topicTypes;
 
     /*** 内容Like in getTopicPageList */
     @ApiModelProperty("内容Like")

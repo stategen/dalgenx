@@ -22,7 +22,7 @@ import RouteUtil from "@utils/RouteUtil";
 import UIEditors from "@utils/UIEditors";
 import MenuUtil from "@utils/MenuUtil";
 import Loader from "@components/Loader/Loader";
-import StatesAlias from "@i/configs/tradeCms-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}${projectName?cap_first}-statesAlias";
 import {TabPaneProps} from "antd/es/tabs";
 
 const {Content, Footer, Sider} = Layout;

@@ -25,7 +25,7 @@ class Comment extends React.PureComponent<CommentPros> {
       <div className={styles.comment}>
         <div className={styles.input}>
                   <textarea
-                    placeholder={commetTo ? `@${commetTo}` : '回复支持Markdown语法,请注意标记代码'}
+                    placeholder={commetTo ? `@${'${'}commetTo}` : '回复支持Markdown语法,请注意标记代码'}
                     defaultValue={content}
                     onInput={(e) => {
                       this.setState({content: e.target.value});
@@ -40,7 +40,7 @@ class Comment extends React.PureComponent<CommentPros> {
             };
             if (parentReplyId) {
               submitData.parentReplyId = parentReplyId;
-              submitData.content = `[@${commetTo}](/user/${commetTo}) ${content}`;
+              submitData.content = `[@${'${'}commetTo}](/user/${'${'}commetTo}) ${'${'}content}`;
             }
             submitData.content += '\n\rFrom [cnode-with-umi](https://github.com/layupbolon/cnode-with-umi)';
             dispatch(Topic_detail_$topicIdDispatch.PostReply_effect(submitData,{index:-1,flag:false}));

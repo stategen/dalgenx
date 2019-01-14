@@ -3,7 +3,7 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package com.mycompany.biz.service.impl;
+package ${packageName}.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,13 +18,13 @@ import org.stategen.framework.lite.PageList;
 import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.StringUtil;
 
-import com.mycompany.biz.dao.TopicDao;
-import com.mycompany.biz.domain.Topic;
-import com.mycompany.biz.domain.User;
-import com.mycompany.biz.service.FileSummaryService;
-import com.mycompany.biz.service.TopicService;
-import com.mycompany.biz.service.TopicUpService;
-import com.mycompany.biz.service.UserService;
+import ${packageName}.dao.TopicDao;
+import ${packageName}.domain.Topic;
+import ${packageName}.domain.User;
+import ${packageName}.service.FileSummaryService;
+import ${packageName}.service.TopicService;
+import ${packageName}.service.TopicUpService;
+import ${packageName}.service.UserService;
 
 /**
  * TopicServiceImpl
@@ -65,8 +65,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#insert
-     * @see com.mycompany.biz.service.TopicService#insert
+     * @see ${packageName}.dao.TopicDao#insert
+     * @see ${packageName}.service.TopicService#insert
      */
     @Override
     public Topic insert(Topic topic) {
@@ -75,8 +75,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#delete
-     * @see com.mycompany.biz.service.TopicService#delete
+     * @see ${packageName}.dao.TopicDao#delete
+     * @see ${packageName}.service.TopicService#delete
      */
     @Override
     public String delete(String topicId) {
@@ -85,8 +85,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#update
-     * @see com.mycompany.biz.service.TopicService#update
+     * @see ${packageName}.dao.TopicDao#update
+     * @see ${packageName}.service.TopicService#update
      */
     @Override
     public Topic update(Topic topic) {
@@ -95,8 +95,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#getTopicByTopicId
-     * @see com.mycompany.biz.service.TopicService#getTopicByTopicId
+     * @see ${packageName}.dao.TopicDao#getTopicByTopicId
+     * @see ${packageName}.service.TopicService#getTopicByTopicId
      */
     @Override
     public Topic getTopicByTopicId(String topicId) {
@@ -106,8 +106,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#getTopicsByTopicIds
-     * @see com.mycompany.biz.service.TopicService#getTopicsByTopicIds
+     * @see ${packageName}.dao.TopicDao#getTopicsByTopicIds
+     * @see ${packageName}.service.TopicService#getTopicsByTopicIds
      */
     @Override
     public List<Topic> getTopicsByTopicIds(java.util.List<String> topicIds) {
@@ -116,8 +116,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#deleteByTopicIds
-     * @see com.mycompany.biz.service.TopicService#deleteByTopicIds
+     * @see ${packageName}.dao.TopicDao#deleteByTopicIds
+     * @see ${packageName}.service.TopicService#deleteByTopicIds
      */
     @Override
     public java.util.List<String> deleteByTopicIds(java.util.List<String> topicIds) {
@@ -149,8 +149,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#getTopicPageList
-     * @see com.mycompany.biz.service.TopicService#getTopicPageList
+     * @see ${packageName}.dao.TopicDao#getTopicPageList
+     * @see ${packageName}.service.TopicService#getTopicPageList
      */
     @Override
     public PageList<Topic> getTopicPageList(Topic topic, int pageSize, int pageNum) {
@@ -171,8 +171,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 获取当前回复的数量
-     * @see com.mycompany.biz.dao.TopicDao#getReplyCounts
-     * @see com.mycompany.biz.service.TopicService#getReplyCounts
+     * @see ${packageName}.dao.TopicDao#getReplyCounts
+     * @see ${packageName}.service.TopicService#getReplyCounts
      */
     @Override
     public List<Topic> getReplyCounts(java.util.List<String> topicIds) {

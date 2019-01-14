@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'dva';
 import Nav from "@components/nav";
 import UserInfo from "../../components/userInfo";
-import StatesAlias from "@i/configs/tradeApp-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}App-statesAlias";
 import {AppProps} from "@i/interfaces/AppFaces";
 import {User_detail_$usernameProps} from "@i/interfaces/User_detail_$usernameFaces";
 import {ConnectionPros} from "@utils/DvaUtil";
@@ -14,7 +14,7 @@ const user_detail_$usernamePage = (props: User_detail_$usernamePageProps) => {
   const user = props.user_detail_$usernameState.userArea.list[0] || {};
   return (
     <>
-      <Nav title={`${user.username}的个人中心`}/>
+      <Nav title={`${'${'}user.username}的个人中心`}/>
       <UserInfo user={user}></UserInfo>
     </>
   );

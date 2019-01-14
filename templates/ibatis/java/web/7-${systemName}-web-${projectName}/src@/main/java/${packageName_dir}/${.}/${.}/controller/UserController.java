@@ -1,4 +1,4 @@
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,10 +23,10 @@ import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.CopyUtil;
 import org.stategen.framework.util.DatetimeUtil;
 
-import com.mycompany.biz.annotion.ExcludeBeanNotNull;
-import com.mycompany.biz.checker.LoginCheck;
-import com.mycompany.biz.domain.User;
-import com.mycompany.biz.enums.StatusEnum;
+import ${packageName}.annotion.ExcludeBeanNotNull;
+import ${packageName}.checker.LoginCheck;
+import ${packageName}.domain.User;
+import ${packageName}.enums.StatusEnum;
 
 import io.swagger.annotations.ApiParam;
 

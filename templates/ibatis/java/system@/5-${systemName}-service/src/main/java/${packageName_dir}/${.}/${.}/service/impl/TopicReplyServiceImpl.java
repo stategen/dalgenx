@@ -3,7 +3,7 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package com.mycompany.biz.service.impl;
+package ${packageName}.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,14 +18,14 @@ import org.stategen.framework.lite.PageList;
 import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.StringUtil;
 
-import com.mycompany.biz.dao.TopicReplyDao;
-import com.mycompany.biz.domain.TopicReply;
-import com.mycompany.biz.domain.TopicUp;
-import com.mycompany.biz.domain.User;
-import com.mycompany.biz.service.FileSummaryService;
-import com.mycompany.biz.service.TopicReplyService;
-import com.mycompany.biz.service.TopicUpService;
-import com.mycompany.biz.service.UserService;
+import ${packageName}.dao.TopicReplyDao;
+import ${packageName}.domain.TopicReply;
+import ${packageName}.domain.TopicUp;
+import ${packageName}.domain.User;
+import ${packageName}.service.FileSummaryService;
+import ${packageName}.service.TopicReplyService;
+import ${packageName}.service.TopicUpService;
+import ${packageName}.service.UserService;
 
 /**
  * TopicReplyServiceImpl
@@ -88,8 +88,8 @@ public class TopicReplyServiceImpl implements TopicReplyService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#insert
-     * @see com.mycompany.biz.service.TopicReplyService#insert
+     * @see ${packageName}.dao.TopicReplyDao#insert
+     * @see ${packageName}.service.TopicReplyService#insert
      */
     @Override
     public TopicReply insert(TopicReply topicReply) {
@@ -98,8 +98,8 @@ public class TopicReplyServiceImpl implements TopicReplyService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#delete
-     * @see com.mycompany.biz.service.TopicReplyService#delete
+     * @see ${packageName}.dao.TopicReplyDao#delete
+     * @see ${packageName}.service.TopicReplyService#delete
      */
     @Override
     public String delete(String replyId) {
@@ -108,8 +108,8 @@ public class TopicReplyServiceImpl implements TopicReplyService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#update
-     * @see com.mycompany.biz.service.TopicReplyService#update
+     * @see ${packageName}.dao.TopicReplyDao#update
+     * @see ${packageName}.service.TopicReplyService#update
      */
     @Override
     public TopicReply update(TopicReply topicReply) {
@@ -118,8 +118,8 @@ public class TopicReplyServiceImpl implements TopicReplyService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#getTopicReplyByReplyId
-     * @see com.mycompany.biz.service.TopicReplyService#getTopicReplyByReplyId
+     * @see ${packageName}.dao.TopicReplyDao#getTopicReplyByReplyId
+     * @see ${packageName}.service.TopicReplyService#getTopicReplyByReplyId
      */
     @Override
     public TopicReply getTopicReplyByReplyId(String replyId) {
@@ -128,8 +128,8 @@ public class TopicReplyServiceImpl implements TopicReplyService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#getTopicReplysByReplyIds
-     * @see com.mycompany.biz.service.TopicReplyService#getTopicReplysByReplyIds
+     * @see ${packageName}.dao.TopicReplyDao#getTopicReplysByReplyIds
+     * @see ${packageName}.service.TopicReplyService#getTopicReplysByReplyIds
      */
     @Override
     public List<TopicReply> getTopicReplysByReplyIds(java.util.List<String> replyIds) {
@@ -138,8 +138,8 @@ public class TopicReplyServiceImpl implements TopicReplyService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#deleteByReplyIds
-     * @see com.mycompany.biz.service.TopicReplyService#deleteByReplyIds
+     * @see ${packageName}.dao.TopicReplyDao#deleteByReplyIds
+     * @see ${packageName}.service.TopicReplyService#deleteByReplyIds
      */
     @Override
     public java.util.List<String> deleteByReplyIds(java.util.List<String> replyIds) {
@@ -171,11 +171,11 @@ public class TopicReplyServiceImpl implements TopicReplyService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicReplyDao#getTopicReplyPageList
-     * @see com.mycompany.biz.service.TopicReplyService#getTopicReplyPageList
+     * @see ${packageName}.dao.TopicReplyDao#getTopicReplyPageList
+     * @see ${packageName}.service.TopicReplyService#getTopicReplyPageList
      */
     @Override
-    public PageList<TopicReply> getTopicReplyPageList(TopicReply topicReply, String authorId, int pageSize, int pageNum) {
+    public PageList<TopicReply> getTopicReplyPageList(TopicReply topicReply, int pageSize, int pageNum) {
         PageList<TopicReply> topicReplyList = topicReplyDao.getTopicReplyPageList(topicReply, pageSize, pageNum);
         return topicReplyList;
     }

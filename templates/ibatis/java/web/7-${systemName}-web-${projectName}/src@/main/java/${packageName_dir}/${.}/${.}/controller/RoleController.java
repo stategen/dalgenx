@@ -1,4 +1,4 @@
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,8 +18,8 @@ import org.stategen.framework.lite.PageList;
 import org.stategen.framework.lite.Pagination;
 import org.stategen.framework.util.DatetimeUtil;
 
-import com.mycompany.biz.domain.Role;
-import com.mycompany.biz.enums.RoleType;
+import ${packageName}.domain.Role;
+import ${packageName}.enums.RoleType;
 
 import io.swagger.annotations.ApiParam;
 

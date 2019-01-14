@@ -26,7 +26,7 @@ close=()=>{
   render() {
     const {list,className} = this.props
       return (
-        <div className={`${style["card-wrap"]} ${className}`}>
+        <div className={`${'${'}style["card-wrap"]} ${'${'}className}`}>
           {
           list.map((x,index)=>(
             <div className={style.card} key={index}>

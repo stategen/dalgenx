@@ -20,6 +20,7 @@ package ${tableConfig.basepackage}.${controller_dir_name};
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.stategen.framework.annotation.Wrap;
 
 import ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}${internal_service_suffix};
 /**

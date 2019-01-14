@@ -1,4 +1,4 @@
-package com.mycompany.biz.enums;
+package ${packageName}.enums;
 
 import org.stategen.framework.lite.IResponseStatus;
 

@@ -698,8 +698,8 @@ namespace UIEditors {
 
     const result = theOptions.map((option: Option) => {
       const props = {
-        value: `${option.value}`,
-        key: `${option.value}`,
+        value: `${'${'}option.value}`,
+        key: `${'${'}option.value}`,
         children: option.title || option.value,
       };
 

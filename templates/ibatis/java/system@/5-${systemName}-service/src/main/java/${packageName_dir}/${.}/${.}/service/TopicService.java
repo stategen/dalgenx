@@ -3,14 +3,14 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package com.mycompany.biz.service;
+package ${packageName}.service;
 
 import java.util.List;
 
 import org.stategen.framework.lite.PageList;
 import org.stategen.framework.util.AssignSerice;
 
-import com.mycompany.biz.domain.Topic;
+import ${packageName}.domain.Topic;
 
 /**
  * TopicService
@@ -23,66 +23,66 @@ import com.mycompany.biz.domain.Topic;
  * 因此该类可以修改任何部分
  * </pre>
  */
-public interface TopicService extends AssignSerice<Topic, String>, TopicServiceTrade {
+public interface TopicService extends AssignSerice<Topic, String>, TopicService${systemName?cap_first} {
 
     void assignTopicExtraProperties(List<Topic> topics);
 
     //<#--
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#insert
+     * @see ${packageName}.dao.TopicDao#insert
      */
     public Topic insert(Topic topic);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#delete
+     * @see ${packageName}.dao.TopicDao#delete
      */
     public String delete(String topicId);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#update
+     * @see ${packageName}.dao.TopicDao#update
      */
     public Topic update(Topic topic);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#getTopicByTopicId
+     * @see ${packageName}.dao.TopicDao#getTopicByTopicId
      */
     public Topic getTopicByTopicId(String topicId);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#getTopicsByTopicIds
+     * @see ${packageName}.dao.TopicDao#getTopicsByTopicIds
      */
     public List<Topic> getTopicsByTopicIds(java.util.List<String> topicIds);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#deleteByTopicIds
+     * @see ${packageName}.dao.TopicDao#deleteByTopicIds
      */
     public java.util.List<String> deleteByTopicIds(java.util.List<String> topicIds);
 
     /*** 保存topic,有id时更新，没有id时插入,并带回新的id，返回 topic
-     * @see com.mycompany.biz.dao.TopicDao#insert
+     * @see ${packageName}.dao.TopicDao#insert
      */
     public Topic saveTopic(Topic topic);
 
     /** 批量保存topics,有id时更新，没有id时插入,并带回新的id，返回 topics
-     * @see com.mycompany.biz.dao.TopicDao#insert
+     * @see ${packageName}.dao.TopicDao#insert
      */
     public List<Topic> saveTopics(List<Topic> topics);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.TopicDao#getTopicPageList
+     * @see ${packageName}.dao.TopicDao#getTopicPageList
      */
     public PageList<Topic> getTopicPageList(Topic topic, int pageSize, int pageNum);
 
     /**
      * 获取当前回复的数量
-     * @see com.mycompany.biz.dao.TopicDao#getReplyCounts
+     * @see ${packageName}.dao.TopicDao#getReplyCounts
      */
     public List<Topic> getReplyCounts(java.util.List<String> topicIds);
     //-->

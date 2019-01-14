@@ -1,4 +1,4 @@
-package com.mycompany.biz.facadegen;
+package ${packageName}.facadegen;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public class UmiFacadeProcessor extends BaseGenFacadeProcessor {
         GenContext.addStaticUtil(StringUtil.class);
         GenContext.addStaticUtil(CollectionUtil.class);
         GenContext.tempDirs =Arrays.asList("/ts-api","/ts-umi","/ts-umi-web");
-        GenContext.outDir="cms-frontend/src/intergrade/";
+        GenContext.outDir="${projectName?uncap_first}-frontend/src/intergrade/";
         GenContext.outConfigDir="configs";
         GenContext.Properties.put("webFlag", true);
 

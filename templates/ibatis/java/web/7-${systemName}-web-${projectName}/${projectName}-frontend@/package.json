@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "cms",
+  "name": "${projectName?uncap_first}",
   "version": "5.0.0-beta",
   "scripts": {
     "dev": "cross-env MOCK=NONE umi dev",

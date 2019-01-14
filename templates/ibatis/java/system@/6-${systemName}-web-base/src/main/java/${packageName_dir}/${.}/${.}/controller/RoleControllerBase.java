@@ -2,17 +2,17 @@
  * Copyright (c) 2016 - 2116 All Rights Reserved.
  * Powered By [rapid-generator]
  */
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.stategen.framework.annotation.Wrap;
 
-import com.mycompany.biz.domain.Role;
-import com.mycompany.biz.service.MenuService;
-import com.mycompany.biz.service.RoleMenuService;
-import com.mycompany.biz.service.RoleService;
+import ${packageName}.domain.Role;
+import ${packageName}.service.MenuService;
+import ${packageName}.service.RoleMenuService;
+import ${packageName}.service.RoleService;
 
 @RequestMapping("/api/role")
 @Wrap

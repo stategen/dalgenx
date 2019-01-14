@@ -2,14 +2,14 @@
  * Copyright (c) 2016 - 2116 All Rights Reserved.
  * Powered By [rapid-generator]
  */
-package com.mycompany.biz.service;
+package ${packageName}.service;
 
 import java.util.List;
 
 import org.stategen.framework.lite.PageList;
 import org.stategen.framework.util.AssignSerice;
 
-import com.mycompany.biz.domain.Menu;
+import ${packageName}.domain.Menu;
 
 /**
  * MenuServiceFacade
@@ -22,7 +22,7 @@ import com.mycompany.biz.domain.Menu;
  * 因此该类可以修改任何部分
  * </pre>
  */
-public interface MenuService extends AssignSerice<Menu, Long>, MenuServiceTrade {
+public interface MenuService extends AssignSerice<Menu, Long>, MenuService${systemName?cap_first} {
 
     String getProjectName();
 
@@ -33,43 +33,43 @@ public interface MenuService extends AssignSerice<Menu, Long>, MenuServiceTrade 
     //<#--
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#insert
+     * @see ${packageName}.dao.MenuDao#insert
      */
     public Menu insert(Menu menu);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#update
+     * @see ${packageName}.dao.MenuDao#update
      */
     public Menu update(Menu menu);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#getMenuByMenuId
+     * @see ${packageName}.dao.MenuDao#getMenuByMenuId
      */
     public Menu getMenuByMenuId(Long menuId);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#getMenusByMenuIds
+     * @see ${packageName}.dao.MenuDao#getMenusByMenuIds
      */
     public List<Menu> getMenusByMenuIds(java.util.List<Long> menuIds);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#deleteByMenuIds
+     * @see ${packageName}.dao.MenuDao#deleteByMenuIds
      */
     public List<Long> deleteByMenuIds(java.util.List<Long> menuIds);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#getMenusByUserId
+     * @see ${packageName}.dao.MenuDao#getMenusByUserId
      */
     public List<Long> getMenusByUserId(String userId, org.stategen.framework.lite.enums.MenuType menuType);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#forceUpdateById
+     * @see ${packageName}.dao.MenuDao#forceUpdateById
      */
     public Long forceUpdateById(Menu menu);
 
@@ -81,19 +81,19 @@ public interface MenuService extends AssignSerice<Menu, Long>, MenuServiceTrade 
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#delete
+     * @see ${packageName}.dao.MenuDao#delete
      */
     public Long delete(Long menuId);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#getMenuPageList
+     * @see ${packageName}.dao.MenuDao#getMenuPageList
      */
     public PageList<Menu> getMenuPageList(Menu menu, int pageSize, int pageNum);
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#getMenusByProjectName
+     * @see ${packageName}.dao.MenuDao#getMenusByProjectName
      */
     public List<Menu> getMenusByProjectName(String projectName, org.stategen.framework.lite.enums.MenuType menuType);
     //-->

@@ -17,8 +17,8 @@
 >
 
     <!--
-        <bean id="appapiBundleProvidor" class="com.mycompany.biz.i18n.DatabaseBundleProvidor">
-        <property name="notifyName" value="${project.name}"/>
+        <bean id="appapiBundleProvidor" class="${packageName}.i18n.DatabaseBundleProvidor">
+        <property name="notifyName" value="${'${'}project.name}"/>
         <property name="tableName" value="translate"/>
         <property name="useCodeAsDefaultMessage" value="true"/>
         <property name="defaultIndex" value="zh_CN"/>

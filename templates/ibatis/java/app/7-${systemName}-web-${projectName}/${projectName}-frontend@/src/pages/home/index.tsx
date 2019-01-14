@@ -6,7 +6,7 @@ import Card from '@/components/Card'
 import img from '@/images/moon.png'
 import {AppProps} from "@i/interfaces/AppFaces";
 import {HomeProps} from "@i/interfaces/HomeFaces";
-import StatesAlias from "@i/configs/tradeApp-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}App-statesAlias";
 import {ConnectionPros} from "@utils/DvaUtil";
 import Footer from "@components/tabs";
 

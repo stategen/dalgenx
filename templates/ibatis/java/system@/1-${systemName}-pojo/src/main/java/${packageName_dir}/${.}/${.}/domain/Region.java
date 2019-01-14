@@ -3,7 +3,7 @@
  * Copyright (c) 2016 - 2018 All Rights Reserved.
  * Powered By [stategen.dalgen]
  */
-package com.mycompany.biz.domain;
+package ${packageName}.domain;
 
 import java.text.SimpleDateFormat;
 
@@ -16,7 +16,7 @@ import org.stategen.framework.annotation.OptionConvertor;
 import org.stategen.framework.lite.IOption;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.mycompany.biz.enums.RegionType;
+import ${packageName}.enums.RegionType;
 import io.swagger.annotations.ApiModelProperty;
 
 import lombok.Getter;
@@ -161,7 +161,7 @@ public class Region implements java.io.Serializable, IOption {
     /*** regionTypes in getRegionPageList */
     @ApiModelProperty("regionType s")
     @JSONField(serialize = false)
-    private java.util.List<com.mycompany.biz.enums.RegionType> regionTypes;
+    private java.util.List<${packageName}.enums.RegionType> regionTypes;
 
     /*** 中文名称Like in getRegionPageList */
     @ApiModelProperty("中文名称Like")

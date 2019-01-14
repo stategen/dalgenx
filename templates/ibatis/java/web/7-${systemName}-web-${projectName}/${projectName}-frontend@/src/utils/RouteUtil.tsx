@@ -4,7 +4,7 @@ import {RouteOrders, SetupProps} from "@utils/DvaUtil";
 export default class RouteUtil {
 
   static getRealPathname(pathname: string): string {
-    pathname = pathname.startsWith('/') ? pathname : `/${pathname}`;
+    pathname = pathname.startsWith('/') ? pathname : `/${'${'}pathname}`;
     return pathname;
   }
 

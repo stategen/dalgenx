@@ -7,7 +7,7 @@ namespace UIColumns {
 
   function withTitle(result: any, joinTitle: string = null, columnConfig: ColumnConfig<any>) {
     if (joinTitle) {
-      result = `${columnConfig.title}${joinTitle}${result}`;
+      result = `${'${'}columnConfig.title}${'${'}joinTitle}${'${'}result}`;
     }
     return result;
   }

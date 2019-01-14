@@ -24,7 +24,7 @@ class LoginPage extends React.PureComponent<LoginFormProps> {
     const props = this.props;
     props.form.validateFields((error, values) => {
       if (error) {
-        const msg = `请输入${props.form.getFieldError('username') || ''}${props.form.getFieldError('password') || ''}`
+        const msg = `请输入${'${'}props.form.getFieldError('username') || ''}${'${'}props.form.getFieldError('password') || ''}`
         Toast.info(msg, 1);
         return;
       }
@@ -38,8 +38,8 @@ class LoginPage extends React.PureComponent<LoginFormProps> {
     const UsernameEditor = loginApiForms.Username.Editor;
     const PasswordEditor = loginApiForms.Password.Editor;
     return (
-      <div className={`page ${style.login}`}>
-        <div className={`${style["page-header"]}`}>
+      <div className={`page ${'${'}style.login}`}>
+        <div className={`${'${'}style["page-header"]}`}>
           <label>进入Stategen moble demo</label><img src={avataSrc} alt=""/>
         </div>
         <UsernameEditor

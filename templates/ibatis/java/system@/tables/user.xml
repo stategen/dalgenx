@@ -5,10 +5,10 @@
 ]>
 <table sqlName="user" className="User">
     <!-- 不需要配置的列请删除-->
-    <!-- <column name="status" javaType="com.mycompany.biz.enums.StatusEnum"/> -->
-    <column name="role_type" javaType="com.mycompany.biz.enums.RoleType"/>
+    <!-- <column name="status" javaType="${packageName}.enums.StatusEnum"/> -->
+    <column name="role_type" javaType="${packageName}.enums.RoleType"/>
 
-    <column name="status" javaType="com.mycompany.biz.enums.StatusEnum"/>
+    <column name="status" javaType="${packageName}.enums.StatusEnum"/>
     <sql id="getUserPageListOrderBy">
         a.update_time desc, a.create_time desc
     </sql>

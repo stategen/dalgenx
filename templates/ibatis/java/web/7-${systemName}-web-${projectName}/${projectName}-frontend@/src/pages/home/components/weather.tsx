@@ -20,13 +20,13 @@ function Weather({
         <div className={styles.left}>
           <div className={styles.icon}
                style={{
-                 backgroundImage: `url(${icon})`,
+                 backgroundImage: `url(${'${'}icon})`,
                }}
           />
           <p>{name}</p>
         </div>
         <div className={styles.right}>
-          <h1 className={styles.temperature}>{`${temperature}°`}</h1>
+          <h1 className={styles.temperature}>{`${'${'}temperature}°`}</h1>
           <p className={styles.description}>{city},{dateTime}</p>
         </div>
       </div>

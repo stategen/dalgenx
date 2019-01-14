@@ -22,7 +22,7 @@ function Quote ({
           <p>-{name}-</p>
           <p>{title}</p>
         </div>
-        <div className={styles.avatar} style={{ backgroundImage: `url(${avatar})` }} />
+        <div className={styles.avatar} style={{ backgroundImage: `url(${'${'}avatar})` }} />
       </div>
     </div>
   )

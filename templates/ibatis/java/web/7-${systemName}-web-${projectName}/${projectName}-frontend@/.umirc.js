@@ -53,10 +53,10 @@ export default {
   theme: "./theme.config.js",
   // 接口代理示例
   proxy: {
-    "/cms/api/v1/weather": {
+    "/${projectName?uncap_first}/api/v1/weather": {
       "target": "https://api.seniverse.com/",
       "changeOrigin": true,
-      "pathRewrite": {"^/cms/api/v1/weather": "/v3/weather"},
+      "pathRewrite": {"^/${projectName?uncap_first}/api/v1/weather": "/v3/weather"},
     },
 
     "/api/v1": {

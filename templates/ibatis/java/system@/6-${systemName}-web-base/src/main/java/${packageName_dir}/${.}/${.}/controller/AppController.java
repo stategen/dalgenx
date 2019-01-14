@@ -1,4 +1,4 @@
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,19 +20,19 @@ import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.StringUtil;
 import org.stategen.framework.web.cookie.CookieGroup;
 
-import com.mycompany.biz.domain.City;
-import com.mycompany.biz.domain.Hoppy;
-import com.mycompany.biz.domain.Menu;
-import com.mycompany.biz.domain.Province;
-import com.mycompany.biz.domain.Region;
-import com.mycompany.biz.domain.User;
-import com.mycompany.biz.enums.CookieType.LOGIN.LoginCookieNames;
-import com.mycompany.biz.service.CityService;
-import com.mycompany.biz.service.HoppyService;
-import com.mycompany.biz.service.MenuService;
-import com.mycompany.biz.service.ProvinceService;
-import com.mycompany.biz.service.RegionService;
-import com.mycompany.biz.service.UserService;
+import ${packageName}.domain.City;
+import ${packageName}.domain.Hoppy;
+import ${packageName}.domain.Menu;
+import ${packageName}.domain.Province;
+import ${packageName}.domain.Region;
+import ${packageName}.domain.User;
+import ${packageName}.enums.CookieType.LOGIN.LoginCookieNames;
+import ${packageName}.service.CityService;
+import ${packageName}.service.HoppyService;
+import ${packageName}.service.MenuService;
+import ${packageName}.service.ProvinceService;
+import ${packageName}.service.RegionService;
+import ${packageName}.service.UserService;
 
 import io.swagger.annotations.ApiParam;
 

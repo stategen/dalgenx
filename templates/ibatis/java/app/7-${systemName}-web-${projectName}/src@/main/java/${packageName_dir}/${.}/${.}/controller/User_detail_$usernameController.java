@@ -1,4 +1,4 @@
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +8,7 @@ import org.stategen.framework.annotation.State;
 import org.stategen.framework.annotation.Wrap;
 import org.stategen.framework.enums.DataOpt;
 
-import com.mycompany.biz.domain.User;
+import ${packageName}.domain.User;
 
 @ApiConfig
 @Wrap

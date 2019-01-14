@@ -39,7 +39,7 @@ function RecentSales ({ data }:ArrayDataProps) {
     }, {
       title: 'PRICE',
       dataIndex: 'price',
-      render: (text, it) => <span style={{ color: status[it.status].color }}>${text}</span>,
+      render: (text, it) => <span style={{ color: status[it.status].color }}>${'${'}text}</span>,
     },
   ]
   return (

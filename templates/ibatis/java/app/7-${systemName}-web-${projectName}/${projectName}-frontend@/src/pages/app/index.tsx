@@ -3,7 +3,7 @@ import {AppProps} from "@i/interfaces/AppFaces";
 import {ConnectionPros} from "@utils/DvaUtil";
 import withRouter from "umi/withRouter";
 import {connect} from 'dva'
-import StatesAlias from "@i/configs/tradeApp-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}App-statesAlias";
 
 type AppPagesProps = AppProps & ConnectionPros;
 

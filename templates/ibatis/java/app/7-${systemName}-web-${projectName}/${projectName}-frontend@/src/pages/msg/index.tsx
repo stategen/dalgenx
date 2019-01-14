@@ -8,7 +8,7 @@ import styles from './msg.css';
 import Nav from "@components/nav";
 import Footer from "@components/tabs";
 import UserImage, {avatarImgIdRender} from "@components/userImage";
-import StatesAlias from "@i/configs/tradeApp-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}App-statesAlias";
 import {AppProps} from "@i/interfaces/AppFaces";
 import {ConnectionPros} from "@utils/DvaUtil";
 import {MsgProps} from "@i/interfaces/MsgFaces";
@@ -52,10 +52,10 @@ class Msg extends React.PureComponent<CustomMsgProps & AppProps & ConnectionPros
                         hasnot_read_messages.map((item, index) => {
                             let content = null;
                             if (item.type === 'at') {
-                                content = <div>在话题 <Link to={`/topic/${item.topic.topicId}`}
+                                content = <div>在话题 <Link to={`/topic/${'${'}item.topic.topicId}`}
                                     style={{ color: '#108ee9' }}>{item.topic.title}</Link> 中 @了你</div>;
                             } else {
-                                content = <div>回复你了的话题 <Link to={`/topic/${item.topic.topicId}`}
+                                content = <div>回复你了的话题 <Link to={`/topic/${'${'}item.topic.topicId}`}
                                     style={{ color: '#108ee9' }}>{item.topic.title}</Link></div>;
                             }
 

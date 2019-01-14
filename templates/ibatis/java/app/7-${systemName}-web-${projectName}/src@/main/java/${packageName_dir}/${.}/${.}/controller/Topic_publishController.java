@@ -1,4 +1,4 @@
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.stategen.framework.annotation.ApiConfig;
@@ -7,10 +7,10 @@ import org.stategen.framework.annotation.GenForm;
 import org.stategen.framework.annotation.State;
 import org.stategen.framework.enums.DataOpt;
 
-import com.mycompany.biz.checker.LoginCheck;
-import com.mycompany.biz.domain.Topic;
-import com.mycompany.biz.enums.CookieType.LOGIN.LoginCookieNames;
-import com.mycompany.biz.enums.TopicType;
+import ${packageName}.checker.LoginCheck;
+import ${packageName}.domain.Topic;
+import ${packageName}.enums.CookieType.LOGIN.LoginCookieNames;
+import ${packageName}.enums.TopicType;
 
 import io.swagger.annotations.ApiParam;
 

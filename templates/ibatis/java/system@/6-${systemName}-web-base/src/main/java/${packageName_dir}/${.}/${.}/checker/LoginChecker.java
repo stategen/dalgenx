@@ -1,4 +1,4 @@
-package com.mycompany.biz.checker;
+package ${packageName}.checker;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

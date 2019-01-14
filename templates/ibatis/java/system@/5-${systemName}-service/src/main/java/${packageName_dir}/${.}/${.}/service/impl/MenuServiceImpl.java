@@ -2,7 +2,7 @@
  * Copyright (c) 2016 - 2116 All Rights Reserved.
  * Powered By [rapid-generator]
  */
-package com.mycompany.biz.service.impl;
+package ${packageName}.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,9 +20,9 @@ import org.stategen.framework.lite.enums.MenuType;
 import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.StringUtil;
 
-import com.mycompany.biz.dao.MenuDao;
-import com.mycompany.biz.domain.Menu;
-import com.mycompany.biz.service.MenuService;
+import ${packageName}.dao.MenuDao;
+import ${packageName}.domain.Menu;
+import ${packageName}.service.MenuService;
 
 /**
  * MenuServiceImpl
@@ -37,7 +37,7 @@ import com.mycompany.biz.service.MenuService;
  */
 public class MenuServiceImpl implements MenuService {
 
-    @Value("${project.name}")
+    @Value("${'${'}project.name}")
     private String projectName;
 
     @Resource(name = "menuDao")
@@ -87,16 +87,17 @@ public class MenuServiceImpl implements MenuService {
         return projectName;
     }
 
-    //<#--
     @Override
     public List<Menu> getAllMenus() {
         return this.getMenusByProjectName(getProjectName(), MenuType.MENU);
     }
+	
+    //<#--
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#insert
-     * @see com.mycompany.biz.service.MenuService#insert
+     * @see ${packageName}.dao.MenuDao#insert
+     * @see ${packageName}.service.MenuService#insert
      */
     @Override
     public Menu insert(Menu menu) {
@@ -105,8 +106,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#update
-     * @see com.mycompany.biz.service.MenuService#update
+     * @see ${packageName}.dao.MenuDao#update
+     * @see ${packageName}.service.MenuService#update
      */
     @Override
     public Menu update(Menu menu) {
@@ -115,8 +116,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#getMenuByMenuId
-     * @see com.mycompany.biz.service.MenuService#getMenuByMenuId
+     * @see ${packageName}.dao.MenuDao#getMenuByMenuId
+     * @see ${packageName}.service.MenuService#getMenuByMenuId
      */
     @Override
     public Menu getMenuByMenuId(Long menuId) {
@@ -125,8 +126,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#getMenusByMenuIds
-     * @see com.mycompany.biz.service.MenuService#getMenusByMenuIds
+     * @see ${packageName}.dao.MenuDao#getMenusByMenuIds
+     * @see ${packageName}.service.MenuService#getMenusByMenuIds
      */
     @Override
     public List<Menu> getMenusByMenuIds(java.util.List<Long> menuIds) {
@@ -135,8 +136,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#deleteByMenuIds
-     * @see com.mycompany.biz.service.MenuService#deleteByMenuIds
+     * @see ${packageName}.dao.MenuDao#deleteByMenuIds
+     * @see ${packageName}.service.MenuService#deleteByMenuIds
      */
     @Override
     public List<Long> deleteByMenuIds(java.util.List<Long> menuIds) {
@@ -145,8 +146,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#getMenusByUserId
-     * @see com.mycompany.biz.service.MenuService#getMenusByUserId
+     * @see ${packageName}.dao.MenuDao#getMenusByUserId
+     * @see ${packageName}.service.MenuService#getMenusByUserId
      */
     @Override
     public List<Long> getMenusByUserId(String userId, org.stategen.framework.lite.enums.MenuType menuType) {
@@ -155,8 +156,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#forceUpdateById
-     * @see com.mycompany.biz.service.MenuService#forceUpdateById
+     * @see ${packageName}.dao.MenuDao#forceUpdateById
+     * @see ${packageName}.service.MenuService#forceUpdateById
      */
     @Override
     public Long forceUpdateById(Menu menu) {
@@ -188,8 +189,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#delete
-     * @see com.mycompany.biz.service.MenuService#delete
+     * @see ${packageName}.dao.MenuDao#delete
+     * @see ${packageName}.service.MenuService#delete
      */
     @Override
     public Long delete(Long menuId) {
@@ -198,8 +199,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#getMenuPageList
-     * @see com.mycompany.biz.service.MenuService#getMenuPageList
+     * @see ${packageName}.dao.MenuDao#getMenuPageList
+     * @see ${packageName}.service.MenuService#getMenuPageList
      */
     @Override
     public PageList<Menu> getMenuPageList(Menu menu, int pageSize, int pageNum) {
@@ -208,8 +209,8 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 
-     * @see com.mycompany.biz.dao.MenuDao#getMenusByProjectName
-     * @see com.mycompany.biz.service.MenuService#getMenusByProjectName
+     * @see ${packageName}.dao.MenuDao#getMenusByProjectName
+     * @see ${packageName}.service.MenuService#getMenusByProjectName
      */
     @Override
     public List<Menu> getMenusByProjectName(String projectName, org.stategen.framework.lite.enums.MenuType menuType) {

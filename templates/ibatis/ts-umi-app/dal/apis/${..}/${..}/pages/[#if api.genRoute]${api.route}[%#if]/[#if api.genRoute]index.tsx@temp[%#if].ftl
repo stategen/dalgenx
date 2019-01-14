@@ -20,7 +20,7 @@ import {connect} from 'dva';
 import {${api}Dispatch, ${api?uncap_first}Effects, ${api}Props, ${api?uncap_first}Reducers, ${api}State} from '@i/interfaces/${api}Faces';
 import {ConnectionPros, operateOptions, cleanSelectRowsProps} from "@utils/DvaUtil";
 import {AppProps} from "@i/interfaces/AppFaces";
-import StatesAlias from "@i/configs/tradeApp-statesAlias";
+import StatesAlias from "@i/configs/${systemName}${projectName}-statesAlias";
 
 
 

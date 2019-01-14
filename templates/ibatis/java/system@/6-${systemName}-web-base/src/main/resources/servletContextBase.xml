@@ -58,13 +58,13 @@
     <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" />
     <!--<bean id="multiRequestMappingInterceptor" class="org.stategen.framework.spring.mvc.MultiRequestMappingInterceptor" /> -->
 
-<!--     <context:component-scan base-package="com.mycompany.biz.controller">
+<!--     <context:component-scan base-package="${packageName}.controller">
         <context:include-filter type="regex" expression=".controller.*Controller" />
     </context:component-scan> -->
     
     <!-- 使用Annotation自动注册Bean,只扫描@Controller -->
     <!-- base-package 如果多个，用“,”分隔 -->
-    <context:component-scan base-package="com.mycompany.biz.controller" use-default-filters="false">
+    <context:component-scan base-package="${packageName}.controller" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
 
@@ -89,11 +89,11 @@
 
     <!-- 权限拦截,由各自的annotain check 处理 -->
     <bean id="authCheckerHandlerInterceptor" class="org.stategen.framework.spring.mvc.AuthCheckerHandlerInterceptor">
-        <property name="responseStatusClzOfCheckFailDefault" value="com.mycompany.biz.enums.ResponseStatus.NOT_LOGIN" />
+        <property name="responseStatusClzOfCheckFailDefault" value="${packageName}.enums.ResponseStatus.NOT_LOGIN" />
     </bean>
     
     <!-- 
-    <bean id="testGetUsersHandlerInterceptor" class="com.mycompany.biz.utils.TestGetUsersHandlerInterceptor">
+    <bean id="testGetUsersHandlerInterceptor" class="${packageName}.utils.TestGetUsersHandlerInterceptor">
     </bean>
 	  -->
 
@@ -110,17 +110,17 @@
 
     <!-- 所有异常处理 -->
     <bean class="org.stategen.framework.spring.mvc.CollectExceptionJsonHandler">
-        <property name="responseStatusClzOfException" value="com.mycompany.biz.enums.ResponseStatus.ERROR" />
+        <property name="responseStatusClzOfException" value="${packageName}.enums.ResponseStatus.ERROR" />
     </bean>
 
     <!-- 处理结果拦截，转换为包装类 -->
     <bean class="org.stategen.framework.spring.mvc.ResponseBodyAdviceWrapper">
         <property name="packages">
             <list>
-                <value>com.mycompany.biz.controller</value>
+                <value>${packageName}.controller</value>
             </list>
         </property>
-        <property name="responseStatusClzOfResult" value="com.mycompany.biz.enums.ResponseStatus.OK" />
+        <property name="responseStatusClzOfResult" value="${packageName}.enums.ResponseStatus.OK" />
     </bean>
 
 
@@ -140,8 +140,8 @@
     </bean>
 
     <bean class="org.stategen.framework.checker.DefaultCookieCheckChecker" />
-    <bean class="com.mycompany.biz.checker.VisitChecker" />
-    <bean class="com.mycompany.biz.checker.LoginChecker" />
+    <bean class="${packageName}.checker.VisitChecker" />
+    <bean class="${packageName}.checker.LoginChecker" />
     <bean class="org.stategen.framework.spring.mvc.SwaggerConfig" />
 
     <!-- 文档转文档 -->

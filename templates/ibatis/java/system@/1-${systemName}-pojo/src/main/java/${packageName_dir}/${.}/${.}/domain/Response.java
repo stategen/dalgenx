@@ -1,8 +1,8 @@
-package com.mycompany.biz.domain;
+package ${packageName}.domain;
 
 import org.stategen.framework.lite.BaseResponse;
 
-import com.mycompany.biz.enums.ResponseStatus;
+import ${packageName}.enums.ResponseStatus;
 
 
 public class Response<T> extends BaseResponse<T> {

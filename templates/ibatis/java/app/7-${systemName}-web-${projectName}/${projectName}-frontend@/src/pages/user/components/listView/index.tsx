@@ -13,9 +13,9 @@ function ListView({ data }) {
         <List>
             {data.map((topic:Topic, index) => {
                 return (
-                    <Item key={`${topic.topicId}-${index}`}
+                    <Item key={`${'${'}topic.topicId}-${'${'}index}`}
                         extra={dateFormat(topic.lastReplyAt)}
-                        onClick={() => router.push(`/topicDetail/${topic.topicId}`)}
+                        onClick={() => router.push(`/topicDetail/${'${'}topic.topicId}`)}
                     >
                         {topic.title}
                     </Item>

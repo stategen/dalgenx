@@ -8,11 +8,11 @@ xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
 >
 
     <!-- 应用配置 各业务平台根据name区分 -->
-    <dubbo:application name="trade-dubbo-dalgen" owner="trade" organization="com.mycompany.biz" />
+    <dubbo:application name="${systemName?uncap_first}-dubbo-dalgen" owner="${systemName?uncap_first}" organization="${packageName}" />
     <dubbo:consumer check="false" />
 
     <!-- 引用外面的dubbo服务,不引用自己的服务 -->
-    <import resource="classpath*:META-INF/facade/dubbo-facade-auto-{:?!.*(trade)}*.xml"/>
-    <import resource="classpath*:META-INF/facade/dubbo-facade-manual-{:?!.*(trade)}*.xml"/>
+    <import resource="classpath*:META-INF/facade/dubbo-facade-auto-{:?!.*(${systemName?uncap_first})}*.xml"/>
+    <import resource="classpath*:META-INF/facade/dubbo-facade-manual-{:?!.*(${systemName?uncap_first})}*.xml"/>
 
 </beans>

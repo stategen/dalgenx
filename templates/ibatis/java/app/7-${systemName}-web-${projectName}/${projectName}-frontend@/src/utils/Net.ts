@@ -117,7 +117,7 @@ const buildRequestProperties = (requestInitEx: RequestInitEx): RequestInitEx => 
     body = JSON.stringify(cloneData);
   } else {
     let paramUrl: string = getUrlData(cloneData) || '';
-    url += paramUrl.length > 0 ? `?${paramUrl}` : '';
+    url += paramUrl.length > 0 ? `?${'${'}paramUrl}` : '';
     body = null;
   }
 

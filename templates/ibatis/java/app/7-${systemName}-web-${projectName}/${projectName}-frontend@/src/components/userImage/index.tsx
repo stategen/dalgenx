@@ -15,8 +15,8 @@ function UserImage({ imageUrl, width = 38, height = 38,style:{}}:UserImagePros) 
     return (
         <div className={styles.userImage} style={{
             backgroundImage: 'url(' + imageUrl + ')',
-            width: `${width}px`,
-            height: `${height}px`,
+            width: `${'${'}width}px`,
+            height: `${'${'}height}px`,
         }}>
         </div>
     );

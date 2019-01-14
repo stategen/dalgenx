@@ -2,22 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.mycompany.biz</groupId>
-        <artifactId>trade-parent</artifactId>
+        <groupId>${packageName}</groupId>
+        <artifactId>${systemName?uncap_first}-parent</artifactId>
         <version>1.0.0</version>
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>trade-facade</artifactId>
-    <version>${trade-facade-version}</version>
+    <artifactId>${systemName?uncap_first}-facade</artifactId>
+    <version>${'${'}${systemName?uncap_first}-facade-version}</version>
     <packaging>jar</packaging>
-    <name>2-trade-facade</name>
+    <name>2-${systemName?uncap_first}-facade</name>
     <description />
 
     <dependencies>
         <dependency>
-            <groupId>com.mycompany.biz</groupId>
-            <artifactId>trade-pojo</artifactId>
+            <groupId>${packageName}</groupId>
+            <artifactId>${systemName?uncap_first}-pojo</artifactId>
         </dependency>
     </dependencies>
 

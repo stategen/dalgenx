@@ -2,31 +2,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.mycompany.biz</groupId>
-        <artifactId>trade-parent</artifactId>
+        <groupId>${packageName}</groupId>
+        <artifactId>${systemName?uncap_first}-parent</artifactId>
         <version>1.0.0</version>
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>trade-service</artifactId>
-    <version>${systemVersion}</version>
+    <artifactId>${systemName?uncap_first}-service</artifactId>
+    <version>${'${'}systemVersion}</version>
     <packaging>jar</packaging>
-    <name>5-trade-service</name>
+    <name>5-${systemName?uncap_first}-service</name>
 
     <dependencies>
         <dependency>
-            <groupId>com.mycompany.biz</groupId>
-            <artifactId>trade-intergrade</artifactId>
+            <groupId>${packageName}</groupId>
+            <artifactId>${systemName?uncap_first}-intergrade</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.mycompany.biz</groupId>
-            <artifactId>trade-facade</artifactId>
+            <groupId>${packageName}</groupId>
+            <artifactId>${systemName?uncap_first}-facade</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.mycompany.biz</groupId>
-            <artifactId>trade-dao</artifactId>
+            <groupId>${packageName}</groupId>
+            <artifactId>${systemName?uncap_first}-dao</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

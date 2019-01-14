@@ -4,7 +4,7 @@ import {connect} from 'dva';
 import {ListView} from 'antd-mobile';
 
 import {ConnectionPros} from "@utils/DvaUtil";
-import StatesAlias from "@i/configs/tradeApp-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}App-statesAlias";
 import {TopicDispatch, TopicProps} from "@i/interfaces/TopicFaces";
 import {topic_detail_$topicIdInitModel} from "@i/interfaces/Topic_detail_$topicIdFaces";
 import RouteUtil from "@utils/RouteUtil";
@@ -106,7 +106,7 @@ class TopicList extends React.Component<TopicProps & ConnectionPros, TopicListSt
   render() {
     const separator = (sectionID, rowID) => (
       <div
-        key={`${sectionID}-${rowID}`}
+        key={`${'${'}sectionID}-${'${'}rowID}`}
         style={{
           backgroundColor: '#F5F5F9',
           height: 3,

@@ -20,7 +20,9 @@ package ${tableConfig.basepackage}.${dao_dir_name}.${impl_dir_name};
 <#list tableConfig.sqls as sql>
     <#if sql.multiplicity = 'many'>
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
         <#break>
     </#if>

@@ -8,7 +8,7 @@ import Nav from "@components/nav";
 import UserImage, {avatarImgIdRender} from "@components/userImage";
 import Icon from "@components/icon";
 import Comment from "./components/comment";
-import StatesAlias from "@i/configs/tradeApp-statesAlias";
+import StatesAlias from "@i/configs/${systemName?uncap_first}App-statesAlias";
 import {AppProps} from "@i/interfaces/AppFaces";
 import {ConnectionPros} from "@utils/DvaUtil";
 import {Topic_detail_$topicIdProps} from "@i/interfaces/Topic_detail_$topicIdFaces";
@@ -35,7 +35,7 @@ const TopicDetail = function (props: TopicDetailProps) {
             </div>
             <div className={styles.authorInfo}>
               <p className={styles.authorInfo_p} style={{paddingTop: '15px'}}>
-                <Link to={`/user/${topic.author.username}`}
+                <Link to={`/user/${'${'}topic.author.username}`}
                       style={{color: '#80BD01'}}>{topic.author.username}</Link>&nbsp;&nbsp;
                 <span>{dateFormat(topic.createTime)}</span>
               </p>

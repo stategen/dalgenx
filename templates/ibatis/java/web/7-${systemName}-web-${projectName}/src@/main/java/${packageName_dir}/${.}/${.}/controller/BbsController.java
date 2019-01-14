@@ -1,4 +1,4 @@
-package com.mycompany.biz.controller;
+package ${packageName}.controller;
 
 import org.stategen.framework.annotation.ApiConfig;
 
