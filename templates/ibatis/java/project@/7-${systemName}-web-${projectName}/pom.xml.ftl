@@ -126,7 +126,7 @@
                     </filesets>
                 </configuration>
             </plugin>
-
+            <#if hasClient?? && hasClient>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -180,31 +180,7 @@
                     </execution>
                 </executions>
             </plugin>
-
-<!--             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>>>>>>>>>>>>>>>>>copy-frontend 复到前端编译后的代码到WebRoot下 &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-
-                        <configuration>
-                            <outputDirectory>${'${'}basedir}/WebRoot/pages</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>./${'${'}frontend}/dist</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin> -->
+            </#if>
 
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>

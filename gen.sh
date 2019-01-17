@@ -15,17 +15,14 @@ genConfigPath="$cmdPath/"
 
 genConfigXml="${genConfigPath}gen_config.xml"
 
-agr1=$1
-agr2=$2
-agr3=$3
-agr4=$4
 
 
-if [ "$agr1" != "system" ]; then
+
+if [ "$1" != "system" ]; then
   if [ ! -f "$genConfigXml" ]; then
-   echo --------------没有找到文件,请在 genConfig的同一级目录执行!-----------------
-   exit
-   fi
+    echo "--------------没有找到文件,请在 genConfig的同一级目录执行!-----------------"
+    exit
+  fi
 fi
 
 genConfigPath=$(cd `dirname $0`; pwd)
@@ -33,25 +30,51 @@ cd $genConfigPath
 
 
 
-if [ "$agr1" == "project" ]; then
-    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml  -DexecuteTarget=$agr1 -DprojectName=$agr2 -Dtype=$agr3"
-    if [ "$agr4" == "-e" ]; then
-      mvnCmd="$mvnCmd $agr4"
+if [ "$1" == "project" ]; then
+    if [ ! -n "$2" ]; then
+       echo "项目名称不能为空 ! 如 $1 cms [web|app] -e ,cms 指的是项目，web|app可选，指的是该项目类型"
+       exit
     fi
-elif [ "$agr1" == "system" ]; then
-    mvnCmd="mvn compile groovy:execute -DexecuteTarget=$1 -DpackageName=$agr2 -DsystemName=$agr3"
-    if [ "$agr4"=="-e" ]; then
-        mvnCmd="$mvnCmd $agr4"
+    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml  -DexecuteTarget=$1 -DprojectName=$2"
+    if [ -n "$3" ]; then
+      mvnCmd="$mvnCmd -Dtype=$3"
     fi
-else
-    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml -DexecuteTarget=$agr1 -DgenInputCmd=$agr2"
-    if [ "$agr3" == "-e" ]; then
-        mvnCmd="$mvnCmd $agr3"
+    
+    if [ "$4" == "-e" -o "$3" == "-e" ]; then
+      mvnCmd="$mvnCmd -e"
     fi
+    
+elif [ "$1" == "system" ]; then
+    if [! -n "$2"]; then
+      echo "包名(package)不能为空 如 $1 com.mycompany.biz trade -e"
+      exit
+    fi 
+    
+    if [ ! -n "$3" ]; then
+      echo "系统名(systemName)不能为空 如 $1 com.mycompany.biz trade -e"
+      exit
+    fi 
+    
+    mvnCmd="mvn compile groovy:execute -DexecuteTarget=$1 -DpackageName=$2 -DsystemName=$3"
+    if [ "$4"=="-e" ]; then
+        mvnCmd="$mvnCmd -e"
+    fi
+elif [ "$1" == "table" -o "$1" == "dal" ]; then
+    if [ ! -n "$2" ]; then
+       echo 表名不能为空! 如 "$1" user -e
+       exit
+    fi
+    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml -DexecuteTarget=$1 -DgenInputCmd=$2"
+    if [ "$3" == "-e" ]; then
+        mvnCmd="$mvnCmd -e"
+    fi
+else 
+   echo --------------命令必须是 system project table dal -----------------   
+   exit
 fi
 
 mvnCmd="$mvnCmd -DcmdPath=$cmdPath  -DdalgenPath=$genConfigPath"
-
+echo 执行命令 $mvnCmd
 $mvnCmd
 
 cd $cmdPath
