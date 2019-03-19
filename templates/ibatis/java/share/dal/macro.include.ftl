@@ -15,7 +15,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <#assign dollar = '$'>
-
+<#function appendParam paramsStr pStr>
+    <#assign result=paramsStr>
+    <#if pStr?length gt 0>
+        <#assign result>${paramsStr}<#if paramsStr?length gt 0>, </#if>${pStr}</#assign>
+    </#if>
+    <#return result>
+</#function>
 <#function isUseParamObject sql>
 	<#if (sql.params?size <= 1)>
 		<#return false/>

@@ -20,7 +20,7 @@
     table SYSTEM "http://sources.alipay.net/svn/dtd/table-config-1.0.dtd"
     [<!ENTITY ${table.className?upper_case} SYSTEM "${table.sqlName?lower_case}.xml.xhtml">
 ]>
-<table sqlName="${table.sqlName}" className="<#if add_illegal_prefix=='true'>?</#if>${table.className}">
+<table sqlName="${table.sqlName}" className="<#if add_illegal_prefix=='true'>?</#if>${table.className}" remarks="${table.remarks!}">
    <#if add_illegal_prefix=='true'>
 ↑请检查上面className是否正确,按驼峰写法修改类名，将非法字符"?"去掉,并删除本行↑
    </#if>
