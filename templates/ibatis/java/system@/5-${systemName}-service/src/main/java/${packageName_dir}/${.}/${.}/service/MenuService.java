@@ -7,7 +7,7 @@ package ${packageName}.service;
 import java.util.List;
 
 import org.stategen.framework.lite.PageList;
-import org.stategen.framework.util.AssignSerice;
+import org.stategen.framework.util.AssignService;
 
 import ${packageName}.domain.Menu;
 
@@ -22,7 +22,7 @@ import ${packageName}.domain.Menu;
  * 因此该类可以修改任何部分
  * </pre>
  */
-public interface MenuService extends AssignSerice<Menu, Long>, MenuService${systemName?cap_first} {
+public interface MenuService extends AssignService<Menu, Long>, MenuService${systemName?cap_first} {
 
     String getProjectName();
 

@@ -17,7 +17,7 @@
 <#include './table.include.ftl'>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE
-    table SYSTEM "http://sources.alipay.net/svn/dtd/table-config-1.0.dtd"
+    table SYSTEM "https://github.com/stategen/dalgenx/blob/master/gen.schemas-1.0.dtd"
     [<!ENTITY ${table.className?upper_case} SYSTEM "${table.sqlName?lower_case}.xml.xhtml">
 ]>
 <table sqlName="${table.sqlName}" className="<#if add_illegal_prefix=='true'>?</#if>${table.className}" remarks="${table.remarks!}">
@@ -64,7 +64,7 @@
     <!-- 自定义方法请写在下面 需要自动提示，请将dalgenX目录下的 gen.schemas-1.0.dtd 配到 eclipse 或 idea中
       file:gen.schemas-1.0.dtd
       System Id
-      http://sources.alipay.net/svn/dtd/table-config-1.0.dtd
+      https://github.com/stategen/dalgenx/blob/master/gen.schemas-1.0.dtd
     -->
     <!--
     <operation name="..." remarks="">

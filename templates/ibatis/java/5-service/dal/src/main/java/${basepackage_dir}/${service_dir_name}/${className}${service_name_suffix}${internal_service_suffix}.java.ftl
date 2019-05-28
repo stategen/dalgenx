@@ -29,7 +29,7 @@ import ${tableConfig.basepackage}.${pojo_dir_name}.${className}${pojo_name_suffi
 <#list tableConfig.sqls as sql>
 <#if sql.paging>
 import org.stategen.framework.lite.PageList;
-import org.stategen.framework.util.AssignSerice;
+import org.stategen.framework.util.AssignService;
 <#break>
 </#if>
 </#list>
@@ -41,7 +41,7 @@ import org.stategen.framework.util.AssignSerice;
  * 因此该类可以修改任何部分
  * </pre>
  */
-public interface ${tableConfig.className}${service_name_suffix}${internal_service_suffix} extends ${tableConfig.className}${service_name_suffix}${systemName?cap_first}, AssignSerice<${tableConfig.className}, ${tableConfig.pkColumn.shortJavaType}>  {
+public interface ${tableConfig.className}${service_name_suffix}${internal_service_suffix} extends ${tableConfig.className}${service_name_suffix}${systemName?cap_first}, AssignService<${tableConfig.className}, ${tableConfig.pkColumn.shortJavaType}>  {
 
 <#list tableConfig.sqls as sql>
     /**

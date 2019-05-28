@@ -17,7 +17,7 @@
         <property name="locations">
             <list>
                 <value>classpath*:application.properties</value>
-                <value>file://opt/config/stategen/stategenX.xml</value>
+                <value>file://opt/config/stategen/stategen.xml</value>
             </list>
         </property>
         <!-- spring启动中对每个取值项进行检查 -->
