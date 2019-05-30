@@ -10,8 +10,8 @@
     <entry key="loginCookieGroupHttpOnly">false</entry>
 
     <entry key="mysql.ip.port">jdbc:mysql://localhost:3306/${systemName?uncap_first}?useUnicode=true&amp;characterEncoding=UTF8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;allowMultiQueries=true</entry>
-	<entry key="mysql.username">stategen</entry>
-	<entry key="mysql.password">stategen</entry>
+	<entry key="mysql.username">dalgenx</entry>
+	<entry key="mysql.password">dalgenx</entry>
         
 
     <entry key="common.zk.ip.port">zookeeper://${'${'}THIS_IP}:2181</entry>
