@@ -41,6 +41,7 @@ public class ${tableConfig.className}${controller_name_suffix} extends ${tableCo
     <#assign isdeleteByIds=false>
     <#assign genForm =false>
     <#assign doArea =false>
+    <#assign opt=''>
     <#if sql.operation==getPageList>
         <#assign doApi=true/>
         <#assign isPageList=true/>
@@ -73,7 +74,7 @@ public class ${tableConfig.className}${controller_name_suffix} extends ${tableCo
         <#if isPageList>
     <#assign stateParams>${appendParam(stateParams,'init = true')}</#assign>
         </#if>
-        <#if opt??>
+        <#if opt?length gt 0>
     <#assign stateParams>${appendParam(stateParams,'dataOpt = DataOpt.'+opt)}</#assign>
         </#if>
     <#if doArea>
