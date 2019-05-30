@@ -27,7 +27,7 @@ package ${tableConfig.basepackage}.${controller_dir_name};
 
 @ApiConfig(name = "${tableConfig.remarks!}")
 public class ${tableConfig.className}${controller_name_suffix} extends ${tableConfig.className}${controller_name_suffix}${base_name_suffix} {
-<#assign get_PagetList>get${className}PageList</#assign>
+<#assign getPageList>get${className}PageList</#assign>
 <#assign insert>insert</#assign>
 <#assign delete>delete</#assign>
 <#assign update>update</#assign>
@@ -41,7 +41,7 @@ public class ${tableConfig.className}${controller_name_suffix} extends ${tableCo
     <#assign isdeleteByIds=false>
     <#assign genForm =false>
     <#assign doArea =false>
-    <#if sql.operation==get_PagetList>
+    <#if sql.operation=getPageList>
         <#assign doApi=true/>
         <#assign isPageList=true/>
         <#assign opt='FULL_REPLACE'>
