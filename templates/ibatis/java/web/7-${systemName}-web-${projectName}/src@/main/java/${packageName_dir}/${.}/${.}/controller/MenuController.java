@@ -34,7 +34,7 @@ public class MenuController extends MenuControllerBase {
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    @ApiRequestMappingAutoWithMethodName(name = "扫描系统菜单")
+    @ApiRequestMappingAutoWithMethodName(name = "扫描系统菜单",method=RequestMethod.GET)
     @VisitCheck
     public List<Menu> scanMenus() throws InstantiationException, IllegalAccessException {
         List<Menu> allMenus = ControllerHelpers.genAllControllerMenus(Menu.class, requestMappingHandlerMapping);
