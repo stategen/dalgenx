@@ -1,0 +1,65 @@
+<#--
+    Copyright (C) 2018  niaoge<78493244@qq.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<@genCopyright api/>
+
+<@genImports api.imports,'../'/>
+import "../${configDir}/${projectName}_config.dart";
+import '../../stgutil/net_util.dart';
+import 'package:flutter/material.dart';
+
+class ${api}Apis {
+<#list api.functions as fun>
+    <#assign method><#if fun.method??>${fun.method}<#else>GET</#if></#assign>
+    <#assign url><#list fun.urlParts as u><#if u.isParam>:${u}<#else>${u}</#if></#list></#assign>
+  /// ${method} ${url}
+  /// ${fun.description}
+  <#assign one="">
+  <#assign isOne =false>
+  <#assign r=fun.return>
+  <#if fun.params?size==1><#assign one=fun.params[0]><#assign isOne =true></#if>
+  static Future<${genType(r)}> ${fun}(<#if isEmptyList(fun.params)><#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else><#if isOne>${genType(one)} param, </#if> Map<String,dynamic> params, { ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
+    var requestInit = RequestInit();
+    requestInit.apiUrlKey = ${projectName}ApiUrlKey;
+    requestInit.url = '${url}';
+    <#if fun.json??>
+    requestInit.mediaType = MediaType.JSON;
+    <#elseif (method=="POST")>
+    requestInit.mediaType = MediaType.FORM;
+    <#else>
+    </#if>
+    <#if isNotEmptyList(fun.params)>
+    requestInit.data = params ?? <#if fun.json??>${fun.json}<#else><#if isOne>{'${one}': param ?? ${one}}<#else>{${genParamsStr(fun.params)}}</#if></#if>;
+    </#if>
+    requestInit.method = Method.${method};
+    var dest = await NetUtil.fetch(requestInit);
+    <#if r.isArray>
+    return ${r.generic}.fromJsonList(dest as List);
+    <#elseif !r.generic??>
+    return ${r}.fromJson(dest);
+    <#else>
+        <#if !r.generic.isObjectClass>
+          <#if r.org.generic?? && r.org.generic.isArray>
+    return ${r.type}.fromJson(dest, ${r.generic}.fromJsonList);
+          <#else>
+    return ${r.type}.fromJson(dest, ${r.generic}.fromJson);
+          </#if>
+        </#if>
+    </#if>
+  }
+
+</#list>
+}
