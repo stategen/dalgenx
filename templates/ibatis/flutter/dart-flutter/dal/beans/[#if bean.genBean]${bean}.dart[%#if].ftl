@@ -19,8 +19,11 @@
 import '../../stgutil/stg_util.dart';
 
 class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}</#if> {
+<#assign hasIdField=false>
 <#list bean.fields as f>
     <#if f.isId>
+    <#assign idField=f>
+    <#assign hasIdField=true>
   /// ${f}
   static const String ${bean}_ID = '${f}';
 
@@ -31,7 +34,7 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
   <#if (f.description?length>0)>
   /// ${f.description}
   </#if>
-  <#assign type><@getSimpleType f/></#assign>
+  <#assign type>${getSimpleType(f)}</#assign>
   <#if f.isArray>List<</#if>${type}<#if f.isArray>></#if> ${f};
 
   </#list>
@@ -60,7 +63,7 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
   static ${bean} fromJson(Map<String, dynamic> json<#if isNotEmpty(genericFn)>, ${genericFn} ${genericFnName}</#if>) {
     return ${bean}(
     <#list bean.allFields as f>
-        <#assign type><@getSimpleType f/></#assign>
+        <#assign type>${getSimpleType(f)}</#assign>
         <#assign j>json['${f}']</#assign>
         <#assign psJson>
             <#if f.isArray>
@@ -104,5 +107,41 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
     return JsonUtil.genFromJsonList(jsonList, ${bean}.fromJson);
     </#if>
   }
+
+  Map<String, dynamic> toJson() {
+    var result = new Map<String, dynamic>();
+    <#list bean.allFields as f>
+    if (this.${f} != null) {
+      <#if f.isArray>
+          <#if !f.isEnum && (!f.isSimple || (f.isSimple && f.generic?? && f.generic.isObjectClass))  >
+      var list = List();
+      for (var v in ${f}) {
+        list.add(v.toJson);
+      }
+      result['${f}'] = list;
+          <#else>
+      result['${f}'] = ${f};
+          </#if>
+      <#else>
+          <#if !f.isEnum && (!f.isSimple || (f.isSimple && f.generic?? && f.generic.isObjectClass))  >
+      result['${f}'] = ${f}.toJson();
+          <#else>
+      result['${f}'] = ${f};
+          </#if>
+      </#if>
+    }
+    </#list>
+    return result;
+  }
+
+  <#if hasIdField>
+  static Map<${idField.type}, ${bean}> toMap(List<${bean}> ${bean?uncap_first}List) {
+    var result = Map<${idField.type}, ${bean}>();
+    for (var ${bean?uncap_first} in ${bean?uncap_first}List) {
+      result[${bean?uncap_first}.${idField}] = ${bean?uncap_first};
+    }
+    return result;
+  }
+  </#if>
 }
 

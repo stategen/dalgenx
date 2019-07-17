@@ -31,7 +31,7 @@ class ${api}Apis {
   <#assign isOne =false>
   <#assign r=fun.return>
   <#if fun.params?size==1><#assign one=fun.params[0]><#assign isOne =true></#if>
-  static Future<${genType(r)}> ${fun}(<#if isEmptyList(fun.params)><#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else><#if isOne>${genType(one)} param, </#if> Map<String,dynamic> params, { ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
+  static Future<${genType(r)}> ${fun}(<#if isEmptyList(fun.params)><#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else><#if isOne>${genType(one)} param, </#if>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
     var requestInit = RequestInit();
     requestInit.apiUrlKey = ${projectName}ApiUrlKey;
     requestInit.url = '${url}';
@@ -42,11 +42,31 @@ class ${api}Apis {
     <#else>
     </#if>
     <#if isNotEmptyList(fun.params)>
-    requestInit.data = params ?? <#if fun.json??>${fun.json}<#else><#if isOne>{'${one}': param ?? ${one}}<#else>{${genParamsStr(fun.params)}}</#if></#if>;
+      <#if fun.json??>
+    var payload =${fun.json}?.toJson();
+      <#else>
+    payload = payload ?? {};
+        <#if isOne>
+    if (param != null) {
+      payload['${one}'] = param;
+    }
+        </#if>
+         <#list fun.params as p>
+         <#if p=='pagination'>
+             <#continue >
+         </#if>
+    if (${p} != null) {
+      payload['${p}'] = ${p};
+    }
+        </#list>
+      </#if>
+    requestInit.data = payload;
     </#if>
     requestInit.method = Method.${method};
     var dest = await NetUtil.fetch(requestInit);
-    <#if r.isArray>
+    <#if r.isSimple>
+    return dest;
+    <#elseif r.isArray>
     return ${r.generic}.fromJsonList(dest as List);
     <#elseif !r.generic??>
     return ${r}.fromJson(dest);

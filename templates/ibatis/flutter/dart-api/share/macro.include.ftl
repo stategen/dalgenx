@@ -32,8 +32,8 @@ ${dest}${line}
 ///  init by [stategen.progen] ,can be edit manually ,keep when "keep this"
 ///  由 [stategen.progen]代码生成器初始化，可以手工修改,但如果遇到 keep this ,请保留导出设置以备外部自动化调用
 </#macro>
-<#macro genTypeWithGeneric r><#if r.isArray>${r.generic}[]<#else>${r.type}<#if r.isGeneric><${r.generic}></#if></#if></#macro>
-<#macro getSimpleType f><#if f.isGeneric><#if f.genericName??>${f.genericName}<#else>${f.generic}</#if><#else>${f.type}</#if></#macro>
+<#macro genTypeWithGeneric r><#if r.isArray>List<${r.generic}><#else>${r.type}<#if r.isGeneric><${r.generic}></#if></#if></#macro>
+<#function getSimpleType f><#assign result><#if f.isGeneric><#if f.genericName??>${f.genericName}<#else>${f.generic}</#if><#else>${f.type}</#if></#assign> <#return result></#function>
 <#function canGenReducer fun>
 <#return fun.state.genEffect || fun.state.genReducer>
 </#function>
@@ -135,10 +135,16 @@ ${dest}${line}
         <#return true>
     </#if>
 </#function>
+
+<#function fixImport importStr>
+    <#assign result>${importStr?replace('$','\\$')}</#assign>
+    <#return result>
+</#function>
+
 <#macro genImports imports,relativePath>
     <#list imports as import>
         <#if import.importPath??>
-import "${relativePath}${import.importPath}/${import}.dart";
+import "${relativePath}${import.importPath}/${fixImport(import)}.dart";
         <#else>
 ${import.wholeImportPath};
         </#if>
@@ -244,14 +250,14 @@ const ${f.type?uncap_first}SelectOptions= makeSelectOptions(${f.type?uncap_first
     <#if p.type=='PaginationProps' || p.type=='Pagination'>
         <#assign paginationStr=''>
         <#if !hasPage>
-           <#assign paginationStr>${appendParam(paginationStr,"'page': page")}</#assign>
+           <#assign paginationStr>${appendParam(paginationStr,"page: page")}</#assign>
         </#if>
         <#if !hasPageSize>
-           <#assign paginationStr>${appendParam(paginationStr,"'pageSize': pageSize")}</#assign>
+           <#assign paginationStr>${appendParam(paginationStr,"pageSize: pageSize")}</#assign>
         </#if>
         <#assign paramsStr>${appendParam(paramsStr,paginationStr)}</#assign>
     <#else>
-        <#assign pStr>'${p}': ${p}</#assign>
+        <#assign pStr>${p}: ${p}</#assign>
         <#assign paramsStr>${appendParam(paramsStr,pStr)}</#assign>
     </#if>
   </#list>
@@ -261,11 +267,11 @@ const ${f.type?uncap_first}SelectOptions= makeSelectOptions(${f.type?uncap_first
 
 
 <#function nextEffectName fun>
-    <#return fun+'_next'>
+    <#return fun+'Next'>
 </#function>
 
 <#function refreshEffectName fun>
-    <#return fun+'_refresh'>
+    <#return fun+'Refresh'>
 </#function>
 
 

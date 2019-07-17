@@ -15,26 +15,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <@genCopyrightCanEdit api/>
-import {Effect, Effects, Reducers, Subscriptions} from '@utils/DvaUtil';
-<@genImports api.imports,'@i/'/>
-import {${api}State} from '@i/interfaces/${api}Faces';
+<@genImports api.imports,'../'/>
 
 /*** keep this export */
-export const ${api?uncap_first}CustomState = {
+abstract class ${api?uncap_first}CustomState {
 
 }
 
 /*** keep this export */
-export interface ${api}CustomSubscriptions extends Subscriptions {
+abstract class ${api}CustomSubscriptions {
 
 }
 
 /*** keep this export */
-export interface ${api}CustomEffects extends Effects {
+abstract class ${api}CustomEffects {
 
 }
 
 /*** keep this export */
-export interface ${api}CustomReducers extends Reducers<${api}State> {
+abstract class ${api}CustomReducers {
 
 }
