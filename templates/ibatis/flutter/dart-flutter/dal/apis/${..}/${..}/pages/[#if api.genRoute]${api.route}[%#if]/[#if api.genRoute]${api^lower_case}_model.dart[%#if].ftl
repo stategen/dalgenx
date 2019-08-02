@@ -15,24 +15,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <@genCopyrightCanEdit api/>
-<@genImports api.imports,'../'/>
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-/*** keep this export */
-abstract class ${api?uncap_first}CustomState {
+import '${intergradePackage}/intergrades.dart';
 
-}
-
-/*** keep this export */
-abstract class ${api}CustomSubscriptions {
+class ${api}StateEx {
 
 }
 
-/*** keep this export */
-abstract class ${api}CustomEffects {
+class ${api}Model extends ${api}AbstractModel with ${api}StateEx {
+  static ChangeNotifierProvider<${api}Model> createProvider() {
+    return ChangeNotifierProvider<${api}Model>(
+      builder: (_) => ${api}Model(),
+    );
+  }
 
-}
-
-/*** keep this export */
-abstract class ${api}CustomReducers {
-
+  static ${api}Model getModel(BuildContext context) {
+     return Provider.of<${api}Model>(context);
+  }
 }

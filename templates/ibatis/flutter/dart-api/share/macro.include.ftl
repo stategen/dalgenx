@@ -103,7 +103,7 @@ ${dest}${line}
 </#function>
 
 <#function setupName>
-<#return 'setup'>
+<#return 'init'>
 </#function>
 
 <#function canDrawFormField f>
@@ -136,7 +136,7 @@ ${dest}${line}
     </#if>
 </#function>
 
-<#function fixImport importStr>
+<#function fix$ importStr>
     <#assign result>${importStr?replace('$','\\$')}</#assign>
     <#return result>
 </#function>
@@ -144,7 +144,7 @@ ${dest}${line}
 <#macro genImports imports,relativePath>
     <#list imports as import>
         <#if import.importPath??>
-import "${relativePath}${import.importPath}/${fixImport(import)}.dart";
+import '${relativePath}${import.importPath}/${fix$(import)}.dart';
         <#else>
 ${import.wholeImportPath};
         </#if>

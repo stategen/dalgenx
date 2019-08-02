@@ -15,7 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <@genCopyright enum/>
-import '../../stgutil/stg_util.dart';
+import '../../stgutil/json_util.dart';
+import '../../stgutil/class_as_enum.dart';
 
 class ${enum} extends ClassAsEnum<${enum}> {
   const ${enum}(value, title) : super(value, title);

@@ -18,7 +18,7 @@
 import {Net, Method, MediaType, RequestInitEx} from "@utils/Net";
 
 <@genImports api.imports,'../'/>
-import {apiUrlKey} from "../${configDir}/${projectName}-config";
+import {apiUrlKey} from "../configs/${projectName}-config";
 
 export default class ${api}Apis {
 <#list api.functions as fun>

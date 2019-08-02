@@ -17,7 +17,7 @@
 <@genCopyright api/>
 
 <@genImports api.imports,'../'/>
-import "../${configDir}/${projectName}_config.dart";
+import "../configs/${projectName}_config.dart";
 import '../../stgutil/net_util.dart';
 import 'package:flutter/material.dart';
 
@@ -33,8 +33,8 @@ class ${api}Apis {
   <#if fun.params?size==1><#assign one=fun.params[0]><#assign isOne =true></#if>
   static Future<${genType(r)}> ${fun}(<#if isEmptyList(fun.params)><#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else><#if isOne>${genType(one)} param, </#if>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
     var requestInit = RequestInit();
-    requestInit.apiUrlKey = ${projectName}ApiUrlKey;
-    requestInit.url = '${url}';
+    requestInit.baseUrlKey = ${projectName}BaseUrlKey;
+    requestInit.path = '${url}';
     <#if fun.json??>
     requestInit.mediaType = MediaType.JSON;
     <#elseif (method=="POST")>
@@ -45,7 +45,7 @@ class ${api}Apis {
       <#if fun.json??>
     var payload =${fun.json}?.toJson();
       <#else>
-    payload = payload ?? {};
+    payload ??= {};
         <#if isOne>
     if (param != null) {
       payload['${one}'] = param;

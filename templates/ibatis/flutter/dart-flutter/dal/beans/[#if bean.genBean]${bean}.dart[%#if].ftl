@@ -16,7 +16,7 @@
 -->
 <@genCopyright bean/>
 <@genImports bean.imports,'../'/>
-import '../../stgutil/stg_util.dart';
+import '../../stgutil/json_util.dart';
 
 class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}</#if> {
 <#assign hasIdField=false>
@@ -93,11 +93,17 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
     );
   }
 
-  static List<${bean}> fromJsonList(List<Map<String, dynamic>> jsonList<#if isNotEmpty(genericFn)>, ${genericFn} ${genericFnName}</#if>) {
+  static List<${bean}> fromJsonList(List jsonList<#if isNotEmpty(genericFn)>, ${genericFn} ${genericFnName}</#if>) {
     <#if isNotEmpty(genericFn)>
     List<${bean}> result;
     if (jsonList != null){
-      result = List(jsonList.length);
+      List<Map<String, dynamic>> jsonMapList;
+      if (jsonList is List<Map<String, dynamic>>){
+        jsonMapList = List<Map<String, dynamic>>.from(jsonList);
+      } else {
+        jsonMapList= jsonList;
+      }
+      result = List(jsonMapList.length);
       for (var json in jsonList) {
         result.add(${bean}.fromJson(json, ${genericFnName}));
       }
@@ -107,35 +113,49 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
     return JsonUtil.genFromJsonList(jsonList, ${bean}.fromJson);
     </#if>
   }
+  <#if !bean.generic??>
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
+    <#if bean="Response">
+      ${json}
+    </#if>
     var result = new Map<String, dynamic>();
     <#list bean.allFields as f>
+    <#assign type>${getSimpleType(f)}</#assign>
     if (this.${f} != null) {
       <#if f.isArray>
-          <#if !f.isEnum && (!f.isSimple || (f.isSimple && f.generic?? && f.generic.isObjectClass))  >
       var list = List();
       for (var v in ${f}) {
-        list.add(v.toJson);
+          <#if f.isEnum >
+        list.add(v.toString());
+          <#elseif f.isSimple >
+        list.add(JsonUtil.${type?uncap_first}ToJson(v));
+          <#elseif  !f.generic?? || !f.generic.isObjectClass>
+        list.add(v.toMap());
+          <#else>
+        list.add(v);
+          </#if>
       }
       result['${f}'] = list;
-          <#else>
-      result['${f}'] = ${f};
-          </#if>
       <#else>
-          <#if !f.isEnum && (!f.isSimple || (f.isSimple && f.generic?? && f.generic.isObjectClass))  >
-      result['${f}'] = ${f}.toJson();
+          <#if f.isEnum >
+        result['${f}'] = ${f}.toString();
+          <#elseif f.isSimple>
+        result['${f}'] = JsonUtil.${type?uncap_first}ToJson(${f});
+          <#elseif  !f.generic?? || !f.generic.isObjectClass>
+        result['${f}'] = ${f}.toMap();
           <#else>
-      result['${f}'] = ${f};
+        result['${f}'] =  ${f};
           </#if>
       </#if>
     }
     </#list>
     return result;
   }
-
+  </#if>
   <#if hasIdField>
-  static Map<${idField.type}, ${bean}> toMap(List<${bean}> ${bean?uncap_first}List) {
+
+  static Map<${idField.type}, ${bean}> toIdMap(List<${bean}> ${bean?uncap_first}List) {
     var result = Map<${idField.type}, ${bean}>();
     for (var ${bean?uncap_first} in ${bean?uncap_first}List) {
       result[${bean?uncap_first}.${idField}] = ${bean?uncap_first};
@@ -143,5 +163,16 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
     return result;
   }
   </#if>
+<#if !bean.generic??>
+
+  static List<Map<String, dynamic>> toMaps(List<${bean}> ${bean?uncap_first}List) {
+    var result = List<Map<String, dynamic>>();
+    for (var ${bean?uncap_first} in ${bean?uncap_first}List) {
+      result.add(${bean?uncap_first}.toMap());
+    }
+    return result;
+  }
+</#if>
+
 }
 

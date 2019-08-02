@@ -14,17 +14,5 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<@genCopyright '${projectName} states alias'/>
-<#list apis as api>
-<#if api.genModel>
-import {${api}State} from "../interfaces/${api}Faces";
-</#if>
-</#list>
-
-export default interface StatesAlias {
-<#list apis as api>
-<#if api.genModel>
-  ${api?uncap_first}: ${api}State;
-</#if>
-</#list>
-}
+<@genCopyright '${projectName} url config, will be replaced by thymleaf run on server'/>
+const String ${projectName}BaseUrlKey = '${projectName}_url';
