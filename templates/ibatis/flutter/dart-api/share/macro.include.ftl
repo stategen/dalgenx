@@ -144,7 +144,7 @@ ${dest}${line}
 <#macro genImports imports,relativePath>
     <#list imports as import>
         <#if import.importPath??>
-import '${relativePath}${import.importPath}/${fix$(import)}.dart';
+import '${relativePath}${import.importPath}/${fix$(import?lower_case)}.dart';
         <#else>
 ${import.wholeImportPath};
         </#if>
@@ -279,7 +279,7 @@ const ${f.type?uncap_first}SelectOptions= makeSelectOptions(${f.type?uncap_first
 <#macro genFieldDescription f ind>
 <#assign text>
 <#if (f.description?length gt 0)>
-/** ${f.description} ${f.temporalType!}*/
+${f.description} ${f.temporalType!}
 </#if>
 </#assign>
 <#if text?? && text?length gt 0>
@@ -333,12 +333,11 @@ const ${bean?uncap_first}_${f}Value = ${value};
 <#assign text>
 <#assign editorName>${getEditorName(p)}</#assign>
 key: '${p}',
-dataIndex: '${p}',
 title: '${p.title}',
 <#if p.noJson>
 noJson: true,
 <#else>
-renderColumn: UIColumns.${editorName}Render,
+// renderColumn: UIColumns.${editorName}Render,
 </#if>
 <#if p.hidden>
 hidden: true,
@@ -366,9 +365,10 @@ changeBy: '${p.changeBy}',
 renderImage: true,
 </#if>
 <#if p.referConfig??>
-referConfig: {
+referConfig: ReferConfig(
   <#if p.isEnum>
-  options: <#if p.isGeneric>${p.generic?uncap_first}<#else>${p.type?uncap_first}</#if>Options,
+  <#assign type><#if p.isGeneric>${p.generic}<#else>${p.type}</#if></#assign>
+  options: ${type}.${type?uncap_first}Options,
   </#if>
   <#if p.referConfig.api??>
   api: '${p.referConfig.api}',
@@ -383,7 +383,7 @@ referConfig: {
       <#assign title>${p.referConfig.optionConvertor.title!}</#assign>
       <#assign label>${p.referConfig.optionConvertor.label!}</#assign>
   <#if isNotEmpty(value) || isNotEmpty(title) || isNotEmpty(url) || isNotEmpty(parentId)>
-  optionConvertor: {
+  optionConvertor: OptionConvertor(
     <#if isNotEmpty(value)>
     value: '${value}',
     </#if>
@@ -399,45 +399,37 @@ referConfig: {
     <#if isNotEmpty(label)>
     label: '${label}',
     </#if>
-  },
+  ),
   </#if>
   </#if>
-},
+),
 </#if>
-config: {
-  <#if editorName=='Switch'>
-  valuePropName: 'checked',
+  <#if isNotEmptyList(p.rules!)>
+rules: [
+      <#list p.rules as rule>
+  ValidationRule(
+          <#if (rule.required?? && rule.required ) || (p.required?? && p.required)>
+    required: true,
+          </#if>
+          <#if rule.max??>
+    max: ${rule.max?c},
+          </#if>
+          <#if rule.min??>
+    min: ${rule.min?c},
+          </#if>
+          <#if rule.message??>
+    message: "${rule.message}",
+          </#if>
+          <#if rule.pattern??>
+    pattern: RegExp(r'${rule.pattern}'),
+          </#if>
+          <#if rule.whitespace??>
+    whitespace: true,
+          </#if>
+  ),
+      </#list>
+],
   </#if>
-<#--  <#if editorName=='Image' || editorName=='Upload'>
-  valuePropName: 'fileList',
-  </#if>-->
-    <#if isNotEmptyList(p.rules!)>
-  rules: [
-        <#list p.rules as rule>
-    {
-            <#if (rule.required?? && rule.required ) || (p.required?? && p.required)>
-      required: true,
-            </#if>
-            <#if rule.max??>
-      max: ${rule.max?c},
-            </#if>
-            <#if rule.min??>
-      min: ${rule.min?c},
-            </#if>
-            <#if rule.message??>
-      message: "${rule.message}",
-            </#if>
-            <#if rule.pattern??>
-      pattern: /${rule.pattern}/,
-            </#if>
-            <#if rule.whitespace??>
-      whitespace: true,
-            </#if>
-    },
-        </#list>
-  ],
-    </#if>
-},
 <#if isNotEmpty(p.falseTitle!)>
 falseTitle: '${p.falseTitle}',
 </#if>
@@ -458,8 +450,8 @@ props: {${p.props}},
 <#macro  genParamProps fun param ind>
 <#assign text>
 <#assign editorName>${getEditorName(param)}</#assign>
-UIEditor__: UIEditors.Build${editorName}Editor,
-Editor: UIEditors.Build${editorName}Editor,
+..UIEditor__: UIEditors.Build${editorName}Editor
+..Editor: UIEditors.Build${editorName}Editor
 </#assign>
 <@indent text ind/>
 </#macro>

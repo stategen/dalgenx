@@ -15,43 +15,33 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <@genCopyright bean/>
-import {TIME_FORMAT, DATE_FORMAT, TIMESTAMP_FORMAT, ColumnConfig, KeyValue, TemporalType} from "@utils/DvaUtil";
-import ${bean} from "../beans/${bean}"
-import UIColumns from "@utils/UIColumns";
+import '../beans/${bean?lower_case}.dart';
 <#list bean.imports as imp>
     <#if imp.isEnum>
-import {${imp?uncap_first}Options} from '../enums/${imp}';
+import '../enums/${imp?lower_case}.dart';
     </#if>
 </#list>
+import '../../stgutil/column_util.dart';
+import '../../stgutil/stg_util.dart';
 
-<#assign genericProps><#if bean.genericFields?? ><<#list bean.genericFields as g>${g.genericName}<#if g_has_next>,</#if></#list>></#if></#assign>
-namespace ${bean}Columns {
+<#--<#assign genericProps><#if bean.genericFields?? ><<#list bean.genericFields as g>${g.genericName}<#if g_has_next>,</#if></#list>></#if></#assign>-->
+<#assign genericProps><#if bean.genericFields?? ><<#list bean.genericFields as g>dynamic<#if g_has_next>,</#if></#list>></#if></#assign>
+class ${bean}Columns{
 
   <#list bean.allFields as f>
   <#if (f.description?length gt 0)>
-  /** ${f.description}  ${f.temporalType!}*/
+  /// ${f.description}  ${f.temporalType!}
   </#if>
-  export const ${f} = {
+  <#--static ColumnConfig<${bean}${genericProps}> ${f} = ColumnConfig<${bean}${genericProps}>(-->
+  static ColumnConfig ${f} = ColumnConfig(
     <@genFieldProps bean f '    '/>
     <#if !f.noJson>
         <#assign edidtorName>${getEditorName(f)}</#assign>
-    render: (text: any, record: ${bean}${genericProps}, index: number) =>{
-      return ${f}.renderColumn(record, null, text, index, ${f});
-    },
+    //render: (text: any, record: ${bean}${genericProps}, index: number) =>{
+    //  return ${f}.renderColumn(record, null, text, index, ${f});
+    //},
     </#if>
-  } as ColumnConfig<${bean}${genericProps}>;
+  );
 
   </#list>
-
-  export const renderColumns = {
-    <#list bean.allFields as f>
-       <#if !canDrawFormField(f)>
-           <#continue>
-       </#if>
-    ${f},
-    </#list>
-  }
-
 }
-
-export default ${bean}Columns;

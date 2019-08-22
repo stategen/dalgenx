@@ -16,6 +16,7 @@
 -->
 <@genCopyright enum/>
 import '../../stgutil/json_util.dart';
+import '../../stgutil/column_util.dart';
 import '../../stgutil/class_as_enum.dart';
 
 class ${enum} extends ClassAsEnum<${enum}> {
@@ -41,4 +42,17 @@ class ${enum} extends ClassAsEnum<${enum}> {
   static List<${enum}> fromJsonList(List<dynamic> values){
     return JsonUtil.parseList(values, ${enum}.fromJson);
   }
+
+  static Map<String, Option> ${enum?uncap_first}Options ={
+<#list enum.enums as e>
+    <#if (e.description?length>0)>
+    /// ${e.description}
+    </#if>
+    '${e}': Option(
+      value: ${enum}.${e},
+      label: '${e.title}',
+    )<#if e_has_next>,</#if>
+
+</#list>
+  };
 }

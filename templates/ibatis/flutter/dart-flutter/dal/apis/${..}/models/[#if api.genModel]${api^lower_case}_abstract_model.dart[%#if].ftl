@@ -16,15 +16,16 @@
 -->
 <@genCopyright api/>
 
-import 'dart:math' as Math;
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 <@genImports api.imports,'../'/>
 import '../../stgutil/stg_util.dart';
+import '../../stgutil/collection_util.dart';
 import '../../stgutil/init_state.dart';
-import '../apis/${fix$(api)}Apis.dart';
+import '../apis/${fix$(api?lower_case)}_apis.dart';
 
 class ${api}BaseState {
 <#list api.areas as area>
@@ -50,7 +51,13 @@ class _${api}State with ${api}BaseState {
     AreaState<${area}> ${genArea(area)},
         </#if>
     </#list>
-  });
+  }) {
+    <#list api.areas as area>
+        <#if !area.isSimpleResponse>
+    this.${genArea(area)} = ${genArea(area)};
+        </#if>
+    </#list>
+  }
 </#if>
 
 }
@@ -115,14 +122,14 @@ abstract class ${api}AbstractModel with ChangeNotifier, ${api}BaseState {
 
 abstract class ${api}Command {
 <#if api.inits?size gt 0>
-  static Future<${api}BaseState> ${setupName()} (${api}AbstractModel ${api?uncap_first}state, {<#list api.inits as fun>Map<String, dynamic> ${fun}SetupParams<#if fun_has_next>, </#if></#list>}) async {
+  static Future<${api}BaseState> ${setupName()} (${api}AbstractModel ${api?uncap_first}State, {<#list api.inits as fun>Map<String, dynamic> ${fun}SetupParams<#if fun_has_next>, </#if></#list>}) async {
     var newState = ${api}BaseState();
     <#list api.inits as fun>
     // ${fun.description}
         <#if fun.state.genEffect>
             <#if isNotEmptyList(fun.params)>
             </#if>
-    <#if fun.area??>var ${fun}State = </#if>await ${api}Command.${fun}(${api?uncap_first}state<#if isNotEmptyList(fun.params)>, payload: ${fun}SetupParams</#if>);
+    <#if fun.area??>var ${fun}State = </#if>await ${api}Command.${fun}(${api?uncap_first}State<#if isNotEmptyList(fun.params)>, payload: ${fun}SetupParams</#if>);
             <#if fun.area??>
     newState.merge(${fun}State);
             </#if>
@@ -134,7 +141,7 @@ abstract class ${api}Command {
 
 </#if>
 <#function genOldAreaStr fun>
-  <#local oldAreaStr>var old${genArea(fun.area)?cap_first} = ${api?uncap_first}state.${genArea(fun.area)};</#local>
+  <#local oldAreaStr>var old${genArea(fun.area)?cap_first} = ${api?uncap_first}State.${genArea(fun.area)};</#local>
   <#return oldAreaStr>
 </#function>
 <#list api.functions as fun>
@@ -142,7 +149,7 @@ abstract class ${api}Command {
 
   <#assign genEffect=true>
   /// ${fun.description}
-  static Future<${api}BaseState> ${fun}(${api}AbstractModel ${api?uncap_first}state<#if isNotEmptyList(fun.params)>, <#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
+  static Future<${api}BaseState> ${fun}(${api}AbstractModel ${api?uncap_first}State<#if isNotEmptyList(fun.params)>, <#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
     <#assign state =fun.state>
     <#assign resultName>${genResultName(fun)}</#assign>
     <#assign returnTypeWithGeneric><@genTypeWithGeneric fun.return/></#assign>
@@ -214,24 +221,24 @@ abstract class ${api}Command {
 
   <#if r.isPageList && fun.area??>
 
-  static Future<${api}BaseState> ${nextEffectName(fun)}(${api}AbstractModel ${api?uncap_first}state) async {
+  static Future<${api}BaseState> ${nextEffectName(fun)}(${api}AbstractModel ${api?uncap_first}State) async {
     ${genOldAreaStr(fun)}
     var pagination = old${genArea(fun.area)?cap_first}?.pagination;
     var page = pagination?.current;
     page = (page != null ? page : 0) + 1;
     var totalPages = (pagination.total / (pagination?.pageSize ?? 10)).ceil();
-    page = Math.min(page, totalPages);
+    page = min(page, totalPages);
     var payload = {...old${genArea(fun.area)?cap_first}.queryRule, 'page': page};
-    var newAreaState = await ${api}Command.${fun}(${api?uncap_first}state,payload: payload);
+    var newAreaState = await ${api}Command.${fun}(${api?uncap_first}State,payload: payload);
     return newAreaState;
   }
     </#if>
     <#if fun.state.genRefresh>
 
-  static Future<${api}BaseState> ${refreshEffectName(fun)}(${api}AbstractModel ${api?uncap_first}state) async {
+  static Future<${api}BaseState> ${refreshEffectName(fun)}(${api}AbstractModel ${api?uncap_first}State) async {
     ${genOldAreaStr(fun)}
     var payload = {...old${genArea(fun.area)?cap_first}.queryRule};
-    var newAreaState = await ${api}Command.${fun}(${api?uncap_first}state,payload: payload);
+    var newAreaState = await ${api}Command.${fun}(${api?uncap_first}State,payload: payload);
     return newAreaState;
   }
       </#if>

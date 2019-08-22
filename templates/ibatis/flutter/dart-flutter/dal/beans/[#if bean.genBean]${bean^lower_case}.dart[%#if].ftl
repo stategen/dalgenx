@@ -61,6 +61,9 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
         </#if>
     </#list>
   static ${bean} fromJson(Map<String, dynamic> json<#if isNotEmpty(genericFn)>, ${genericFn} ${genericFnName}</#if>) {
+    if (json == null) {
+      return null;
+    }
     return ${bean}(
     <#list bean.allFields as f>
         <#assign type>${getSimpleType(f)}</#assign>
@@ -69,7 +72,7 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
             <#if f.isArray>
                 <#if f.isSimple>
                     <#if (f.generic?? && !f.generic.isObjectClass)  || (!f.isGeneric) >
-                        JsonUtil.parseList<${type}>(${j},JsonUtil.parse${type?cap_first})
+                        JsonUtil.parseList<${type}>(${j}, JsonUtil.parse${type?cap_first})
                     <#elseif (f.generic?? && f.generic.isObjectClass)>
                         ${genericFnName}(${j})
                     <#else>
@@ -139,13 +142,13 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
       result['${f}'] = list;
       <#else>
           <#if f.isEnum >
-        result['${f}'] = ${f}.toString();
+      result['${f}'] = ${f}.toString();
           <#elseif f.isSimple>
-        result['${f}'] = JsonUtil.${type?uncap_first}ToJson(${f});
+      result['${f}'] = JsonUtil.${type?uncap_first}ToJson(${f});
           <#elseif  !f.generic?? || !f.generic.isObjectClass>
-        result['${f}'] = ${f}.toMap();
+      result['${f}'] = ${f}.toMap();
           <#else>
-        result['${f}'] =  ${f};
+      result['${f}'] =  ${f};
           </#if>
       </#if>
     }
@@ -157,8 +160,12 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
 
   static Map<${idField.type}, ${bean}> toIdMap(List<${bean}> ${bean?uncap_first}List) {
     var result = Map<${idField.type}, ${bean}>();
-    for (var ${bean?uncap_first} in ${bean?uncap_first}List) {
-      result[${bean?uncap_first}.${idField}] = ${bean?uncap_first};
+    if (${bean?uncap_first}List != null) {
+      for (var ${bean?uncap_first} in ${bean?uncap_first}List) {
+        if (${bean?uncap_first} != null) {
+          result[${bean?uncap_first}.${idField}] = ${bean?uncap_first};
+        }
+      }
     }
     return result;
   }
@@ -167,8 +174,12 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
 
   static List<Map<String, dynamic>> toMaps(List<${bean}> ${bean?uncap_first}List) {
     var result = List<Map<String, dynamic>>();
-    for (var ${bean?uncap_first} in ${bean?uncap_first}List) {
-      result.add(${bean?uncap_first}.toMap());
+    if (${bean?uncap_first}List != null) {
+      for (var ${bean?uncap_first} in ${bean?uncap_first}List) {
+        if (${bean?uncap_first} != null) {
+          result.add(${bean?uncap_first}.toMap());
+        }
+      }
     }
     return result;
   }

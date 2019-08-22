@@ -22,8 +22,8 @@ import '${fix$(api?lower_case)}_model.dart';
 
 
 class ${api}Page extends StatelessWidget {
-  static String path = '/${fix$(api.route)}';
-  static Handler handler = Handler(
+  static final String path = '/${fix$(api.route)}';
+  static final Handler handler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       return ${api}Page(params: params);
     }
