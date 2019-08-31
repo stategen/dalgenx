@@ -154,16 +154,7 @@ public class RoleServiceImpl implements RoleService {
         return roleDao.getRolePageList(role, pageSize, pageNum);
     }
 
-    @Override
-    public <D> void assignBeanTo(Collection<D> dests, Function<? super D, String> destGetMethod, BiConsumer<D, Role> destSetMethod) {
-        if (CollectionUtil.isNotEmpty(dests)) {
-            Set<String> roleIds = CollectionUtil.toSet(dests, destGetMethod);
-            List<Role> roles = this.getRolesByRoleIds(new ArrayList<String>(roleIds));
-            if (CollectionUtil.isNotEmpty(roles)) {
-                CollectionUtil.setModelByList(dests, roles, destGetMethod, destSetMethod, Role::getRoleId);
-            }
-        }
-    }
+
     //-->
     //
 }

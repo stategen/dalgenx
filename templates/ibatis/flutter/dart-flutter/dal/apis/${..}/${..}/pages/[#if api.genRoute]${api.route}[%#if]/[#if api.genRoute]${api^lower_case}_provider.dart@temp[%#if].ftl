@@ -16,41 +16,25 @@
 -->
 <@genCopyrightCanEdit api/>
 import 'package:flutter/material.dart';
-import 'package:fluro/fluro.dart';
 import 'package:provider/provider.dart';
-import '${fix$(api?lower_case)}_model.dart';
 
+import '${intergradePackage}/intergrades.dart';
 
-class ${api}Page extends StatelessWidget {
-  static final String path = '/${fix$(api.route)}';
-  static final Handler handler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return ${api}Page(params: params);
-    }
-  );
+class ${api}StateEx {
 
-  Map<String, List<String>> params;
-
-  ${api}Page({this.params});
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ${api}Model.createProvider(),
-      ],
-      child: ${api}Scene(),
-    );
-  }
 }
 
-class ${api}Scene extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter ${fix$(api?lower_case)} Page"),
-      ),
+class ${api}Provider extends ${api}AbstractProvider with ${api}StateEx {
+  static ChangeNotifierProvider<${api}Provider> create({Widget child}) {
+    return ChangeNotifierProvider<${api}Provider>(
+      builder: (BuildContext context) => ${api}Provider(context: context),
+      child: child,
     );
   }
+
+  static ${api}Provider of(BuildContext context, {bool listen = true}) {
+     return Provider.of<${api}Provider>(context, listen: listen);
+  }
+
+  ${api}Provider({BuildContext context});
 }

@@ -134,7 +134,7 @@
             <#if sft_dlt_clmn!="">a.${sft_dlt_clmn} = ${not_delete_value}</#if>
         </sql>
     </operation>-->
-    <operation name="get${table.className}PageList" paramType="object" multiplicity="paging" remarks="">
+    <operation name="getPageList" paramType="object" multiplicity="paging" remarks="">
         <sql>
             select
            <#list table.canSelColumns as column>

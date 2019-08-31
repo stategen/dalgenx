@@ -16,22 +16,38 @@
 -->
 <@genCopyrightCanEdit api/>
 import 'package:flutter/material.dart';
+import 'package:fluro/fluro.dart';
 import 'package:provider/provider.dart';
+import '${fix$(api?lower_case)}_provider.dart';
 
-import '${intergradePackage}/intergrades.dart';
 
-class ${api}StateEx {
+class ${api}Page extends StatelessWidget {
+  static final String path = '/${fix$(api.route)}';
+  static final Handler handler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+      return ${api?cap_first}Provider.create(
+        child: ${api?cap_first}Page(params: params)
+      );
+    }
+  );
 
+  Map<String, List<String>> params;
+
+  ${api}Page({this.params});
+
+  @override
+  Widget build(BuildContext context) {
+    return ${api}Scene();
+  }
 }
 
-class ${api}Model extends ${api}AbstractModel with ${api}StateEx {
-  static ChangeNotifierProvider<${api}Model> createProvider() {
-    return ChangeNotifierProvider<${api}Model>(
-      builder: (_) => ${api}Model(),
+class ${api}Scene extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Flutter ${fix$(api?lower_case)} Page"),
+      ),
     );
-  }
-
-  static ${api}Model getModel(BuildContext context) {
-     return Provider.of<${api}Model>(context);
   }
 }

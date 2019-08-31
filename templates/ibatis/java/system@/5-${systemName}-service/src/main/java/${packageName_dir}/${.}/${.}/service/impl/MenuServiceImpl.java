@@ -217,16 +217,7 @@ public class MenuServiceImpl implements MenuService {
         return menuDao.getMenusByProjectName(projectName, menuType);
     }
 
-    @Override
-    public <D> void assignBeanTo(Collection<D> dests, Function<? super D, Long> destGetMethod, BiConsumer<D, Menu> destSetMethod) {
-        if (CollectionUtil.isNotEmpty(dests)) {
-            Set<Long> menuIds = CollectionUtil.toSet(dests, destGetMethod);
-            List<Menu> menus = this.getMenusByMenuIds(new ArrayList<Long>(menuIds));
-            if (CollectionUtil.isNotEmpty(menus)) {
-                CollectionUtil.setModelByList(dests, menus, destGetMethod, destSetMethod, Menu::getMenuId);
-            }
-        }
-    }
+
     //-->
     //
 }

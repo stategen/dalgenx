@@ -180,16 +180,7 @@ public class TopicReplyServiceImpl implements TopicReplyService {
         return topicReplyList;
     }
 
-    @Override
-    public <D> void assignBeanTo(Collection<D> dests, Function<? super D, String> destGetMethod, BiConsumer<D, TopicReply> destSetMethod) {
-        if (CollectionUtil.isNotEmpty(dests)) {
-            Set<String> replyIds = CollectionUtil.toSet(dests, destGetMethod);
-            List<TopicReply> topicReplys = this.getTopicReplysByReplyIds(new ArrayList<String>(replyIds));
-            if (CollectionUtil.isNotEmpty(topicReplys)) {
-                CollectionUtil.setModelByList(dests, topicReplys, destGetMethod, destSetMethod, TopicReply::getReplyId);
-            }
-        }
-    }
+
     //-->
     //
 }

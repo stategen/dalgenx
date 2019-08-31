@@ -158,16 +158,7 @@ public class TopicServiceImpl implements TopicService {
         return topicPageList;
     }
 
-    @Override
-    public <D> void assignBeanTo(Collection<D> dests, Function<? super D, String> destGetMethod, BiConsumer<D, Topic> destSetMethod) {
-        if (CollectionUtil.isNotEmpty(dests)) {
-            Set<String> topicIds = CollectionUtil.toSet(dests, destGetMethod);
-            List<Topic> topics = this.getTopicsByTopicIds(new ArrayList<String>(topicIds));
-            if (CollectionUtil.isNotEmpty(topics)) {
-                CollectionUtil.setModelByList(dests, topics, destGetMethod, destSetMethod, Topic::getTopicId);
-            }
-        }
-    }
+
 
     /**
      * 获取当前回复的数量

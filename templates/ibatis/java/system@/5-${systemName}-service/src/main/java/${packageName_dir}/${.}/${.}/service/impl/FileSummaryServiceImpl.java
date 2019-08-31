@@ -139,16 +139,7 @@ public class FileSummaryServiceImpl implements FileSummaryService {
         return fileSummarys;
     }
 
-    @Override
-    public <D> void assignBeanTo(Collection<D> dests, Function<? super D, String> destGetMethod, BiConsumer<D, FileSummary> destSetMethod) {
-        if (CollectionUtil.isNotEmpty(dests)) {
-            Set<String> fileIds = CollectionUtil.toSet(dests, destGetMethod);
-            List<FileSummary> fileSummarys = this.getFileSummarysByFileIds(new ArrayList<String>(fileIds));
-            if (CollectionUtil.isNotEmpty(fileSummarys)) {
-                CollectionUtil.setModelByList(dests, fileSummarys, destGetMethod, destSetMethod, FileSummary::getFileId);
-            }
-        }
-    }
+
     //-->
     //
 }

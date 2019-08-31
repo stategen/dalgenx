@@ -25,9 +25,8 @@ import java.util.List;
         <#break>
     </#if>
 </#list>
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Collection;
-import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -42,7 +41,7 @@ import org.stategen.framework.lite.PageList;
 </#if>
 </#list>
 
-import org.stategen.framework.util.CollectionUtil;
+import org.stategen.framework.util.ServiceUtil;
 import org.stategen.framework.util.StringUtil;
 
 import ${tableConfig.basepackage}.${pojo_dir_name}.${className}${pojo_name_suffix};
@@ -114,13 +113,17 @@ public class ${tableConfig.className}${service_name_suffix}${impl_name_suffix}  
     <#assign id>${tableConfig.pkColumn.columnName}</#assign>
     @Override
     public <D> void assignBeanTo(Collection<D> dests, Function<? super D, ${type}> destGetMethod, BiConsumer<D, ${tableConfig.className}> destSetMethod) {
-        if (CollectionUtil.isNotEmpty(dests)) {
-            Set<${type}> ${id}s = CollectionUtil.toSet(dests, destGetMethod);
-            List<${bean}> ${bean?uncap_first}s = this.get${bean}sBy${id?cap_first}s(new ArrayList<${type}>(${id}s));
-            if (CollectionUtil.isNotEmpty(${bean?uncap_first}s)) {
-                CollectionUtil.setModelByList(dests, ${bean?uncap_first}s, destGetMethod, destSetMethod, ${bean}::get${id?cap_first});
-            }
-        }
+        ServiceUtil.interalAssignBeanTo(dests, destGetMethod, destSetMethod, this, ${bean}ServiceImpl::get${bean}sBy${id?cap_first}s, ${bean}::get${id?cap_first});
+    }
+
+    @Override
+    public <D, G> void assignBeansTo(Collection<D> dests,Function<? super D, G> destGetMethod,BiConsumer<D, List<${bean}>> destSetMethod, BiConsumer<${bean},List<G>> resultSetQueryIdsFun, Function<? super ${bean}, G> resultGetGoupIdFun) {
+        ServiceUtil.interalAssignBeansTo(dests, destGetMethod, destSetMethod, this, new ${bean}(), resultSetQueryIdsFun, resultGetGoupIdFun, 100);
+    }
+
+    @Override
+    public <D> void mergeBeanTo(Collection<D> dests, Function<? super D, ${type}> destGetMethod) {
+        ServiceUtil.interalMergeBeanTo(dests, destGetMethod, this, ${bean}ServiceImpl::get${bean}sBy${id?cap_first}s, ${bean}::get${id?cap_first});
     }
 
 }

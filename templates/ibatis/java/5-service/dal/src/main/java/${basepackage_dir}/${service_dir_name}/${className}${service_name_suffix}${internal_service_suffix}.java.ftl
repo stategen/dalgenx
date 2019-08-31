@@ -30,6 +30,7 @@ import ${tableConfig.basepackage}.${pojo_dir_name}.${className}${pojo_name_suffi
 <#if sql.paging>
 import org.stategen.framework.lite.PageList;
 import org.stategen.framework.util.AssignService;
+import org.stategen.framework.util.BaseService;
 <#break>
 </#if>
 </#list>
@@ -41,7 +42,7 @@ import org.stategen.framework.util.AssignService;
  * 因此该类可以修改任何部分
  * </pre>
  */
-public interface ${tableConfig.className}${service_name_suffix}${internal_service_suffix} extends ${tableConfig.className}${service_name_suffix}${systemName?cap_first}, AssignService<${tableConfig.className}, ${tableConfig.pkColumn.shortJavaType}>  {
+public interface ${tableConfig.className}${service_name_suffix}${internal_service_suffix} extends ${tableConfig.className}${service_name_suffix}${systemName?cap_first}, AssignService<${tableConfig.className}, ${tableConfig.pkColumn.shortJavaType}>, BaseService<${tableConfig.className}> {
 
 <#list tableConfig.sqls as sql>
     /**

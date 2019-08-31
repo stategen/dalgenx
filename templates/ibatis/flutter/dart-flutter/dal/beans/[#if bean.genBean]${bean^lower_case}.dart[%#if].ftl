@@ -17,8 +17,10 @@
 <@genCopyright bean/>
 <@genImports bean.imports,'../'/>
 import '../../stgutil/json_util.dart';
+import '../../stgutil/front_bean.dart';
 
-class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}</#if> {
+<#assign genericStr><@genBeanType bean ''/></#assign>
+class ${bean}${genericStr}<#if bean.extend> extends ${bean.parentBean}</#if> with FrontBean {
 <#assign hasIdField=false>
 <#list bean.fields as f>
     <#if f.isId>
@@ -60,11 +62,11 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
           <#break>
         </#if>
     </#list>
-  static ${bean} fromJson(Map<String, dynamic> json<#if isNotEmpty(genericFn)>, ${genericFn} ${genericFnName}</#if>) {
+  static ${bean}${genericStr} fromJson${genericStr}(Map<String, dynamic> json<#if isNotEmpty(genericFn)>, ${genericFn}${genericStr} ${genericFnName}</#if>) {
     if (json == null) {
       return null;
     }
-    return ${bean}(
+    return ${bean}${genericStr}(
     <#list bean.allFields as f>
         <#assign type>${getSimpleType(f)}</#assign>
         <#assign j>json['${f}']</#assign>
@@ -74,7 +76,7 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
                     <#if (f.generic?? && !f.generic.isObjectClass)  || (!f.isGeneric) >
                         JsonUtil.parseList<${type}>(${j}, JsonUtil.parse${type?cap_first})
                     <#elseif (f.generic?? && f.generic.isObjectClass)>
-                        ${genericFnName}(${j})
+                        ${genericFnName}(<#if f.isArray>List<Map<String,dynamic>>.from(</#if>${j}<#if f.isArray>)</#if>)
                     <#else>
                         ${j}
                     </#if>
@@ -96,9 +98,9 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
     );
   }
 
-  static List<${bean}> fromJsonList(List jsonList<#if isNotEmpty(genericFn)>, ${genericFn} ${genericFnName}</#if>) {
+  static List<${bean}${genericStr}> fromJsonList${genericStr}(List jsonList<#if isNotEmpty(genericFn)>, ${genericFn}${genericStr} ${genericFnName}</#if>) {
     <#if isNotEmpty(genericFn)>
-    List<${bean}> result;
+    List<${bean}${genericStr}> result;
     if (jsonList != null){
       List<Map<String, dynamic>> jsonMapList;
       if (jsonList is List<Map<String, dynamic>>){
@@ -156,8 +158,8 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
     return result;
   }
   </#if>
-  <#if hasIdField>
 
+  <#if hasIdField>
   static Map<${idField.type}, ${bean}> toIdMap(List<${bean}> ${bean?uncap_first}List) {
     var result = Map<${idField.type}, ${bean}>();
     if (${bean?uncap_first}List != null) {
@@ -165,6 +167,18 @@ class ${bean}<@genBeanType bean ''/><#if bean.extend> extends ${bean.parentBean}
         if (${bean?uncap_first} != null) {
           result[${bean?uncap_first}.${idField}] = ${bean?uncap_first};
         }
+      }
+    }
+    return result;
+  }
+  <#else>
+  static Map<int, ${bean}> toIdMap(List<${bean}> ${bean?uncap_first}List) {
+    var result = Map<int, ${bean}>();
+    if (${bean?uncap_first}List != null) {
+      int index = 0;
+      for (var ${bean?uncap_first} in ${bean?uncap_first}List) {
+        result[index] = ${bean?uncap_first};
+        index ++;
       }
     }
     return result;

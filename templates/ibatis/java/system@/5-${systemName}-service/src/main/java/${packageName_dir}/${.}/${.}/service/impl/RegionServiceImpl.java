@@ -153,16 +153,7 @@ public class RegionServiceImpl implements RegionService {
         return regions;
     }
 
-    @Override
-    public <D> void assignBeanTo(Collection<D> dests, Function<? super D, Long> destGetMethod, BiConsumer<D, Region> destSetMethod) {
-        if (CollectionUtil.isNotEmpty(dests)) {
-            Set<Long> regionIds = CollectionUtil.toSet(dests, destGetMethod);
-            List<Region> regions = this.getRegionsByRegionIds(new ArrayList<Long>(regionIds));
-            if (CollectionUtil.isNotEmpty(regions)) {
-                CollectionUtil.setModelByList(dests, regions, destGetMethod, destSetMethod, Region::getRegionId);
-            }
-        }
-    }
+
 
     /**
      * 
