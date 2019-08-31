@@ -20,3 +20,12 @@ isNotEmpty等如果遇到参数和字段相同，property 属性不要
 @ApiModelProperty 在下次创建时覆盖
 
 getById改为具体名称
+
+react abstract
+  model 中 command调后面
+  检查 queryRule有没有多余
+  用list还是valueMap
+  没有id的bean,变为list
+  page??pageNum
+
+

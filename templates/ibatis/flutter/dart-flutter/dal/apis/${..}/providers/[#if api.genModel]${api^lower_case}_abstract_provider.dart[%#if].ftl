@@ -165,8 +165,7 @@ abstract class ${api}Command {
       <#assign oldAreaStr=genOldAreaStr(fun)>
     ${oldAreaStr}
     payload ??= {};
-    var queryRule = old${genArea(fun.area)?cap_first}?.queryRule;
-    payload = {<#if r.isPageList>'pageNum': 1, 'pageSize': 10, </#if>...?queryRule, ...payload};
+    payload = {<#if r.isPageList>'pageNum': 1, 'pageSize': 10, </#if> ...payload};
     </#if>
     <#if !r.isVoid><@genTypeWithGeneric r/> ${resultName} = </#if>await ${api}Apis.${fun}(<#if isNotEmptyList(fun.params)><#if isOne>null, </#if>payload: payload, ${genParamsStr(fun.params)}</#if>);
     <#if !r.isVoid>
