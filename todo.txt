@@ -27,5 +27,7 @@ react abstract
   用list还是valueMap
   没有id的bean,变为list
   page??pageNum
+  final int DEFAULT_PAGENUM =1;
+  final int DEFAULT_PAGESIZE =10;
 
 

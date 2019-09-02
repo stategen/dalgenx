@@ -68,6 +68,9 @@ class ${bean}${genericStr}<#if bean.extend> extends ${bean.parentBean}</#if> wit
     }
     return ${bean}${genericStr}(
     <#list bean.allFields as f>
+        <#if !f.serialize>
+            <#break>
+        </#if>
         <#assign type>${getSimpleType(f)}</#assign>
         <#assign j>json['${f}']</#assign>
         <#assign psJson>
@@ -126,6 +129,9 @@ class ${bean}${genericStr}<#if bean.extend> extends ${bean.parentBean}</#if> wit
     </#if>
     var result = new Map<String, dynamic>();
     <#list bean.allFields as f>
+        <#if !f.deserialize>
+            <#break>
+        </#if>
     <#assign type>${getSimpleType(f)}</#assign>
     if (this.${f} != null) {
       <#if f.isArray>

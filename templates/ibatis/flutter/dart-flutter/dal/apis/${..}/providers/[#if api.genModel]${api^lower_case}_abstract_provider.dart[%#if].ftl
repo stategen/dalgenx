@@ -165,7 +165,7 @@ abstract class ${api}Command {
       <#assign oldAreaStr=genOldAreaStr(fun)>
     ${oldAreaStr}
     payload ??= {};
-    payload = {<#if r.isPageList>'pageNum': 1, 'pageSize': 10, </#if> ...payload};
+    payload = {<#if r.isPageList>'pageNum': DEFAULT_PAGE_NUM, 'pageSize': DEFAULT_PAGE_SIZE, </#if> ...payload};
     </#if>
     <#if !r.isVoid><@genTypeWithGeneric r/> ${resultName} = </#if>await ${api}Apis.${fun}(<#if isNotEmptyList(fun.params)><#if isOne>null, </#if>payload: payload, ${genParamsStr(fun.params)}</#if>);
     <#if !r.isVoid>
@@ -227,11 +227,10 @@ abstract class ${api}Command {
   static Future<${api}BaseState> ${nextEffectName(fun)}(${api}AbstractProvider ${api?uncap_first}State) async {
     ${genOldAreaStr(fun)}
     var pagination = old${genArea(fun.area)?cap_first}?.pagination;
-    var pageNum = pagination?.current;
-    pageNum = (pageNum != null ? pageNum : 0) + 1;
-    var totalPages = (pagination.total / (pagination?.pageSize ?? 10)).ceil();
-    pageNum = min(pageNum, totalPages);
-    var payload = {...old${genArea(fun.area)?cap_first}.queryRule, 'pageNum': pageNum};
+    var pageNum = pagination?.current ?? 0;
+    pageNum++;
+    var pageSize = pagination?.pageSize ?? DEFAULT_PAGE_SIZE;
+    var payload = {...?old${genArea(fun.area)?cap_first}.queryRule, 'pageSize': pageSize, 'pageNum': pageNum};
     var newAreaState = await ${api}Command.${fun}(${api?uncap_first}State,payload: payload);
     return newAreaState;
   }

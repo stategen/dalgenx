@@ -22,7 +22,10 @@ import '${fix$(api?lower_case)}_provider.dart';
 
 
 class ${api}Page extends StatelessWidget {
+  // 路由路径
   static final String path = '/${fix$(api.route)}';
+
+  // 路由创建方式
   static final Handler handler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       return ${api?cap_first}Provider.create(
@@ -37,17 +40,39 @@ class ${api}Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ${api}Scene();
+    // 这里提供provider是避免省事，将provider全部配到main下，而不能释放资源
+    return ${api}Provider.create(
+      child: ${api}Scene(),
+    );
   }
 }
 
-class ${api}Scene extends StatelessWidget {
+class ${api}Scene extends StatefulWidget {
+
+  @override
+  _${api}PageState createState() => _${api}PageState();
+
+}
+
+class _${api}PageState extends State<${api}Scene> {
+
+  ${api}Provider ${api?uncap_first}Provider;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // state在整个生部周期只需要拿和注册一次
+    ${api?uncap_first}Provider = ${api}Provider.of(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter ${fix$(api?lower_case)} Page"),
-      ),
-    );
+    //var fetched = ${api?uncap_first}Provider.${api?uncap_first}WrapArea.fetched ?? false;
+    //if (!fetched) {
+    //  ${api?uncap_first}Provider.xxx(context,);
+    //}
+
+    return Text('${api?uncap_first} Page 创建成功!');
   }
+
 }
