@@ -230,7 +230,7 @@ abstract class ${api}Command {
     var pageNum = pagination?.current ?? 0;
     pageNum++;
     var pageSize = pagination?.pageSize ?? DEFAULT_PAGE_SIZE;
-    var payload = {...?old${genArea(fun.area)?cap_first}.queryRule, 'pageSize': pageSize, 'pageNum': pageNum};
+    var payload = {...?old${genArea(fun.area)?cap_first}?.queryRule, 'pageSize': pageSize, 'pageNum': pageNum};
     var newAreaState = await ${api}Command.${fun}(${api?uncap_first}State,payload: payload);
     return newAreaState;
   }
