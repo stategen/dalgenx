@@ -9,7 +9,6 @@
     </parent>
 
     <properties>
-        <frontend>${projectName?uncap_first}-frontend</frontend>
         <warName>${systemName?uncap_first}${projectName?cap_first}</warName>
     </properties>
 
@@ -109,78 +108,17 @@
                 <configuration>
                     <failOnError>true</failOnError>
                     <filesets>
-<!--                         <fileset>
-                            <directory>./${'${'}frontend}/dist/</directory>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                            <followSymlinks>false</followSymlinks>
-                        </fileset>
-                        <fileset>
-                            <directory>./WebRoot/pages/</directory>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                            <followSymlinks>false</followSymlinks>
-                        </fileset> -->
                     </filesets>
                 </configuration>
             </plugin>
-            <#if hasClient?? && hasClient>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <executions>
-                    <!-- 生成ts文件模型和${projectName?uncap_first} -->
-                    <execution>
-                        <id>>>>>>>>>>>>>>>>>auto generate frondend files 生成前端代码 &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>${packageName}.facadegen.UmiFacadeProcessor</mainClass>
-                            <classpathScope>test</classpathScope>
-                        </configuration>
-                    </execution>
-                    
-                    <!-- 安装前端代码需要的插件 -->
-                    <execution>
-                        <id>>>>>>>>>>>>>>>>>yarn 下载前端依赖 &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <workingDirectory>./${'${'}frontend}/</workingDirectory>
-                            <executable>yarn</executable>
-                            <arguments>
-                                <!-- <argument>install</argument> -->
-                            </arguments>
-                        </configuration>
-
-                    </execution>
-                    
-                    <!-- 编译前端代码 -->
-                    <execution>
-                        <id>>>>>>>>>>>>>>>>>yarn run build 编译前端代码 &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-
-                        <configuration>
-                            <workingDirectory>./${'${'}frontend}/</workingDirectory>
-                            <executable>yarn</executable>
-                            <arguments>
-                                <argument>run</argument>
-                                <argument>build</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
+                <!--APPEND_TAG_DO_NOT_CHANGE-->
                 </executions>
             </plugin>
-            </#if>
 
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>

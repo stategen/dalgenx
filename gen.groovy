@@ -20,7 +20,7 @@ def main() {
 	freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
 	String executeTarget = System.getProperty("executeTarget");
     println pom.properties.getClass();
-	if ("${executeTarget}"=="system" || "${executeTarget}"=="project" ){
+	if ("${executeTarget}"=="system" || "${executeTarget}"=="project" || "${executeTarget}"=="client"){
 	    new ProgenTargets(this)."${executeTarget}"();
 	} else {
 	    loadDefaultGeneratorProperties();

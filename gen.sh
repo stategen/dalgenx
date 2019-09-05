@@ -6,19 +6,28 @@ echo "命令行使用:"
 echo "gen table [table_sql_name] [-e] 根据数据库表的生成代码,可以生成dalgen的配置文件(不需要xml配置文件)"
 echo "gen dal [table_sql_name] [-e] 根据数据库表的配置文件生成代码,(需要有xml配置文件)"
 echo "gen system [packageName] [systemName] [-e] 生成系统(工程组),即该工程组属于哪个系统,如支付系统，好友系统"
-echo "gen project [projectName] [web|app] [-e] 生成工程 [web|app]指的是类型，web是网页形式，app是手机端"
-echo "gen api [table_sql_name] [web|app] [-e] 在当前工程（7）下生成一个controller"
+echo "gen project [projectName] [h5|flutter|web] [-e] 生成工程 [web|app]指的是类型，web是网页形式，app是手机端"
+echo "gen api [table_sql_name] [-e] 在当前工程（7,必须在7文件夹内执行）下生成一个controller"
+echo "gen client [h5|flutter|web] [-e] 在当前工程（7,必须在7文件夹内执行）下生成一个controller"
 exit
 fi
 
 
 cmdPath=$(pwd)
+projectsPath=$cmdPath;
 
-genConfigPath="$cmdPath/"
+if [ "$1" == "api"  -o "$1" == "client" ]; then
+  projectsPath=$(dirname $(pwd))
+  project_name="${cmdPath##*/}"
+  if [[ $project_name != 7-* ]]; then
+    echo "--------------api需要在 7- 工程下執行 -----------------"
+    exit
+  fi
+fi
 
+genConfigPath="$projectsPath/"
 genConfigXml="${genConfigPath}gen_config.xml"
-
-
+echo $genConfigXml
 
 
 if [ "$1" != "system" ]; then
@@ -40,29 +49,33 @@ if [ "$1" == "project" ]; then
     fi
     mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml  -DexecuteTarget=$1 -DprojectName=$2"
     if [ -n "$3" ]; then
-      mvnCmd="$mvnCmd -Dtype=$3"
+      mvnCmd="$mvnCmd -DwebType=$3"
     fi
     
     if [ "$4" == "-e" -o "$3" == "-e" ]; then
       mvnCmd="$mvnCmd -e"
     fi
+
 elif [ "$1" == "api" ]; then
     if [ ! -n "$2" ]; then
        echo "项目名称不能为空 ! 如 $1 user cms -e cms指的是如 7-trade-web-cms"
        exit
     fi
-    
-    if [ ! -n "$3" ]; then
-       echo "项目名称不能为空! 如 $1 user cms -e cms指的是如 7-trade-web-cms"
-       exit
-    fi
 
-    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml  -DexecuteTarget=$1 -DgenInputCmd=$2 -DprojectName=$3"
-    
-    if [ "$4" == "-e" ]; then
+    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml  -DexecuteTarget=$1 -DgenInputCmd=$2"
+
+    if [ "$3" == "-e" ]; then
       mvnCmd="$mvnCmd -e"
     fi
-     
+elif [ "$1" == "client" ]; then
+    if [ ! -n "$2" ]; then
+       echo "类型不能为空 ! 如 $1 flutter -e"
+       exit
+    fi
+    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml  -DexecuteTarget=$1 -DwebType=$2"
+    if [ "$3" == "-e" ]; then
+      mvnCmd="$mvnCmd -e"
+    fi
 elif [ "$1" == "system" ]; then
     if [! -n "$2"]; then
       echo "包名(package)不能为空 如 $1 com.mycompany.biz trade -e"
@@ -92,7 +105,7 @@ else
    exit
 fi
 
-mvnCmd="$mvnCmd -DcmdPath=$cmdPath  -DdalgenPath=$genConfigPath"
+mvnCmd="$mvnCmd -DcmdPath=$cmdPath  -DdalgenPath=$genConfigPath -DprojectsPath=$projectsPath"
 echo 执行命令 $mvnCmd
 $mvnCmd
 
