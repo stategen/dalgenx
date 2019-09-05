@@ -18,7 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '${intergradePackage}/intergrades.dart';
+import '${frontendPagckageName}/intergrade/intergrades.dart';
 
 class ${api}StateEx {
 

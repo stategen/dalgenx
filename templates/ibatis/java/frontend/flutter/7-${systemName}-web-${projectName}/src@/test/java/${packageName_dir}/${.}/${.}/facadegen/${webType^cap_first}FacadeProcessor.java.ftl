@@ -60,7 +60,7 @@ public class ${webType?cap_first}FacadeProcessor extends BaseGenFacadeProcessor 
         GenContext.tempDirs = Arrays.asList("/flutter/dart-api", "/flutter/dart-flutter", "/flutter/dart-flutter-app");
         GenContext.outDir="${projectName?uncap_first}-frontend-${webType}/src/intergrade/";
 		//flutter 包名和项目名一致，坑
-        GenContext.customVirables.put("intergradePackage", "package:baixingshenghuo_shop/intergrade");
+        GenContext.customVirables.put("frontendPagckageName", "package:${frontendName}/intergrade");
         PathType[] pathTypes = PathType.values();
         for (PathType pathType : pathTypes) {
             String nameStr = pathType.getWrapName() + "s";
