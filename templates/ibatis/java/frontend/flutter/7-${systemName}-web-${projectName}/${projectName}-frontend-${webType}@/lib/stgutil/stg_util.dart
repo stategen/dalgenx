@@ -1,4 +1,3 @@
-import 'package:${frontendName}/stgutil/init_state.dart';
 import 'package:flutter/material.dart';
 
 import '../intergrade/beans/pagination.dart';

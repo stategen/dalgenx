@@ -1,5 +1,4 @@
-import 'package:${frontendName}/intergrade/pages.dart';
-import 'package:${frontendName}/intergrade/pages_router.dart';
+import '../intergrade/pages_router.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluro/fluro.dart';

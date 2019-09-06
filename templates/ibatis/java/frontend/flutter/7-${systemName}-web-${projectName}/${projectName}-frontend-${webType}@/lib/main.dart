@@ -1,11 +1,10 @@
 import 'package:${frontendName}/intergrade/pages.dart';
 import 'package:${frontendName}/stgutil/route_util.dart';
-import 'package:flutter/material.dart';
 import 'package:${frontendName}/pages/index_page.dart';
+import 'package:${frontendName}/provide/current_index_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:${frontendName}/provide/cart.dart';
-import 'package:${frontendName}/provide/currentIndex.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,8 +17,8 @@ class MyApp extends StatelessWidget {
     RouterUtil.configureRoutes();
 
     return MultiProvider(
+      //这里只能提供几个公用的Provider,以免占用资源
       providers: [
-        ChangeNotifierProvider(builder: (_) => CartProvider()),
         ChangeNotifierProvider(builder: (_) => CurrentIndexProvide()),
       ],
       child: Container(
@@ -31,6 +30,7 @@ class MyApp extends StatelessWidget {
           //设置主题
           theme: ThemeData(primaryColor: Colors.pink),
           home: IndexPage(),
+	  
         ),
       ),
     );

@@ -72,7 +72,7 @@ class _${api}PageState extends State<${api}Scene> {
     //  ${api?uncap_first}Provider.xxx(context,);
     //}
 
-    return Text('${api?uncap_first} Page 创建成功!');
+    return Text('${fix$(api?uncap_first)} Page 创建成功!');
   }
 
 }

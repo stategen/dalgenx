@@ -1,13 +1,12 @@
 import 'dart:io';
 
-import 'package:baixingshenghuo_shop/intergrade/configs/tradeApp_config.dart';
+import '../intergrade/configs/${systemName}${projectName?cap_first}_config.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'log_utils.dart';
 import 'toast.dart';
-import 'package:baixingshenghuo_shop/intergrade/beans/response.dart' as Res;
-import 'dart:convert';
+import '../intergrade/beans/response.dart' as Res;
 
 import 'package:path_provider/path_provider.dart';
 
@@ -83,7 +82,7 @@ class NetError {
 }
 
 final Map<String, String> BASE_URLS = {
-  tradeAppBaseUrlKey: "http://192.168.1.93:8080/tradeApp/",
+  ${systemName}${projectName?cap_first}BaseUrlKey: "http://192.168.43.14:8080/tradeApp/",
 };
 
 final Map<String, Dio> DIO_MAP = Map();
