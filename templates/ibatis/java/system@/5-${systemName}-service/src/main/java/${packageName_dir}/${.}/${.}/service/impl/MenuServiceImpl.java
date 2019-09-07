@@ -92,79 +92,7 @@ public class MenuServiceImpl implements MenuService {
         return this.getMenusByProjectName(getProjectName(), MenuType.MENU);
     }
 	
-    //<#--
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#insert
-     * @see ${packageName}.service.MenuService#insert
-     */
-    @Override
-    public Menu insert(Menu menu) {
-        return menuDao.insert(menu);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#update
-     * @see ${packageName}.service.MenuService#update
-     */
-    @Override
-    public Menu update(Menu menu) {
-        return menuDao.update(menu);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#getMenuByMenuId
-     * @see ${packageName}.service.MenuService#getMenuByMenuId
-     */
-    @Override
-    public Menu getMenuByMenuId(Long menuId) {
-        return menuDao.getMenuByMenuId(menuId);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#getMenusByMenuIds
-     * @see ${packageName}.service.MenuService#getMenusByMenuIds
-     */
-    @Override
-    public List<Menu> getMenusByMenuIds(java.util.List<Long> menuIds) {
-        return menuDao.getMenusByMenuIds(menuIds);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#deleteByMenuIds
-     * @see ${packageName}.service.MenuService#deleteByMenuIds
-     */
-    @Override
-    public List<Long> deleteByMenuIds(java.util.List<Long> menuIds) {
-        return menuDao.deleteByMenuIds(menuIds);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#getMenusByUserId
-     * @see ${packageName}.service.MenuService#getMenusByUserId
-     */
-    @Override
-    public List<Long> getMenusByUserId(String userId, org.stategen.framework.lite.enums.MenuType menuType) {
-        return menuDao.getMenusByUserId(userId, menuType);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#forceUpdateById
-     * @see ${packageName}.service.MenuService#forceUpdateById
-     */
-    @Override
-    public Long forceUpdateById(Menu menu) {
-        return menuDao.forceUpdateById(menu);
-    }
-
-    /*** 保存menu,有id时更新，没有id时插入,并带回新的id，返回 menu*/
+	    /*** 保存menu,有id时更新，没有id时插入,并带回新的id，返回 menu*/
     @Override
     public Menu saveMenu(Menu menu) {
         if (menu != null) {
@@ -186,38 +114,6 @@ public class MenuServiceImpl implements MenuService {
         }
         return menus;
     }
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#delete
-     * @see ${packageName}.service.MenuService#delete
-     */
-    @Override
-    public Long delete(Long menuId) {
-        return menuDao.delete(menuId);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#getMenuPageList
-     * @see ${packageName}.service.MenuService#getMenuPageList
-     */
-    @Override
-    public PageList<Menu> getMenuPageList(Menu menu, int pageSize, int pageNum) {
-        return menuDao.getMenuPageList(menu, pageSize, pageNum);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.MenuDao#getMenusByProjectName
-     * @see ${packageName}.service.MenuService#getMenusByProjectName
-     */
-    @Override
-    public List<Menu> getMenusByProjectName(String projectName, org.stategen.framework.lite.enums.MenuType menuType) {
-        return menuDao.getMenusByProjectName(projectName, menuType);
-    }
-
-
-    //-->
-    //
+	
+ 
 }

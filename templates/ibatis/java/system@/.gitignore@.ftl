@@ -18,6 +18,6 @@ pages/
 .myeclipse/
 *@temp
 node_modules/
-*-frontend/
+*-frontend-*/
 
 

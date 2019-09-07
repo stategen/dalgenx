@@ -49,4 +49,22 @@ public class LoginController {
         }
         return new SimpleResponse(false, "用户不存在");
     }
+    
+    @ApiRequestMappingAutoWithMethodName(name = "", method = RequestMethod.POST)
+    @ResponseBody
+    @State(genForm=true)
+    public User loginByMobile(@ApiParam("国际区号") @RequestParam() String interCode,
+                            @ApiParam("手机号") @RequestParam() String mobile,@ApiParam("密码") @RequestParam() String password) {
+        User loginUser =this.userService.getUserByMobile(interCode, mobile);
+        User theUser =null;
+        if (loginUser != null) {
+            String userPassword = loginUser.getPassword();
+            BusinessAssert.mustEqual(String.class, userPassword, password,"密码不正确");
+            loginCookieGroup.addCookie(LoginCookieNames.userId, loginUser.getUserId());
+            loginUser.setPassword(null);
+            theUser =loginUser;
+        }
+        BusinessAssert.mustNotNull(theUser, "用户不存在");
+        return theUser;
+    }
 }

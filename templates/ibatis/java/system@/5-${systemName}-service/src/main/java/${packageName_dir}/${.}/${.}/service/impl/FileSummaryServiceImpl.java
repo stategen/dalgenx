@@ -38,108 +38,10 @@ public class FileSummaryServiceImpl implements FileSummaryService {
     @Value("${'${'}project.name}")
     private String projectName;
 
-    @Resource(name = "fileSummaryDao")
-    FileSummaryDao fileSummaryDao;
+
 
     @Override
     public String getProjectName() {
         return projectName;
     }
-
-    /**
-     * 
-     * @see ${packageName}.dao.FileSummaryDao#insert
-     * @see ${packageName}.service.FileSummaryService#insert
-     */
-    @Override
-    public FileSummary insert(FileSummary fileSummary) {
-        return fileSummaryDao.insert(fileSummary);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.FileSummaryDao#delete
-     * @see ${packageName}.service.FileSummaryService#delete
-     */
-    @Override
-    public String delete(String fileId) {
-        return fileSummaryDao.delete(fileId);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.FileSummaryDao#update
-     * @see ${packageName}.service.FileSummaryService#update
-     */
-    @Override
-    public FileSummary update(FileSummary fileSummary) {
-        return fileSummaryDao.update(fileSummary);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.FileSummaryDao#getFileSummaryByFileId
-     * @see ${packageName}.service.FileSummaryService#getFileSummaryByFileId
-     */
-    @Override
-    public FileSummary getFileSummaryByFileId(String fileId) {
-        return fileSummaryDao.getFileSummaryByFileId(fileId);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.FileSummaryDao#getFileSummaryPageList
-     * @see ${packageName}.service.FileSummaryService#getFileSummaryPageList
-     */
-    @Override
-    public PageList<FileSummary> getFileSummaryPageList(FileSummary fileSummary, int pageSize, int pageNum) {
-        return fileSummaryDao.getFileSummaryPageList(fileSummary, pageSize, pageNum);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.FileSummaryDao#getFileSummarysByFileIds
-     * @see ${packageName}.service.FileSummaryService#getFileSummarysByFileIds
-     */
-    @Override
-    public List<FileSummary> getFileSummarysByFileIds(java.util.List<String> fileIds) {
-        return fileSummaryDao.getFileSummarysByFileIds(fileIds);
-    }
-
-    /**
-     * 
-     * @see ${packageName}.dao.FileSummaryDao#deleteByFileIds
-     * @see ${packageName}.service.FileSummaryService#deleteByFileIds
-     */
-    @Override
-    public java.util.List<String> deleteByFileIds(java.util.List<String> fileIds) {
-        return fileSummaryDao.deleteByFileIds(fileIds);
-    }
-
-    /*** 保存fileSummary,有id时更新，没有id时插入,并带回新的id，返回 fileSummary*/
-    @Override
-    public FileSummary saveFileSummary(FileSummary fileSummary) {
-        if (fileSummary != null) {
-            java.lang.String fileId = fileSummary.getFileId();
-            if (StringUtil.isBlank(fileId)) {
-                insert(fileSummary);
-            } else {
-                update(fileSummary);
-            }
-        }
-        return fileSummary;
-    }
-
-    /*** 批量保存fileSummarys,有id时更新，没有id时插入,并带回新的id，返回 fileSummarys*/
-    @Override
-    public List<FileSummary> saveFileSummarys(List<FileSummary> fileSummarys) {
-        for (FileSummary fileSummary : fileSummarys) {
-            this.saveFileSummary(fileSummary);
-        }
-        return fileSummarys;
-    }
-
-
-    //-->
-    //
 }

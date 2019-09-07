@@ -54,7 +54,7 @@
     <entry key="jdbc_url">jdbc:mysql://localhost:3306/${systemName?uncap_first}?useUnicode=true</entry>
     <entry key="jdbc_driver">com.mysql.jdbc.Driver</entry>
 
-    <entry key="jdbc_username">dalgenx</entry>
-    <entry key="jdbc_password">dalgenx</entry>
+    <entry key="jdbc_username">stategen</entry>
+    <entry key="jdbc_password">stategen</entry>
 
 </properties>
