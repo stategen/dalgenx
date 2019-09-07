@@ -56,7 +56,7 @@ public class ${webType?cap_first}FacadeProcessor extends BaseGenFacadeProcessor 
         GenContext.registIgnoreParamAnnotationClz(CookieValue.class);
         GenContext.addStaticUtil(StringUtil.class);
         GenContext.addStaticUtil(CollectionUtil.class);
-        GenContext.tempDirs =Arrays.asList("/typescript/ts-api","/typescript/ts-umi","/typescript/ts-umi-app");
+        GenContext.tempDirs =Arrays.asList("/typescript/ts-api","/typescript/ts-umi","/typescript/ts-umi-${webType}");
         GenContext.outDir="${projectName?uncap_first}-frontend-${webType}/src/intergrade/";
 
 

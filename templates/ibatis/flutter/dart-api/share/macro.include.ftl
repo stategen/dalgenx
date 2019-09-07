@@ -75,22 +75,6 @@ ${dest}${line}
     <#return resultName>
 </#function>
 
-<#function arrayPrefix fun>
- <#if !fun.return.isArray && !fun.return.isPageList>
-   <#return '['>
- <#else>
-   <#return ''>
- </#if>
-</#function>
-
-<#function arraySubfix fun>
- <#if !fun.return.isArray && !fun.return.isPageList>
-   <#return ']'>
- <#else>
-   <#return ''>
- </#if>
-</#function>
-
 <#function doPageList fun>
     <#if fun.return.isPageList>
       <#if fun.return.type=="PageList">

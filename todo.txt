@@ -27,7 +27,8 @@ react abstract
   用list还是valueMap
   没有id的bean,变为list
   page??pageNum
-  final int DEFAULT_PAGENUM =1;
-  final int DEFAULT_PAGESIZE =10;
+  final int DEFAULT_PAGE_NUM =1;
+  final int DEFAULT_PAGE_SIZE =10;
+  返回置是List 测一下 ${arrayPrefix(fun)}${resultName}${doPageList(fun)}${arraySubfix(fun)} : []
 
 

@@ -98,9 +98,9 @@ ${dest}${line}
 <#function doPageList fun>
     <#if fun.return.isPageList>
       <#if fun.return.type=="PageList">
-          <#return '.items'>
+          <#return '!.items'>
       <#else>
-          <#return '.list'>
+          <#return '!.list'>
       </#if>
     </#if>
     <#return ''>
