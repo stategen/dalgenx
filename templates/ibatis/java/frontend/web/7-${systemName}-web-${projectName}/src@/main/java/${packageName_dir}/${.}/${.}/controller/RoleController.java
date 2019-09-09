@@ -48,7 +48,7 @@ public class RoleController extends RoleControllerBase {
             role.setCreateTimeMax(DatetimeUtil.current());
         }
         //技巧，api参数 .在dao中已自动化生成,getRolePageList 帮助文件中 点开See also直接复制过来，
-        PageList<Role> rolePageList = this.roleService.getRolePageList(role, pagination.getPageSize(), pagination.getPage());
+        PageList<Role> rolePageList = this.roleService.getPageList(role, pagination.getPageSize(), pagination.getPage());
         return AntdPageList.create(rolePageList);
     }
 

@@ -25,6 +25,8 @@ export const DATA_URL_REG = /^data:[^\/]*/;
 export const valueField = 'value';
 export const moment = _moment;
 
+export const DEFAULT_PAGE_NUM = 1;
+export const DEFAULT_PAGE_SIZE = 10;
 
 export enum TemporalType {
   TIME = "TIME",

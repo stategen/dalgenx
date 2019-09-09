@@ -58,7 +58,7 @@
             from menu a
             where
             a.delete_flag = 0
-            and a.project_name=?
+            <!-- and a.project_name =? -->
             <isNotEmpty property="menuType">
               and a.menu_type=?
             </isNotEmpty>

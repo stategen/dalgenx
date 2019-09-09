@@ -42,7 +42,6 @@ import org.stategen.framework.lite.PageList;
 </#list>
 
 import org.stategen.framework.util.ServiceUtil;
-import org.stategen.framework.util.StringUtil;
 
 import ${tableConfig.basepackage}.${pojo_dir_name}.${className}${pojo_name_suffix};
 import ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}${internal_service_suffix};

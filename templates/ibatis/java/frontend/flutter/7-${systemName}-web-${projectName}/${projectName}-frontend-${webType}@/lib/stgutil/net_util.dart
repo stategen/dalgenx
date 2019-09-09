@@ -12,8 +12,7 @@ import 'package:path_provider/path_provider.dart';
 
 // 数据格式太乱,简单处理一下
 
-//const _BASE_URL = "https://douban.uieee.com/v2";
-//const _BASE_URL = "http://localhost:8080/tradeApp/";
+
 
 const CODE_SUCCESS = 1; //自定义成功
 
@@ -51,7 +50,7 @@ enum MediaType {
 }
 
 class RequestInit {
-  String baseUrlKey;
+  String apiUrlKey;
   String path;
   Method method;
   Map<String, dynamic> data;
@@ -82,7 +81,7 @@ class NetError {
 }
 
 final Map<String, String> BASE_URLS = {
-  ${systemName}${projectName?cap_first}BaseUrlKey: "http://192.168.43.14:8080/tradeApp/",
+  ${systemName}${projectName?cap_first}BaseUrlKey: "http://192.168.43.14:8080/${systemName}App/",
 };
 
 final Map<String, Dio> DIO_MAP = Map();
@@ -123,10 +122,10 @@ class NetUtil {
     }
   }
 
-  static _findDio(String baseUrlKey) async {
-    Dio dio = DIO_MAP[baseUrlKey];
+  static _findDio(String apiUrlKey) async {
+    Dio dio = DIO_MAP[apiUrlKey];
     if (dio == null) {
-      String baseUrl=BASE_URLS[baseUrlKey];
+      String baseUrl=BASE_URLS[apiUrlKey];
       assert(baseUrl!=null,"baseUrl 不能为空");
 
       dio = Dio();
@@ -139,7 +138,7 @@ class NetUtil {
 
       var persistCookieJar = new PersistCookieJar(dir: tempPath);
       dio.interceptors.add(CookieManager(persistCookieJar));
-      DIO_MAP[baseUrlKey] = dio;
+      DIO_MAP[apiUrlKey] = dio;
     }
     return dio;
   }
@@ -147,7 +146,7 @@ class NetUtil {
   // 统一数据，统一数据流出格式
   static Future<dynamic> fetch(RequestInit requestInit) async {
 //    try {
-    Dio dio = await _findDio(requestInit.baseUrlKey);
+    Dio dio = await _findDio(requestInit.apiUrlKey);
     var method = METHODS[requestInit.method];
     dynamic data;
 

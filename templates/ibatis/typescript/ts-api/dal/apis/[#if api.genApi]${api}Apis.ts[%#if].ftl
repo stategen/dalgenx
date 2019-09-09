@@ -18,7 +18,7 @@
 import {Net, Method, MediaType, RequestInitEx} from "@utils/Net";
 
 <@genImports api.imports,'../'/>
-import {apiUrlKey} from "../configs/${projectName}-config";
+import {${projectName}BaseUrlKey} from "../configs/${projectName}-config";
 
 export default class ${api}Apis {
 <#list api.functions as fun>
@@ -31,7 +31,7 @@ export default class ${api}Apis {
   <#assign one="">
   static ${fun}(<#if isEmptyList(fun.params)>params?: {}<#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>params: { ${genTypeAndNames(fun.params,true)} }<#if fun.params?size==1><#assign one=fun.params[0]> | ${genType(one)}</#if></#if></#if>): ${genType(fun.return)} {
     let requestInit: RequestInitEx = <RequestInitEx>{};
-    requestInit.apiUrlKey = apiUrlKey;
+    requestInit.apiUrlKey = ${projectName}BaseUrlKey;
     requestInit.url = '${url}';
     <#if fun.json??>
     requestInit.mediaType = MediaType.JSON;

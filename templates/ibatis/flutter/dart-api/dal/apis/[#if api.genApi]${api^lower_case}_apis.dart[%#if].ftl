@@ -33,7 +33,7 @@ class ${api}Apis {
   <#if fun.params?size==1><#assign one=fun.params[0]><#assign isOne =true></#if>
   static Future<${genType(r)}> ${fun}(<#if isEmptyList(fun.params)><#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else><#if isOne>${genType(one)} param, </#if>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
     var requestInit = RequestInit();
-    requestInit.baseUrlKey = ${projectName}BaseUrlKey;
+    requestInit.apiUrlKey = ${projectName}BaseUrlKey;
     requestInit.path = '${url}';
     <#if fun.json??>
     requestInit.mediaType = MediaType.JSON;

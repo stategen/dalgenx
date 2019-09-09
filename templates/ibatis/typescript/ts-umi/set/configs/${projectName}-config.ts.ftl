@@ -15,4 +15,4 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <@genCopyright '${projectName} url config, will be replaced by thymleaf run on server'/>
-export const apiUrlKey: string = '${projectName}_url';
+export const ${projectName}BaseUrlKey: string = '${projectName}_url';

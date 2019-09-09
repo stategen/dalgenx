@@ -1,7 +1,6 @@
 package ${packageName}.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +14,7 @@ import org.stategen.framework.annotation.GenForm;
 import org.stategen.framework.annotation.State;
 import org.stategen.framework.annotation.VisitCheck;
 import org.stategen.framework.enums.DataOpt;
-import org.stategen.framework.lite.AntdPageList;
+
 import org.stategen.framework.lite.PageList;
 import org.stategen.framework.lite.Pagination;
 import org.stategen.framework.util.BusinessAssert;
@@ -23,7 +22,7 @@ import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.CopyUtil;
 import org.stategen.framework.util.DatetimeUtil;
 
-import ${packageName}.annotion.ExcludeBeanNotNull;
+import ${packageName}.annotion.ExcludeBeanRuleNotNull;
 import ${packageName}.checker.LoginCheck;
 import ${packageName}.domain.User;
 import ${packageName}.enums.StatusEnum;
@@ -39,8 +38,8 @@ public class UserController extends UserControllerBase {
 
     @ApiRequestMappingAutoWithMethodName(name = "用户列表")
     @State(init = true, dataOpt = DataOpt.FULL_REPLACE,genForm=true)
-    @ExcludeBeanNotNull
-    public AntdPageList<User> getUserPageList(
+    @ExcludeBeanRuleNotNull
+    public PageList<User> getUserPageList(
                                               @ApiParam() String userId,
                                               @ApiParam() @RequestParam(required = false, name = "userIds") ArrayList<String> userIds,
                                               @ApiParam() String usernameLike,
@@ -60,9 +59,8 @@ public class UserController extends UserControllerBase {
     ) {
         user.setCreateTimeMax(DatetimeUtil.current());
         //技巧，api参数 .在dao中已自动化生成,从以下getUserPageList 帮助文件中 点开See also直接复制过来，
-        PageList<User> userList = this.userService.getUserPageList(user, pagination.getPageSize(), pagination.getPage());
-        assignBeans(userList.getItems());
-        return new AntdPageList<User>(userList);
+        PageList<User> userPageList = this.userService.getPageList(user, pagination.getPageSize(), pagination.getPage());
+        return userPageList;
     }
 
 
@@ -102,9 +100,7 @@ public class UserController extends UserControllerBase {
                        ,@ApiParam(hidden = true) User user) {
         user.setCreateTime(DatetimeUtil.current());
         this.userService.insert(user);
-        saveUserHoppys(hoppyIds, userId, user);
-        List<User> users = Arrays.asList(user);
-        assignBeans(users);
+
         return user;
     }
 
@@ -150,9 +146,7 @@ public class UserController extends UserControllerBase {
         BusinessAssert.mustNotNull(orgUser, "用户不存在");
         CopyUtil.merge(orgUser, user);
         this.userService.update(orgUser);
-        
-        saveUserHoppys(hoppyIds, userId, orgUser);
-        assignBeans(Arrays.asList(orgUser));
+
         return orgUser;
     }
 

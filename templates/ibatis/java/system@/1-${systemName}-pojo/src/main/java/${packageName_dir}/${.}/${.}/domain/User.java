@@ -6,7 +6,7 @@
 package ${packageName}.domain;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.persistence.Id;
@@ -16,9 +16,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
-import org.stategen.framework.annotation.ChangeBy;
+
 import org.stategen.framework.annotation.Editor;
-import org.stategen.framework.annotation.ReferConfig;
+
 import org.stategen.framework.lite.enums.EditorType;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -48,20 +48,9 @@ public class User implements java.io.Serializable {
     @JSONField(serialize = false)
     private List<Long> visitsIds;
 
-    private Province province;
 
-    private City city;
 
-    //注意，cascaderPostAddresss 不是 cascaderPostAddress
-    private List<Region> cascaderPostAddresss;
 
-    private List<Hoppy> hoppys;
-
-    //用id存储到表中
-    @ReferConfig
-    @Editor(EditorType.CheckboxGroup.class)
-    @ApiModelProperty("爱好 ids")
-    private List<Long> hoppyIds;
 
     /***头像   db_column: avatar_img VARCHAR */
     @ApiModelProperty("头像")
@@ -70,18 +59,4 @@ public class User implements java.io.Serializable {
 
     private static final long serialVersionUID = -5216457518046898601L;
 
-
-    @Editor(value = EditorType.Cascader.class)
-    @ReferConfig(optionClass = Region.class)
-    @ApiModelProperty("邮寄地址")
-    public List<Long> getCascaderPostAddressIds() {
-        if (this.cascaderPostAddresss != null) {
-            List<Long> result = new ArrayList<Long>(cascaderPostAddresss.size());
-            for (Region region : cascaderPostAddresss) {
-                result.add(region.getRegionId());
-            }
-            return result;
-        }
-        return null;
-    }
 }

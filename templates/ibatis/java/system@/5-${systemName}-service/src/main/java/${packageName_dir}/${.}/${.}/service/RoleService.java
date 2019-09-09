@@ -27,55 +27,5 @@ public interface RoleService extends AssignService<Role, String>, RoleService${s
 
     public List<Menu> getAllMenusWithRoleChecked(String roleId);
 	
-    //<#--
-    /*** 保存role,有id时更新，没有id时插入，返回 role*/
-    public Role saveRole(Role role);
 
-    /*** 批量保存roles,有id时更新，没有id时插入,并带回新的id，返回 roles*/
-    public List<Role> saveRoles(List<Role> roles);
-
-
-    /**
-     * 
-     * @see ${packageName}.dao.RoleDao#insert
-     */
-    public Role insert(Role role);
-
-    /**
-     * 
-     * @see ${packageName}.dao.RoleDao#update
-     */
-    public Role update(Role role);
-
-    /**
-     * 
-     * @see ${packageName}.dao.RoleDao#getRoleByRoleId
-     */
-    public Role getRoleByRoleId(String roleId);
-
-    /**
-     * 
-     * @see ${packageName}.dao.RoleDao#getRolesByRoleIds
-     */
-    public List<Role> getRolesByRoleIds(java.util.List<String> roleIds);
-
-    /**
-     * 
-     * @see ${packageName}.dao.RoleDao#delete
-     */
-    public String delete(String roleId);
-
-    /**
-     * 
-     * @see ${packageName}.dao.RoleDao#deleteByRoleIds
-     */
-    public List<String> deleteByRoleIds(java.util.List<String> roleIds);
-
-    /**
-     * 
-     * @see ${packageName}.dao.RoleDao#getRolePageList
-     */
-    public PageList<Role> getRolePageList(Role role, int pageSize, int pageNum);
-    //-->
-    //
 }

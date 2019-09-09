@@ -75,7 +75,7 @@
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
         <!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
-        <property name="validationMessageSource" ref="messageSource" />
+        <!-- <property name="validationMessageSource" ref="messageSource" /> -->
     </bean>
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

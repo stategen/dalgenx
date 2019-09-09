@@ -45,4 +45,21 @@ public class Menu extends TreeNode<Menu> implements java.io.Serializable, IMenu<
 
     private static final long serialVersionUID = -5216457518046898601L;
 
+    /**
+     * Getter method for property <tt>id id</tt>.
+     * @return property value of id id
+     */
+    @ApiModelProperty("id,和MenuId相同，为了生成树")
+    public Long getId() {
+        return getMenuId();
+    }
+
+    public List<Menu> getMenuChildren() {
+        return super.getChildren();
+    }
+
+    @ApiModelProperty(value = "打开顺序，前端model存储用", hidden = true)
+    public Integer getOpendOrder() {
+        return null;
+    }
 }

@@ -48,8 +48,6 @@ public class ${webType?cap_first}FacadeProcessor extends BaseGenFacadeProcessor 
         //这里注册的将替代supper中的注册
         GenContext.registSimpleClz(Void.TYPE, "void");
         GenContext.registSimpleClz(Class.class, "String");
-        //        GenContext.registSimpleClz(Pagination.class, "PaginationProps","import {PaginationProps} from 'antd/es/pagination'");
-        //        GenContext.registSimpleClz(MultipartFile.class, "UploadFile","import {UploadFile} from 'antd/es/upload/interface'");
 
         GenContext.registIgnoreParamClz(HttpServletRequest.class);
         GenContext.registIgnoreParamAnnotationClz(CookieValue.class);
@@ -57,15 +55,18 @@ public class ${webType?cap_first}FacadeProcessor extends BaseGenFacadeProcessor 
         GenContext.addStaticUtil(CollectionUtil.class);
         GenContext.addStaticUtil(JSONUtil.class);
         //
-        GenContext.tempDirs = Arrays.asList("/flutter/dart-api", "/flutter/dart-flutter", "/flutter/dart-flutter-app");
-        GenContext.outDir="${projectName?uncap_first}-frontend-${webType}/src/intergrade/";
+        GenContext.tempDirs = Arrays.asList("/${webType}/dart-api", "/${webType}/dart-flutter");
+        GenContext.outDir="${projectName?uncap_first}-frontend-${webType}/lib/intergrade/";
 
         PathType[] pathTypes = PathType.values();
         for (PathType pathType : pathTypes) {
             String nameStr = pathType.getWrapName() + "s";
             GenContext.put(pathType, nameStr);
         }
+        
         super.scanControllerAndGenFacade();
+        
+        
     }
 
 }

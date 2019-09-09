@@ -32,7 +32,7 @@
 
 
     <!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
-    <entry key="tableRemovePrefixes">br_</entry>
+    <entry key="tableRemovePrefixes">br_,demo_</entry>
     <entry key="lombok">true</entry>
 
     <entry key="typeHandlers">

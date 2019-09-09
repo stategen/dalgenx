@@ -10,8 +10,8 @@
     <entry key="loginCookieGroupHttpOnly">false</entry>
 
     <entry key="mysql.ip.port">jdbc:mysql://localhost:3306/${systemName?uncap_first}?useUnicode=true&amp;characterEncoding=UTF8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;allowMultiQueries=true</entry>
-	<entry key="mysql.username">dalgenx</entry>
-	<entry key="mysql.password">dalgenx</entry>
+	<entry key="mysql.username">stategen</entry>
+	<entry key="mysql.password">stategen</entry>
         
 
     <entry key="common.zk.ip.port">zookeeper://${'${'}THIS_IP}:2181</entry>
@@ -57,7 +57,7 @@
     <entry key="scheduleManagerFactory.zkConfig.isCheckParentPath">true</entry>  
     
 
-    <!--${systemName?uncap_first} system sql configs ,vendor ${projectName?uncap_first} appapi schedule-->
+    <!--${systemName?uncap_first} system sql configs ,vendor cms app schedule-->
     <entry key="${systemName?uncap_first}.dubbo.registry.address">${'${'}local.zk.ip.port}</entry> 
     <entry key="${systemName?uncap_first}.dubbo.protocol.host">${'${'}THIS_IP}</entry>
     <entry key="${systemName?uncap_first}.dubbo.protocol.port">20872</entry>
@@ -73,7 +73,9 @@
     <entry key="${systemName?uncap_first}.redis.host">${'${'}redis.host}</entry>
     <entry key="${systemName?uncap_first}.redis.port">${'${'}redis.port}</entry>
 
-    <entry key="${systemName?uncap_first}${projectName?cap_first}_url">http://localhost:8080/${systemName?uncap_first}${projectName?cap_first}</entry>
+    <!-- [projectName]_url 对应相应 document.ejs 中的设置，会被导出到index.html,输出时，由服务端把值下面相应设置的值传到index.html中 -->
     <entry key="${systemName?uncap_first}App_url">http://localhost:8080/${systemName?uncap_first}App</entry>
+	<entry key="${systemName?uncap_first}Cms_url">http://localhost:8080/${systemName?uncap_first}Cms</entry>
+
 
 </properties>

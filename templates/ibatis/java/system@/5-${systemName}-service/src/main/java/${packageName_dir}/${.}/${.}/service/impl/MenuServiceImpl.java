@@ -75,7 +75,7 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> updateMenus(List<Menu> allControllerMenus) {
         //更新visitId
         VisitKeyCalculator visitKeyCalculator = new VisitKeyCalculator();
-        List<Menu> oldMenus = this.getMenusByProjectName(getProjectName(), null);
+        List<Menu> oldMenus = this.getMenusByProjectName(null);
         Map<String, Menu> oldMenuMap = CollectionUtil.toMap(new LinkedCaseInsensitiveMap<Menu>(), visitKeyCalculator, oldMenus);
         Long parentMenuId = null;
         this.insertOrUpdateMenus(parentMenuId, allControllerMenus, oldMenuMap, visitKeyCalculator);
@@ -89,7 +89,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<Menu> getAllMenus() {
-        return this.getMenusByProjectName(getProjectName(), MenuType.MENU);
+        return this.getMenusByProjectName(MenuType.MENU);
     }
 	
 	    /*** 保存menu,有id时更新，没有id时插入,并带回新的id，返回 menu*/
