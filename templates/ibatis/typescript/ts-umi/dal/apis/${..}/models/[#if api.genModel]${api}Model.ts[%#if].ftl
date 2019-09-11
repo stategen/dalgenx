@@ -244,7 +244,7 @@ export class ${api}Command extends BaseCommand {
     const pagination = old${genArea(fun.area)?cap_first}!.pagination;
     let page = pagination!.current;
     page = (page || 0) + 1;
-    const totalPages = Math.trunc(pagination!.total / (pagination!.pageSize || 10)) + 1;
+    const totalPages = Math.trunc(pagination!.total / (pagination!.pageSize || DEFAULT_PAGE_SIZE)) + 1;
     page = Math.min(page, totalPages)
     payload = {...old${genArea(fun.area)?cap_first}!.queryRule, page};
     const newPayload = yield ${api}Command.${fun}_effect({payload}, {call, put, select});
