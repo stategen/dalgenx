@@ -3,12 +3,26 @@ echo ---------------------------------------------------------------------------
 if [ "$1" == "-h" -o "$1" == "-help" ]; then
 echo  "$1" 
 echo "命令行使用:"
-echo "gen table [table_sql_name] [-e] 根据数据库表的生成代码,可以生成dalgen的配置文件(不需要xml配置文件)"
-echo "gen dal [table_sql_name] [-e] 根据数据库表的配置文件生成代码,(需要有xml配置文件)"
-echo "gen system [packageName] [systemName] [-e] 生成系统(工程组),即该工程组属于哪个系统,如支付系统，好友系统"
-echo "gen project [projectName] [h5|flutter|web] [-e] 生成工程 [web|app]指的是类型，web是网页形式，app是手机端"
-echo "gen api [table_sql_name] [-e] 在当前工程（7,必须在7文件夹内执行）下生成一个controller"
-echo "gen client [h5|flutter|web] [-e] 在当前工程（7,必须在7文件夹内执行）下生成一个controller"
+echo "gen.sh table [table_sql_name] [-e]
+      开发命令 根据表的生成基本常用sql配置文件 e.g.,
+      gen.sh table user -e"
+echo "gen.sh dal [table_sql_name] [-e]
+      开发命令 根据表的配置文件生成代码 e.g.,
+      gen.sh dal user -e"
+echo "--------------以上是 开发命令-----------"
+echo "--------------以下是 脚手架命令-----------"
+echo "gen.sh system [packageName] [systemName] [-e]
+      脚手架命令 生成系统(工程组),即该工程组属于哪个系统,如支付系统，好友系统 e.g.,
+      gen.sh system com.mycompany.biz trade -e"
+echo "gen.sh project [projectName] [h5|flutter|web] [-e]
+      脚手架命令 生成工程 [h5|flutter|web]指的是类型 e.g.,
+      gen.sh project cms web -e"
+echo "gen.sh api [table_sql_name] [-e]
+      脚手架命令 在当前工程（7-*) 下生成一个带基本crud功能的spring controller e.g.,
+      gen.sh api user -e"
+echo "gen.sh client [h5|flutter|web] [-e]
+      脚手架命令 在当前工程（7-*）下生成一个[h5|flutter|web]的前端 e.g.,
+      gen.sh client flutter -e"
 exit
 fi
 
