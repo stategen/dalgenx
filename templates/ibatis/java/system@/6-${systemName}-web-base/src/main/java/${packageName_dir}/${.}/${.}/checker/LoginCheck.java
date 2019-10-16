@@ -11,7 +11,7 @@ import org.stategen.framework.annotation.Check;
 import org.stategen.framework.annotation.CookieCheck;
 
 import ${packageName}.enums.CookieType;
-import ${packageName}.enums.CookieType.LOGIN;
+import ${packageName}.enums.CookieType.Login;
 import ${packageName}.enums.ResponseStatus;
 /***
  * 该标识是用cookie检测实现，查看cookie中是否有被不能篡改的name为 login 的cookie
@@ -23,7 +23,7 @@ import ${packageName}.enums.ResponseStatus;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Check
-@CookieCheck(cookieTypeClz =CookieType.LOGIN.class,responseStatusClzOfCheckFail = ResponseStatus.NOT_LOGIN.class , cookieName =LOGIN.USER_ID)
+@CookieCheck(cookieTypeClz =CookieType.Login.class,responseStatusClzOfCheckFail = ResponseStatus.NOT_LOGIN.class , cookieName =Login.USER_ID)
 @Inherited
 public @interface LoginCheck {
     

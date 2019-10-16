@@ -15,7 +15,7 @@
     http://www.springframework.org/schema/aop 
     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd "
 >
-    <bean id="thymeleaf.templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+    <bean id="thymeleaf.templateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
         <!-- <property name="prefix" value="/resources/" /> -->
         <property name="cacheable" value="false" />
         <property name="cacheTTLMs" value="1" />
@@ -25,11 +25,11 @@
         <property name="characterEncoding" value="utf-8" />
     </bean>
 
-    <bean id="thymeleaf.templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+    <bean id="thymeleaf.templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
         <property name="templateResolver" ref="thymeleaf.templateResolver" />
     </bean>
 
-    <bean id="thymeleafResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+    <bean id="thymeleafResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="thymeleaf.templateEngine" />
         <property name="characterEncoding" value="utf-8" />
         <property name="cache" value="false" />

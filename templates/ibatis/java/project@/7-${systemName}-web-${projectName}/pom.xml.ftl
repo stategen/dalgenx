@@ -16,16 +16,14 @@
     <version>${'${'}systemVersion}</version>
     <packaging>war</packaging>
     <name>7-${systemName?uncap_first}-web-${projectName?uncap_first}</name>
+    
+    
+    <!--springboot_import-->
 
     <dependencies>
         <dependency>
             <groupId>${packageName}</groupId>
             <artifactId>${systemName?uncap_first}-web-base</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
         </dependency>
 
         <dependency>
@@ -46,12 +44,6 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
         </dependency>
 
         <dependency>
@@ -77,6 +69,7 @@
             <artifactId>progen</artifactId>
         </dependency>
 
+		<!--qiniu begin -->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
@@ -110,7 +103,10 @@
             <artifactId>snakeyaml</artifactId>
             <scope>test</scope>
         </dependency>
+		
+		<!--qiniu begin -->
 
+        <!--springboot_dependencies-->
     </dependencies>
 
 
@@ -148,6 +144,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <warSourceDirectory>${'${'}basedir}/WebRoot</warSourceDirectory>
+                    <failOnMissingWebXml>true</failOnMissingWebXml>
                     <warName>${'${'}warName}</warName>
                     <packagingExcludes>
                         node_modules/**
@@ -171,7 +168,10 @@
                     </execution>
                 </executions>
             </plugin>
+
+           <!--springboot_plugin--> 
         </plugins>
+
         <pluginManagement>
             <plugins>
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->

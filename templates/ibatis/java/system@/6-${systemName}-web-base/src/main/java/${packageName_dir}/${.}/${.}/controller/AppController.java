@@ -22,7 +22,7 @@ import org.stategen.framework.util.StringUtil;
 import org.stategen.framework.web.cookie.CookieGroup;
 import ${packageName}.domain.Menu;
 import ${packageName}.domain.User;
-import ${packageName}.enums.CookieType.LOGIN.LoginCookieNames;
+import ${packageName}.enums.CookieType.Login.LoginCookieNames;
 import ${packageName}.service.MenuService;
 import ${packageName}.service.UserService;
 

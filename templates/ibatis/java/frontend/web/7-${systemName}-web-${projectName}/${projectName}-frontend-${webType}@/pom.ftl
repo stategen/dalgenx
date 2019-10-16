@@ -9,6 +9,7 @@
                         <configuration>
                             <mainClass>${packageName}.facadegen.${webType?cap_first}FacadeProcessor</mainClass>
                             <classpathScope>test</classpathScope>
+                            <cleanupDaemonThreads>false</cleanupDaemonThreads>
                         </configuration>
                     </execution>
 

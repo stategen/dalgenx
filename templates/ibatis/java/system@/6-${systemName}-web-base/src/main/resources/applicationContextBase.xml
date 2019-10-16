@@ -39,11 +39,7 @@
         <property name="enableSwagger" value="${'${'}swagger.enable}"/>
     </bean>
 
-    <bean id="localCacheZkConfig" class="org.stategen.framework.cache.LocalCacheZkConfig">
-        <property name="connectString" value="${'${'}localCacheZkConfig.connectString}" />
-        <property name="rootPath" value="${'${'}localCacheZkConfig.rootPath}" />
-        <property name="connectionTimeout" value="${'${'}localCacheZkConfig.connectionTimeout}" />
-    </bean>
+
 
     <import resource="classpath*:context/dao-beans-auto-*.xml" />
     <import resource="classpath*:context/dao-beans-manual-*.xml" />

@@ -1,5 +1,5 @@
 
-                    <!-- 生成ts文件模型和${projectName?uncap_first} -->
+                    <!-- 生成dart文件模型和${projectName?uncap_first} -->
                     <execution>
                         <id>>>>>>>>>>>>>>>>>${systemName}${projectName?cap_first} auto generate ${webType} frondend files 生成 ${webType} 前端代码 &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</id>
                         <phase>test</phase>
@@ -9,6 +9,7 @@
                         <configuration>
                             <mainClass>${packageName}.facadegen.${webType?cap_first}FacadeProcessor</mainClass>
                             <classpathScope>test</classpathScope>
+                            <cleanupDaemonThreads>false</cleanupDaemonThreads>
                         </configuration>
                     </execution>
 

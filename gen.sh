@@ -23,6 +23,9 @@ echo "gen.sh api [table_sql_name] [-e]
 echo "gen.sh client [h5|flutter|web] [-e]
       脚手架命令 在当前工程（7-*）下生成一个[h5|flutter|web]的前端 e.g.,
       gen.sh client flutter -e"
+echo "gen.sh root [-e]
+      脚手架命令 在当前工程（7-*）把项目变为spring-boot项目 e.g.,
+      gen.sh root -e"
 exit
 fi
 
@@ -30,7 +33,7 @@ fi
 cmdPath=$(pwd)
 projectsPath=$cmdPath;
 
-if [ "$1" == "api"  -o "$1" == "client" ]; then
+if [ "$1" == "api"  -o "$1" == "client" -o "$1" == "root" ]; then
   projectsPath=$(dirname $(pwd))
   project_name="${cmdPath##*/}"
   if [[ $project_name != 7-* ]]; then
@@ -81,6 +84,7 @@ elif [ "$1" == "api" ]; then
     if [ "$3" == "-e" ]; then
       mvnCmd="$mvnCmd -e"
     fi
+
 elif [ "$1" == "client" ]; then
     if [ ! -n "$2" ]; then
        echo "类型不能为空 ! 如 $1 flutter -e"
@@ -90,8 +94,15 @@ elif [ "$1" == "client" ]; then
     if [ "$3" == "-e" ]; then
       mvnCmd="$mvnCmd -e"
     fi
+
+elif [ "$1" == "root" ]; then
+    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml  -DexecuteTarget=$1"
+    if [ "$2" == "-e" ]; then
+      mvnCmd="$mvnCmd -e"
+    fi
+
 elif [ "$1" == "system" ]; then
-    if [! -n "$2"]; then
+    if [ ! -n "$2" ]; then
       echo "包名(package)不能为空 如 $1 com.mycompany.biz trade -e"
       exit
     fi 
@@ -105,6 +116,7 @@ elif [ "$1" == "system" ]; then
     if [ "$4"=="-e" ]; then
         mvnCmd="$mvnCmd -e"
     fi
+
 elif [ "$1" == "table" -o "$1" == "dal" ]; then
     if [ ! -n "$2" ]; then
        echo 表名不能为空! 如 "$1" user -e
@@ -114,6 +126,7 @@ elif [ "$1" == "table" -o "$1" == "dal" ]; then
     if [ "$3" == "-e" ]; then
         mvnCmd="$mvnCmd -e"
     fi
+
 else 
    echo --------------命令必须是 system project table dal controller -----------------
    exit

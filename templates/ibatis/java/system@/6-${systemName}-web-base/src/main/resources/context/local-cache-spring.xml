@@ -10,6 +10,7 @@
         <property name="rootPath" value="${'${'}localCacheZkConfig.rootPath}" />
         <property name="connectionTimeout" value="${'${'}localCacheZkConfig.connectionTimeout}" />
     </bean>
+
     <!--
         <bean id="xxxCacheParent" abstract="true">
         <property name="notifyName" value="region"/>

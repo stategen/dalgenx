@@ -57,7 +57,7 @@ public class ${webType?cap_first}FacadeProcessor extends BaseGenFacadeProcessor 
         GenContext.addStaticUtil(StringUtil.class);
         GenContext.addStaticUtil(CollectionUtil.class);
         GenContext.tempDirs =Arrays.asList("/typescript/ts-api","/typescript/ts-umi","/typescript/ts-umi-${webType}");
-        GenContext.outDir="${projectName?uncap_first}-frontend-${webType}/src/intergrade/";
+        GenContext.outDir = "${projectName?uncap_first}-frontend-${webType}/src/intergrade/";
 
 
         PathType[] pathTypes = PathType.values();

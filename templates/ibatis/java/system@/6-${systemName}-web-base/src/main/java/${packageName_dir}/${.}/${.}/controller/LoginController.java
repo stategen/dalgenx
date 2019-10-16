@@ -15,7 +15,7 @@ import org.stategen.framework.util.BusinessAssert;
 import org.stategen.framework.web.cookie.CookieGroup;
 
 import ${packageName}.domain.User;
-import ${packageName}.enums.CookieType.LOGIN.LoginCookieNames;
+import ${packageName}.enums.CookieType.Login.LoginCookieNames;
 import ${packageName}.service.UserService;
 
 import io.swagger.annotations.ApiParam;

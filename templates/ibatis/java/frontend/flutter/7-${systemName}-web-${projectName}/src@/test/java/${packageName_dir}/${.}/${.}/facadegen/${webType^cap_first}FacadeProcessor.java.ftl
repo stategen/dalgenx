@@ -56,7 +56,7 @@ public class ${webType?cap_first}FacadeProcessor extends BaseGenFacadeProcessor 
         GenContext.addStaticUtil(JSONUtil.class);
         //
         GenContext.tempDirs = Arrays.asList("/${webType}/dart-api", "/${webType}/dart-flutter");
-        GenContext.outDir="${projectName?uncap_first}-frontend-${webType}/lib/intergrade/";
+        GenContext.outDir = "${projectName?uncap_first}-frontend-${webType}/lib/intergrade/";
 
         PathType[] pathTypes = PathType.values();
         for (PathType pathType : pathTypes) {
