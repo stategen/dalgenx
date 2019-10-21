@@ -21,7 +21,7 @@ import 'package:provider/provider.dart';
 import '${fix$(api?lower_case)}_provider.dart';
 
 
-class ${api}Page extends StatelessWidget {
+class ${api}Page extends StatefulWidget {
   // 路由路径
   static final String path = '/${fix$(api.route)}';
 
@@ -39,22 +39,11 @@ class ${api}Page extends StatelessWidget {
   ${api}Page({this.params});
 
   @override
-  Widget build(BuildContext context) {
-    // 这里提供provider是避免省事，将provider全部配到main下，而不能释放资源
-    return ${api}Provider.create(
-      child: ${api}Scene(),
-    );
-  }
-}
-
-class ${api}Scene extends StatefulWidget {
-
-  @override
-  _${api}PageState createState() => _${api}PageState();
+  createState() => _${api}PageState();
 
 }
 
-class _${api}PageState extends State<${api}Scene> {
+class _${api}PageState extends State<${api}Page> {
 
   ${api}Provider ${api?uncap_first}Provider;
 
@@ -72,7 +61,26 @@ class _${api}PageState extends State<${api}Scene> {
     //  ${api?uncap_first}Provider.xxx(context,);
     //}
 
-    return Text('${fix$(api?uncap_first)} Page 创建成功!');
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("${api}Page"),
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+      ),
+      body: Stack(
+        children: <Widget>[
+          Container(
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+          ),
+        ],
+      ),
+    );
   }
 
 }
