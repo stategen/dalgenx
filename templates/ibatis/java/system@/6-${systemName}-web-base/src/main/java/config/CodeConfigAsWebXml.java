@@ -110,6 +110,7 @@ public class CodeConfigAsWebXml extends AbstractAnnotationConfigDispatcherServle
 
     }
 
+    /*** 以下三个方法在springboot中不会执行，参见servlet-factory.xml中的配置*/
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[] { RootContextConfig.class };
@@ -122,7 +123,7 @@ public class CodeConfigAsWebXml extends AbstractAnnotationConfigDispatcherServle
 
     @Override
     protected String[] getServletMappings() {
-        return new String[] { "/" };
+        return new String[] { "/*" };
     }
 
 }

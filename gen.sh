@@ -46,14 +46,6 @@ genConfigPath="$projectsPath/"
 genConfigXml="${genConfigPath}gen_config.xml"
 echo $genConfigXml
 
-
-if [ "$1" != "system" ]; then
-  if [ ! -f "$genConfigXml" ]; then
-    echo "--------------没有找到文件,请在 genConfig的同一级目录执行!-----------------"
-    exit
-  fi
-fi
-
 genConfigPath=$(cd `dirname $0`; pwd)
 cd $genConfigPath
 
@@ -128,9 +120,17 @@ elif [ "$1" == "table" -o "$1" == "dal" ]; then
     fi
 
 else 
-   echo --------------命令必须是 system project table dal controller -----------------
+   echo --------------命令不存在 ,请使用 gen.sh -h  查看 -----------------
    exit
 fi
+
+if [ "$1" != "system" ]; then
+  if [ ! -f "$genConfigXml" ]; then
+    echo "--------------没有找到文件,请在 genConfig的同一级目录执行!-----------------"
+    exit
+  fi
+fi
+
 
 mvnCmd="$mvnCmd -DcmdPath=$cmdPath  -DdalgenPath=$genConfigPath -DprojectsPath=$projectsPath"
 echo 执行命令 $mvnCmd

@@ -17,6 +17,7 @@
     <packaging>war</packaging>
     <name>7-${systemName?uncap_first}-web-${projectName?uncap_first}</name>
     
+    <!-- 不需要springboot请将springboot部分注释 -->
     
     <!--springboot_import-->
 
