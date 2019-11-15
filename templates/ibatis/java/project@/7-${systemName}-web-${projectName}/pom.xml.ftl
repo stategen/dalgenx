@@ -47,23 +47,8 @@
             <artifactId>httpmime</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-mp</artifactId>
-            <version>2.7.0</version>
-        </dependency>
 
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-common</artifactId>
-            <version>2.7.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.httpcomponents</groupId>
-                    <artifactId>httpmime</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+
 
         <dependency>
             <groupId>org.stategen.framework</groupId>
@@ -104,9 +89,33 @@
             <artifactId>snakeyaml</artifactId>
             <scope>test</scope>
         </dependency>
-		
-		<!--qiniu begin -->
 
+    <!--qiniu end -->
+    
+    <!-- weixin bean -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-open</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-common</artifactId>
+        </dependency>               
+		<!-- weixin end -->
+
+
+               
         <!--springboot_dependencies-->
     </dependencies>
 
