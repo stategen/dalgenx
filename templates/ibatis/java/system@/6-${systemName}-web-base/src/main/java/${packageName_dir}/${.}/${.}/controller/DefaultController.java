@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.stategen.framework.web.cookie.RequestUtil;
+import org.stategen.framework.spring.util.RequestUtil;
 
 @Controller
 /***没有 @ApiConfig 不生成前端代码 */

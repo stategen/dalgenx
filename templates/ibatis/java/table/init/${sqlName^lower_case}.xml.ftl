@@ -57,9 +57,9 @@
         </#if>
     </#list>
 
-    <!-- 引用 ${table.sqlName?lower_case}.xml.xhml ,表修改后，需重新执行 gen.sh table ${table.sqlName} -e -->
+    <!-- 引用 ${table.sqlName?lower_case}.xml.xhtml ,表修改后，需重新执行 gen.sh table ${table.sqlName} -e -->
     &${table.className?upper_case};
-    <!-- 引用 ${table.sqlName?lower_case}.xml.xhml 结束 -->
+    <!-- 引用 ${table.sqlName?lower_case}.xml.xhtml 结束 -->
 
     <!-- 自定义方法请写在下面 需要自动提示，请将dalgenX目录下的 gen.schemas-1.0.dtd 配到 eclipse 或 idea中
       file:gen.schemas-1.0.dtd

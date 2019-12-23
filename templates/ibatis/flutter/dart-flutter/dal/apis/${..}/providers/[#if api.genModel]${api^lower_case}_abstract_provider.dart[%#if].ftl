@@ -81,8 +81,8 @@ abstract class ${api}AbstractProvider with ChangeNotifier, BaseProvider, ${api}B
     <#if fun.state.genEffect>
 
   /// ${fun.description}
-  Future<void> ${fun}(BuildContext context<#if isNotEmptyList(fun.params)>, <#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
-    var newState = await ${api}Command.${fun}(this<#if isNotEmptyList(fun.params)>, payload: payload, ${genParamsStr(fun.params)}</#if>);
+  Future<void> ${fun}(BuildContext context<#if isNotEmptyList(fun.params)>, <#if fun.json??>${genType(fun.json)} ${fun.json}<#else>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
+    var newState = await ${api}Command.${fun}(this<#if isNotEmptyList(fun.params)>, <#if fun.json??>${fun.json}<#else>payload: payload, ${genParamsStr(fun.params)}</#if></#if>);
     mergeState(context, newState);
   }
         <#if fun.return.isPageList && fun.area??>
@@ -150,7 +150,7 @@ abstract class ${api}Command {
 
   <#assign genEffect=true>
   /// ${fun.description}
-  static Future<${api}BaseState> ${fun}(${api}AbstractProvider ${api?uncap_first}State<#if isNotEmptyList(fun.params)>, <#if fun.json??>${fun.json}: ${genType(fun.json)}<#else>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
+  static Future<${api}BaseState> ${fun}(${api}AbstractProvider ${api?uncap_first}State<#if isNotEmptyList(fun.params)>, <#if fun.json??>${genType(fun.json)} ${fun.json}<#else>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
     <#assign state =fun.state>
     <#assign resultName>${genResultName(fun)}</#assign>
     <#assign returnTypeWithGeneric><@genTypeWithGeneric fun.return/></#assign>
@@ -167,7 +167,7 @@ abstract class ${api}Command {
     payload ??= {};
     payload = {<#if r.isPageList>'pageNum': DEFAULT_PAGE_NUM, 'pageSize': DEFAULT_PAGE_SIZE, </#if> ...payload};
     </#if>
-    <#if !r.isVoid><@genTypeWithGeneric r/> ${resultName} = </#if>await ${api}Apis.${fun}(<#if isNotEmptyList(fun.params)><#if isOne>null, </#if>payload: payload, ${genParamsStr(fun.params)}</#if>);
+    <#if !r.isVoid><@genTypeWithGeneric r/> ${resultName} = </#if>await ${api}Apis.${fun}(<#if isNotEmptyList(fun.params)><#if fun.json??>${fun.json}<#else><#if isOne>null, </#if>payload: payload, ${genParamsStr(fun.params)}</#if></#if>);
     <#if !r.isVoid>
       <#if r.isSimpleResponse>
     if (${resultName} != null && !${resultName}.success) {

@@ -123,7 +123,9 @@ class ${bean}${genericStr}<#if bean.extend> extends ${bean.parentBean}</#if> wit
   }
   <#if !bean.generic??>
 
-  Map<String, dynamic> toMap() {
+  /// jsonEncode会调用这个方法
+  @override
+  Map<String, dynamic> toJson() {
     <#if bean="Response">
       ${json}
     </#if>
@@ -142,7 +144,7 @@ class ${bean}${genericStr}<#if bean.extend> extends ${bean.parentBean}</#if> wit
           <#elseif f.isSimple >
         list.add(JsonUtil.${type?uncap_first}ToJson(v));
           <#elseif  !f.generic?? || !f.generic.isObjectClass>
-        list.add(v.toMap());
+        list.add(v.toJson());
           <#else>
         list.add(v);
           </#if>
@@ -154,7 +156,7 @@ class ${bean}${genericStr}<#if bean.extend> extends ${bean.parentBean}</#if> wit
           <#elseif f.isSimple>
       result['${f}'] = JsonUtil.${type?uncap_first}ToJson(${f});
           <#elseif  !f.generic?? || !f.generic.isObjectClass>
-      result['${f}'] = ${f}.toMap();
+      result['${f}'] = ${f}.toJson();
           <#else>
       result['${f}'] =  ${f};
           </#if>
@@ -190,20 +192,20 @@ class ${bean}${genericStr}<#if bean.extend> extends ${bean.parentBean}</#if> wit
     return result;
   }
   </#if>
-<#if !bean.generic??>
+<#--<#if !bean.generic??>
 
   static List<Map<String, dynamic>> toMaps(List<${bean}> ${bean?uncap_first}List) {
     var result = List<Map<String, dynamic>>();
     if (${bean?uncap_first}List != null) {
       for (var ${bean?uncap_first} in ${bean?uncap_first}List) {
         if (${bean?uncap_first} != null) {
-          result.add(${bean?uncap_first}.toMap());
+          result.add(${bean?uncap_first}.toJson());
         }
       }
     }
     return result;
   }
-</#if>
+</#if>-->
 
 }
 

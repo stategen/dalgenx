@@ -31,7 +31,7 @@ class ${api}Apis {
   <#assign isOne =false>
   <#assign r=fun.return>
   <#if fun.params?size==1><#assign one=fun.params[0]><#assign isOne =true></#if>
-  static Future<${genType(r)}> ${fun}(<#if isEmptyList(fun.params)><#else><#if fun.json??>${fun.json}: ${genType(fun.json)}<#else><#if isOne>${genType(one)} param, </#if>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
+  static Future<<#if r.isVoid>dynamic<#else>${genType(r)}</#if>> ${fun}(<#if isEmptyList(fun.params)><#else><#if fun.json??>${genType(fun.json)} ${fun.json}<#else><#if isOne>${genType(one)} param, </#if>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
     var requestInit = RequestInit();
     requestInit.apiUrlKey = ${projectName}BaseUrlKey;
     requestInit.path = '${url}';
@@ -43,7 +43,7 @@ class ${api}Apis {
     </#if>
     <#if isNotEmptyList(fun.params)>
       <#if fun.json??>
-    var payload =${fun.json}?.toJson();
+    var payload =${fun.json}<#if !fun.json.isSimple>?.toJson()</#if>;
       <#else>
     payload ??= {};
         <#if isOne>
@@ -63,7 +63,7 @@ class ${api}Apis {
     requestInit.data = payload;
     </#if>
     requestInit.method = Method.${method};
-    var dest = await NetUtil.fetch(requestInit);
+    var dest = await NetUtil.fetch(requestInit<#if !fun.isWrap || r.isVoid>, false</#if>);
     <#if r.isSimple>
     return dest;
     <#elseif r.isArray>

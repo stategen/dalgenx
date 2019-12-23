@@ -28,7 +28,10 @@ import java.text.SimpleDateFormat;
 import io.swagger.annotations.ApiModelProperty;
 <#assign lomb =lombok=="true">
 <#if lomb>
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 </#if>
 
@@ -43,6 +46,9 @@ import lombok.Setter;
 <#if lomb>
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 </#if>
 public class ${className}${pojo_name_suffix} implements java.io.Serializable {
 <#list tableConfig.sqls as sql>

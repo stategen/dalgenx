@@ -44,7 +44,7 @@
     	<#if column.javaType?ends_with('Money')>
         <result property="${column.columnName}.cent" column="${column.sqlName}" javaType="long" jdbcType="${column.jdbcSqlTypeName}" nullValue="0" />
     	<#else>
-        <result property="${column.columnName}" column="${column.sqlName}" javaType="${column.javaType}" jdbcType="${column.jdbcSqlTypeName}" <#if column.hasNullValue> nullValue="${column.nullValue}" </#if> />
+        <result property="${column.columnName}" column="${column.sqlName}" javaType=<#if column.javaType=='byte[]'>"[B"<#else>"${column.javaType}"</#if> jdbcType="${column.jdbcSqlTypeName}" <#if column.hasNullValue> nullValue="${column.nullValue}" </#if> />
     	</#if>
 		</#list>
     </resultMap>

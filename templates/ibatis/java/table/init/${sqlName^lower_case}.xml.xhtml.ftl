@@ -201,7 +201,7 @@
           <#assign endIs></isNull>
             ${endIs}
           </#assign>
-        <#elseif column.javaType="java.lang.String">
+        <#elseif column.javaType="java.lang.String" && 'LONGVARCHAR'!=column.JDBCType>
           <#assign beginIs>
             ${beginIs?trim}
             <isNull property="${column.columnName}">
@@ -249,6 +249,7 @@
     </operation>
     </#if>
     </#list>-->
+    <!-- 如何键满足 主键|唯一|外键|备注中包括'select' 将生成in查询-->
     <#list table.columns as column>
     <#if column.unique || column.pk || StringUtil.containsIgnoreCase(column.columnAlias!,"fk") || StringUtil.containsIgnoreCase(column.columnAlias!,"select")>
 

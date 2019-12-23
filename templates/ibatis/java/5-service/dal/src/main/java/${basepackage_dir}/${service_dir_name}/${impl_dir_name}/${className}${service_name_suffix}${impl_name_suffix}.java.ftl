@@ -42,6 +42,12 @@ import org.stategen.framework.lite.PageList;
 </#list>
 
 import org.stategen.framework.util.ServiceUtil;
+<#list tableConfig.table.pkColumns as clm>
+    <#assign pkColumn=clm>
+</#list>
+<#if pkColumn.javaType=="java.lang.String">
+import org.stategen.framework.util.StringUtil;
+</#if>
 
 import ${tableConfig.basepackage}.${pojo_dir_name}.${className}${pojo_name_suffix};
 import ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}${internal_service_suffix};
@@ -86,10 +92,9 @@ public class ${tableConfig.className}${service_name_suffix}${impl_name_suffix}  
     @Override
     public ${tableConfig.className} save${tableConfig.className}(${tableConfig.className} ${pojoName}){
         if (${pojoName} != null) {
-            <#list tableConfig.table.pkColumns as clm><#assign column=clm></#list>
-            <#assign pkName =column.columnName?uncap_first>
-            ${column.javaType} ${pkName} = ${pojoName}.get${pkName?cap_first}();
-            if (<#if column.javaType=="java.lang.String">StringUtil.isBlank(${pkName})<#else>${pkName} != null</#if>) {
+            <#assign pkName =pkColumn.columnName?uncap_first>
+            ${pkColumn.javaType} ${pkName} = ${pojoName}.get${pkName?cap_first}();
+            if (<#if pkColumn.javaType=="java.lang.String">StringUtil.isBlank(${pkName})<#else>${pkName} != null</#if>) {
                 insert(${pojoName});
             } else {
                 update(${pojoName});

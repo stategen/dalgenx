@@ -69,7 +69,6 @@
     <entry key="java_typemapping.java.math.BigDecimal">java.math.BigDecimal</entry>
     <entry key="java_typemapping.java.sql.Clob">java.util.String</entry>
 
-
     <!-- 用于存放sequence列表，生成SeqDAO使用,使用空格，换行符分隔，示例值: seq_user seq_blog -->
     <entry key="sequencesList">
 
