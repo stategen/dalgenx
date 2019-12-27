@@ -38,13 +38,13 @@ javaType CDATA #REQUIRED
 nullValue CDATA #IMPLIED
 >
 
-<!ELEMENT sql (#PCDATA | include | dynamic | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable | selectKey)*>
+<!ELEMENT sql (#PCDATA | include |  iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual   | selectKey)*>
 <!ATTLIST sql
 id CDATA #IMPLIED
 remarks CDATA #IMPLIED
 >
 
-<!ELEMENT sqlmap (#PCDATA | include | dynamic | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable | selectKey)*>
+<!ELEMENT sqlmap (#PCDATA | include |  iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual   | selectKey)*>
 <!ATTLIST sql
 id CDATA #IMPLIED
 remarks CDATA #IMPLIED
@@ -264,7 +264,7 @@ refid CDATA #REQUIRED
 Generally it is a good idea to use one of the more specific statement elements. The more specific elements
 provide a more intuitive XML DTD and sometimes provides additional features that a normal <statement>
 element cannot. -->
-<!ELEMENT statement (#PCDATA | include | dynamic | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+<!ELEMENT statement (#PCDATA | include |  iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST statement
 id CDATA #REQUIRED
 parameterMap CDATA #IMPLIED
@@ -281,7 +281,7 @@ timeout CDATA #IMPLIED
 
 <!--Statement used for select queries.
 Supports all dynamic elements and query methods.-->
-<!ELEMENT select (#PCDATA | include | dynamic | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+<!ELEMENT select (#PCDATA | include |  iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST select
 id CDATA #REQUIRED
 parameterMap CDATA #IMPLIED
@@ -298,7 +298,7 @@ timeout CDATA #IMPLIED
 
 <!--Statement used for insert queries.
 Supports all dynamic elements, <selectKey> and the query methods insert, update and delete.-->
-<!ELEMENT insert (#PCDATA | include | dynamic | selectKey | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+<!ELEMENT insert (#PCDATA | include |  selectKey | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST insert
 id CDATA #REQUIRED
 parameterMap CDATA #IMPLIED
@@ -329,7 +329,7 @@ type (pre|post) #IMPLIED
 
 <!--Statement used for update queries.
 Supports all dynamic elements and the query methods insert, update and delete.-->
-<!ELEMENT update (#PCDATA | include | dynamic | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+<!ELEMENT update (#PCDATA | include |  iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST update
 id CDATA #REQUIRED
 parameterMap CDATA #IMPLIED
@@ -339,7 +339,7 @@ timeout CDATA #IMPLIED
 
 <!--Statement used for delete queries.
 Supports all dynamic elements and the query methods insert, update and delete.-->
-<!ELEMENT delete (#PCDATA | include | dynamic | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+<!ELEMENT delete (#PCDATA | include |  iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST delete
 id CDATA #REQUIRED
 parameterMap CDATA #IMPLIED
@@ -363,7 +363,7 @@ Calling the above procedure would swap two email addresses between two columns (
 also in the parameter object (Map). The parameter object is only modified if the parameter mappings mode
 attribute is set to “INOUT” or “OUT”. Otherwise they are left unchanged. Obviously immutable parameter
 objects (e.g. String) cannot be modified.-->
-<!ELEMENT procedure (#PCDATA | include | dynamic | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+<!ELEMENT procedure (#PCDATA | include |  iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST procedure
 id CDATA #REQUIRED
 parameterMap CDATA #IMPLIED
@@ -382,59 +382,53 @@ timeout CDATA #IMPLIED
   - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <!--Wrapper tag that allows for an overall prepend, open and close.-->
-<!ELEMENT dynamic (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 for mybatis -->
+<!--<!ELEMENT dynamic (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST dynamic
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
->
+>-->
 
 <!--Checks if a property is not null.-->
-<!ELEMENT isNotNull (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!ELEMENT isNotNull (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isNotNull
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 property CDATA #IMPLIED
 removeFirstPrepend (true|false) #IMPLIED
 >
 
 <!--Checks if a property is null.-->
-<!ELEMENT isNull (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!ELEMENT isNull (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isNull
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 property CDATA #IMPLIED
 removeFirstPrepend (true|false) #IMPLIED
 >
 
 <!--Checks if a property is unavailable (i.e not a property of the parameter bean).-->
-<!ELEMENT isNotPropertyAvailable (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!--<!ELEMENT isNotPropertyAvailable (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isNotPropertyAvailable
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 property CDATA #REQUIRED
 removeFirstPrepend (true|false) #IMPLIED
->
+>-->
 
 <!--Checks if a property is available (i.e is a property of the parameter bean).-->
-<!ELEMENT isPropertyAvailable (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!--<!ELEMENT isPropertyAvailable (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isPropertyAvailable
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 property CDATA #REQUIRED
 removeFirstPrepend (true|false) #IMPLIED
->
+>-->
 
 <!--Checks the equality of a property and a value, or another property.-->
-<!ELEMENT isEqual (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!ELEMENT isEqual (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isEqual
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 property CDATA #IMPLIED
 removeFirstPrepend (true|false) #IMPLIED
 compareProperty CDATA #IMPLIED
@@ -442,11 +436,10 @@ compareValue CDATA #IMPLIED
 >
 
 <!--Checks the inequality of a property and a value, or another property.-->
-<!ELEMENT isNotEqual (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!ELEMENT isNotEqual (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isNotEqual
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 property CDATA #IMPLIED
 removeFirstPrepend (true|false) #IMPLIED
 compareProperty CDATA #IMPLIED
@@ -454,11 +447,10 @@ compareValue CDATA #IMPLIED
 >
 
 <!--Checks if a property is greater than a value or another property.-->
-<!ELEMENT isGreaterThan (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!ELEMENT isGreaterThan (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isGreaterThan
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 property CDATA #IMPLIED
 removeFirstPrepend (true|false) #IMPLIED
 compareProperty CDATA #IMPLIED
@@ -466,11 +458,10 @@ compareValue CDATA #IMPLIED
 >
 
 <!--Checks if a property is greater than or equal to a value or another property.-->
-<!ELEMENT isGreaterEqual (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!ELEMENT isGreaterEqual (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isGreaterEqual
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 property CDATA #IMPLIED
 removeFirstPrepend (true|false) #IMPLIED
 compareProperty CDATA #IMPLIED
@@ -478,11 +469,10 @@ compareValue CDATA #IMPLIED
 >
 
 <!--Checks if a property is less than a value or another property.-->
-<!ELEMENT isLessThan (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!ELEMENT isLessThan (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isLessThan
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 property CDATA #IMPLIED
 removeFirstPrepend (true|false) #IMPLIED
 compareProperty CDATA #IMPLIED
@@ -495,11 +485,10 @@ Example Usage:<br>
 &lt;isLessEqual prepend=”AND” property=”age” compareValue=”18”&gt;<br>
     ADOLESCENT = ‘TRUE’<br>
 &lt;/isLessEqual&gt;-->
-<!ELEMENT isLessEqual (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!ELEMENT isLessEqual (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isLessEqual
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 property CDATA #IMPLIED
 removeFirstPrepend (true|false) #IMPLIED
 compareProperty CDATA #IMPLIED
@@ -508,11 +497,10 @@ compareValue CDATA #IMPLIED
 
 <!--Checks to see if the value of a Collection, String or String.valueOf() property
 is null or empty (“” or size() < 1).-->
-<!ELEMENT isEmpty (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!ELEMENT isEmpty (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isEmpty
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 property CDATA #IMPLIED
 removeFirstPrepend (true|false) #IMPLIED
 >
@@ -524,32 +512,29 @@ Example Usage:<br>
 &lt;isNotEmpty prepend=”AND” property=”firstName” &gt;<br>
     FIRST_NAME=#firstName#<br>
 &lt;/isNotEmpty&gt;-->
-<!ELEMENT isNotEmpty (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!ELEMENT isNotEmpty (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isNotEmpty
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 property CDATA #IMPLIED
 removeFirstPrepend (true|false) #IMPLIED
 >
 
 <!--Checks to see if the parameter object is present (not null).-->
-<!ELEMENT isParameterPresent (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!--<!ELEMENT isParameterPresent (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isParameterPresent
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 removeFirstPrepend (true|false) #IMPLIED
->
+>-->
 
 <!--Checks to see if the parameter object is not present (null). -->
-<!ELEMENT isNotParameterPresent (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除 open close for mybatis -->
+<!--<!ELEMENT isNotParameterPresent (#PCDATA | include | iterate |   isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual  )*>
 <!ATTLIST isNotParameterPresent
 prepend CDATA #IMPLIED
-open CDATA #IMPLIED
-close CDATA #IMPLIED
 removeFirstPrepend (true|false) #IMPLIED
->
+>-->
 
 <!--Iterates over a property that is an implementation java.util.Collection, or
 java.util.Iterator, or is an array.
@@ -571,7 +556,8 @@ Note: It is very important to include the square brackets[] at the end of the
 property name when using the Iterate element. These brackets distinguish this
 object as a collection to keep the parser from simply outputting the collection
 as a string.-->
-<!ELEMENT iterate (#PCDATA | include | iterate | isParameterPresent | isNotParameterPresent | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual | isPropertyAvailable | isNotPropertyAvailable)*>
+        <!--因兼容性 移除  for mybatis -->
+<!ELEMENT iterate (#PCDATA | include | iterate | isEmpty | isNotEmpty | isNotNull | isNull | isNotEqual | isEqual | isGreaterThan | isGreaterEqual | isLessThan | isLessEqual )*>
 <!ATTLIST iterate
 prepend CDATA #IMPLIED
 property CDATA #IMPLIED

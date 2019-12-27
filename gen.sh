@@ -44,7 +44,6 @@ fi
 
 genConfigPath="$projectsPath/"
 genConfigXml="${genConfigPath}gen_config.xml"
-echo $genConfigXml
 
 genConfigPath=$(cd `dirname $0`; pwd)
 cd $genConfigPath
@@ -56,7 +55,7 @@ if [ "$1" == "project" ]; then
        echo "项目名称不能为空 ! 如 $1 cms [web|app] -e ,cms 指的是项目，web|app可选，指的是该项目类型"
        exit
     fi
-    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml  -DexecuteTarget=$1 -DprojectName=$2"
+    mvnCmd="mvn compile groovy:execute -DgenConfigXml=$genConfigXml  -DexecuteTarget=$1 -DprojectName=$2"
     if [ -n "$3" ]; then
       mvnCmd="$mvnCmd -DwebType=$3"
     fi
@@ -71,7 +70,7 @@ elif [ "$1" == "api" ]; then
        exit
     fi
 
-    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml  -DexecuteTarget=$1 -DgenInputCmd=$2"
+    mvnCmd="mvn compile groovy:execute -DgenConfigXml=$genConfigXml  -DexecuteTarget=$1 -DtableName=$2"
 
     if [ "$3" == "-e" ]; then
       mvnCmd="$mvnCmd -e"
@@ -82,13 +81,13 @@ elif [ "$1" == "client" ]; then
        echo "类型不能为空 ! 如 $1 flutter -e"
        exit
     fi
-    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml  -DexecuteTarget=$1 -DwebType=$2"
+    mvnCmd="mvn compile groovy:execute -DgenConfigXml=$genConfigXml  -DexecuteTarget=$1 -DwebType=$2"
     if [ "$3" == "-e" ]; then
       mvnCmd="$mvnCmd -e"
     fi
 
 elif [ "$1" == "root" ]; then
-    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml  -DexecuteTarget=$1"
+    mvnCmd="mvn compile groovy:execute -DgenConfigXml=$genConfigXml  -DexecuteTarget=$1"
     if [ "$2" == "-e" ]; then
       mvnCmd="$mvnCmd -e"
     fi
@@ -114,7 +113,7 @@ elif [ "$1" == "table" -o "$1" == "dal" ]; then
        echo 表名不能为空! 如 "$1" user -e
        exit
     fi
-    mvnCmd="mvn compile groovy:execute -DgeneratorConfigFile=$genConfigXml -DexecuteTarget=$1 -DgenInputCmd=$2"
+    mvnCmd="mvn compile groovy:execute -DgenConfigXml=$genConfigXml -DexecuteTarget=$1 -DtableName=$2"
     if [ "$3" == "-e" ]; then
         mvnCmd="$mvnCmd -e"
     fi
@@ -133,7 +132,7 @@ fi
 
 
 mvnCmd="$mvnCmd -DcmdPath=$cmdPath  -DdalgenPath=$genConfigPath -DprojectsPath=$projectsPath"
+echo gen.sh $1 $2 $3 $4 $5 $6===========================================================
 echo 执行命令 $mvnCmd
 $mvnCmd
-
 cd $cmdPath
