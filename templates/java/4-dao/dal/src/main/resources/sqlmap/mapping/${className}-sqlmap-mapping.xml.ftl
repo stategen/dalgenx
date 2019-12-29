@@ -75,13 +75,14 @@
     	</#if>
 	</select>	
 
-	<#assign selectSqlIdForPaging>${sqlId}_count</#assign>
+	<#assign pageSqlId>${sqlId}_count</#assign>
+	<#assign pageSqlOp>${sql.operation}_count.${nameSpace}</#assign>
 	<#if sql.paging>
-	<select id="${selectSqlIdForPaging}" resultClass="long" >
+	<select id="${pageSqlId}" resultClass="long" >
 		<#if sql.hasSqlMap>
-    	${StringHelper.insertTokenIntoSelectSql(StringHelper.removeIbatisOrderBy(CompatibleHelper.replaceColumnCase(sql.sqlmapCountSql)?trim),(' /* '+selectSqlIdForPaging+' */ '))}
+    	${StringHelper.insertTokenIntoSelectSql(StringHelper.removeIbatisOrderBy(CompatibleHelper.replaceColumnCase(sql.sqlmapCountSql)?trim),(' /* '+pageSqlOp+' */ '))}
     	<#else>
-    	${StringHelper.insertTokenIntoSelectSql(StringHelper.removeIbatisOrderBy(CompatibleHelper.replaceColumnCase(sql.ibatisCountSql)?trim),(' /* '+selectSqlIdForPaging+' */ '))}
+    	${StringHelper.insertTokenIntoSelectSql(StringHelper.removeIbatisOrderBy(CompatibleHelper.replaceColumnCase(sql.ibatisCountSql)?trim),(' /* '+pageSqlOp+' */ '))}
     	</#if>
 	</select>
 	</#if>
