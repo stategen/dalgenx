@@ -21,6 +21,8 @@
     <entry key="elastic.host">192.168.0.42</entry>
     <entry key="redis.host">192.168.0.42</entry>
     <entry key="redis.port">6379</entry>
+    <entry key="redis.password"></entry>
+    <entry key="redis.database">0</entry>
     
     <entry key="dubbo.protocol.host">${'${'}THIS_IP}</entry>   
 	

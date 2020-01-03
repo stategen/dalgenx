@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
 import org.stategen.framework.annotation.Check;
 import org.stategen.framework.annotation.CookieCheck;
 
-import ${packageName}.enums.CookieType;
 import ${packageName}.enums.CookieType.Login;
 import ${packageName}.enums.ResponseStatus;
 /***
@@ -23,7 +22,7 @@ import ${packageName}.enums.ResponseStatus;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Check
-@CookieCheck(cookieTypeClz =CookieType.Login.class,responseStatusClzOfCheckFail = ResponseStatus.NOT_LOGIN.class , cookieName =Login.USER_ID)
+@CookieCheck(cookieTypeClz =Login.class,responseStatusClzOfCheckFail = ResponseStatus.NOT_LOGIN.class , cookieName =Login.USER_ID)
 @Inherited
 public @interface LoginCheck {
     

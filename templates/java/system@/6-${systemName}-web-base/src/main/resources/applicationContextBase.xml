@@ -35,7 +35,6 @@
 
     <bean class="configs.Configration">
         <property name="maxRequestPerIpSecond" value="${'${'}framework_max_request_per_ip_second}" />
-        <property name="wrapperResponse" value="true" />
         <property name="enableSwagger" value="${'${'}swagger.enable}"/>
     </bean>
 

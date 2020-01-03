@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.stategen.framework</groupId>
         <artifactId>stategen-parent</artifactId>
-        <version>2.0.8.stategen.RELEASE</version>
+        <version>stg.2.1.0.RELEASE</version>
     </parent>
 
     <groupId>${packageName}</groupId>
@@ -31,7 +33,9 @@
 
         <spring.custom.version>5.1.10.RELEASE</spring.custom.version>
         <spring.boot.version>2.1.9.RELEASE</spring.boot.version>
-        <weixin-java.version>3.5.0</weixin-java.version>
+        <weixin-java.version>3.6.0</weixin-java.version>
+        <mybatis2.version>2.3.7</mybatis2.version>
+        <mybatis.version>3.5.3</mybatis.version>
 
         <distribution-id>thirdparty</distribution-id>
         <distribution-url>http://nexus:8081/content/repositories/thirdparty/</distribution-url>
@@ -49,7 +53,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.10</version>
+            <version>1.18.4</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
@@ -93,8 +98,11 @@
             </dependency>
 
             <dependency>
-                <groupId>com.alibaba</groupId>
+                <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo</artifactId>
+
+                <!-- <groupId>com.alibaba</groupId>
+                    <artifactId>dubbo</artifactId> -->
                 <version>${'${'}dubbo-version}</version>
                 <exclusions>
                     <exclusion>
@@ -118,6 +126,13 @@
                 <groupId>org.stategen.framework</groupId>
                 <artifactId>progen</artifactId>
                 <version>${'${'}stategen-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.stategen.framework</groupId>
+                <artifactId>stategen-rapid-framework</artifactId>
+                <version>${'${'}stategen-version}</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>
@@ -192,7 +207,7 @@
                 <version>${'${'}spring.custom.version}</version>
                 <scope>test</scope>
             </dependency>
-			
+
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
@@ -223,6 +238,7 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>log4j-over-slf4j</artifactId>
                 <version>1.7.20</version>
+                <scope>runtime</scope>
             </dependency>
 
             <dependency>
@@ -249,13 +265,8 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>jcl-over-slf4j</artifactId>
                 <version>1.7.12</version>
+                <scope>runtime</scope>
             </dependency>
-
-<!--             <dependency>
-                <groupId>org.jboss.slf4j</groupId>
-                <artifactId>slf4j-jboss-logging</artifactId>
-                <version>1.0.2.GA</version>
-            </dependency> -->
 
             <dependency>
                 <groupId>mysql</groupId>
@@ -337,10 +348,10 @@
                 <artifactId>hibernate-validator</artifactId>
                 <version>5.2.4.Final</version>
                 <exclusions>
-<!--                     <exclusion>
+                    <!-- <exclusion>
                         <groupId>org.jboss.logging</groupId>
                         <artifactId>jboss-logging</artifactId>
-                    </exclusion> -->
+                        </exclusion> -->
                 </exclusions>
             </dependency>
 
@@ -528,10 +539,27 @@
                 <version>4.5.1</version>
             </dependency>
 
+
             <dependency>
-                <groupId>org.apache.ibatis</groupId>
-                <artifactId>ibatis-sqlmap</artifactId>
-                <version>2.3.4.726</version>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis2</artifactId>
+                <version>${'${'}mybatis2.version}</version>
+                <!-- 遵循里式替换原则 -->
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${'${'}mybatis.version}</version>
+                <!-- 遵循里式替换原则 -->
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>2.0.3</version>
             </dependency>
 
             <!-- swagger-mvc -->
@@ -629,6 +657,25 @@
                 <artifactId>dom4j</artifactId>
                 <version>${'${'}dom4j.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.3.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+                <version>1.3.2</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.1.0</version>
+                <!-- <scope>provided</scope> -->
+            </dependency>
             
             <!-- weixin bean -->
             <dependency>
@@ -666,38 +713,95 @@
     </dependencyManagement>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>8</source>
+                        <target>8</target>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>delombok</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>default-deploy</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>deploy</goal>
+                            </goals>
+                            <configuration>
+                                <!-- 不发布到maven仓库 -->
+                                <skip>true</skip>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>exec-maven-plugin</artifactId>
+                                        <versionRange>[1.6.0,)</versionRange>
+                                        <goals>
+                                            <goal>java</goal>
+                                            <goal>exec</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
-
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>delombok</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

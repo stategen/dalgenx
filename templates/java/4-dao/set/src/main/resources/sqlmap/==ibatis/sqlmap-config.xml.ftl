@@ -21,18 +21,18 @@
 <!-- sqlMapConfig for ibatis sqlmap mapping===================== -->
 <!-- =========================================================== -->
 <sqlMapConfig>
-    <settings cacheModelsEnabled="true" 
-                   enhancementEnabled="false" 
-                   lazyLoadingEnabled="false" 
-                   maxRequests="3000" 
-                   maxSessions="3000"
-                   maxTransactions="3000" 
-                   useStatementNamespaces="false" />
-
 <!-- ============================================================= -->
 <!-- 相关 typeHandler 请配置在gen_config.xml内，不要在此处修改======= -->
 <!-- 本文件由dalgen生成，任何在本文件上的手工修改将会在下次生成时被覆盖 -->
 <!-- ============================================================= -->
+    <settings cacheModelsEnabled="true"
+              enhancementEnabled="false"
+              lazyLoadingEnabled="false"
+              maxRequests="3000"
+              maxSessions="3000"
+              maxTransactions="3000"
+              useStatementNamespaces="false" />
+
 ${ibatisTypeHandlers}
 
     <sqlMap resource="sqlmap/mapping/_common-sqlmap-mapping.xml" />

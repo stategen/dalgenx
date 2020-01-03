@@ -18,11 +18,16 @@
             <groupId>${packageName}</groupId>
             <artifactId>${systemName?uncap_first}-service</artifactId>
         </dependency>
-		
+
         <!-- swagger-mvc -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.stategen.framework</groupId>
+            <artifactId>stategen-rapid-framework</artifactId>
         </dependency>
 
         <dependency>
@@ -100,10 +105,10 @@
             <artifactId>log4j-over-slf4j</artifactId>
         </dependency>
 
-<!--         <dependency>
+        <!-- <dependency>
             <groupId>org.jboss.slf4j</groupId>
             <artifactId>slf4j-jboss-logging</artifactId>
-        </dependency> -->
+            </dependency> -->
 
         <dependency>
             <groupId>mysql</groupId>
@@ -161,7 +166,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba</groupId>
+            <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
         </dependency>
 
@@ -219,41 +224,24 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-deploy</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                        <configuration>
-                            <!-- 不发布到maven仓库 -->
-                            <skip>true</skip>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
-
         </plugins>
     </build>
 </project>

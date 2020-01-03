@@ -1,43 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd "
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 >
 
-    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxIdle" value="${'${'}redis.maxIdle}" />
         <property name="maxTotal" value="${'${'}redis.maxActive}" />
         <property name="maxWaitMillis" value="${'${'}redis.maxWait}" />
         <property name="testOnBorrow" value="${'${'}redis.testOnBorrow}" />
     </bean>
-
+    
+    <bean id="redisStandaloneConfiguration" class="org.springframework.data.redis.connection.RedisStandaloneConfiguration">
+        <!--通过源码发现密码需要RedisPassword这个对象中的静态方法of来完成配置-->
+        <property name="password">
+                    <!--所以使用spring提供的RedisStandaloneConfiguration类来调用静态方法-->
+            <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+                    <!--属性staticMethod为要调用的静态方法的全路径名-->
+                <property name="staticMethod" value="org.springframework.data.redis.connection.RedisPassword.of" />
+                    <!--属性arguments为方法需要的参数-->
+                <property name="arguments" value="${'${'}trade.redis.password}" />
+            </bean>
+        </property>
+                        
+                <!--配置主机名字（IP地址）-->
+        <property name="hostName" value="${'${'}trade.redis.host}" />
+                <!--配置端口号-->
+        <property name="port" value="${'${'}trade.redis.port}" />
+                <!--选择数据库（通过源码发现默认为0）-->
+        <property name="database" value="${'${'}trade.redis.database}"  />
+    </bean>
+    
+    <!-- https://blog.csdn.net/qq_43701801/article/details/91391288 -->
+    <!--JedisConnectionFactory   使用 public JedisConnectionFactory(RedisStandaloneConfiguration standaloneConfig, JedisClientConfiguration clientConfig)完成实例化-->
     <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <property name="hostName" value="${'${'}${systemName?uncap_first}.redis.host}" />
-        <property name="port" value="${'${'}${systemName?uncap_first}.redis.port}" />
-        <property name="poolConfig" ref="poolConfig" />
+        <!--为RedisStandaloneConfiguration完成实例化-->
+        <constructor-arg name="standaloneConfig" ref="redisStandaloneConfiguration" />
+        
+        <!--为JedisClientConfiguration完成实例化-->
+        <constructor-arg name="clientConfig">
+            <!--JedisClientConfiguration为接口所以使用实现类MutableJedisClientConfiguration-->
+            <bean id="configuration" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory.MutableJedisClientConfiguration">
+                <!--连接池配置-->
+                <property name="poolConfig" ref="jedisPoolConfig" />
+            </bean>
+        </constructor-arg>
     </bean>
-
+    
+    <!--实例化一个字符串序列化规则-->
     <bean id="stringSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer" />
-
-    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
-        <property name="connectionFactory" ref="jedisConnectionFactory" />
-    </bean>
-
+    <bean id="jdkSerializationRedisSerializer" class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+    <!--redisTemplate实例-->
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <!--引用上面配置好的jedisConnectionFactory-->
         <property name="connectionFactory" ref="jedisConnectionFactory" />
-        <property name="keySerializer">
-            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
-        </property>
-        <property name="valueSerializer">
-            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
-        </property>
-        <property name="hashKeySerializer">
-            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
-        </property>
-        <property name="hashValueSerializer">
-            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
-        </property>
+        <!--统一字符串操作序列化规则（
+        注意：1.如果使用默认规则，会有一坨编码前缀
+                \xac\xed\x00\x05t\x00\x06username
+             2.如果keySerializer和valueSerializer不一致，则有可能会报错
+                Failed to deserialize payload. Is the byte array a result of corresponding serialization for DefaultDeserializer?;
+        ）-->
+        <property name="keySerializer" ref="stringSerializer" />
+        <property name="hashKeySerializer" ref="stringSerializer" />
+        <property name="valueSerializer" ref="jdkSerializationRedisSerializer" />
+        <property name="hashValueSerializer" ref="jdkSerializationRedisSerializer" />
+
     </bean>
+    
+
+    <!-- <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory" />
+    </bean> -->
 
     <bean class="org.stategen.framework.util.RedisTemplateUtil">
         <property name="redisTemplate" ref="redisTemplate" />

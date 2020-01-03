@@ -15,26 +15,21 @@
     default-autowire="byName"
 >
 
-    <bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
-
-    <!-- iBatis SQL map定义 ,使用spring3 ,spring3模板 -->
-    <bean id="SqlMapClientDAO-${systemName?uncap_first}" abstract="true">
-        <property name="dataSource" ref="dataSource" />
+    <!-- 02.配置SessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:sqlmap/sqlmap-config.xml"/>
     </bean>
+    
 
-    <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
-        <property name="configLocations">
-            <list>
-                <!-- 加载sqlmap -->
-                <value>classpath*:sqlmap/sqlmap-config-*.xml</value>
-            </list>
-        </property>
-        <property name="dataSource" ref="dataSource" />
-        <property name="lobHandler" ref="lobHandler" />
+  <!--第三步，配置SqlSessionTemplate-->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory"/>
     </bean>
-
-    <bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
-        <property name="sqlMapClient" ref="sqlMapClient"></property>
+    
+        <!-- iBatis SQL map定义 ,使用spring3 ,spring3模板 -->
+     <bean id="abstractDaoSupport" abstract="true">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
     </bean>
 
 </beans>

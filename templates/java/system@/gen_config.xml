@@ -35,20 +35,25 @@
     <entry key="tableRemovePrefixes">br_,demo_</entry>
     <entry key="lombok">true</entry>
 
-    <entry key="typeHandlers">
+    <entry key="mybatisTypeHandlers">
+    <![CDATA[ 
+      <typeHandlers>
+        <!-- <typeHandler javaType="java.util.Date" handler="org.stategen.framework.mybatis.DateTypeHandler"/> -->
+      </typeHandlers>  
+    ]]>    
+    </entry>
+    <entry key="ibatisTypeHandlers">
     <![CDATA[ 
     <!-- 
     <typeHandler javaType="com.iwallet.biz.common.util.money.Money" callback="com.alipay.common.ibatis.typehandler.MoneyTypeHandler"/>
     -->
     <typeHandler javaType="java.util.Currency" callback="org.stategen.framework.ibatis.typehandler.CurrencyHandlerCallback"/>
     <typeHandler javaType="java.util.Date" callback="org.stategen.framework.ibatis.typehandler.DateTypehandlerCallBack"/>
+    <typeHandler javaType="[B" jdbcType="LONGVARBINARY" callback="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler" />
     ]]>
     </entry>
 
-    <!-- <entry key="java_typemapping.java.sql.Timestamp">java.time.LocalDateTime</entry>
-        <entry key="java_typemapping.java.sql.Date">java.time.LocalDateTime</entry>
-        <entry key="java_typemapping.java.sql.Time">java.time.LocalDateTime</entry>
-    -->
+
     <!-- Mysql -->
     <!-- 数据库相关配置 -->
     <entry key="jdbc_url">jdbc:mysql://localhost:3306/${systemName?uncap_first}?useUnicode=true</entry>
@@ -56,5 +61,8 @@
 
     <entry key="jdbc_username">stategen</entry>
     <entry key="jdbc_password">stategen</entry>
-
+    
+    <!-- ibatis,mybatis,最下面优先 -->
+    <entry key="dao_type">ibatis</entry>
+    <entry key="dao_type">mybatis</entry>
 </properties>

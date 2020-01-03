@@ -47,15 +47,17 @@
             <artifactId>httpmime</artifactId>
         </dependency>
 
-
-
-
         <dependency>
             <groupId>org.stategen.framework</groupId>
             <artifactId>progen</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
 
-		<!--qiniu begin -->
+        <!--qiniu begin -->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
@@ -90,13 +92,9 @@
             <scope>test</scope>
         </dependency>
 
-    <!--qiniu end -->
-    
-    <!-- weixin bean -->
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-open</artifactId>
-        </dependency>
+        <!--qiniu end -->
+
+        <!-- weixin bean -->
 
         <dependency>
             <groupId>com.github.binarywang</groupId>
@@ -111,8 +109,8 @@
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-common</artifactId>
-        </dependency>               
-		<!-- weixin end -->
+        </dependency>
+        <!-- weixin end -->
 
 
                
@@ -124,12 +122,7 @@
     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
+                <artifactId>maven-deploy-plugin</artifactId>
             </plugin>
 
             <plugin>
@@ -162,55 +155,10 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-deploy</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                        <configuration>
-                            <!-- 不发布到maven仓库 -->
-                            <skip>true</skip>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+
 
            <!--springboot_plugin--> 
         </plugins>
 
-        <pluginManagement>
-            <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.codehaus.mojo</groupId>
-                                        <artifactId>exec-maven-plugin</artifactId>
-                                        <versionRange>[1.6.0,)</versionRange>
-                                        <goals>
-                                            <goal>java</goal>
-                                            <goal>exec</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 </project>

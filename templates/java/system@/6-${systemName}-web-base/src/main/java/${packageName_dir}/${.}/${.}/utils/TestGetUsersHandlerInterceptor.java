@@ -24,7 +24,7 @@ public class TestGetUsersHandlerInterceptor implements HandlerInterceptor {
         Method method = handlerMethod.getMethod();
         if (method.getName().equals("getUsers")){
             IResponseStatus errorResponseStatus=ResponseStatus.NOT_LOGIN;
-            ResponseUtil.writhResponse(null,errorResponseStatus);
+            ResponseUtil.writhResponse(true,null,errorResponseStatus);
             return false;
         }
         return true;
