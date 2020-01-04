@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>${packageName}</groupId>
@@ -13,7 +15,7 @@
     </properties>
 
     <artifactId>${systemName?uncap_first}-web-${projectName?uncap_first}</artifactId>
-    <version>${'${'}systemVersion}</version>
+    <version>${'${'}system.version.SNAPSHOT}</version>
     <packaging>war</packaging>
     <name>7-${systemName?uncap_first}-web-${projectName?uncap_first}</name>
     

@@ -2,7 +2,7 @@
  * Copyright (c) 2016 - 2116 All Rights Reserved.
  * Powered By [rapid-generator]
  */
-package com.mycompany.biz.service.impl;
+package ${packageName}.service.impl;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,13 +16,13 @@ import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.ServiceUtil;
 import org.stategen.framework.util.StringUtil;
 
-import com.mycompany.biz.dao.RoleDao;
-import com.mycompany.biz.domain.Menu;
-import com.mycompany.biz.domain.Role;
-import com.mycompany.biz.domain.RoleMenu;
-import com.mycompany.biz.service.MenuService;
-import com.mycompany.biz.service.RoleMenuService;
-import com.mycompany.biz.service.RoleService;
+import ${packageName}.dao.RoleDao;
+import ${packageName}.domain.Menu;
+import ${packageName}.domain.Role;
+import ${packageName}.domain.RoleMenu;
+import ${packageName}.service.MenuService;
+import ${packageName}.service.RoleMenuService;
+import ${packageName}.service.RoleService;
 
 /**
  * RoleServiceImpl

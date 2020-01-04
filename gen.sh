@@ -23,9 +23,9 @@ echo "gen.sh api [table_sql_name] [-e]
 echo "gen.sh client [h5|flutter|web] [-e]
       脚手架命令 在当前工程（7-*）下生成一个[h5|flutter|web]的前端 e.g.,
       gen.sh client flutter -e"
-echo "gen.sh root [-e]
+echo "gen.sh boot [-e]
       脚手架命令 在当前工程（7-*）把项目变为spring-boot项目 e.g.,
-      gen.sh root -e"
+      gen.sh boot -e"
 exit
 fi
 
@@ -33,11 +33,11 @@ fi
 cmdPath=$(pwd)
 projectsPath=$cmdPath;
 
-if [ "$1" == "api"  -o "$1" == "client" -o "$1" == "root" ]; then
+if [ "$1" == "api"  -o "$1" == "client" -o "$1" == "boot" ]; then
   projectsPath=$(dirname $(pwd))
   project_name="${cmdPath##*/}"
   if [[ $project_name != 7-* ]]; then
-    echo "--------------api需要在 7- 工程下執行 -----------------"
+    echo "--------------$1 需要在 7- 工程下執行 -----------------"
     exit
   fi
 fi
@@ -86,7 +86,7 @@ elif [ "$1" == "client" ]; then
       mvnCmd="$mvnCmd -e"
     fi
 
-elif [ "$1" == "root" ]; then
+elif [ "$1" == "boot" ]; then
     mvnCmd="mvn compile groovy:execute -DgenConfigXml=$genConfigXml  -DexecuteTarget=$1"
     if [ "$2" == "-e" ]; then
       mvnCmd="$mvnCmd -e"
@@ -104,7 +104,7 @@ elif [ "$1" == "system" ]; then
     fi 
     
     mvnCmd="mvn compile groovy:execute -DexecuteTarget=$1 -DpackageName=$2 -DsystemName=$3"
-    if [ "$4"=="-e" ]; then
+    if [ "$4" == "-e" ]; then
         mvnCmd="$mvnCmd -e"
     fi
 

@@ -11,19 +11,20 @@
  * fail()	 A helper to throw MojoExecutionException
  **/
 
+
+
 import cn.org.rapid_framework.generator.GeneratorProperties
 import cn.org.rapid_framework.generator.provider.db.model.*
-import org.stategen.framework.generator.util.GenConst
-import org.stategen.framework.generator.util.GenProperties
+import org.stategen.framework.generator.util.*
 
 main();
 
 def main() {
 	freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
-	String executeTarget = System.getProperty(GenConst.executeTarget);
+	String executeTarget = System.getProperty(GenNames.executeTarget);
     println pom.properties.getClass();
-//    if ("${executeTarget}" in ["system", "project", "client", "root"]) {
-	if ("${executeTarget}"=="system" || "${executeTarget}"=="project" || "${executeTarget}"=="client" || "${executeTarget}"=="root" ){
+//    if ("${executeTarget}" in ["system", "project", "client", "boot"]) {
+	if ("${executeTarget}"=="system" || "${executeTarget}"=="project" || "${executeTarget}"=="client" || "${executeTarget}"=="boot" ){
         new ProgenTargets(this)."${executeTarget}"();
     } else {
         loadDefaultGeneratorProperties();
@@ -34,15 +35,12 @@ def main() {
 }
 
 def loadDefaultGeneratorProperties() {
-    Properties mergedProps =GenProperties.getAllMergedProps(System.getProperty(GenConst.genConfigXml));
+    Properties mergedProps =GenProperties.getAllMergedProps(System.getProperty(GenNames.genConfigXml));
     GenProperties.putStatics(mergedProps)
     Properties pts =GeneratorProperties.properties;
     pts.putAll(mergedProps);
 
 	pts.putAll(pom.properties);
-
-    GenProperties.tableName =System.getProperty(GenConst.tableName);
-    GenProperties.projectsPath =System.getProperty(GenConst.projectsPath);
 }
 
 public class DalgenTargets extends org.stategen.framework.generator.BaseTargets{

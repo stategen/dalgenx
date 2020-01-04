@@ -6,8 +6,8 @@
     <property resource="application.properties" />
     <!-- 定义日志文件 输入位置 -->
 
-    <property name="logPathPrefix" value="/opt/logs/%d{MMyyyy}/${'${'}project.name}/" />
-    <property name="logSubfix" value="_${'${'}project.name}_%d{yyyy-MM-dd}_${'${'}THIS_IP}_${'${'}HOSTNAME}.log" />
+    <property name="logPathPrefix" value="/opt/logs/${'${'}project.name}-" />
+    <property name="logSubfix" value="-%d{yyyyMMdd}-${'${'}HOSTNAME}.log" />
     <property name="pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger%n%msg%n%caller{10}"></property>
     
     <!-- 日志最大的历史 30天 -->
