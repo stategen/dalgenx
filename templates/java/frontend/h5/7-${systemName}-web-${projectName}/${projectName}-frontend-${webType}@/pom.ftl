@@ -7,7 +7,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>${packageName}.facadegen.${webType?cap_first}FacadeProcessor</mainClass>
+                            <mainClass>${webType?cap_first}FacadeProcessor</mainClass>
                             <classpathScope>test</classpathScope>
                             <cleanupDaemonThreads>false</cleanupDaemonThreads>
                         </configuration>
@@ -24,7 +24,8 @@
                             <workingDirectory>./${projectName?uncap_first}-frontend-${webType}/</workingDirectory>
                             <executable>yarn</executable>
                             <arguments>
-                                <!-- <argument>install</argument> -->
+                                <argument>install</argument>
+                                <argument>--ignore-engines</argument>
                             </arguments>
                         </configuration>
 

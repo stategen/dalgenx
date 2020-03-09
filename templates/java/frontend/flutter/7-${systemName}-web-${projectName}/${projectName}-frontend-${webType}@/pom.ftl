@@ -7,7 +7,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>${packageName}.facadegen.${webType?cap_first}FacadeProcessor</mainClass>
+                            <mainClass>${webType?cap_first}FacadeProcessor</mainClass>
                             <classpathScope>test</classpathScope>
                             <cleanupDaemonThreads>false</cleanupDaemonThreads>
                         </configuration>
