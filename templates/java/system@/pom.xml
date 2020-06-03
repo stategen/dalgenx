@@ -21,7 +21,7 @@
 
 
     <properties>
-        <stategen-version>stg.2.1.0.RELEASE</stategen-version>
+        <stategen-version>stg.2.1.1.RELEASE</stategen-version>
         <!-- 发到公司私有maven仓库中，即pojo和facade(dubbo服务的版本)，这个版本跟着pom.version一致 -->
         <${systemName?uncap_first}-facade-version>1.0.0</${systemName?uncap_first}-facade-version>
         <!-- 包含业务逻辑代码的jar，不能被发布到maven仓库中，故以snapshort结尾,请在nexus中控制禁止接收snapshot版本,避免误发 -->
@@ -32,7 +32,7 @@
         <spring-data-redis-version>2.1.10.RELEASE</spring-data-redis-version>
 
         <swagger.springfox.verion>2.4.0</swagger.springfox.verion>
-        <stategen-version>stg.2.1.0.RELEASE</stategen-version>
+        <stategen-version>stg.2.1.1.RELEASE</stategen-version>
         <spring-orm-version>3.1.4.RELEASE</spring-orm-version>
 
         <DI-tbSchedule-version>3.3.3.2</DI-tbSchedule-version>

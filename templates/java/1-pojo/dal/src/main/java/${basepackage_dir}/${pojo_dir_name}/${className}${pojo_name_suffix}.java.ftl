@@ -28,10 +28,11 @@ import java.text.SimpleDateFormat;
 import io.swagger.annotations.ApiModelProperty;
 <#assign lomb =lombok=="true">
 <#if lomb>
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 </#if>
 
 /**
@@ -45,8 +46,9 @@ import lombok.experimental.Accessors;
 <#if lomb>
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
-@Accessors(chain = true)
+@AllArgsConstructor
 </#if>
 public class ${className}${pojo_name_suffix} implements java.io.Serializable {
 <#list tableConfig.sqls as sql>
