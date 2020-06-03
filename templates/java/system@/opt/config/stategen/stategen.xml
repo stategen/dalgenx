@@ -61,9 +61,9 @@
     <entry key="${systemName?uncap_first}.mysql.ip.port">jdbc:mysql://localhost:3306/${systemName?uncap_first}?useUnicode=true&amp;characterEncoding=UTF8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;allowMultiQueries=true</entry>
 	<entry key="${systemName?uncap_first}.mysql.username">stategen</entry>
 	<entry key="${systemName?uncap_first}.mysql.password">stategen</entry>
-	<entry key="${systemName?uncap_first}.jdbc.url">"${systemName?uncap_first}.mysql.ip.port"</entry>
-    <entry key="${systemName?uncap_first}.jdbc.username">${systemName?uncap_first}.mysql.username</entry>
-    <entry key="${systemName?uncap_first}.jdbc.password">${systemName?uncap_first}.mysql.password</entry>  
+	<entry key="${systemName?uncap_first}.jdbc.url">${'${'}${systemName?uncap_first}.mysql.ip.port}</entry>
+    <entry key="${systemName?uncap_first}.jdbc.username">${'${'}${systemName?uncap_first}.mysql.username}</entry>
+    <entry key="${systemName?uncap_first}.jdbc.password">${'${'}${systemName?uncap_first}.mysql.password}</entry>
 
     <entry key="${systemName?uncap_first}.dubbo.registry.address">${'${'}local.zk.ip.port}</entry> 
     <entry key="${systemName?uncap_first}.dubbo.protocol.host">${'${'}THIS_IP}</entry>
