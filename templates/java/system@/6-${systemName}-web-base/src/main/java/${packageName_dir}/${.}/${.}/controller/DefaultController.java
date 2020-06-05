@@ -20,7 +20,7 @@ public class DefaultController {
     @RequestMapping(value = { "/", "", "/index.html", "pages/index.html", "/pages" })
     public void index(HttpServletResponse response) throws IOException {
         String requestAppName = RequestUtil.getRequestAppName();
-        String result = new StringBuffer(requestAppName).append(PAGES_SLASH).toString();
+        String result = new StringBuilder(requestAppName).append(PAGES_SLASH).toString();
         response.sendRedirect(result);
     }
 

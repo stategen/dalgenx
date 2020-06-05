@@ -54,7 +54,7 @@ public class ${className}${dto_name_suffix} implements java.io.Serializable {
 </#if>
     public String toString() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd H:m:ss.SSS");
-        StringBuffer sb=new StringBuffer(1024);
+        StringBuilder sb=new StringBuilder(1024);
         sb.append('{');
       <#list table.columns as column>
         if (null != ${column.columnNameLower}) {

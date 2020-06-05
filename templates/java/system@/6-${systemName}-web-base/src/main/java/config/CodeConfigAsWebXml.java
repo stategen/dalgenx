@@ -79,7 +79,7 @@ public class CodeConfigAsWebXml extends AbstractAnnotationConfigDispatcherServle
     //      @Override
     //      public void contextInitialized(ServletContextEvent event) {
     //          if (logger.isInfoEnabled()) {
-    //              logger.info(new StringBuffer("输出info信息: event:").append(count).toString());
+    //              logger.info(new StringBuilder("输出info信息: event:").append(count).toString());
     //              count++;
     //          }
     //          

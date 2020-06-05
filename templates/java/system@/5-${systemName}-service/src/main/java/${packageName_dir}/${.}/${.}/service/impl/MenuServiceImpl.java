@@ -47,7 +47,7 @@ public class MenuServiceImpl implements MenuService {
 
         @Override
         public String calculateKey(Menu menu) {
-            String result = new StringBuffer().append(menu.getControllerName()).append('.').append(menu.getMethodName()).toString();
+            String result = new StringBuilder().append(menu.getControllerName()).append('.').append(menu.getMethodName()).toString();
             return result;
         }
     }
