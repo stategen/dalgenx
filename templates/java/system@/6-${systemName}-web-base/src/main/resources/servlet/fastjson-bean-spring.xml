@@ -18,7 +18,7 @@
     http://www.springframework.org/schema/util/spring-util-3.0.xsd"
     default-autowire="byName"
 >
-    <bean id="fastJsonHttpMessageConverter" class="org.stategen.framework.spring.mvc.FastJsonttpMessageConvertor">
+    <bean id="fastJsonHttpMessageConverter" class="org.stategen.framework.spring.mvc.FastJsonHttpMessageConverter">
         <property name="supportedMediaTypes">
             <list>
                 <value>text/plain;charset=UTF-8</value>

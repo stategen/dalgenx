@@ -111,26 +111,13 @@
         <!-- 成功后指定的状态 -->
         <property name="responseStatusClzOfResult" value="${packageName}.enums.ResponseStatus.OK" />
     </bean>
-
-    <!-- string 类型的解析器和结果处理器 -->
-    <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
-        <constructor-arg value="UTF-8" index="0" />
-        <!--  避免出现乱码 -->
-        <property name="supportedMediaTypes">
-            <list>
-                <value>text/plain;charset=UTF-8</value>
-                <value>application/json;charset=UTF-8</value>  
-                <!-- 微信 使用 -->
-                <value>text/xml;charset=UTF-8</value>
-            </list>
-        </property>
-    </bean> 
     
     <!-- 处理方法级别上的@RequestMapping注解 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>
-                <ref bean="stringHttpMessageConverter" />
+                <!-- 不要这个converter,和Response冲突，用fastJsonHttpMessageConverter中writeAsToString解决
+                 <ref bean="stringHttpMessageConverter" /> -->
                 <!-- 除string类型交由上面处理外，其它交由fastjson转换器 -->
                 <ref bean="fastJsonHttpMessageConverter" />
             </list>
