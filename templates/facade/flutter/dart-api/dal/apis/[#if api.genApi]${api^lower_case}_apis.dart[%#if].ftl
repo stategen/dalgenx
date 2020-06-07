@@ -48,7 +48,12 @@ class ${api}Apis {
     payload ??= {};
         <#if isOne>
     if (param != null) {
+      <#if one.isSimple>
       payload['${one}'] = param;
+      <#else>
+      var json = param.toJson();
+      payload.addAll(json);
+      </#if>
     }
         </#if>
          <#list fun.params as p>
@@ -56,7 +61,12 @@ class ${api}Apis {
              <#continue >
          </#if>
     if (${p} != null) {
+     <#if p.isSimple>
       payload['${p}'] = ${p};
+     <#else>
+      var ${p}Json = ${p}.toJson();
+      payload.addAll(${p}Json);
+     </#if>
     }
         </#list>
       </#if>

@@ -39,6 +39,7 @@ import lombok.Setter;
  * ${tableConfig.className}${pojo_name_suffix}
 <#include '/java_description.include'/>
  * 该类仅不可以修改dalgen生成的属生(field)类型 ,方法(Method)返回值类型和参数类型
+ * 同时，支持自定义修改字段大小写，一旦修改后，请再执行 gen.sh dal ${table.sqlName} -e
  * 不建议使@Data,其hashCode有问题
  * </pre>
  */
