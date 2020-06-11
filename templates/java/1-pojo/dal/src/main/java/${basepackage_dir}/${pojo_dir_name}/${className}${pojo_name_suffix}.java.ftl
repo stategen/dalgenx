@@ -63,6 +63,9 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
 
     private static final long serialVersionUID = -5216457518046898601L;
   <#list table.columns as column>
+    <#if StringUtil.containsIgnoreCase(column.columnAlias,'--inherited')>
+        <#continue >
+    </#if>
     /***${column.columnAlias!}   db_column: ${column.sqlName} ${column.JDBCType} */
       <#assign hidden=false>
       <#if CollectionUtil.mapContainsKey(updated_date_fields,column.sqlName?upper_case)>
@@ -72,7 +75,7 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
       <#elseif CollectionUtil.mapContainsKey(soft_delete_fields,column.sqlName?upper_case)>
           <#assign hidden=true>
       </#if>
-    @ApiModelProperty(<#if hidden>value=</#if>"${column.columnAlias!}"<#if hidden>, hidden = true</#if>)
+    @ApiModelProperty(<#if hidden>value=</#if>"${column.columnAlias!?j_string}"<#if hidden>, hidden = true</#if>)
     <#if column.pk>
     @Id
     <#elseif !column.nullable>
@@ -106,16 +109,16 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
         sb.append('{');
       <#list table.fieldParameters as param>
             <#if param.simpleJavaType='Date'>
-        sb.append("${param.paramName}=").append(${param.paramName}!=null?df.format(${param.paramName}):null).append('\n');
+        sb.append("${param.paramName}").append('=').append(${param.paramName}!=null?df.format(${param.paramName}):null).append('\n');
             <#else>
-        sb.append("${param.paramName}=").append(${param.paramName}).append('\n');
+        sb.append("${param.paramName}").append('=').append(${param.paramName}).append('\n');
             </#if>
       </#list>
       <#list table.columns as column>
             <#if column.simpleJavaType='Date'>
-        sb.append("${column.columnName}=").append(${column.columnName}!=null?df.format(${column.columnName}):null)<#if column_has_next>.append('\n')</#if>;
+        sb.append("${column.columnName}").append('=').append(get${column.columnName?cap_first}() != null?df.format(get${column.columnName?cap_first}()):null)<#if column_has_next>.append('\n')</#if>;
             <#else>
-        sb.append("${column.columnName}=").append(${column.columnName})<#if column_has_next>.append('\n')</#if>;
+        sb.append("${column.columnName}").append('=').append(get${column.columnName?cap_first}())<#if column_has_next>.append('\n')</#if>;
             </#if>
       </#list>
         sb.append('}');
