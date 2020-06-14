@@ -21,8 +21,8 @@
     default-autowire="byName"
 >
     <!-- ============================================================ -->
-    <!-- DAO configs: auto generate by dalgen======================== -->
-    <!-- 本文件由dalgen生成，任何在本文件上的手工修改将会在下次生成时被覆盖 -->
+    <!-- DAO configs: auto generate by dalgenx======================= -->
+    <!-- 本文件由dalgenx生成，任何在本文件上的手工修改将会在下次生成时被覆盖      -->
     <!-- ============================================================ -->
 
 <#list tableConfigSet.tableConfigs as tableConfig>

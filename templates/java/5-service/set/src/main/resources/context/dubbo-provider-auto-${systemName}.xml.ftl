@@ -24,8 +24,8 @@
 >
 
     <!-- ================================================================== -->
-    <!--  dubbo provider configs: auto generate by dalgen  不要手动修改本文件 -->
-    <!-- 本文件由dalgen生成，任何在本文件上的手工修改将会在下次生成时被覆盖===== -->
+    <!--  dubbo provider configs: auto generate by dalgenx  不要手动修改本文件 -->
+    <!-- 本文件由dalgen生成，任何在本文件上的手工修改将会在下次生成时被覆盖=========== -->
     <!-- ================================================================== -->
     
 <#list tableConfigSet.tableConfigs as tableConfig>

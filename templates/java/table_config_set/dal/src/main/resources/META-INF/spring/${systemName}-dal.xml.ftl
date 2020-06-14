@@ -23,7 +23,7 @@
          http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd"
 	default-autowire="byName">
     <!-- ======================================================================== -->
-    <!--  DAO configs: auto generate by dalgen                                    -->
+    <!--  DAO configs: auto generate by dalgenx                                   -->
     <!-- ======================================================================== -->
 
 <#list tableConfigSet.tableConfigs as tableConfig>

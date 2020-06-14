@@ -29,6 +29,7 @@ echo "gen.sh boot [-e]
 exit
 fi
 
+echo $currentCmd
 
 cmdPath=$(pwd)
 projectsPath=$cmdPath;
@@ -132,7 +133,16 @@ fi
 
 
 mvnCmd="$mvnCmd -DcmdPath=$cmdPath  -DdalgenPath=$genConfigPath -DprojectsPath=$projectsPath"
-echo gen.sh $1 $2 $3 $4 $5 $6===========================================================
+echo "gen.sh $* >>>=================================================="
 echo Ö´ÐÐÃüÁî $mvnCmd
 $mvnCmd
+
+rc=$?
+if [ $rc -gt 0 ]; then
+  cd $cmdPath
+  echo -e "\033[31m gen.sh $* <<<failed \033[0m"
+  echo -e "\033[31m pls try gen.sh table $2 $3\033[0m"
+
+  exit $rc
+fi
 cd $cmdPath

@@ -20,7 +20,7 @@
 <#assign className=tableConfig.className/>    
 <#assign classNameLowerCase=tableConfig.className?lower_case/>    
 <#assign nameSpace>${tableConfig.className}</#assign>
-<!-- 本文件由dalgen生成，任何在本文件上的手工修改将会在下次生成时被覆盖 -->
+<!-- 本文件由dalgenx生成，任何在本文件上的手工修改将会在下次生成时被覆盖 -->
 <sqlMap<#if dao_type='mybatis'> namespace="${nameSpace}"</#if>>
 
 	<#-- add jdbcType for resultMap -->

@@ -38,9 +38,11 @@ import lombok.Setter;
 /**
  * ${tableConfig.className}${pojo_name_suffix}
 <#include '/java_description.include'/>
- * 该类仅不可以修改dalgen生成的属生(field)类型 ,方法(Method)返回值类型和参数类型
+ * 该类仅不可以修改dalgenx生成的属生(field)类型 ,方法(Method)返回值类型和参数类型
+ * 该类可自由继承、实现接口，自定义字段或方法，在下次生成时均不会丢失，可有效减少DTO的使用.
  * 同时，支持自定义修改字段大小写，一旦修改后，请再执行 gen.sh dal ${table.sqlName} -e
  * 不建议使@Data,其hashCode有问题
+ * 如果表修改后 ，请执行 gen.sh table ${table.sqlName} -e ,再执行 gen.sh dal ${table.sqlName} -e
  * </pre>
  */
 <#assign lomb =lombok=="true">
@@ -60,7 +62,7 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
         </#list>
     </#if>
 </#list>
-
+    /***不使用或自定义字段在下次生成后，会移到serialVersionUID的上面*/
     private static final long serialVersionUID = -5216457518046898601L;
   <#list table.columns as column>
     <#if StringUtil.containsIgnoreCase(column.columnAlias,'--inherited')>
@@ -124,7 +126,7 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
         sb.append('}');
         return sb.toString();
     }
-
+/***查询字段下次生成时会自动移到toString()方法下面*/
 <#list table.fieldParameters as param>
     <#assign column=param.column>
     <#if column??>
