@@ -20,6 +20,7 @@
 import "../configs/${projectName}_config.dart";
 import '../../stgutil/net_util.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert' as convert;
 
 class ${api}Apis {
 <#list api.functions as fun>
@@ -27,11 +28,11 @@ class ${api}Apis {
     <#assign url><#list fun.urlParts as u><#if u.isParam>:${u}<#else>${u}</#if></#list></#assign>
   /// ${method} ${url}
   /// ${fun.description}
-  <#assign one="">
-  <#assign isOne =false>
+  <#assign singleP="">
+  <#assign isSingleP =false>
   <#assign r=fun.return>
-  <#if fun.params?size==1><#assign one=fun.params[0]><#assign isOne =true></#if>
-  static Future<<#if r.isVoid>dynamic<#else>${genType(r)}</#if>> ${fun}(<#if isEmptyList(fun.params)><#else><#if fun.json??>${genType(fun.json)} ${fun.json}<#else><#if isOne>${genType(one)} param, </#if>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
+  <#if fun.params?size==1><#assign singleP=fun.params[0]><#assign isSingleP =true></#if>
+  static Future<<#if r.isVoid>dynamic<#else>${genType(r)}</#if>> ${fun}(<#if isEmptyList(fun.params)><#else><#if fun.json??>${genType(fun.json)} ${fun.json}<#else><#if isSingleP>${genType(singleP)} param, </#if>{Map<String, dynamic> payload, ${genTypeAndNames(fun.params,true)} }</#if></#if>) async {
     var requestInit = RequestInit();
     requestInit.apiUrlKey = ${projectName}BaseUrlKey;
     requestInit.path = '${url}';
@@ -43,13 +44,13 @@ class ${api}Apis {
     </#if>
     <#if isNotEmptyList(fun.params)>
       <#if fun.json??>
-    var payload =${fun.json}<#if !fun.json.isSimple>?.toJson()</#if>;
+    var payload =${fun.json}<#if !(fun.json.isSimple || fun.json.isEnum)>?.toJson()</#if>;
       <#else>
     payload ??= {};
-        <#if isOne>
+        <#if isSingleP>
     if (param != null) {
-      <#if one.isSimple>
-      payload['${one}'] = param;
+      <#if singleP.isSimple>
+      payload['${singleP}'] = param;
       <#else>
       var json = param.toJson();
       payload.addAll(json);
@@ -61,7 +62,7 @@ class ${api}Apis {
              <#continue >
          </#if>
     if (${p} != null) {
-     <#if p.isSimple>
+     <#if p.isSimple || p.isEnum>
       payload['${p}'] = ${p};
      <#else>
       var ${p}Json = ${p}.toJson();
@@ -74,7 +75,12 @@ class ${api}Apis {
     </#if>
     requestInit.method = Method.${method};
     var dest = await NetUtil.fetch(requestInit<#if !fun.isWrap || r.isVoid>, false</#if>);
-    <#if r.isSimple>
+        <#if !fun.isWrap && !r.isVoid  && !(r.isSimple || r.isEnum)>
+    if (dest is String) {
+      dest = convert.jsonDecode(dest);
+    }
+        </#if>
+    <#if r.isSimple || r.isEnum>
     return dest;
     <#elseif r.isArray>
     return ${r.generic}.fromJsonList(dest as List);

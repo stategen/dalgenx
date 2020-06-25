@@ -155,7 +155,7 @@
           <#continue>
         <#elseif sqlNameUp?ends_with('IMG') || sqlNameUp?ends_with('IMAGE') || sqlNameUp?ends_with('ICON') || sqlNameUp?ends_with('URL') || sqlNameUp?ends_with('FILE')>
           <#continue>
-        <#elseif StringUtil.endsWithIgnoreCase(column.sqlName,"id") || StringUtil.endsWithIgnoreCase(column.sqlName,"type") || StringUtil.endsWithIgnoreCase(column.sqlName,"enum") || StringUtil.containsIgnoreCase(column.columnAlias!,"enum")>
+        <#elseif StringUtil.endsWithIgnoreCase(column.sqlName,"id") ||StringUtil.endsWithIgnoreCase(column.sqlName,"_no") || StringUtil.endsWithIgnoreCase(column.sqlName,"type") || StringUtil.endsWithIgnoreCase(column.sqlName,"enum") || StringUtil.containsIgnoreCase(column.columnAlias!,"enum")>
           <#assign beginIs>
             ${beginIs?trim}
             <isNull property="${column.columnName}">
