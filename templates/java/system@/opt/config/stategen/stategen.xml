@@ -4,7 +4,7 @@
     <!-- 通用设置 -->
     <!-- 一台机器可能好几块网卡，如阿里云服务器，dubbox有时不能正确识别哪个网卡是内部联机网卡，导致dubbo服务出错，所以要配THIS_IP ,THIS_IP也可以配在环境变量里-->
     <entry key="THIS_IP">127.0.0.1</entry>
-    <!--生成环境不生成api文档，请将该值设为false,其它环境可以设为true -->
+    <!--生成环境不生成api文档，请将该值设为false,其它环境可以设为true ,通过 http://localhost:8080/xxxx/doc/index.html访问 -->
     <entry key="swagger.enable">true</entry>
     <!-- 开发时，将此值设为false,以便浏览器可以查看cookies,生产环境上，该值设为false-->
     <entry key="loginCookieGroupHttpOnly">false</entry>

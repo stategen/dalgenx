@@ -1,3 +1,4 @@
+import 'package:app_frontend_flutter/stgutil/front_bean.dart';
 typedef FromJsonFn<T> = T Function(Map<String, dynamic> json);
 typedef FromJsonListFn<T> = List<T> Function(List<Map<String, dynamic>> json);
 typedef ParseFn<T> = T Function(dynamic value);
@@ -17,6 +18,14 @@ abstract class JsonUtil {
   }
 
   static dynamic stringToJson(String value){
+    return value;
+  }
+
+  static String parseDynamic(dynamic value){
+    return parseString(value);
+  }
+
+  static dynamic dynamicToJson(String value){
     return value;
   }
 
@@ -49,7 +58,24 @@ abstract class JsonUtil {
       return value;
     }
 
-    return value == 'true';
+    if (value is String) {
+      value =(value as String).toLowerCase();
+      if (value =='true' || value=='1'){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    if (value is int){
+      if (value > 0){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    return null;
   }
 
   static double parseDouble(dynamic value) {
@@ -111,6 +137,18 @@ abstract class JsonUtil {
       result = List();
       for (var json in jsonList) {
         result.add(fromJsonFn(json));
+      }
+    }
+    return result;
+  }
+
+  static List<Map<String, dynamic>> toMaps(List<FrontBean> frontBeans) {
+    var result = List<Map<String, dynamic>>();
+    if (frontBeans != null) {
+      for (var frontBean in frontBeans) {
+        if (frontBean != null) {
+          result.add(frontBean.toJson());
+        }
       }
     }
     return result;

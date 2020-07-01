@@ -1,14 +1,21 @@
+import 'dart:convert';
 import 'dart:io';
 
-import '../intergrade/configs/${systemName}${projectName?cap_first}_config.dart';
+import 'package:app_frontend_flutter/stgutil/app_config.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:path_to_regexp/path_to_regexp.dart';
+
+import '../intergrade/configs/tradeApp_config.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'log_utils.dart';
 import 'toast.dart';
 import '../intergrade/beans/response.dart' as Res;
 
 import 'package:path_provider/path_provider.dart';
+import 'app_config.dart';
 
 // 数据格式太乱,简单处理一下
 
@@ -53,7 +60,7 @@ class RequestInit {
   String apiUrlKey;
   String path;
   Method method;
-  Map<String, dynamic> data;
+  dynamic data;
   MediaType mediaType;
 }
 
@@ -80,9 +87,7 @@ class NetError {
   const NetError({this.code, this.status, this.message});
 }
 
-final Map<String, String> BASE_URLS = {
-  ${systemName}${projectName?cap_first}BaseUrlKey: "http://192.168.43.14:8080/${systemName}App/",
-};
+
 
 final Map<String, Dio> DIO_MAP = Map();
 
@@ -94,6 +99,15 @@ _onError(NetError netError) {
   Toast.show(netError.message);
 }
 
+class _RequestInterceptors extends InterceptorsWrapper {
+  @override
+  Future onRequest(RequestOptions options) {
+    if (options.path.contains("/api/wx")){
+      options.headers["appid"] =AppConfig.appid;
+    }
+    return super.onRequest(options);
+  }
+}
 
 class NetUtil {
 
@@ -125,35 +139,44 @@ class NetUtil {
   static _findDio(String apiUrlKey) async {
     Dio dio = DIO_MAP[apiUrlKey];
     if (dio == null) {
-      String baseUrl=BASE_URLS[apiUrlKey];
-      assert(baseUrl!=null,"baseUrl 不能为空");
+      String domainUrl=AppConfig.BASE_URLS[apiUrlKey];
+      assert(domainUrl!=null,"domainUrl 不能为空");
 
       dio = Dio();
-      dio.options.baseUrl =baseUrl;
-      dio.options.connectTimeout = 100000; // 100s
-      dio.options.receiveTimeout = 100000; // 100s
+      dio.options.baseUrl = domainUrl;
+      dio.options.connectTimeout = AppConfig.netwait; // 100s
+      dio.options.receiveTimeout = AppConfig.netwait; // 100s
       Directory tempDir = await getTemporaryDirectory();
       String tempPath = tempDir.path;
 
 
       var persistCookieJar = new PersistCookieJar(dir: tempPath);
       dio.interceptors.add(CookieManager(persistCookieJar));
+      dio.interceptors.add(_RequestInterceptors());
       DIO_MAP[apiUrlKey] = dio;
     }
     return dio;
   }
 
+  static final _netErrorCodes=[401,500];
+
   // 统一数据，统一数据流出格式
-  static Future<dynamic> fetch(RequestInit requestInit) async {
+  static Future<dynamic> fetch(RequestInit requestInit, [bool responseWrapped = true]) async {
 //    try {
     Dio dio = await _findDio(requestInit.apiUrlKey);
     var method = METHODS[requestInit.method];
     dynamic data;
 
+    //TODO 像typescript一样处理 path-to-regexp
+    if (requestInit.path.indexOf(":") >= 0) {
+      final toPath = pathToFunction(requestInit.path); // =>/user/:id
+      requestInit.path = toPath(requestInit.data); // => '/user/12'
+      assert(requestInit.path.indexOf(":") < 0, "${r'${'}requestInit.path} 路径中还有变量没有填充!");
+    }
     //组装data
     if (requestInit.mediaType == MediaType.FORM) {
       if (requestInit.data != null) {
-        data = FormData.from(requestInit.data);
+        data = FormData.fromMap(requestInit.data);
       }
     } else {
       data = requestInit.data;
@@ -165,13 +188,23 @@ class NetUtil {
 
     var response = await dio.request(requestInit.path, options: options, data: data);
     if (response != null) {
-      if (response.statusCode == 200) {
-        var resEx = Res.Response.fromJson(response.data);
-        if (!resEx.success) {
+      //stategen会强制包装服务器500执行错误和权限校验不通过401
+      bool parseReponse = (responseWrapped && response.statusCode == 200) || (_netErrorCodes.contains(response.statusCode) );
+      var reponseData = response.data;
+      if (parseReponse) {
+        var resEx = Res.Response.fromJson(reponseData);
+        if (responseWrapped && !resEx.success) {
+          showToast(resEx.message);
           throw NetError(code: resEx.code, status: resEx.status?.toString(), message: resEx.message);
         }
         return resEx.data;
       }
+
+      if (response.statusCode == 200 ) {
+        return reponseData;
+      }
+
+      //其它，抛出错误码
       throw {'code': response.statusCode};
     }
     else {
