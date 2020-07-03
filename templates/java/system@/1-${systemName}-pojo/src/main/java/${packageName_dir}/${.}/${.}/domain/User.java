@@ -29,7 +29,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 /**
  * User
@@ -45,7 +44,6 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @NoArgsConstructor
-@Accessors(chain = true)
 public class User implements java.io.Serializable {
 
     @ApiModelProperty("用户可访问的节点")

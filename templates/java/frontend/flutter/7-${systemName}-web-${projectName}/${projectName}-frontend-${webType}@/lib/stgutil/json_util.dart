@@ -1,4 +1,5 @@
 import 'package:app_frontend_flutter/stgutil/front_bean.dart';
+
 typedef FromJsonFn<T> = T Function(Map<String, dynamic> json);
 typedef FromJsonListFn<T> = List<T> Function(List<Map<String, dynamic>> json);
 typedef ParseFn<T> = T Function(dynamic value);

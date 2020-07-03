@@ -31,7 +31,9 @@ class SimpleResponse with FrontBean {
     return JsonUtil.genFromJsonList(jsonList, SimpleResponse.fromJson);
   }
 
-  Map<String, dynamic> toMap() {
+  /// jsonEncode会调用这个方法
+  @override
+  Map<String, dynamic> toJson() {
     var result = new Map<String, dynamic>();
     if (this.message != null) {
       result['message'] = JsonUtil.stringToJson(message);
@@ -49,18 +51,6 @@ class SimpleResponse with FrontBean {
       for (var simpleResponse in simpleResponseList) {
         result[index] = simpleResponse;
         index ++;
-      }
-    }
-    return result;
-  }
-
-  static List<Map<String, dynamic>> toMaps(List<SimpleResponse> simpleResponseList) {
-    var result = List<Map<String, dynamic>>();
-    if (simpleResponseList != null) {
-      for (var simpleResponse in simpleResponseList) {
-        if (simpleResponse != null) {
-          result.add(simpleResponse.toMap());
-        }
       }
     }
     return result;

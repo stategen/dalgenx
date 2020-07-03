@@ -13,9 +13,11 @@
 
 
 
+
 import cn.org.rapid_framework.generator.GeneratorProperties
 import cn.org.rapid_framework.generator.provider.db.model.*
-import org.stategen.framework.generator.util.*
+import org.stategen.framework.generator.util.GenNames
+import org.stategen.framework.generator.util.GenProperties
 
 main();
 

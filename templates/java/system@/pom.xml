@@ -28,8 +28,8 @@
         <system.version.SNAPSHOT>${systemName?uncap_first}-1.0.0.SNAPSHOT</system.version.SNAPSHOT>
 
 
-        <!-- <spring.version>5.1.10.RELEASE</spring.version> -->
-        <spring.version>5.2.7.RELEASE</spring.version>
+        <!-- 当项目转会为spring-boot后，这个值必须与spring-boot内的值相同，否则会有兼容问题 -->
+        <spring.version>5.1.10.RELEASE</spring.version>
         <spring-data-redis-version>2.1.10.RELEASE</spring-data-redis-version>
 
         <swagger.springfox.verion>2.4.0</swagger.springfox.verion>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.4</version>
+            <version>1.18.12</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
@@ -703,32 +703,6 @@
                 <artifactId>curator-framework</artifactId>
                 <version>4.2.0</version>
             </dependency>
-            
-            <!-- weixin bean -->
-            <dependency>
-                <groupId>com.github.binarywang</groupId>
-                <artifactId>weixin-java-open</artifactId>
-                <version>${'${'}weixin-java.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.binarywang</groupId>
-                <artifactId>weixin-java-miniapp</artifactId>
-                <version>${'${'}weixin-java.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.binarywang</groupId>
-                <artifactId>weixin-java-common</artifactId>
-                <version>${'${'}weixin-java.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.httpcomponents</groupId>
-                        <artifactId>httpmime</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>               
-            <!-- weixin end -->
 
         </dependencies>
     </dependencyManagement>

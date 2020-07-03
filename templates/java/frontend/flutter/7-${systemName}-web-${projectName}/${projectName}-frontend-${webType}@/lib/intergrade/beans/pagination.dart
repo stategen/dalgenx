@@ -6,8 +6,14 @@ import '../../stgutil/json_util.dart';
 import '../../stgutil/front_bean.dart';
 
 class Pagination with FrontBean {
+  /// current
+  int current;
+
   /// page
   int page;
+
+  /// pageNum
+  int pageNum;
 
   /// pageSize
   int pageSize;
@@ -15,22 +21,16 @@ class Pagination with FrontBean {
   /// total
   int total;
 
-  /// pageNum
-  int pageNum;
-
   /// totalPages
   int totalPages;
 
-  /// current
-  int current;
-
   Pagination({
+    this.current,
     this.page,
+    this.pageNum,
     this.pageSize,
     this.total,
-    this.pageNum,
     this.totalPages,
-    this.current,
   });
 
   static Pagination fromJson(Map<String, dynamic> json) {
@@ -38,12 +38,12 @@ class Pagination with FrontBean {
       return null;
     }
     return Pagination(
+      current: JsonUtil.parseInt(json['current']),
       page: JsonUtil.parseInt(json['page']),
+      pageNum: JsonUtil.parseInt(json['pageNum']),
       pageSize: JsonUtil.parseInt(json['pageSize']),
       total: JsonUtil.parseInt(json['total']),
-      pageNum: JsonUtil.parseInt(json['pageNum']),
       totalPages: JsonUtil.parseInt(json['totalPages']),
-      current: JsonUtil.parseInt(json['current']),
     );
   }
 
@@ -51,10 +51,18 @@ class Pagination with FrontBean {
     return JsonUtil.genFromJsonList(jsonList, Pagination.fromJson);
   }
 
-  Map<String, dynamic> toMap() {
+  /// jsonEncode会调用这个方法
+  @override
+  Map<String, dynamic> toJson() {
     var result = new Map<String, dynamic>();
+    if (this.current != null) {
+      result['current'] = JsonUtil.intToJson(current);
+    }
     if (this.page != null) {
       result['page'] = JsonUtil.intToJson(page);
+    }
+    if (this.pageNum != null) {
+      result['pageNum'] = JsonUtil.intToJson(pageNum);
     }
     if (this.pageSize != null) {
       result['pageSize'] = JsonUtil.intToJson(pageSize);
@@ -62,14 +70,8 @@ class Pagination with FrontBean {
     if (this.total != null) {
       result['total'] = JsonUtil.intToJson(total);
     }
-    if (this.pageNum != null) {
-      result['pageNum'] = JsonUtil.intToJson(pageNum);
-    }
     if (this.totalPages != null) {
       result['totalPages'] = JsonUtil.intToJson(totalPages);
-    }
-    if (this.current != null) {
-      result['current'] = JsonUtil.intToJson(current);
     }
     return result;
   }
@@ -81,18 +83,6 @@ class Pagination with FrontBean {
       for (var pagination in paginationList) {
         result[index] = pagination;
         index ++;
-      }
-    }
-    return result;
-  }
-
-  static List<Map<String, dynamic>> toMaps(List<Pagination> paginationList) {
-    var result = List<Map<String, dynamic>>();
-    if (paginationList != null) {
-      for (var pagination in paginationList) {
-        if (pagination != null) {
-          result.add(pagination.toMap());
-        }
       }
     }
     return result;

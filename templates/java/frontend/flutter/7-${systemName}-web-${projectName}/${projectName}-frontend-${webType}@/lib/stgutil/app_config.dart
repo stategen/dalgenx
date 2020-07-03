@@ -1,21 +1,21 @@
-import '../intergrade/configs/${projectName}App_config.dart';
+import '../intergrade/configs/${systemName}${projectName?cap_first}_config.dart';
 
 
 class AppConfig {
   static final String appid = "wx2f40ccdc0d1f9217";
 
 
-  static final int netwait = isInDebugMode()? 1000000:10000; //debug :1000Ãë£¬release:10Ãë
+  static final int netwait = isInDebugMode()? 1000000:10000; //debug :1000ç§’ï¼Œrelease:10ç§’
   static final String universalLink = "https://your.univerallink.com/link/";
 
   static Map<String, String> BASE_URLS = {
-    ${projectName}AppBaseUrlKey: "http://192.168.43.100:8080/${projectName}App/",
+    ${systemName}${projectName?cap_first}BaseUrlKey: "http://192.168.43.100:8080/${systemName}${projectName?cap_first}/",
   };
 
 
   static bool isInDebugMode() {
     bool inDebugMode = false;
-    assert(inDebugMode = true);//Èç¹ûdebugÄ£Ê½ÏÂ»á´¥·¢¸³Öµ
+    assert(inDebugMode = true);//å¦‚æœdebugæ¨¡å¼ä¸‹ä¼šè§¦å‘èµ‹å€¼
     return inDebugMode;
   }
 }

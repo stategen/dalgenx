@@ -119,14 +119,7 @@
             <groupId>de.javakaffee</groupId>
             <artifactId>kryo-serializers</artifactId>
         </dependency>
-        
-        <!-- weixin begin -->
-        <dependency>
-            <groupId>org.stategen.framework</groupId>
-            <artifactId>wechat-open-sdk</artifactId>
-            <version>${'${'}stategen-version}</version>
-        </dependency>           
-        <!-- weixin end -->
+
     </dependencies>
 
     <build>

@@ -96,26 +96,6 @@
 
         <!--qiniu end -->
 
-        <!-- weixin bean -->
-
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-pay</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-miniapp</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-common</artifactId>
-        </dependency>
-        <!-- weixin end -->
-
-
-               
         <!--springboot_dependencies-->
     </dependencies>
 

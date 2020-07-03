@@ -69,9 +69,6 @@ class ReferConfig {
 
 
 class ColumnConfig<T> {
-  // key?: React.Key,
-// dataIndex?: string,
-// title?: string,
   String key;
   String title;
   bool noJson;

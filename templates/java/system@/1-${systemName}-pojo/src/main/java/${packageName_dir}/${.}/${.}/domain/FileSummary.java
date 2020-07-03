@@ -19,7 +19,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 /**
  * FileSummary
@@ -35,7 +34,6 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @NoArgsConstructor
-@Accessors(chain = true)
 @OptionConvertor(value = "fileId")
 public class FileSummary implements java.io.Serializable {
 

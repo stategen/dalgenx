@@ -4,7 +4,6 @@
         代码生成器配置文件:
         1.会为所有的property生成property_dir属性,如pkg=com.company => pkg_dir=com/company
     </comment>
-
     <!--有些系统把date按long存到数据库,本转换开关表示是否在pojo内使用date -->
     <entry key="date_long_field_to_date">false</entry>
     <!-- 生成 select时包括 create_date_field -->

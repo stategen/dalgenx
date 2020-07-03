@@ -28,15 +28,17 @@
     <bean id="fastJsonHttpMessageConverter" class="org.stategen.framework.spring.mvc.FastJsonHttpMessageConverter">
         <property name="supportedMediaTypes">
             <list>
-                <value>text/plain;charset=UTF-8</value>
-                <value>application/json;charset=UTF-8</value>
-                <value>application/x-www-form-urlencoded;charset=UTF-8</value>
+                <util:constant  static-field="org.springframework.http.MediaType.TEXT_PLAIN_VALUE"/>
+                <util:constant  static-field="org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE"/>
+                <!-- <util:constant  static-field="org.springframework.http.MediaType.APPLICATION_OCTET_STREAM_VALUE"/> -->
+                <util:constant  static-field="org.springframework.http.MediaType.APPLICATION_JSON_VALUE"/>
+                <util:constant  static-field="org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE"/>
+                <util:constant  static-field="org.springframework.http.MediaType.APPLICATION_STREAM_JSON_VALUE"/>
             </list>
         </property>
 
-        <property name="fastJsonConfig" ref="fastJsonConfig">
-
-        </property>
+        <property name="fastJsonConfig" ref="fastJsonConfig"/>
+        <property name="plainString" value="true"/>
     </bean>
 
 </beans>

@@ -49,6 +49,7 @@
     <import resource="classpath*:context/dao-beans-manual-*.xml" />
     <import resource="classpath*:context/service-beans-auto-*.xml" />
     <import resource="classpath*:context/service-beans-manual-*.xml" />
+    <!-- dubbo bean放在最后启动，否则当之后的bean配置错误(class不存在)，dubbo进入死循环 -->
     <import resource="classpath*:context/*-spring.xml" />
     
 </beans>

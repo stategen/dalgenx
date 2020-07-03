@@ -173,6 +173,7 @@ class NetUtil {
       requestInit.path = toPath(requestInit.data); // => '/user/12'
       assert(requestInit.path.indexOf(":") < 0, "${r'${'}requestInit.path} 路径中还有变量没有填充!");
     }
+
     //组装data
     if (requestInit.mediaType == MediaType.FORM) {
       if (requestInit.data != null) {

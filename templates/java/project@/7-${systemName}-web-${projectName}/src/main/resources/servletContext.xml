@@ -21,7 +21,6 @@
     http://www.springframework.org/schema/aop/spring-aop.xsd"
     default-autowire="byName"
 >
-    <import resource="classpath*:servletContextBase.xml" />
 
     <!-- base-package 如果多个，用“,”分隔 -->
     <context:component-scan base-package="${packageName}.controller" use-default-filters="false">
@@ -39,4 +38,6 @@
         <!-- 成功后指定的状态 -->
         <property name="responseStatusClzOfResult" value="${packageName}.enums.ResponseStatus.OK" />
     </bean>
+    
+    <import resource="classpath*:servletContextBase.xml" />
 </beans>

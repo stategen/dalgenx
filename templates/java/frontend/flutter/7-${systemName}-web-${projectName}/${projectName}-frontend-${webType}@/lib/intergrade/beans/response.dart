@@ -11,21 +11,21 @@ class Response<T> extends SimpleResponse with FrontBean {
   /// code
   int code;
 
-  /// exeptionClass
-  String exeptionClass;
-
   /// data
   T data;
+
+  /// exeptionClass
+  String exeptionClass;
 
   /// status
   ResponseStatus status;
 
   Response({
     this.code,
-    this.exeptionClass,
     this.data,
-    this.status,
+    this.exeptionClass,
     message,
+    this.status,
     success,
   }) : super(message: message, success: success);
 
@@ -35,10 +35,10 @@ class Response<T> extends SimpleResponse with FrontBean {
     }
     return Response<T>(
       code: JsonUtil.parseInt(json['code']),
-      exeptionClass: JsonUtil.parseString(json['exeptionClass']),
       data: json['data'],
-      status: ResponseStatus.fromJson(json['status']),
+      exeptionClass: JsonUtil.parseString(json['exeptionClass']),
       message: JsonUtil.parseString(json['message']),
+      status: ResponseStatus.fromJson(json['status']),
       success: JsonUtil.parseBool(json['success']),
     );
   }
