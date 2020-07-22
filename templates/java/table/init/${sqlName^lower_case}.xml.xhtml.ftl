@@ -15,7 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <#include './table.include.ftl'>
-    <!-- 以下是生成代码，勿动 ,如果表变更，重新执行 gen.sh table ${table.sqlName} -e 会自动覆盖-->
+    <!-- 表中至少有一个更新字段(update_time,gmt_update或自定义)，一个主键 -->
+    <!-- 以下是生成代码，勿动 ,如果表变更，重新执行 gen.sh table ${table.sqlName} -e 会自动覆盖 -->
     <operation name="insert" paramType="object" remarks="">
         <sql>
             insert into ${table.sqlName} (
@@ -84,7 +85,7 @@
         <!-- 因为dalgen 生成sqlmap中sql时会执行一条模拟生成sql语句检查是否sql是否正确，以减少因为sql中的bug对系统造成影响，
               但是dalgen在生成动态sql语句时，无法获得ibatis的默认属性removeFirstPrepend ="true" ，所以生成的sql语句会是错误的，
               导致后面的代码无法生成，故手工在第一条上添加 removeFirstPrepend ="true" ,让我们自己的代码生成器拦截这个方法以避
-              开dalgen的错误, 由于removeFirstPrepend ="true" 在ibatis中是默认开启的，因此对ibatis没有任何影响-->
+              开dalgen的错误, 由于removeFirstPrepend ="true" 在ibatis中是默认开启的，因此对ibatis没有任何影响 -->
         </#if>
         <sql>
             UPDATE ${table.sqlName}
@@ -104,6 +105,8 @@
             <#if hasSftDel>and </#if>${table.pkColumn.sqlName} = ?
         </sql>
     </operation>
+
+    <!-- 主建或 unique索引生成单独查询 -->
     <#list table.columns as column>
     <#if column.unique || column.pk>
 
@@ -133,6 +136,7 @@
             <#if sft_dlt_clmn!="">a.${sft_dlt_clmn} = ${not_delete_value}</#if>
         </sql>
     </operation>-->
+    <!-- 键结尾  _id, _no, _type, _enum,描述中有(-type,-enum),主建 生成 in 查询 -->
     <operation name="getPageList" paramType="object" multiplicity="paging" remarks="">
         <sql>
             select
@@ -155,7 +159,9 @@
           <#continue>
         <#elseif sqlNameUp?ends_with('IMG') || sqlNameUp?ends_with('IMAGE') || sqlNameUp?ends_with('ICON') || sqlNameUp?ends_with('URL') || sqlNameUp?ends_with('FILE')>
           <#continue>
-        <#elseif StringUtil.endsWithIgnoreCase(column.sqlName,"id") ||StringUtil.endsWithIgnoreCase(column.sqlName,"_no") || StringUtil.endsWithIgnoreCase(column.sqlName,"type") || StringUtil.endsWithIgnoreCase(column.sqlName,"enum") || StringUtil.containsIgnoreCase(column.columnAlias!,"enum")>
+        <#elseif StringUtil.endsWithIgnoreCase(column.sqlName,"_id") ||StringUtil.endsWithIgnoreCase(column.sqlName,"_no")
+        || StringUtil.endsWithIgnoreCase(column.sqlName,"_type") || StringUtil.containsIgnoreCase(column.columnAlias!,"-type")
+        || StringUtil.endsWithIgnoreCase(column.sqlName,"_enum") || StringUtil.containsIgnoreCase(column.columnAlias!,"-enum")>
           <#assign beginIs>
             ${beginIs?trim}
             <isNull property="${column.columnName}">
@@ -260,9 +266,9 @@
     </operation>
     </#if>
     </#list>-->
-    <!-- 如何键满足 主键|唯一|外键|备注中包括'select' 将生成in查询-->
+    <!-- 如果键满足 主键|唯一|外键|备注中包括'-select' 将生成in查询 -->
     <#list table.columns as column>
-    <#if column.unique || column.pk || StringUtil.containsIgnoreCase(column.columnAlias!,"fk") || StringUtil.containsIgnoreCase(column.columnAlias!,"select")>
+    <#if column.unique || column.pk || StringUtil.containsIgnoreCase(column.columnAlias!,"fk") || StringUtil.containsIgnoreCase(column.columnAlias!,"-select")>
 
     <operation name="get${table.className}sBy${column.columnName?cap_first}s" multiplicity="many" remarks="">
         <sql>
@@ -316,4 +322,4 @@
     </#if>
     </#list>
     
-    <!-- 以上是生成代码，勿动 ,如果表变更，重新执行 gen.sh table ${table.sqlName} -e 会自动覆盖-->
+    <!-- 以上是生成代码，勿动 ,如果表变更，重新执行 gen.sh table ${table.sqlName} -e 会自动覆盖 -->
