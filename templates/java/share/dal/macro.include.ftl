@@ -70,8 +70,8 @@
 		</#if>
 	<#else>
 		<#if sql.deleteSql>
-          <#if (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s') && sql.params?size==1>
-              <#list sql.params as param>${param.preferredParameterJavaType}</#list>
+          <#if (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s')>
+              <#list sql.params as param>${param.preferredParameterJavaType}<#break></#list>
           <#else>
 			Long
           </#if>
@@ -92,8 +92,8 @@
 		<#if sql.updateSql>
 			<#if sql.paramType = 'object' && sql.operation='update'>
 				${tableConfig.className}
-			<#elseif (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s') && sql.params?size==1>
-                <#list sql.params as param>${param.preferredParameterJavaType}</#list>
+			<#elseif (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s')>
+                <#list sql.params as param>${param.preferredParameterJavaType}<#break></#list>
             <#else>
 				Long
 			</#if>
@@ -103,6 +103,9 @@
 </#macro>
 
 <#macro generateOperationArguments sql>
+<@generateOperationArgumentsExclude sql ""/>
+</#macro>
+<#macro generateOperationArgumentsExclude sql excludeParam>
 <#compress>
 	<#if sql.paramType = 'object'>
 		${tableConfig.table.className}${pojo_name_suffix} ${tableConfig.table.classNameFirstLower}<#if sql.paging>, int pageSize, int pageNum</#if>
@@ -112,13 +115,16 @@
 		<#if isUseParamObject(sql)>
 			${sql.parameterClassName} param
 		<#else>
-            <#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName?uncap_first}<#if param_has_next>, </#if></#list><#if sql.paging><#if sql.params?size gt 0>, </#if>int pageSize, int pageNum</#if>
+            <#assign added=false>
+            <#list sql.params as param><#if excludeParam=="${param.paramName?uncap_first}"><#continue></#if><#if added>, </#if>${param.preferredParameterJavaType} ${param.paramName?uncap_first}<#assign added=true></#list><#if sql.paging><#if sql.params?size gt 0>, </#if>int pageSize, int pageNum</#if>
 		</#if>
 	</#if>
 </#compress>
 </#macro>
-
 <#macro generateOperationParams sql>
+<@generateOperationParamsExclude sql ""/>
+</#macro>
+<#macro generateOperationParamsExclude sql excludeParam>
 <#compress>
     <#if sql.paramType = 'object'>
          ${tableConfig.table.classNameFirstLower}<#if sql.paging>, pageSize, pageNum</#if>
@@ -133,7 +139,7 @@
 	                ${sql.paramType?uncap_first}
 	            </#if>
 	        <#else>
-	           <#list sql.params as param> ${param.paramName} <#if param_has_next>,</#if></#list><#if sql.paging><#if sql.params?size gt 0>, </#if>pageSize, pageNum</#if>
+	           <#list sql.params as param><#if excludeParam=="${param.paramName?uncap_first}"> null <#else> ${param.paramName} </#if><#if param_has_next>,</#if></#list><#if sql.paging><#if sql.params?size gt 0>, </#if>pageSize, pageNum</#if>
 	        </#if>
         </#if>
     </#if>

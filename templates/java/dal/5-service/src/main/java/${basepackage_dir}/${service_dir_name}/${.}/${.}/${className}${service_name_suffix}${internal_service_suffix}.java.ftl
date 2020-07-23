@@ -42,17 +42,26 @@ import org.stategen.framework.util.BaseService;
  * 因此该类可以修改任何部分
  * </pre>
  */
+<#include '/table.include.ftl'>
 public interface ${tableConfig.className}${service_name_suffix}${internal_service_suffix} extends ${tableConfig.className}${service_name_suffix}${systemName?cap_first}, AssignService<${tableConfig.className}, ${tableConfig.pkColumn.shortJavaType}>, BaseService<${tableConfig.className}> {
 
 <#list tableConfig.sqls as sql>
     /**
-     * ${sql.remarks!}
+     ** ${sql.remarks!}
      * @see ${tableConfig.basepackage}.${dao_dir_name}.${tableConfig.className}${dao_name_suffix}#${sql.operation}
     <#if sql.facade>
      * @see ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}#${sql.operation}
     </#if>
      */
     public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}(<@generateOperationArguments sql/>);
+    <#if lpkColumn?? && "${sql.operation}"=="get${table.className}sBy${pkColumn.columnName?cap_first}s">
+
+    /**
+     * @see ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}#${sql.operation}
+     */
+    <#assign curr>${currentColumnName(lpkColumn)}</#assign>
+    public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix lpkColumn!/>(<@generateOperationArgumentsExclude sql curr/>);
+    </#if>
 
     <#if sql.paging && sql.countService>
     public Long ${sql.operation}Count(<@generateOperationArguments sql/>);     

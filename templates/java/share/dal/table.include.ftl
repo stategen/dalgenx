@@ -39,3 +39,46 @@
 <#assign unSelectColumns =[crt_dt_clmn,upt_dt_clmn,sft_dlt_clmn]>
 <#assign hasSftDel=false>
 <#if sft_dlt_clmn!=""><#assign hasSftDel=true></#if>
+<#assign pkColumn=table.pkColumn>
+<#assign levelName=StringUtil.findByRex(table.remarks!,'(?<=(-level)\\()[^\\)]+')>
+<#if StringUtil.isNotEmpty(levelName)>
+   <#-- table命令中的tableConfigSet延时被动解析,调用时生效 -->
+    <#assign levelTable=tableConfigSet.getBySqlName(levelName)>
+    <#assign lpkColumn=levelTable.pkColumn>
+</#if>
+<#function currentColumnName column>
+<#return "current${lpkColumn.columnName?cap_first}">
+</#function>
+<#macro levelLeftJoin>
+    <#if lpkColumn??>
+           <isNotNull property="${currentColumnName(lpkColumn)}">
+           left join ${table.sqlName}_level_h h on (a.${pkColumn.sqlName} = h.${pkColumn.sqlName})
+           </isNotNull>
+    </#if>
+</#macro>
+<#macro levelSelectIn>
+    <#if lpkColumn??>
+             <isNotNull property="${currentColumnName(lpkColumn)}">
+             and h.${lpkColumn.sqlName} in (select ${lpkColumn.sqlName} from ${levelTable.sqlName}_flat_h where parent_id = #${currentColumnName(lpkColumn)}# and delete_flag = 0)
+             </isNotNull>
+    </#if>
+</#macro>
+<#macro levelSelectExists>
+    <#if lpkColumn??>
+             <isNotNull property="${currentColumnName(lpkColumn)}">
+             and exists (select null from ${levelTable.sqlName}_flat_h where ${lpkColumn.sqlName} = h.${lpkColumn.sqlName} and parent_id = #${currentColumnName(lpkColumn)}# and delete_flag = 0)
+             </isNotNull>
+    </#if>
+</#macro>
+<#macro levelParams>
+    <#if lpkColumn??>
+        <extraparams>
+           <param name="${currentColumnName(lpkColumn)}" javaType="${lpkColumn.simpleJavaType}"/>
+        </extraparams>
+    </#if>
+</#macro>
+<#macro nullLevelIdsubfix column>
+<#if column?? && StringUtil.isNotEmpty(column)>
+Null${column.columnName?cap_first}
+</#if>
+</#macro>

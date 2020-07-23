@@ -124,9 +124,9 @@ public class ${tableConfig.className}${dao_name_suffix}${impl_name_suffix}  exte
 			throw new IllegalArgumentException("Can't delete by a null data object.");
 		}
 		</#if>
-    <#if (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s') && sql.params?size==1>
+    <#if (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s')>
         super.delete("${sqlId}", ${paramName});
-        return <#list sql.params as param>${param.paramName}</#list>;
+        return <#list sql.params as param>${param.paramName}<#break></#list>;
     <#else>
        return (long)super.delete("${sqlId}", ${paramName});
     </#if>
@@ -156,9 +156,9 @@ public class ${tableConfig.className}${dao_name_suffix}${impl_name_suffix}  exte
 	    <#if sql.operation='update'>
         super.update("${sqlId}", ${paramName});
 		return ${paramName};
-        <#elseif (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s') && sql.params?size==1>
+        <#elseif (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s')>
         super.update("${sqlId}", ${paramName});
-        return <#list sql.params as param>${param.paramName}</#list>;
+        return <#list sql.params as param>${param.paramName}<#break></#list>;
         <#else>
 		return (long)super.update("${sqlId}", ${paramName});
 	   </#if>
