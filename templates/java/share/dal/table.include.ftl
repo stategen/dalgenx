@@ -41,44 +41,114 @@
 <#if sft_dlt_clmn!=""><#assign hasSftDel=true></#if>
 <#assign pkColumn=table.pkColumn>
 <#assign levelName=StringUtil.findByRex(table.remarks!,'(?<=(-level)\\()[^\\)]+')>
+<#assign ownerName=StringUtil.findByRex(table.remarks!,'(?<=(-owner)\\()[^\\)]+')>
 <#if StringUtil.isNotEmpty(levelName)>
    <#-- table命令中的tableConfigSet延时被动解析,调用时生效 -->
     <#assign levelTable=tableConfigSet.getBySqlName(levelName)>
     <#assign lpkColumn=levelTable.pkColumn>
 </#if>
-<#function currentColumnName column>
-<#return "current${lpkColumn.columnName?cap_first}">
+<#if StringUtil.isNotEmpty(ownerName)>
+    <#-- table命令中的tableConfigSet延时被动解析,调用时生效 -->
+    <#assign ownerTable=tableConfigSet.getBySqlName(ownerName)>
+    <#assign opkColumn=ownerTable.pkColumn>
+</#if>
+<#function andDelFlg prefix>
+<#if sft_dlt_clmn!="">
+    <#return "and ${prefix}${sft_dlt_clmn} = 0">
+</#if>
 </#function>
+<#function getCurName column>
+<#return "current${column.columnName?cap_first}">
+</#function>
+<#assign levelFix="_level_h">
+<#assign flatFix="_flat_h">
+<#assign ownerFix="_owner_h">
 <#macro levelLeftJoin>
     <#if lpkColumn??>
-           <isNotNull property="${currentColumnName(lpkColumn)}">
-           left join ${table.sqlName}_level_h h on (a.${pkColumn.sqlName} = h.${pkColumn.sqlName})
+           <isNotNull property="${getCurName(lpkColumn)}">
+           left join ${table.sqlName}${levelFix} h on (a.${pkColumn.sqlName} = h.${pkColumn.sqlName})
+           </isNotNull>
+    </#if>
+    <#if opkColumn??>
+           <isNotNull property="${getCurName(opkColumn)}">
+           left join ${table.sqlName}${ownerFix} o on (a.${pkColumn.sqlName} = o.${pkColumn.sqlName})
+           left join ${ownerTable.sqlName} u on (u.${opkColumn.sqlName} = o.${opkColumn.sqlName})
            </isNotNull>
     </#if>
 </#macro>
 <#macro levelSelectIn>
-    <#if lpkColumn??>
-             <isNotNull property="${currentColumnName(lpkColumn)}">
-             and h.${lpkColumn.sqlName} in (select ${lpkColumn.sqlName} from ${levelTable.sqlName}_flat_h where parent_id = #${currentColumnName(lpkColumn)}# and delete_flag = 0)
+    <#if lpkColumn?? && opkColumn??>
+             <isNotNull property="${getCurName(lpkColumn)}">
+               <isNull property="${getCurName(opkColumn)}">
+                 and h.${lpkColumn.sqlName} in (select ${lpkColumn.sqlName} from ${levelTable.sqlName}${flatFix} where parent_id = #${getCurName(lpkColumn)}# ${andDelFlg("")})
+               </isNull>
+             </isNotNull>
+             <isNotNull property="${getCurName(opkColumn)}">
+               <isNull property="${getCurName(lpkColumn)}">
+                 and (o.${opkColumn.sqlName} = #${getCurName(opkColumn)}# ${andDelFlg("u.")})
+               </isNull>
+             </isNotNull>
+             <isNotNull property="${getCurName(lpkColumn)}">
+               <isNotNull property="${getCurName(opkColumn)}">
+                 and (h.${lpkColumn.sqlName} in (select ${lpkColumn.sqlName} from ${levelTable.sqlName}${flatFix} where parent_id = #${getCurName(lpkColumn)}# ${andDelFlg("")}) or (o.${opkColumn.sqlName} = #${getCurName(opkColumn)}# ${andDelFlg("u.")}) )
+               </isNotNull>
+             </isNotNull>
+    </#if>
+    <#if opkColumn?? && !(opkColumn??)>
+             <isNotNull property="${getCurName(opkColumn)}">
+               and o.${opkColumn.sqlName} in (select ${opkColumn.sqlName} from ${ownerTable.sqlName}${flatFix} where parent_id = #${getCurName(opkColumn)}# ${andDelFlg("")})
+             </isNotNull>
+    </#if>
+    <#if !(opkColumn??) && opkColumn>
+             <isNotNull property="${getCurName(opkColumn)}">
+               and (o.${opkColumn.sqlName} = #${getCurName(opkColumn)}# ${andDelFlg("u.")})
              </isNotNull>
     </#if>
 </#macro>
 <#macro levelSelectExists>
-    <#if lpkColumn??>
-             <isNotNull property="${currentColumnName(lpkColumn)}">
-             and exists (select null from ${levelTable.sqlName}_flat_h where ${lpkColumn.sqlName} = h.${lpkColumn.sqlName} and parent_id = #${currentColumnName(lpkColumn)}# and delete_flag = 0)
+    <#if lpkColumn?? && opkColumn??>
+             <isNotNull property="${getCurName(lpkColumn)}">
+               <isNull property="${getCurName(opkColumn)}">
+                 and exists (select null from ${levelTable.sqlName}${flatFix} where ${lpkColumn.sqlName} = h.${lpkColumn.sqlName} and parent_id = #${getCurName(lpkColumn)}# ${andDelFlg("")})
+               </isNull>
+             </isNotNull>
+             <isNotNull property="${getCurName(opkColumn)}">
+               <isNull property="${getCurName(lpkColumn)}">
+                 and (o.${opkColumn.sqlName} = #${getCurName(opkColumn)}# and ${andDelFlg("u.")})
+               </isNull>
+             </isNotNull>
+             <isNotNull property="${getCurName(lpkColumn)}">
+               <isNotNull property="${getCurName(opkColumn)}">
+                 and (exists (select null from ${levelTable.sqlName}${flatFix} where ${lpkColumn.sqlName} = h.${lpkColumn.sqlName} and parent_id = #${getCurName(lpkColumn)}# ${andDelFlg("")}) or (o.${opkColumn.sqlName} = #${getCurName(opkColumn)}# ${andDelFlg("u.")}) )
+               </isNotNull>
+             </isNotNull>
+    </#if>
+    <#if opkColumn?? && !(opkColumn??)>
+             <isNotNull property="${getCurName(opkColumn)}">
+               and exists (select null from ${levelTable.sqlName}${flatFix} where ${lpkColumn.sqlName} = h.${lpkColumn.sqlName} and parent_id = #${getCurName(lpkColumn)}# ${andDelFlg("")})
+             </isNotNull>
+    </#if>
+    <#if !(opkColumn??) && opkColumn>
+             <isNotNull property="${getCurName(opkColumn)}">
+               and (o.${opkColumn.sqlName} = #${getCurName(opkColumn)}# ${andDelFlg("u.")})
              </isNotNull>
     </#if>
 </#macro>
 <#macro levelParams>
-    <#if lpkColumn??>
+    <#if lpkColumn?? || opkColumn??>
         <extraparams>
-           <param name="${currentColumnName(lpkColumn)}" javaType="${lpkColumn.simpleJavaType}"/>
+        <#if lpkColumn??>
+           <param name="${getCurName(lpkColumn)}" javaType="${lpkColumn.simpleJavaType}"/>
+        </#if>
+        <#if opkColumn??>
+           <param name="${getCurName(opkColumn)}" javaType="${opkColumn.simpleJavaType}"/>
+        </#if>
         </extraparams>
     </#if>
 </#macro>
-<#macro nullLevelIdsubfix column>
-<#if column?? && StringUtil.isNotEmpty(column)>
-Null${column.columnName?cap_first}
+<#macro nullLevelIdsubfix hasLevelColumn>
+<#if hasLevelColumn>
+NoLevelAuthority
 </#if>
 </#macro>
+

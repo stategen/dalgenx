@@ -103,9 +103,9 @@
 </#macro>
 
 <#macro generateOperationArguments sql>
-<@generateOperationArgumentsExclude sql ""/>
+<@generateOperationArgumentsExclude sql "" ""/>
 </#macro>
-<#macro generateOperationArgumentsExclude sql excludeParam>
+<#macro generateOperationArgumentsExclude sql lpk opk>
 <#compress>
 	<#if sql.paramType = 'object'>
 		${tableConfig.table.className}${pojo_name_suffix} ${tableConfig.table.classNameFirstLower}<#if sql.paging>, int pageSize, int pageNum</#if>
@@ -116,15 +116,15 @@
 			${sql.parameterClassName} param
 		<#else>
             <#assign added=false>
-            <#list sql.params as param><#if excludeParam=="${param.paramName?uncap_first}"><#continue></#if><#if added>, </#if>${param.preferredParameterJavaType} ${param.paramName?uncap_first}<#assign added=true></#list><#if sql.paging><#if sql.params?size gt 0>, </#if>int pageSize, int pageNum</#if>
+            <#list sql.params as param><#if lpk=="${param.paramName?uncap_first}" || opk=="${param.paramName?uncap_first}" ><#continue></#if><#if added>, </#if>${param.preferredParameterJavaType} ${param.paramName?uncap_first}<#assign added=true></#list><#if sql.paging><#if sql.params?size gt 0>, </#if>int pageSize, int pageNum</#if>
 		</#if>
 	</#if>
 </#compress>
 </#macro>
 <#macro generateOperationParams sql>
-<@generateOperationParamsExclude sql ""/>
+<@generateOperationParamsExclude sql "" ""/>
 </#macro>
-<#macro generateOperationParamsExclude sql excludeParam>
+<#macro generateOperationParamsExclude sql lpk opk>
 <#compress>
     <#if sql.paramType = 'object'>
          ${tableConfig.table.classNameFirstLower}<#if sql.paging>, pageSize, pageNum</#if>
@@ -139,7 +139,7 @@
 	                ${sql.paramType?uncap_first}
 	            </#if>
 	        <#else>
-	           <#list sql.params as param><#if excludeParam=="${param.paramName?uncap_first}"> null <#else> ${param.paramName} </#if><#if param_has_next>,</#if></#list><#if sql.paging><#if sql.params?size gt 0>, </#if>pageSize, pageNum</#if>
+	           <#list sql.params as param><#if lpk=="${param.paramName?uncap_first}" || opk=="${param.paramName?uncap_first}"> null <#else> ${param.paramName} </#if><#if param_has_next>,</#if></#list><#if sql.paging><#if sql.params?size gt 0>, </#if>pageSize, pageNum</#if>
 	        </#if>
         </#if>
     </#if>

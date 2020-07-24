@@ -15,42 +15,61 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<#include '/table.include.ftl'>
+<#include 'table.include.ftl'>
 <!DOCTYPE
     table SYSTEM "https://github.com/stategen/dalgenx/blob/master/gen.schemas-1.0.dtd"
     [<!ENTITY ${table.className?upper_case} SYSTEM "${table.sqlName?lower_case}.xml.xhtml">
 ]>
 <table sqlName="${table.sqlName}" className="<#if add_illegal_prefix=='true'>?</#if>${table.className}" remarks="${table.remarks!?j_string}">
-   <!-- table描述中有'-tree'或者 -level(tableName)将生成相应的辅助sql-->
    <#if add_illegal_prefix=='true'>
 ↑请检查上面className是否正确,将非法字符"?"去掉,并删除本行(或者在gen_config.xml中设置add_illegal_prefix=false,不生成检查)↑
    </#if>
-   <#if lpkColumn??>
+   <!-- table描述中有'-tree' 或 '-level(tableName)' 或(和) '-owner(tableName)'  将生成相应的辅助sql-->
+   <#if lpkColumn?? || opkColumn??>
    <!-- 辅助cut到 mysql中执行
-        /* 生成水平权限表 */
-        DROP TABLE IF EXISTS ${table.sqlName}_level_h;
-        CREATE TABLE ${table.sqlName}_level_h (
+     <#if lpkColumn?? >
+        /* 生成上下级水平权限表 */
+        DROP TABLE IF EXISTS ${table.sqlName}${levelFix};
+        CREATE TABLE ${table.sqlName}${levelFix} (
             ${pkColumn.sqlName} ${pkColumn.JDBCType}(${pkColumn.size}) NOT NULL,
-            ${lpkColumn.sqlName} ${lpkColumn.JDBCType}(${lpkColumn.size}) NOT NULL COMMENT '水平权限   该id必须是树的主键',
+            ${lpkColumn.sqlName} ${lpkColumn.JDBCType}(${lpkColumn.size}) NOT NULL COMMENT '树(类似部门)主键 水平权限',
             update_time TIMESTAMP (6) NULL DEFAULT NULL COMMENT '更新时间',
             create_time TIMESTAMP (6) NULL DEFAULT NULL COMMENT '创建时间',
-            delete_flag TINYINT (1) DEFAULT '0' COMMENT '是否删除 (0:正常，1删除)',
+            ${sft_dlt_clmn} TINYINT (1) DEFAULT '0' COMMENT '是否删除 (0:正常，1删除)',
             PRIMARY KEY (${pkColumn.sqlName}),
             KEY ${lpkColumn.sqlName} (${lpkColumn.sqlName}) USING BTREE
         ) ENGINE = MyISAM DEFAULT CHARSET = utf8mb4 COMMENT = '数据水平权限，只有直系上级有权限';
+
+     </#if>
+     <#if opkColumn??>
+        /* 生成所有者水平权限表 */
+        DROP TABLE IF EXISTS ${table.sqlName}${ownerFix};
+        CREATE TABLE ${table.sqlName}${ownerFix} (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            ${pkColumn.sqlName} ${pkColumn.JDBCType}(${pkColumn.size}) NOT NULL,
+            ${opkColumn.sqlName} ${opkColumn.JDBCType}(${opkColumn.size}) NOT NULL COMMENT '所有者 水平权限',
+            update_time TIMESTAMP (6) NULL DEFAULT NULL COMMENT '更新时间',
+            create_time TIMESTAMP (6) NULL DEFAULT NULL COMMENT '创建时间',
+            ${sft_dlt_clmn} TINYINT (1) DEFAULT '0' COMMENT '是否删除 (0:正常，1删除)',
+            PRIMARY KEY (`id`),
+            KEY ${opkColumn.sqlName} (${opkColumn.sqlName}) USING BTREE,
+            KEY ${pkColumn.sqlName} (${pkColumn.sqlName}) USING BTREE
+        ) ENGINE = MyISAM DEFAULT CHARSET = utf8mb4 COMMENT = '数据水平权限，只有直系上级有权限';
+
+     </#if>
    -->
    </#if>
    <#if StringUtil.containsIgnoreCase(table.remarks!,'-tree')>
    <!-- cut到 mysql中执行
        /* 创建树型表对应的平面表 */
-       DROP TABLE IF EXISTS ${table.sqlName}_flat_h;
-       CREATE TABLE ${table.sqlName}_flat_h (
+       DROP TABLE IF EXISTS ${table.sqlName}${flatFix};
+       CREATE TABLE ${table.sqlName}${flatFix} (
          id bigint(20) NOT NULL,
          ${pkColumn.sqlName} ${pkColumn.JDBCType}(${pkColumn.size}) NOT NULL,
          parent_id ${pkColumn.JDBCType}(${pkColumn.size}) NOT NULL,
          update_time timestamp(6) NULL DEFAULT NULL  COMMENT '更新时间',
          create_time timestamp(6) NULL DEFAULT NULL COMMENT '创建时间',
-         delete_flag tinyint(1) DEFAULT '0' COMMENT '是否删除 (0:正常，1删除)',
+         ${sft_dlt_clmn} tinyint(1) DEFAULT '0' COMMENT '是否删除 (0:正常，1删除)',
          PRIMARY KEY (id),
          KEY ${pkColumn.sqlName} (${pkColumn.sqlName}) USING BTREE,
          KEY parent_id (parent_id) USING BTREE
@@ -72,11 +91,11 @@
          OPEN cur1;
          FETCH cur1 INTO nodeId, parentId;
 
-         DELETE from ${table.sqlName}_flat_h;
+         DELETE from ${table.sqlName}${flatFix};
          WHILE ( done =0 ) DO
            WHILE (parentId is not null) do
              set flatId=flatId+1;
-             insert into ${table.sqlName}_flat_h(id,${pkColumn.sqlName},parent_id,update_time,create_time,delete_flag) values(flatId,nodeId,parentId,@current,@current,0);
+             insert into ${table.sqlName}${flatFix}(id,${pkColumn.sqlName},parent_id,update_time,create_time,${sft_dlt_clmn}) values(flatId,nodeId,parentId,@current,@current,0);
              set parentId =(select parent_id from ${table.sqlName} where ${pkColumn.sqlName}=parentId);
            END WHILE;
            FETCH cur1 INTO nodeId, parentId;

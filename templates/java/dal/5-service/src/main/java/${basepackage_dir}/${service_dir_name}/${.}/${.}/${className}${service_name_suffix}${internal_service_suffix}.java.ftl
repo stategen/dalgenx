@@ -59,8 +59,9 @@ public interface ${tableConfig.className}${service_name_suffix}${internal_servic
     /**
      * @see ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}#${sql.operation}
      */
-    <#assign curr>${currentColumnName(lpkColumn)}</#assign>
-    public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix lpkColumn!/>(<@generateOperationArgumentsExclude sql curr/>);
+    <#assign currLpk>${getCurName(lpkColumn)}</#assign>
+    <#assign currOpk>${getCurName(opkColumn)}</#assign>
+    public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix (lpkColumn?? || opkColumn??)/>(<@generateOperationArgumentsExclude sql currLpk currOpk/>);
     </#if>
 
     <#if sql.paging && sql.countService>
