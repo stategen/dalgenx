@@ -61,7 +61,8 @@ public interface ${tableConfig.className}${service_name_suffix}${internal_servic
      */
     <#assign currLpk>${getCurName(lpkColumn)}</#assign>
     <#assign currOpk>${getCurName(opkColumn)}</#assign>
-    public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix (lpkColumn?? || opkColumn??)/>(<@generateOperationArgumentsExclude sql currLpk currOpk/>);
+    <#assign inclLpk>${getIncludeSelfCurName(lpkColumn)}</#assign>
+    public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix (lpkColumn?? || opkColumn??)/>(<@generateOperationArgumentsExclude sql currLpk inclLpk currOpk/>);
     </#if>
 
     <#if sql.paging && sql.countService>

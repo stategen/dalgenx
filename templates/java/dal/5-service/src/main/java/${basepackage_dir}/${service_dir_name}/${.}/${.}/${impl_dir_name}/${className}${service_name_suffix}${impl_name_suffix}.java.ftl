@@ -88,9 +88,10 @@ public class ${tableConfig.className}${service_name_suffix}${impl_name_suffix}  
      */
     <#assign currLpk>${getCurName(lpkColumn)}</#assign>
     <#assign currOpk>${getCurName(opkColumn)}</#assign>
+    <#assign inclLpk>${getIncludeSelfCurName(lpkColumn)}</#assign>
     @Override
-    public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix (lpkColumn?? || opkColumn??)/>(<@generateOperationArgumentsExclude sql currLpk currOpk/>) {
-        return ${sql.operation}(<@generateOperationParamsExclude sql currLpk currOpk/>);
+    public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix (lpkColumn?? || opkColumn??)/>(<@generateOperationArgumentsExclude sql currLpk inclLpk currOpk/>) {
+        return ${sql.operation}(<@generateOperationParamsExclude sql currLpk inclLpk, currOpk/>);
     }
     </#if>
 

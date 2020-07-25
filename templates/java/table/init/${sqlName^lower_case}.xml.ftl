@@ -24,6 +24,11 @@
    <#if add_illegal_prefix=='true'>
 ↑请检查上面className是否正确,将非法字符"?"去掉,并删除本行(或者在gen_config.xml中设置add_illegal_prefix=false,不生成检查)↑
    </#if>
+   <#function mb4Unicode jdbcType>
+       <#if jdbcType?contains('VARCHAR')!>
+           <#return 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'>
+       </#if>
+   </#function>
    <!-- table描述中有'-tree' 或 '-level(tableName)' 或(和) '-owner(tableName)'  将生成相应的辅助sql-->
    <#if lpkColumn?? || opkColumn??>
    <!-- 辅助cut到 mysql中执行
@@ -31,8 +36,8 @@
         /* 生成上下级水平权限表 */
         DROP TABLE IF EXISTS ${table.sqlName}${levelFix};
         CREATE TABLE ${table.sqlName}${levelFix} (
-            ${pkColumn.sqlName} ${pkColumn.JDBCType}(${pkColumn.size}) NOT NULL,
-            ${lpkColumn.sqlName} ${lpkColumn.JDBCType}(${lpkColumn.size}) NOT NULL COMMENT '树(类似部门)主键 水平权限',
+            ${pkColumn.sqlName} ${pkColumn.JDBCType}(${pkColumn.size}) ${mb4Unicode(pkColumn.JDBCType)!} NOT NULL,
+            ${lpkColumn.sqlName} ${lpkColumn.JDBCType}(${lpkColumn.size}) ${mb4Unicode(lpkColumn.JDBCType)!} NOT NULL COMMENT '树(类似部门)主键 水平权限',
             update_time TIMESTAMP (6) NULL DEFAULT NULL COMMENT '更新时间',
             create_time TIMESTAMP (6) NULL DEFAULT NULL COMMENT '创建时间',
             ${sft_dlt_clmn} TINYINT (1) DEFAULT '0' COMMENT '是否删除 (0:正常，1删除)',
@@ -46,8 +51,8 @@
         DROP TABLE IF EXISTS ${table.sqlName}${ownerFix};
         CREATE TABLE ${table.sqlName}${ownerFix} (
             id bigint(20) NOT NULL AUTO_INCREMENT,
-            ${pkColumn.sqlName} ${pkColumn.JDBCType}(${pkColumn.size}) NOT NULL,
-            ${opkColumn.sqlName} ${opkColumn.JDBCType}(${opkColumn.size}) NOT NULL COMMENT '所有者 水平权限',
+            ${pkColumn.sqlName} ${pkColumn.JDBCType}(${pkColumn.size}) ${mb4Unicode(pkColumn.JDBCType)!} NOT NULL,
+            ${opkColumn.sqlName} ${opkColumn.JDBCType}(${opkColumn.size}) ${mb4Unicode(opkColumn.JDBCType)!} NOT NULL COMMENT '所有者 水平权限',
             update_time TIMESTAMP (6) NULL DEFAULT NULL COMMENT '更新时间',
             create_time TIMESTAMP (6) NULL DEFAULT NULL COMMENT '创建时间',
             ${sft_dlt_clmn} TINYINT (1) DEFAULT '0' COMMENT '是否删除 (0:正常，1删除)',
@@ -65,8 +70,8 @@
        DROP TABLE IF EXISTS ${table.sqlName}${flatFix};
        CREATE TABLE ${table.sqlName}${flatFix} (
          id bigint(20) NOT NULL,
-         ${pkColumn.sqlName} ${pkColumn.JDBCType}(${pkColumn.size}) NOT NULL,
-         parent_id ${pkColumn.JDBCType}(${pkColumn.size}) NOT NULL,
+         ${pkColumn.sqlName} ${pkColumn.JDBCType}(${pkColumn.size}) ${mb4Unicode(pkColumn.JDBCType)!} NOT NULL,
+         parent_id ${pkColumn.JDBCType}(${pkColumn.size}) ${mb4Unicode(pkColumn.JDBCType)!} NOT NULL,
          update_time timestamp(6) NULL DEFAULT NULL  COMMENT '更新时间',
          create_time timestamp(6) NULL DEFAULT NULL COMMENT '创建时间',
          ${sft_dlt_clmn} tinyint(1) DEFAULT '0' COMMENT '是否删除 (0:正常，1删除)',
