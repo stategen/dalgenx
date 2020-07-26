@@ -76,7 +76,10 @@
              a.${sft_dlt_clmn} = ${not_delete_value}
           </#if>
              <#if hasSftDel>and </#if>a.${column.sqlName} = ?
-            <@levelSelectExists/>
+             <#if forceUseLevelAuthorForWrite=="true">
+             <@forceWrite/>
+             </#if>
+             <@levelSelectExists/>
         </sql>
     </operation>
     </#if>
@@ -107,6 +110,9 @@
            where
              <#if sft_dlt_clmn!="">a.${sft_dlt_clmn} = ${not_delete_value}</#if>
              <#if hasSftDel>and </#if>a.${table.pkColumn.sqlName} = ?
+             <#if forceUseLevelAuthorForWrite=="true">
+             <@forceWrite/>
+             </#if>
              <@levelSelectExists/>
         </sql>
     </operation>
@@ -257,8 +263,8 @@
              and 0 = 1
              ${endIs?trim}
             </#if>
-            order by
-              <include refid = "get${table.className}PageListOrderBy" />
+           order by
+             <include refid = "get${table.className}PageListOrderBy" />
         </sql>
     </operation>
 <#--    <#list table.columns as column>
@@ -329,6 +335,9 @@
              <isEmpty property="${column.columnName}s" prepend="and">
              1=0
              </isEmpty>
+             <#if forceUseLevelAuthorForWrite=="true">
+             <@forceWrite/>
+             </#if>
              <isNotEmpty property="${column.columnName}s" prepend="and">
              a.${column.sqlName} in
                 <iterate property="${column.columnName}s" conjunction="," open="(" close=")">

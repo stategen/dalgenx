@@ -58,10 +58,10 @@
 </#if>
 </#function>
 <#function getCurName column>
-<#return "current${column.columnName?cap_first}">
+<#return "invoker${column.columnName?cap_first}">
 </#function>
 <#function getIncludeSelfCurName column>
-    <#return "inclCurrent${column.columnName?cap_first}">
+    <#return "inclInvoker${column.columnName?cap_first}">
 </#function>
 <#assign levelFix="_level_h">
 <#assign flatFix="_flat_h">
@@ -96,6 +96,25 @@
 <#macro commonSelect>
     <#assign equalInclude>(1=#${getIncludeSelfCurName(lpkColumn)}# and h.${lpkColumn.sqlName} = #${getCurName(lpkColumn)}#)</#assign>
     <#assign ownerEqual>o.${opkColumn.sqlName} = #${getCurName(opkColumn)}# and ${delFlgEqualZero("u.")}</#assign>
+</#macro>
+<#macro forceWrite>
+    <#if lpkColumn?? && opkColumn??>
+             <isNull property="${getCurName(lpkColumn)}">
+               <isNull property="${getCurName(opkColumn)}">
+                  and (1=0)
+               </isNull>
+             </isNull>
+    </#if>
+    <#if (lpkColumn??) && !(opkColumn??)>
+             <isNull property="${getCurName(lpkColumn)}">
+                and (1=0)
+             </isNull>
+    </#if>
+    <#if !(lpkColumn??) && (opkColumn??)>
+             <isNull property="${getCurName(opkColumn)}">
+                and (1=0)
+             </isNull>
+    </#if>
 </#macro>
 <#macro levelSelectIn>
     <@commonSelect/>
