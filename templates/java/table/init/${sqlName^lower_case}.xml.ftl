@@ -37,7 +37,7 @@
         DROP TABLE IF EXISTS ${table.sqlName}${levelFix};
         CREATE TABLE ${table.sqlName}${levelFix} (
             ${pkColumn.sqlName} ${pkColumn.JDBCType}(${pkColumn.size}) ${mb4Unicode(pkColumn.JDBCType)!} NOT NULL,
-            ${lpkColumn.sqlName} ${lpkColumn.JDBCType}(${lpkColumn.size}) ${mb4Unicode(lpkColumn.JDBCType)!} NOT NULL COMMENT '树(类似部门)主键 水平权限',
+            ${lpkColumn.sqlName} ${lpkColumn.JDBCType}(${lpkColumn.size}) ${mb4Unicode(lpkColumn.JDBCType)!} NOT NULL COMMENT '树主键 (类似部门) 水平权限',
             update_time TIMESTAMP (6) NULL DEFAULT NULL COMMENT '更新时间',
             create_time TIMESTAMP (6) NULL DEFAULT NULL COMMENT '创建时间',
             ${sft_dlt_clmn} TINYINT (1) DEFAULT '0' COMMENT '是否删除 (0:正常，1删除)',

@@ -59,9 +59,7 @@ public interface ${tableConfig.className}${service_name_suffix}${internal_servic
     /**
      * @see ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}#${sql.operation}
      */
-    <#assign currLpk>${getCurName(lpkColumn)}</#assign>
-    <#assign currOpk>${getCurName(opkColumn)}</#assign>
-    <#assign inclLpk>${getIncludeSelfCurName(lpkColumn)}</#assign>
+    <@levelColumnNames/>
     public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix (lpkColumn?? || opkColumn??)/>(<@generateOperationArgumentsExclude sql currLpk inclLpk currOpk/>);
     </#if>
 

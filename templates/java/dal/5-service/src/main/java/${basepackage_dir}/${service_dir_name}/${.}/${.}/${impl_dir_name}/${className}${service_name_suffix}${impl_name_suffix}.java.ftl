@@ -86,9 +86,7 @@ public class ${tableConfig.className}${service_name_suffix}${impl_name_suffix}  
     /**
      * @see ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}#${sql.operation}
      */
-    <#assign currLpk>${getCurName(lpkColumn)}</#assign>
-    <#assign currOpk>${getCurName(opkColumn)}</#assign>
-    <#assign inclLpk>${getIncludeSelfCurName(lpkColumn)}</#assign>
+    <@levelColumnNames/>
     @Override
     public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix (lpkColumn?? || opkColumn??)/>(<@generateOperationArgumentsExclude sql currLpk inclLpk currOpk/>) {
         return ${sql.operation}(<@generateOperationParamsExclude sql currLpk inclLpk, currOpk/>);

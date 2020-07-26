@@ -37,22 +37,29 @@ import org.stategen.framework.lite.PageList;
 /**
  * ${tableConfig.className}${dao_name_suffix}
 <#include '/java_description.include'/>
+<#include 'table.include.ftl'>
+
  * 该类仅可以修改引用
  * </pre>
  */
 public interface ${tableConfig.className}${dao_name_suffix} {
 
+<@levelColumnNames/>
+<#assign levelVars =[currLpk,currOpk,inclLpk]>
 <#list tableConfig.sqls as sql>
     <#assign isObject=(sql.paramType = 'object')/>
 	/**
     <pre>
     <#list sql.params as param>
+    <#if levelVars?seq_contains(param.paramName)>
+        <#continue>
+    </#if>
     <#assign paramName =StringHelper.toXML(param.simple)>
     <#assign column = param.column>
     <#if paramName?starts_with("List")>
         <#assign paramName ='Array'+ paramName>
     </#if>
-    &#64;ApiParam(<#if !isObject && column??>"${column.title}"</#if>)<#if param.listParam>&#64;RequestParam(required =false,name="${param.paramName?uncap_first}")</#if> ${paramName} ${param.paramName?uncap_first}<#if param_has_next>,</#if>
+    &#64;ApiParam(<#if !isObject && column??>"${column.title}"</#if>) &#64;RequestParam(required =false<#if param.listParam>,name="${param.paramName?uncap_first}"</#if>) ${paramName} ${param.paramName?uncap_first}<#if param_has_next>,</#if>
     </#list>
     <#if isObject>
     ,&#64;ApiParam(hidden = true) ${tableConfig.className} ${tableConfig.className?uncap_first}

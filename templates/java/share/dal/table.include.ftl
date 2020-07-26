@@ -79,7 +79,6 @@
         </extraparams>
 </#if>
 </#macro>
-
 <#macro levelLeftJoin>
     <#if lpkColumn??>
            <isNotNull property="${getCurName(lpkColumn)}">
@@ -178,10 +177,14 @@
              </isNotNull>
         </#if>
 </#macro>
-
 <#macro nullLevelIdsubfix hasLevelColumn>
 <#if hasLevelColumn>
 NoLevelAuthority
 </#if>
+</#macro>
+<#macro levelColumnNames>
+<#assign currLpk>${getCurName(lpkColumn)}</#assign>
+<#assign currOpk>${getCurName(opkColumn)}</#assign>
+<#assign inclLpk>${getIncludeSelfCurName(lpkColumn)}</#assign>
 </#macro>
 
