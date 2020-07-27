@@ -81,15 +81,15 @@ public class ${tableConfig.className}${service_name_suffix}${impl_name_suffix}  
         return ${tableConfig.className?uncap_first}Dao.${sql.operation}(<@generateOperationParams sql/>);
     }
 
-    <#if lpkColumn?? && "${sql.operation}"=="get${table.className}sBy${pkColumn.columnName?cap_first}s">
+    <#if levelPkColumn?? && "${sql.operation}"=="get${table.className}sBy${pkColumn.columnName?cap_first}s">
 
     /**
      * @see ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}#${sql.operation}
      */
     <@levelColumnNames/>
     @Override
-    public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix (lpkColumn?? || opkColumn??)/>(<@generateOperationArgumentsExclude sql currLpk inclLpk currOpk/>) {
-        return ${sql.operation}(<@generateOperationParamsExclude sql currLpk inclLpk, currOpk/>);
+    public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix (levelPkColumn?? || ownerPkColumn??)/>(<@generateOperationArgumentsExclude sql levelPkName inclLevelPkName onwerPkName/>) {
+        return ${sql.operation}(<@generateOperationParamsExclude sql levelPkName inclLevelPkName, onwerPkName/>);
     }
     </#if>
 
@@ -131,7 +131,7 @@ public class ${tableConfig.className}${service_name_suffix}${impl_name_suffix}  
     <#assign id>${tableConfig.pkColumn.columnName}</#assign>
     @Override
     public <D> void assignBeanTo(Collection<D> dests, Function<? super D, ${type}> destGetMethod, BiConsumer<D, ${tableConfig.className}> destSetMethod) {
-        ServiceUtil.interalAssignBeanTo(dests, destGetMethod, destSetMethod, this, ${bean}ServiceImpl::get${bean}sBy${id?cap_first}s<@nullLevelIdsubfix (lpkColumn?? || opkColumn??)/>, ${bean}::get${id?cap_first});
+        ServiceUtil.interalAssignBeanTo(dests, destGetMethod, destSetMethod, this, ${bean}ServiceImpl::get${bean}sBy${id?cap_first}s<@nullLevelIdsubfix (levelPkColumn?? || ownerPkColumn??)/>, ${bean}::get${id?cap_first});
     }
 
     @Override
@@ -141,7 +141,7 @@ public class ${tableConfig.className}${service_name_suffix}${impl_name_suffix}  
 
     @Override
     public <D> void mergeBeanTo(Collection<D> dests, Function<? super D, ${type}> destGetMethod) {
-        ServiceUtil.interalMergeBeanTo(dests, destGetMethod, this, ${bean}ServiceImpl::get${bean}sBy${id?cap_first}s<@nullLevelIdsubfix (lpkColumn?? || opkColumn??)/>, ${bean}::get${id?cap_first});
+        ServiceUtil.interalMergeBeanTo(dests, destGetMethod, this, ${bean}ServiceImpl::get${bean}sBy${id?cap_first}s<@nullLevelIdsubfix (levelPkColumn?? || ownerPkColumn??)/>, ${bean}::get${id?cap_first});
     }
 
 }

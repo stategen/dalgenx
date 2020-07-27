@@ -45,12 +45,12 @@
 <#if StringUtil.isNotEmpty(levelName)>
    <#-- table命令中的tableConfigSet延时被动解析,调用时生效 -->
     <#assign levelTable=tableConfigSet.getBySqlName(levelName)>
-    <#assign lpkColumn=levelTable.pkColumn>
+    <#assign levelPkColumn=levelTable.pkColumn>
 </#if>
 <#if StringUtil.isNotEmpty(ownerName)>
     <#-- table命令中的tableConfigSet延时被动解析,调用时生效 -->
     <#assign ownerTable=tableConfigSet.getBySqlName(ownerName)>
-    <#assign opkColumn=ownerTable.pkColumn>
+    <#assign ownerPkColumn=ownerTable.pkColumn>
 </#if>
 <#function delFlgEqualZero prefix>
 <#if sft_dlt_clmn!="">
@@ -67,112 +67,112 @@
 <#assign flatFix="_flat_h">
 <#assign ownerFix="_owner_h">
 <#macro levelParams>
-<#if lpkColumn?? || opkColumn??>
+<#if levelPkColumn?? || ownerPkColumn??>
         <extraparams>
-        <#if lpkColumn??>
-           <param name="${getCurName(lpkColumn)}" javaType="${lpkColumn.simpleJavaType}"/>
-           <param name="${getIncludeSelfCurName(lpkColumn)}" javaType="Boolean"/>
+        <#if levelPkColumn??>
+           <param name="${getCurName(levelPkColumn)}" javaType="${levelPkColumn.simpleJavaType}"/>
+           <param name="${getIncludeSelfCurName(levelPkColumn)}" javaType="Boolean"/>
         </#if>
-        <#if opkColumn??>
-           <param name="${getCurName(opkColumn)}" javaType="${opkColumn.simpleJavaType}"/>
+        <#if ownerPkColumn??>
+           <param name="${getCurName(ownerPkColumn)}" javaType="${ownerPkColumn.simpleJavaType}"/>
         </#if>
         </extraparams>
 </#if>
 </#macro>
 <#macro levelLeftJoin>
-    <#if lpkColumn??>
-           <isNotNull property="${getCurName(lpkColumn)}">
+    <#if levelPkColumn??>
+           <isNotNull property="${getCurName(levelPkColumn)}">
            left join ${table.sqlName}${levelFix} h on (a.${pkColumn.sqlName} = h.${pkColumn.sqlName})
            </isNotNull>
     </#if>
-    <#if opkColumn??>
-           <isNotNull property="${getCurName(opkColumn)}">
+    <#if ownerPkColumn??>
+           <isNotNull property="${getCurName(ownerPkColumn)}">
            left join ${table.sqlName}${ownerFix} o on (a.${pkColumn.sqlName} = o.${pkColumn.sqlName})
-           left join ${ownerTable.sqlName} u on (u.${opkColumn.sqlName} = o.${opkColumn.sqlName})
+           left join ${ownerTable.sqlName} u on (u.${ownerPkColumn.sqlName} = o.${ownerPkColumn.sqlName})
            </isNotNull>
     </#if>
 </#macro>
 <#macro commonSelect>
-    <#assign equalInclude>(1=#${getIncludeSelfCurName(lpkColumn)}# and h.${lpkColumn.sqlName} = #${getCurName(lpkColumn)}#)</#assign>
-    <#assign ownerEqual>o.${opkColumn.sqlName} = #${getCurName(opkColumn)}# and ${delFlgEqualZero("u.")}</#assign>
+    <#assign equalInclude>(1=#${getIncludeSelfCurName(levelPkColumn)}# and h.${levelPkColumn.sqlName} = #${getCurName(levelPkColumn)}#)</#assign>
+    <#assign ownerEqual>o.${ownerPkColumn.sqlName} = #${getCurName(ownerPkColumn)}# and ${delFlgEqualZero("u.")}</#assign>
 </#macro>
 <#macro forceWrite>
-    <#if lpkColumn?? && opkColumn??>
-             <isNull property="${getCurName(lpkColumn)}">
-               <isNull property="${getCurName(opkColumn)}">
+    <#if levelPkColumn?? && ownerPkColumn??>
+             <isNull property="${getCurName(levelPkColumn)}">
+               <isNull property="${getCurName(ownerPkColumn)}">
                   and (1=0)
                </isNull>
              </isNull>
     </#if>
-    <#if (lpkColumn??) && !(opkColumn??)>
-             <isNull property="${getCurName(lpkColumn)}">
+    <#if (levelPkColumn??) && !(ownerPkColumn??)>
+             <isNull property="${getCurName(levelPkColumn)}">
                 and (1=0)
              </isNull>
     </#if>
-    <#if !(lpkColumn??) && (opkColumn??)>
-             <isNull property="${getCurName(opkColumn)}">
+    <#if !(levelPkColumn??) && (ownerPkColumn??)>
+             <isNull property="${getCurName(ownerPkColumn)}">
                 and (1=0)
              </isNull>
     </#if>
 </#macro>
 <#macro levelSelectIn>
     <@commonSelect/>
-    <#assign selectIn>(${equalInclude} or h.${lpkColumn.sqlName} in (select ${lpkColumn.sqlName} from ${levelTable.sqlName}${flatFix} where parent_id = #${getCurName(lpkColumn)}# and ${delFlgEqualZero("")})) </#assign>
-        <#if lpkColumn?? && opkColumn??>
-             <isNotNull property="${getCurName(lpkColumn)}">
-                <isNull property="${getCurName(opkColumn)}">
+    <#assign selectIn>(${equalInclude} or h.${levelPkColumn.sqlName} in (select ${levelPkColumn.sqlName} from ${levelTable.sqlName}${flatFix} where parent_id = #${getCurName(levelPkColumn)}# and ${delFlgEqualZero("")})) </#assign>
+        <#if levelPkColumn?? && ownerPkColumn??>
+             <isNotNull property="${getCurName(levelPkColumn)}">
+                <isNull property="${getCurName(ownerPkColumn)}">
                    and (${selectIn})
                 </isNull>
              </isNotNull>
-             <isNotNull property="${getCurName(opkColumn)}">
-                <isNull property="${getCurName(lpkColumn)}">
+             <isNotNull property="${getCurName(ownerPkColumn)}">
+                <isNull property="${getCurName(levelPkColumn)}">
                    and (${ownerEqual})
                 </isNull>
              </isNotNull>
-             <isNotNull property="${getCurName(lpkColumn)}">
-                <isNotNull property="${getCurName(opkColumn)}">
+             <isNotNull property="${getCurName(levelPkColumn)}">
+                <isNotNull property="${getCurName(ownerPkColumn)}">
                    and ((${ownerEqual}) or ${selectIn})
                 </isNotNull>
              </isNotNull>
         </#if>
-        <#if lpkColumn?? && !(opkColumn??)>
-             <isNotNull property="${getCurName(opkColumn)}">
+        <#if levelPkColumn?? && !(ownerPkColumn??)>
+             <isNotNull property="${getCurName(ownerPkColumn)}">
                 and (${selectIn})
              </isNotNull>
         </#if>
-        <#if !(lpkColumn??) && opkColumn??>
-             <isNotNull property="${getCurName(opkColumn)}">
+        <#if !(levelPkColumn??) && ownerPkColumn??>
+             <isNotNull property="${getCurName(ownerPkColumn)}">
                 and (${ownerEqual})
              </isNotNull>
         </#if>
 </#macro>
 <#macro levelSelectExists>
     <@commonSelect/>
-    <#assign existsSelect>(${equalInclude} or exists (select null from ${levelTable.sqlName}${flatFix} where ${lpkColumn.sqlName} = h.${lpkColumn.sqlName} and parent_id = #${getCurName(lpkColumn)}# and ${delFlgEqualZero("")}))</#assign>
-        <#if lpkColumn?? && opkColumn??>
-             <isNotNull property="${getCurName(lpkColumn)}">
-                <isNull property="${getCurName(opkColumn)}">
+    <#assign existsSelect>(${equalInclude} or exists (select null from ${levelTable.sqlName}${flatFix} where ${levelPkColumn.sqlName} = h.${levelPkColumn.sqlName} and parent_id = #${getCurName(levelPkColumn)}# and ${delFlgEqualZero("")}))</#assign>
+        <#if levelPkColumn?? && ownerPkColumn??>
+             <isNotNull property="${getCurName(levelPkColumn)}">
+                <isNull property="${getCurName(ownerPkColumn)}">
                    and (${existsSelect})
                 </isNull>
              </isNotNull>
-             <isNotNull property="${getCurName(opkColumn)}">
-                <isNull property="${getCurName(lpkColumn)}">
+             <isNotNull property="${getCurName(ownerPkColumn)}">
+                <isNull property="${getCurName(levelPkColumn)}">
                    and (${ownerEqual})
                 </isNull>
              </isNotNull>
-             <isNotNull property="${getCurName(lpkColumn)}">
-                <isNotNull property="${getCurName(opkColumn)}">
+             <isNotNull property="${getCurName(levelPkColumn)}">
+                <isNotNull property="${getCurName(ownerPkColumn)}">
                    and ((${ownerEqual}) or ${existsSelect})
                 </isNotNull>
              </isNotNull>
         </#if>
-        <#if lpkColumn?? && !(opkColumn??)>
-             <isNotNull property="${getCurName(opkColumn)}">
+        <#if levelPkColumn?? && !(ownerPkColumn??)>
+             <isNotNull property="${getCurName(ownerPkColumn)}">
                 and (${existsSelect})
              </isNotNull>
         </#if>
-        <#if !(lpkColumn??) && opkColumn??>
-             <isNotNull property="${getCurName(opkColumn)}">
+        <#if !(levelPkColumn??) && ownerPkColumn??>
+             <isNotNull property="${getCurName(ownerPkColumn)}">
                 and (${ownerEqual})
              </isNotNull>
         </#if>
@@ -183,8 +183,12 @@ NoLevelAuthority
 </#if>
 </#macro>
 <#macro levelColumnNames>
-<#assign currLpk>${getCurName(lpkColumn)}</#assign>
-<#assign currOpk>${getCurName(opkColumn)}</#assign>
-<#assign inclLpk>${getIncludeSelfCurName(lpkColumn)}</#assign>
+    <#if levelPkColumn??>
+        <#assign levelPkName>${getCurName(levelPkColumn)}</#assign>
+        <#assign inclLevelPkName>${getIncludeSelfCurName(levelPkColumn)}</#assign>
+    </#if>
+    <#if levelPkColumn??>
+        <#assign onwerPkName>${getCurName(ownerPkColumn)}</#assign>
+    </#if>
 </#macro>
 

@@ -45,11 +45,12 @@ import org.stategen.framework.lite.PageList;
 public interface ${tableConfig.className}${dao_name_suffix} {
 
 <@levelColumnNames/>
-<#assign levelVars =[currLpk,currOpk,inclLpk]>
+<#assign levelVars =[levelPkName!,onwerPkName!,inclLevelPkName!]>
 <#list tableConfig.sqls as sql>
     <#assign isObject=(sql.paramType = 'object')/>
 	/**
     <pre>
+    <#assign appended=false>
     <#list sql.params as param>
     <#if levelVars?seq_contains(param.paramName)>
         <#continue>
@@ -59,9 +60,14 @@ public interface ${tableConfig.className}${dao_name_suffix} {
     <#if paramName?starts_with("List")>
         <#assign paramName ='Array'+ paramName>
     </#if>
-    &#64;ApiParam(<#if !isObject && column??>"${column.title}"</#if>) &#64;RequestParam(required =false<#if param.listParam>,name="${param.paramName?uncap_first}"</#if>) ${paramName} ${param.paramName?uncap_first}<#if param_has_next>,</#if>
+    <#if appended>
+    ,<#lt>
+    </#if>
+    &#64;ApiParam(<#if !isObject && column??>"${column.title}"</#if>) &#64;RequestParam(required = false<#if param.listParam>, name="${param.paramName?uncap_first}"</#if>) ${paramName} ${param.paramName?uncap_first}<#rt>
+    <#assign appended=true>
     </#list>
     <#if isObject>
+
     ,&#64;ApiParam(hidden = true) ${tableConfig.className} ${tableConfig.className?uncap_first}
     </#if>
     <#if sql.paging>,Pagination pagination</#if>

@@ -54,13 +54,13 @@ public interface ${tableConfig.className}${service_name_suffix}${internal_servic
     </#if>
      */
     public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}(<@generateOperationArguments sql/>);
-    <#if lpkColumn?? && "${sql.operation}"=="get${table.className}sBy${pkColumn.columnName?cap_first}s">
+    <#if levelPkColumn?? && "${sql.operation}"=="get${table.className}sBy${pkColumn.columnName?cap_first}s">
 
     /**
      * @see ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}#${sql.operation}
      */
     <@levelColumnNames/>
-    public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix (lpkColumn?? || opkColumn??)/>(<@generateOperationArgumentsExclude sql currLpk inclLpk currOpk/>);
+    public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}<@nullLevelIdsubfix (levelPkColumn?? || ownerPkColumn??)/>(<@generateOperationArgumentsExclude sql levelPkName inclLevelPkName onwerPkName/>);
     </#if>
 
     <#if sql.paging && sql.countService>
