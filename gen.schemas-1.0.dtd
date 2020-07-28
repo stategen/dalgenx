@@ -21,6 +21,7 @@
 sqlName CDATA #REQUIRED
 className CDATA #IMPLIED
 remarks CDATA #IMPLIED
+isSimple (true | false) #IMPLIED
 >
 
 <!ELEMENT column EMPTY>

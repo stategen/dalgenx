@@ -15,9 +15,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <#include '/java_copyright.include'/>
-
-package ${tableConfig.basepackage}.${dao_dir_name}.${impl_dir_name};
-<#list tableConfig.sqls as sql>
+<#include 'table.include.ftl'>
+<#assign tb=tableConfig>
+    
+package ${tb.basepackage}.${dao_dir_name}.${impl_dir_name};
+<#list tb.sqls as sql>
     <#if sql.multiplicity = 'many'>
 
 import java.util.HashMap;
@@ -27,32 +29,36 @@ import java.util.Map;
         <#break>
     </#if>
 </#list>
-import ${tableConfig.basepackage}.${pojo_dir_name}.${className}${pojo_name_suffix};
-import ${tableConfig.basepackage}.${dao_dir_name}.${tableConfig.className}${dao_name_suffix};
-<#list tableConfig.sqls as sql>
+import ${tb.basepackage}.${pojo_dir_name}.${className}${pojo_name_suffix};
+import ${tb.basepackage}.${dao_dir_name}.${tb.className}${dao_name_suffix};
+<#list tb.sqls as sql>
 <#if sql.paging>
 import org.stategen.framework.lite.PageList;
 <#break>
 </#if>
 </#list>
+<#if isLevelAuth()>
+import org.stategen.framework.util.AfterInsertService;
+</#if>
 
 import org.springframework.dao.DataAccessException;
-
-<#assign table=tableConfig.table>
+import org.stategen.framework.util.IIDGenerator;
+<#assign table=tb.table>
 /**
- * ${tableConfig.className}${dao_name_suffix}
+ * ${tb.className}${dao_name_suffix}
 <#include '/java_description.include'/>
  * 该类仅可以修改引用
  * </pre>
  */
-public class ${tableConfig.className}${dao_name_suffix}${impl_name_suffix}  extends SqlDaoSupportBase implements ${tableConfig.className}${dao_name_suffix} {
+public class ${tb.className}${dao_name_suffix}${impl_name_suffix}  extends SqlDaoSupportBase implements ${tb.className}${dao_name_suffix} {
 
-<#list tableConfig.sqls as sql>
+<#list tb.sqls as sql>
+
 	/**
 	 * ${sql.remarks!}
 	 * sql:<#compress>${StringHelper.removeCrlf(sql.executeSql)?trim}</#compress>
 	 */
-	public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}(<@generateOperationArguments sql/>) throws DataAccessException {
+	public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}(<@generateOperationArguments sql/><#if sql.operation='insert'>, IIDGenerator<${tb.pkColumn.simpleJavaType}> idGenerator</#if><#if isInsertAndLevelAuth(sql)>, AfterInsertService<${tb.className}> afterInsertService</#if>) throws DataAccessException {
 		<#if sql.paramType != "object"  && !isUseParamObject(sql)>
 		    <#if sql.paramType =='primitive' || sql.paramType ==''>
 			  <#if (sql.params?size > 0)>
@@ -65,8 +71,8 @@ public class ${tableConfig.className}${dao_name_suffix}${impl_name_suffix}  exte
 		</#if>
 		<@generateOperationMethodBody sql/>
 	}
-
 	<#if sql.paging && sql.countService>
+
     public Long ${sql.operation}Count(<@generateOperationArguments sql/>) throws DataAccessException {
 		<#if sql.paramType != "object"  && !isUseParamObject(sql)>
 			<#if sql.paramType =='primitive' || sql.paramType ==''>
@@ -85,12 +91,12 @@ public class ${tableConfig.className}${dao_name_suffix}${impl_name_suffix}  exte
 }
 
 <#macro generateOperationMethodBody sql>
-    <#local nameSpace>${tableConfig.className}</#local>
+    <#local nameSpace>${tb.className}</#local>
     <#local sqlId>${nameSpace}.${sql.operation}</#local>
 	<#if sql.params?size == 0>
 		<#local paramName = 'null'>
 	<#elseif sql.paramType = 'object'>
-		<#local paramName = table.classNameFirstLower>
+		<#local paramName = table.className?uncap_first>
 	<#elseif !(sql.paramType =='primitive' || sql.paramType =='')>
 		<#local paramName>${sql.paramType?uncap_first}</#local>
 	<#else>
@@ -137,7 +143,16 @@ public class ${tableConfig.className}${dao_name_suffix}${impl_name_suffix}  exte
 		if(${paramName} == null) {
 			throw new IllegalArgumentException("Can't insert a null data object into db.");
 		}
+        if (idGenerator != null) {
+            ${tb.pkColumn.simpleJavaType} ${tb.pkColumn.columnName} = idGenerator.generateId();
+            ${paramName}.set${tb.pkColumn.columnName?cap_first}(${tb.pkColumn.columnName});
+        }
         super.insert("${sqlId}", ${paramName});
+        <#if isInsertAndLevelAuth(sql)>
+        if (afterInsertService != null) {
+            afterInsertService.afterInsert(${paramName});
+        }
+        </#if>
 		<#if sql.operation='insert'>
 		return ${paramName};
 		<#else>
@@ -166,11 +181,11 @@ public class ${tableConfig.className}${dao_name_suffix}${impl_name_suffix}  exte
 </#macro>
 
 <#macro generateOperationMethodCountBody sql>
-	<#local ibatisNamespace =tableConfig.className+'.'+systemName>
+	<#local ibatisNamespace =tb.className+'.'+systemName>
 	<#if sql.params?size == 0>
 		<#local paramName = 'null'>
 	<#elseif sql.paramType = 'object'>
-		<#local paramName = table.classNameFirstLower>
+		<#local paramName = table.className?uncap_first>
 	<#elseif !(sql.paramType =='primitive' || sql.paramType =='')>
 		<#local paramName>${sql.paramType?uncap_first}</#local>
 	<#else>

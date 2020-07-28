@@ -52,22 +52,30 @@
     <#assign ownerTable=tableConfigSet.getBySqlName(ownerName)>
     <#assign ownerPkColumn=ownerTable.pkColumn>
 </#if>
+<#function isLevelAuth>
+    <#if levelPkColumn?? || ownerPkColumn??>
+        <#return true>
+    </#if>
+    <#return false>
+</#function>
 <#function delFlgEqualZero prefix>
 <#if sft_dlt_clmn!="">
     <#return "${prefix}${sft_dlt_clmn} = 0">
 </#if>
 </#function>
 <#function getCurName column>
-<#return "invoker${column.columnName?cap_first}">
+<#return "curr${column.columnName?cap_first}">
 </#function>
 <#function getIncludeSelfCurName column>
-    <#return "inclInvoker${column.columnName?cap_first}">
+    <#return "inclCurr${column.columnName?cap_first}">
 </#function>
-<#assign levelFix="_level_h">
+<#assign levelSubfix="_level_h">
+<#assign levelSubfixClz="LevelH">
 <#assign flatFix="_flat_h">
-<#assign ownerFix="_owner_h">
+<#assign ownerSubfix="_owner_h">
+<#assign ownerSubfixClz="OwnerH">
 <#macro levelParams>
-<#if levelPkColumn?? || ownerPkColumn??>
+<#if isLevelAuth()>
         <extraparams>
         <#if levelPkColumn??>
            <param name="${getCurName(levelPkColumn)}" javaType="${levelPkColumn.simpleJavaType}"/>
@@ -82,19 +90,23 @@
 <#macro levelLeftJoin>
     <#if levelPkColumn??>
            <isNotNull property="${getCurName(levelPkColumn)}">
-           left join ${table.sqlName}${levelFix} h on (a.${pkColumn.sqlName} = h.${pkColumn.sqlName})
+           left join ${table.sqlName}${levelSubfix} h on (a.${pkColumn.sqlName} = h.${pkColumn.sqlName})
            </isNotNull>
     </#if>
     <#if ownerPkColumn??>
            <isNotNull property="${getCurName(ownerPkColumn)}">
-           left join ${table.sqlName}${ownerFix} o on (a.${pkColumn.sqlName} = o.${pkColumn.sqlName})
+           left join ${table.sqlName}${ownerSubfix} o on (a.${pkColumn.sqlName} = o.${pkColumn.sqlName})
            left join ${ownerTable.sqlName} u on (u.${ownerPkColumn.sqlName} = o.${ownerPkColumn.sqlName})
            </isNotNull>
     </#if>
 </#macro>
 <#macro commonSelect>
+    <#if levelPkColumn??>
     <#assign equalInclude>(1=#${getIncludeSelfCurName(levelPkColumn)}# and h.${levelPkColumn.sqlName} = #${getCurName(levelPkColumn)}#)</#assign>
+    </#if>
+    <#if ownerPkColumn??>
     <#assign ownerEqual>o.${ownerPkColumn.sqlName} = #${getCurName(ownerPkColumn)}# and ${delFlgEqualZero("u.")}</#assign>
+    </#if>
 </#macro>
 <#macro forceWrite>
     <#if levelPkColumn?? && ownerPkColumn??>
@@ -117,7 +129,9 @@
 </#macro>
 <#macro levelSelectIn>
     <@commonSelect/>
+    <#if levelPkColumn??>
     <#assign selectIn>(${equalInclude} or h.${levelPkColumn.sqlName} in (select ${levelPkColumn.sqlName} from ${levelTable.sqlName}${flatFix} where parent_id = #${getCurName(levelPkColumn)}# and ${delFlgEqualZero("")})) </#assign>
+    </#if>
         <#if levelPkColumn?? && ownerPkColumn??>
              <isNotNull property="${getCurName(levelPkColumn)}">
                 <isNull property="${getCurName(ownerPkColumn)}">
@@ -148,7 +162,9 @@
 </#macro>
 <#macro levelSelectExists>
     <@commonSelect/>
+    <#if levelPkColumn??>
     <#assign existsSelect>(${equalInclude} or exists (select null from ${levelTable.sqlName}${flatFix} where ${levelPkColumn.sqlName} = h.${levelPkColumn.sqlName} and parent_id = #${getCurName(levelPkColumn)}# and ${delFlgEqualZero("")}))</#assign>
+    </#if>
         <#if levelPkColumn?? && ownerPkColumn??>
              <isNotNull property="${getCurName(levelPkColumn)}">
                 <isNull property="${getCurName(ownerPkColumn)}">
@@ -191,4 +207,3 @@ NoLevelAuthority
         <#assign onwerPkName>${getCurName(ownerPkColumn)}</#assign>
     </#if>
 </#macro>
-

@@ -105,22 +105,37 @@
 <#macro generateOperationArguments sql>
 <@generateOperationArgumentsExclude sql "" "" ""/>
 </#macro>
+<#macro pagingParams sql>
+<#if sql.paging>, int pageSize, int pageNum</#if>
+</#macro>
+<#function isInsertAndLevelAuth sql>
+   <#return sql.operation='insert' && isLevelAuth()>
+</#function>
 <#macro generateOperationArgumentsExclude sql levelPk inclLevPk onerPk>
-<#compress>
+<@compress single_line=true>
     <#assign pkVars =[levelPk,inclLevPk,onerPk]>
 	<#if sql.paramType = 'object'>
-		${tableConfig.table.className}${pojo_name_suffix} ${tableConfig.table.classNameFirstLower}<#if sql.paging>, int pageSize, int pageNum</#if>
+		${tableConfig.table.className}${pojo_name_suffix} ${tableConfig.table.className?uncap_first}<#t><@pagingParams sql/>
 	<#elseif !(sql.paramType =='primitive' || sql.paramType =='')>
-		${sql.paramType} ${sql.paramType?uncap_first}<#if sql.paging>, int pageSize, int pageNum</#if>
+		${sql.paramType} ${sql.paramType?uncap_first}<@pagingParams sql/>
 	<#else>
 		<#if isUseParamObject(sql)>
 			${sql.parameterClassName} param
 		<#else>
             <#assign added=false>
-            <#list sql.params as param><#if pkVars?seq_contains("${param.paramName?uncap_first}")><#continue></#if><#if added>, </#if>${param.preferredParameterJavaType} ${param.paramName?uncap_first}<#assign added=true></#list><#if sql.paging><#if sql.params?size gt 0>, </#if>int pageSize, int pageNum</#if>
+            <#list sql.params as param>
+                <#if pkVars?seq_contains("${param.paramName?uncap_first}")>
+                    <#continue>
+                </#if>
+                <#if added>,<#lt> </#if>${param.preferredParameterJavaType} ${param.paramName?uncap_first}<#t>
+                <#assign added=true>
+                </#list>
+            <#if sql.paging>
+                <#if sql.params?size gt 0>, </#if>int pageSize, int pageNum
+            </#if>
 		</#if>
 	</#if>
-</#compress>
+</@compress>
 </#macro>
 <#macro generateOperationParams sql>
 <@generateOperationParamsExclude sql "" "" ""/>
@@ -129,7 +144,7 @@
 <#compress>
     <#assign pkVars =[levelPk,inclLevPk,ownerPk]>
     <#if sql.paramType = 'object'>
-         ${tableConfig.table.classNameFirstLower}<#if sql.paging>, pageSize, pageNum</#if>
+         ${tableConfig.table.className?uncap_first}<#if sql.paging>, pageSize, pageNum</#if>
     <#else> 
         <#if isUseParamObject(sql)>
             param
@@ -151,7 +166,7 @@
 <#macro controllerGenerateOperationArguments sql>
 <#compress>
     <#if sql.paramType = 'object'>
-        ,${tableConfig.table.className} ${tableConfig.table.classNameFirstLower} 
+        ,${tableConfig.table.className} ${tableConfig.table.className?uncap_first}
     <#else>
         <#if isUseParamObject(sql)>
             ,${sql.parameterClassName} param

@@ -15,9 +15,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <#include '/java_copyright.include'/>
+<#include 'table.include.ftl'>
+<#assign tb=tableConfig>
 
-package ${tableConfig.basepackage}.${dao_dir_name};
-<#list tableConfig.sqls as sql>
+package ${tb.basepackage}.${dao_dir_name};
+<#list tb.sqls as sql>
     <#if sql.multiplicity = 'many'>
 
 import java.util.List;
@@ -25,28 +27,30 @@ import java.util.List;
         <#break>
     </#if>
 </#list>
-import ${tableConfig.basepackage}.${pojo_dir_name}.${className}${pojo_name_suffix};
+import ${tb.basepackage}.${pojo_dir_name}.${className}${pojo_name_suffix};
 import org.springframework.dao.DataAccessException;
-<#list tableConfig.sqls as sql>
+<#list tb.sqls as sql>
 <#if sql.paging>
 import org.stategen.framework.lite.PageList;
 <#break>
 </#if>
 </#list>
+<#if isLevelAuth()>
+import org.stategen.framework.util.AfterInsertService;
+</#if>
+import org.stategen.framework.util.IIDGenerator;
 
 /**
- * ${tableConfig.className}${dao_name_suffix}
+ * ${tb.className}${dao_name_suffix}
 <#include '/java_description.include'/>
-<#include 'table.include.ftl'>
-
  * 该类仅可以修改引用
  * </pre>
  */
-public interface ${tableConfig.className}${dao_name_suffix} {
+public interface ${tb.className}${dao_name_suffix} {
 
 <@levelColumnNames/>
 <#assign levelVars =[levelPkName!,onwerPkName!,inclLevelPkName!]>
-<#list tableConfig.sqls as sql>
+<#list tb.sqls as sql>
     <#assign isObject=(sql.paramType = 'object')/>
 	/**
     <pre>
@@ -68,14 +72,14 @@ public interface ${tableConfig.className}${dao_name_suffix} {
     </#list>
     <#if isObject>
 
-    ,&#64;ApiParam(hidden = true) ${tableConfig.className} ${tableConfig.className?uncap_first}
+    ,&#64;ApiParam(hidden = true) ${tb.className} ${tb.className?uncap_first}
     </#if>
     <#if sql.paging>,Pagination pagination</#if>
     </pre>
 	 * ${sql.remarks!}
 	 * sql:<#compress>${StringHelper.removeCrlf(sql.executeSql)?trim}</#compress>
 	 */
-	public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}(<@generateOperationArguments sql/>) throws DataAccessException;
+	public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}(<@generateOperationArguments sql/><#if sql.operation='insert'>, IIDGenerator<${tb.pkColumn.simpleJavaType}> idGenerator</#if><#if isInsertAndLevelAuth(sql)>, AfterInsertService<${tb.className}> afterInsertService</#if>) throws DataAccessException;
 	
 	<#if sql.paging && sql.countService>
 	public Long ${sql.operation}Count(<@generateOperationArguments sql/>) throws DataAccessException;

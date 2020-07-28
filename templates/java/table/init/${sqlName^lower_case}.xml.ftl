@@ -23,19 +23,19 @@
 <table sqlName="${table.sqlName}" className="<#if add_illegal_prefix=='true'>?</#if>${table.className}" remarks="${table.remarks!?j_string}">
    <#if add_illegal_prefix=='true'>
 ↑请检查上面className是否正确,将非法字符"?"去掉,并删除本行(或者在gen_config.xml中设置add_illegal_prefix=false,不生成检查)↑
-   </#if>
-   <#function mb4Unicode jdbcType>
+    </#if>
+    <#function mb4Unicode jdbcType>
        <#if jdbcType?contains('VARCHAR')!>
-           <#return 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'>
+          <#return 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'>
        </#if>
-   </#function>
-   <!-- table描述中有'-tree' 或 '-level(tableName)' 或(和) '-owner(tableName)'  将生成相应的辅助sql-->
-   <#if levelPkColumn?? || ownerPkColumn??>
-   <!-- 辅助cut到 mysql中执行
-     <#if levelPkColumn?? >
+    </#function>
+    <!-- table描述中有'-tree' 或 '-level(tableName)' 或(和) '-owner(tableName)'  将生成相应的辅助sql-->
+    <#if isLevelAuth()>
+    <!-- 辅助cut到 mysql中执行
+      <#if levelPkColumn?? >
         /* 生成上下级水平权限表 */
-        DROP TABLE IF EXISTS ${table.sqlName}${levelFix};
-        CREATE TABLE ${table.sqlName}${levelFix} (
+        DROP TABLE IF EXISTS ${table.sqlName}${levelSubfix};
+        CREATE TABLE ${table.sqlName}${levelSubfix} (
             ${pkColumn.sqlName} ${pkColumn.JDBCType}(${pkColumn.size}) ${mb4Unicode(pkColumn.JDBCType)!} NOT NULL,
             ${levelPkColumn.sqlName} ${levelPkColumn.JDBCType}(${levelPkColumn.size}) ${mb4Unicode(levelPkColumn.JDBCType)!} NOT NULL COMMENT '树主键 (类似部门) 水平权限',
             update_time TIMESTAMP (6) NULL DEFAULT NULL COMMENT '更新时间',
@@ -45,11 +45,11 @@
             KEY ${levelPkColumn.sqlName} (${levelPkColumn.sqlName}) USING BTREE
         ) ENGINE = MyISAM DEFAULT CHARSET = utf8mb4 COMMENT = '数据水平权限，只有直系上级有权限';
 
-     </#if>
-     <#if ownerPkColumn??>
+      </#if>
+      <#if ownerPkColumn??>
         /* 生成所有者水平权限表 */
-        DROP TABLE IF EXISTS ${table.sqlName}${ownerFix};
-        CREATE TABLE ${table.sqlName}${ownerFix} (
+        DROP TABLE IF EXISTS ${table.sqlName}${ownerSubfix};
+        CREATE TABLE ${table.sqlName}${ownerSubfix} (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             ${pkColumn.sqlName} ${pkColumn.JDBCType}(${pkColumn.size}) ${mb4Unicode(pkColumn.JDBCType)!} NOT NULL,
             ${ownerPkColumn.sqlName} ${ownerPkColumn.JDBCType}(${ownerPkColumn.size}) ${mb4Unicode(ownerPkColumn.JDBCType)!} NOT NULL COMMENT '所有者 水平权限',
@@ -62,10 +62,10 @@
         ) ENGINE = MyISAM DEFAULT CHARSET = utf8mb4 COMMENT = '数据水平权限，只有直系上级有权限';
 
      </#if>
-   -->
-   </#if>
-   <#if StringUtil.containsIgnoreCase(table.remarks!,'-tree')>
-   <!-- cut到 mysql中执行
+    -->
+    </#if>
+    <#if StringUtil.containsIgnoreCase(table.remarks!,'-tree')>
+    <!-- cut到 mysql中执行
        /* 创建树型表对应的平面表 */
        DROP TABLE IF EXISTS ${table.sqlName}${flatFix};
        CREATE TABLE ${table.sqlName}${flatFix} (
@@ -130,8 +130,8 @@
        BEGIN
          CALL ${table.sqlName}_flat_pr();
        end;
-   -->    
-   </#if>
+    -->
+    </#if>
     <!-- 特殊类型字段，如枚举 -->
     <!-- <column name="status" javaType="${packageName}.enums.StatusEnum"/> -->
 
