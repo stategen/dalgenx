@@ -26,6 +26,17 @@ export const ${bean}_ID: string = '${f}';
   </#if>
 </#list>
 
+export const ${bean}Fields = {
+<#list bean.fields as f>
+<#if f.isId>
+  ${f}: ${bean}_ID,
+</#if>
+<#if f.isFieldNameConst>
+  ${f}: '${f}',
+</#if>
+</#list>
+}
+
 export default interface ${bean}<@genBeanType bean ''/> extends Bean<#if bean.extend>, ${bean.parentBean}</#if> {
 
   <#list bean.fields as f>

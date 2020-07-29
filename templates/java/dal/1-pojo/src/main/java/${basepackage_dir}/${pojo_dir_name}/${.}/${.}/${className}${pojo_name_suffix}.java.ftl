@@ -83,7 +83,9 @@ private static final long serialVersionUID = -5216457518046898601L;
     @Id
     <#elseif !column.nullable>
     @NotNull
+    @FieldNameConst
     <#elseif column.unique>
+    @FieldNameConst
     @NotNull
     </#if>
     <#if StringUtil.endsWithIgnoreCase(column.columnName,"email")>

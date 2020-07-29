@@ -20,6 +20,15 @@ import '../../stgutil/json_util.dart';
 import '../../stgutil/front_bean.dart';
 
 <#assign genericStr><@genBeanType bean ''/></#assign>
+class ${bean}Fields {
+<#list bean.allFields as f>
+    <#if !f.deserialize>
+        <#continue>
+    </#if>
+  static const ${f} = '${f}';
+</#list>
+}
+
 class ${bean}${genericStr}<#if bean.extend> extends ${bean.parentBean}</#if> with FrontBean {
 <#assign hasIdField=false>
 <#list bean.fields as f>
@@ -27,7 +36,7 @@ class ${bean}${genericStr}<#if bean.extend> extends ${bean.parentBean}</#if> wit
     <#assign idField=f>
     <#assign hasIdField=true>
   /// ${f}
-  static const String ${bean}_ID = '${f}';
+  static const String ID = ${bean}Fields.${f};
 
         <#break>
     </#if>
@@ -72,7 +81,7 @@ class ${bean}${genericStr}<#if bean.extend> extends ${bean.parentBean}</#if> wit
             <#continue >
         </#if>
         <#assign type>${getSimpleType(f)}</#assign>
-        <#assign j>json['${f}']</#assign>
+        <#assign j>json[${bean}Fields.${f}]</#assign>
         <#assign psJson>
             <#if f.isArray>
                 <#if f.isSimple>
@@ -129,7 +138,7 @@ class ${bean}${genericStr}<#if bean.extend> extends ${bean.parentBean}</#if> wit
     <#if bean="Response">
       ${json}
     </#if>
-    var result = new Map<String, dynamic>();
+    var result = Map<String, dynamic>();
     <#list bean.allFields as f>
         <#if !f.deserialize>
             <#continue>
@@ -149,16 +158,16 @@ class ${bean}${genericStr}<#if bean.extend> extends ${bean.parentBean}</#if> wit
         list.add(v);
           </#if>
       }
-      result['${f}'] = list;
+      result[${bean}Fields.${f}] = list;
       <#else>
           <#if f.isEnum >
-      result['${f}'] = ${f}.toString();
+      result[${bean}Fields.${f}] = ${f}.toString();
           <#elseif f.isSimple>
-      result['${f}'] = JsonUtil.${type?uncap_first}ToJson(${f});
+      result[${bean}Fields.${f}] = JsonUtil.${type?uncap_first}ToJson(${f});
           <#elseif  !f.generic?? || !f.generic.isObjectClass>
-      result['${f}'] = ${f}.toJson();
+      result[${bean}Fields.${f}] = ${f}.toJson();
           <#else>
-      result['${f}'] =  ${f};
+      result[${bean}Fields.${f}] =  ${f};
           </#if>
       </#if>
     }
