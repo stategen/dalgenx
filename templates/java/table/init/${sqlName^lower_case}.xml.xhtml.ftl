@@ -264,7 +264,7 @@
              ${endIs?trim}
             </#if>
            order by
-             <include refid = "get${table.className}PageListOrderBy" />
+             <include refid="get${table.className}PageListOrderBy"/>
         </sql>
     </operation>
 <#--    <#list table.columns as column>
@@ -309,7 +309,7 @@
              </isNotEmpty>
              <@levelSelectIn/>
            order by
-             <include refid="get${table.className}sBy${column.columnName?cap_first}sOrderBy" />
+             <include refid="get${table.className}sBy${column.columnName?cap_first}sOrderBy"/>
         </sql>
     </operation>
     </#if>

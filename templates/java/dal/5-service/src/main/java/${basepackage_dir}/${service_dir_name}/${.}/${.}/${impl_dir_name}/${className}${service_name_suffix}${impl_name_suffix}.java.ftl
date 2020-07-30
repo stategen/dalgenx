@@ -28,9 +28,11 @@ import java.util.List;
     </#if>
 </#list>
 import java.util.List;
+<#if !tb.isSimple>
 import java.util.Collection;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+</#if>
 
 import javax.annotation.Resource;
 
@@ -58,9 +60,10 @@ import ${tb.basepackage}.${service_dir_name}.${tb.className}${levelSubfixClz}${s
 import ${tb.basepackage}.${pojo_dir_name}.${tb.className}${ownerSubfixClz};
 import ${tb.basepackage}.${service_dir_name}.${tb.className}${ownerSubfixClz}${service_name_suffix};
 </#if>
+<#if !tb.isSimple>
 
 import org.stategen.framework.util.ServiceUtil;
-
+</#if>
 <#if tb.pkColumn.simpleJavaType=="String">
 import org.stategen.framework.util.StringUtil;
 </#if>
