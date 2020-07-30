@@ -62,7 +62,9 @@
     <entry key="jdbc_username">stategen</entry>
     <entry key="jdbc_password">stategen</entry>
     
-    <!-- ibatis,mybatis,最下面优先 -->
-    <entry key="dao_type">ibatis</entry>
+    <!-- ibatis,mybatis,最下面覆盖上面，最下面优先 ，修改顺序后，需要重新运行一次 ./dalbatch.sh 批量生成-->
     <entry key="dao_type">mybatis</entry>
+    <entry key="dao_type">ibatis</entry>
+    <!-- 如果表有水平权限(-level(orgnization|树型级别表),-owner(user|所有者表))，下面属生为true,必须提示水平权限参数，否则更不了 -->
+    <entry key="forceUseLevelAuthorForWrite">true</entry>
 </properties>

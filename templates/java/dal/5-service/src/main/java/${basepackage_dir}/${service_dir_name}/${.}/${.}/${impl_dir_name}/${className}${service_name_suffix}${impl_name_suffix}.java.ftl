@@ -48,7 +48,8 @@ import org.stategen.framework.cache.BaseCacheTaker;
 import org.stategen.framework.util.AfterInsertService;
 import org.stategen.framework.util.BusinessAssert;
 </#if>
-import org.stategen.framework.util.IIDGenerator;
+import org.stategen.framework.lite.IdGenerateService;
+import org.stategen.framework.lite.IIdGenerator;
 <#if levelPkColumn??>
 import ${tb.basepackage}.${pojo_dir_name}.${tb.className}${levelSubfixClz};
 import ${tb.basepackage}.${service_dir_name}.${tb.className}${levelSubfixClz}${service_name_suffix};
@@ -75,10 +76,13 @@ import ${tb.basepackage}.${dao_dir_name}.${tb.className}${dao_name_suffix};
  * 因此该类可以修改任何部分
  * </pre>
  */
-public class ${tb.className}${service_name_suffix}${impl_name_suffix}  implements ${tb.className}${service_name_suffix}${internal_service_suffix}<#if isLevelAuth()>, AfterInsertService<${tb.className}></#if>, IIDGenerator<${tb.pkColumn.simpleJavaType}> {
+public class ${tb.className}${service_name_suffix}${impl_name_suffix}  implements ${tb.className}${service_name_suffix}${internal_service_suffix}<#if isLevelAuth()>, AfterInsertService<${tb.className}></#if>, IdGenerateService<${tb.pkColumn.simpleJavaType}> {
 
     @Resource(name="${tb.className?uncap_first}${dao_name_suffix}")
     private ${tb.className}${dao_name_suffix} ${tb.className?uncap_first}${dao_name_suffix};
+
+    @Resource
+    private IIdGenerator idGenerator;
 <#if levelPkColumn??>
 
     @Resource()
@@ -91,9 +95,8 @@ public class ${tb.className}${service_name_suffix}${impl_name_suffix}  implement
 </#if>
 
     @Override
-    public ${tb.pkColumn.simpleJavaType} generateId(){
-       //TODO generate id;
-       return null;
+    public <T> ${tb.pkColumn.simpleJavaType} generateId(Class<T> bizTagClz){
+       return this.idGenerator.generateId(${tb.pkColumn.simpleJavaType}.class, bizTagClz);
     }
 <#if isLevelAuth()>
 

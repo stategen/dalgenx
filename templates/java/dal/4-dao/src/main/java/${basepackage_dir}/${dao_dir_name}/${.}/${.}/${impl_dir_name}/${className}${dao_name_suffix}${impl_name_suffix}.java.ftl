@@ -42,7 +42,7 @@ import org.stategen.framework.util.AfterInsertService;
 </#if>
 
 import org.springframework.dao.DataAccessException;
-import org.stategen.framework.util.IIDGenerator;
+import org.stategen.framework.lite.IdGenerateService;
 <#assign table=tb.table>
 /**
  * ${tb.className}${dao_name_suffix}
@@ -58,7 +58,7 @@ public class ${tb.className}${dao_name_suffix}${impl_name_suffix}  extends SqlDa
 	 * ${sql.remarks!}
 	 * sql:<#compress>${StringHelper.removeCrlf(sql.executeSql)?trim}</#compress>
 	 */
-	public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}(<@generateOperationArguments sql/><#if sql.operation='insert'>, IIDGenerator<${tb.pkColumn.simpleJavaType}> idGenerator</#if><#if isInsertAndLevelAuth(sql)>, AfterInsertService<${tb.className}> afterInsertService</#if>) throws DataAccessException {
+	public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}(<@generateOperationArguments sql/><#if sql.operation='insert'>, IdGenerateService<${tb.pkColumn.simpleJavaType}> idGenerateService</#if><#if isInsertAndLevelAuth(sql)>, AfterInsertService<${tb.className}> afterInsertService</#if>) throws DataAccessException {
 		<#if sql.paramType != "object"  && !isUseParamObject(sql)>
 		    <#if sql.paramType =='primitive' || sql.paramType ==''>
 			  <#if (sql.params?size > 0)>
@@ -143,9 +143,11 @@ public class ${tb.className}${dao_name_suffix}${impl_name_suffix}  extends SqlDa
 		if(${paramName} == null) {
 			throw new IllegalArgumentException("Can't insert a null data object into db.");
 		}
-        if (idGenerator != null) {
-            ${tb.pkColumn.simpleJavaType} ${tb.pkColumn.columnName} = idGenerator.generateId();
-            ${paramName}.set${tb.pkColumn.columnName?cap_first}(${tb.pkColumn.columnName});
+        if (idGenerateService != null) {
+            ${tb.pkColumn.simpleJavaType} ${tb.pkColumn.columnName} = idGenerateService.generateId(${tb.className}.class);
+            if (${tb.pkColumn.columnName} != null) {
+                ${paramName}.set${tb.pkColumn.columnName?cap_first}(${tb.pkColumn.columnName});
+            }
         }
         super.insert("${sqlId}", ${paramName});
         <#if isInsertAndLevelAuth(sql)>

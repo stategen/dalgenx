@@ -38,7 +38,7 @@ import org.stategen.framework.lite.PageList;
 <#if isLevelAuth()>
 import org.stategen.framework.util.AfterInsertService;
 </#if>
-import org.stategen.framework.util.IIDGenerator;
+import org.stategen.framework.lite.IdGenerateService;
 
 /**
  * ${tb.className}${dao_name_suffix}
@@ -79,7 +79,7 @@ public interface ${tb.className}${dao_name_suffix} {
 	 * ${sql.remarks!}
 	 * sql:<#compress>${StringHelper.removeCrlf(sql.executeSql)?trim}</#compress>
 	 */
-	public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}(<@generateOperationArguments sql/><#if sql.operation='insert'>, IIDGenerator<${tb.pkColumn.simpleJavaType}> idGenerator</#if><#if isInsertAndLevelAuth(sql)>, AfterInsertService<${tb.className}> afterInsertService</#if>) throws DataAccessException;
+	public <@generateResultClassName sql pojo_name_suffix/> ${sql.operation}(<@generateOperationArguments sql/><#if sql.operation='insert'>, IdGenerateService<${tb.pkColumn.simpleJavaType}> idGenerateService</#if><#if isInsertAndLevelAuth(sql)>, AfterInsertService<${tb.className}> afterInsertService</#if>) throws DataAccessException;
 	
 	<#if sql.paging && sql.countService>
 	public Long ${sql.operation}Count(<@generateOperationArguments sql/>) throws DataAccessException;
