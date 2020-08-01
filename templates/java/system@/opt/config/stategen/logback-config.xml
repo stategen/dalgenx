@@ -142,17 +142,18 @@
     </appender>
 
     <logger name="dao" level="INFO"/>
-    <logger name="java.sql" level="WARN" />
-    <logger name="java.sql.PreparedStatement" value="WARN" />
-    <logger name="java.sql.Connection" value="WARN" />
-    <logger name="java.sql.Statement" value="WARN" />
+    <logger name="java.sql" level="DEBUG" />
+    <logger name="java.sql.PreparedStatement" value="DEBUG" />
+    <logger name="java.sql.Connection" value="DEBUG" />
+    <logger name="java.sql.Statement" value="DEBUG" />
     <logger name="java.sql.ResultSet" level="WARN" />
 
-    <logger name="com.ibatis" level="WARN" />
-    <logger name="org.apache.ibatis" level="WARN" />
-    <logger name="org.mybatis" level="INFO" />
+    <logger name="com.ibatis" level="DEBUG" />
+    <logger name="org.apache.ibatis" level="DEBUG" />
+    <logger name="org.mybatis" level="DEBUG" />
     <logger name="org.apache.ibatis" level="WARN"/>
-    <logger name="org.springframework" level="WARN" />
+    <logger name="org.springframework" level="INFO" />
+    <logger name="org.springframework.web" level="DEBUG" />
     <logger name="com.opensymphony" level="WARN" />
     <logger name="org.apache" level="WARN" />
     <logger name="org.hibernate" level="WARN" />
@@ -174,7 +175,7 @@
         <appender-ref ref="ERROR" />
         <appender-ref ref="INFO" />
         <appender-ref ref="WARN" />  
-        <!-- <appender-ref ref="DEBUG" />   -->
+        <appender-ref ref="DEBUG" />
         <!-- <appender-ref ref="TRACE" /> -->
     </root>
 </configuration>  

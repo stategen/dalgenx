@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:app_frontend_flutter/stgutil/app_config.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:path_to_regexp/path_to_regexp.dart';
 
@@ -15,7 +14,7 @@ import 'toast.dart';
 import '../intergrade/beans/response.dart' as Res;
 
 import 'package:path_provider/path_provider.dart';
-import 'app_config.dart';
+import './app_config.dart';
 
 // 数据格式太乱,简单处理一下
 

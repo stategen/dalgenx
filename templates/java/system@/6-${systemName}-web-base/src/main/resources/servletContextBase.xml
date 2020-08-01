@@ -19,8 +19,7 @@
     http://www.springframework.org/schema/task/spring-task.xsd
     http://www.springframework.org/schema/aop 
     http://www.springframework.org/schema/aop/spring-aop.xsd"
-    default-autowire="byName"
->
+    default-autowire="byName">
     <aop:aspectj-autoproxy />
 
     
@@ -129,6 +128,7 @@
     <bean class="org.stategen.framework.spring.mvc.SwaggerConfig" />
 
     <!-- 文档转文档 -->
+    <!-- swagger2 {serverName}/doc/index.html -->
     <mvc:resources mapping="/doc/**" location="classpath:/doc/" />
     <mvc:resources mapping="/uploads/**" location="file:/uploads/" />
 
@@ -144,6 +144,6 @@
             </mvc:resolvers>
         </mvc:resource-chain>
     </mvc:resources>
-
+    
     <import resource="classpath*:servlet/*-spring.xml" />
 </beans>

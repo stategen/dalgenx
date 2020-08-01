@@ -28,7 +28,7 @@ export interface RequestInitEx extends Partial<RequestInit> {
   apiUrlKey?: string;
   url?: string;
   method?: Method | string,
-  data?: ObjectMap<any>,
+  data?: ObjectMap<any> | any,
   mediaType?: MediaType,
 }
 
@@ -128,7 +128,7 @@ const buildRequestProperties = (requestInitEx: RequestInitEx): RequestInitEx => 
 
 export class Net {
   /***内部api获取，直接调用，省去编辑各种 headers 等麻烦  */
-  static fetch(requestInitEx: RequestInitEx): any {
+  static fetch(requestInitEx: RequestInitEx, responseWrapped: boolean = true): any {
     const requestProperties: RequestInitEx = buildRequestProperties(requestInitEx);
     const {url, ...requestInit} = requestProperties;
     const value: any = fetch(url, requestInit)

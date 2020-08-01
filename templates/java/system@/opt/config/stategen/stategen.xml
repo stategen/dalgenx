@@ -10,6 +10,9 @@
     <entry key="loginCookieGroupHttpOnly">false</entry>
 
         
+    <entry key="druid.username">admin</entry>
+    <entry key="druid.password">admin</entry>
+
 
     <entry key="common.zk.ip.port">zookeeper://${'${'}THIS_IP}:2181</entry>
     <entry key="local.zk.ip.port">zookeeper://${'${'}THIS_IP}:2181</entry>

@@ -1,4 +1,4 @@
-package ${tableConfig.basepackage}.${dao_dir_name}.${impl_dir_name};
+package ${basepackage}.${dao_dir_name}.${impl_dir_name};
 
 import java.util.List;
 <#if dao_type="ibatis">

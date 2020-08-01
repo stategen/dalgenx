@@ -22,6 +22,11 @@
     <context:annotation-config />
 
     <import resource="classpath*:context/applicatonContextProperties.xml" />
+    
+    <bean class="org.stategen.framework.spring.mvc.DruidConfig">
+        <property name="loginUsername" value="${'${'}druid.username}"/>
+        <property name="loginPassword" value="${'${'}druid.password}"/>
+    </bean>    
 
     <!-- 返回以对象包装的类 ,id必须是response -->
     <bean id="response" class="${packageName}.domain.Response" scope="prototype">
@@ -49,7 +54,11 @@
     <import resource="classpath*:context/dao-beans-manual-*.xml" />
     <import resource="classpath*:context/service-beans-auto-*.xml" />
     <import resource="classpath*:context/service-beans-manual-*.xml" />
+    
+    <!-- 启用baidu uid -->
+    <import resource="classpath*:uid/cached-uid-spring.xml" />
+    <bean id="idGenerator" class="${packageName}.service.impl.IdGeneratorImpl"/>
+    
     <!-- dubbo bean放在最后启动，否则当之后的bean配置错误(class不存在)，dubbo进入死循环 -->
     <import resource="classpath*:context/*-spring.xml" />
-    
 </beans>

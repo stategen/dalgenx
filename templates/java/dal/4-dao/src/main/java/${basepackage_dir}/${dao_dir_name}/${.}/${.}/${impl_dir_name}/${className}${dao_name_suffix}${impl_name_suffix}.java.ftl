@@ -143,7 +143,7 @@ public class ${tb.className}${dao_name_suffix}${impl_name_suffix}  extends SqlDa
 		if(${paramName} == null) {
 			throw new IllegalArgumentException("Can't insert a null data object into db.");
 		}
-        if (idGenerateService != null) {
+        if (idGenerateService != null && ${paramName}.get${tb.pkColumn.columnName?cap_first}() == null) {
             ${tb.pkColumn.simpleJavaType} ${tb.pkColumn.columnName} = idGenerateService.generateId(${tb.className}.class);
             if (${tb.pkColumn.columnName} != null) {
                 ${paramName}.set${tb.pkColumn.columnName?cap_first}(${tb.pkColumn.columnName});

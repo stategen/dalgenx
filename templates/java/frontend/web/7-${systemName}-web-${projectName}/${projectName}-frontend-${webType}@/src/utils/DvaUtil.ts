@@ -28,7 +28,6 @@ export const moment = _moment;
 export const DEFAULT_PAGE_NUM = 1;
 export const DEFAULT_PAGE_SIZE = 10;
 
-
 export enum TemporalType {
   TIME = "TIME",
   DATE = "DATE",
@@ -235,6 +234,7 @@ export interface DvaPageElement {
 export interface LoadingProps {
   effects?: any;
   models?: any;
+  global?: any;
 }
 
 export interface ConnectionPros {

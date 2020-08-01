@@ -2,6 +2,11 @@ package ${packageName}.enums;
 
 import org.stategen.framework.lite.ValuedEnum;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum TopicType implements ValuedEnum<String>{
     
     good( "精华"),
@@ -13,7 +18,5 @@ public enum TopicType implements ValuedEnum<String>{
     
     private String desc;
     
-    TopicType(String desc){
-      this.desc =desc;  
-    }
+
 }

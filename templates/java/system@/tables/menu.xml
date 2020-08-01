@@ -18,6 +18,10 @@
     <sql id="getMenusByMenuIdsOrderBy">
         a.update_time desc, a.create_time desc
     </sql>
+    <sql id="getMenusByRoutesOrderBy">
+        a.update_time desc, a.create_time desc
+    </sql>
+
 
     <!-- 引用 menu.xml.xhml ,表修改后，需重新执行 gen.sh table menu -e -->
     &MENU;
