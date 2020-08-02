@@ -37,6 +37,7 @@ import lombok.Setter;
 
 /**
  * ${tableConfig.className}${pojo_name_suffix}
+ * <pre>
 <#include '/java_description.include'/>
  * 该类仅不可以修改dalgenx生成的属生(field)类型 ,方法(Method)返回值类型和参数类型
  * 该类可自由继承、实现接口，自定义字段或方法，在下次生成时均不会丢失，可有效减少DTO的使用.

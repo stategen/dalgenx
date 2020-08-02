@@ -25,6 +25,7 @@ import org.stategen.framework.annotation.Wrap;
 import ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}${internal_service_suffix};
 /**
  * ${tableConfig.className}${controller_name_suffix}
+ * <pre>
 <#include '/java_description.include'/>
  * 新生成的类中的方法，只有在不同名的情况下才会被追加到该类下，因此该类可以修改任何部分
  * 在虚类中最好不要定义@RequestMapping，考虑到多个继承后不知道是哪端被调用了。

@@ -61,6 +61,8 @@
 <#function delFlgEqualZero prefix>
 <#if sft_dlt_clmn!="">
     <#return "${prefix}${sft_dlt_clmn} = 0">
+<#else>
+    <#return ''>
 </#if>
 </#function>
 <#function getCurName column>
@@ -105,7 +107,7 @@
     <#assign equalInclude>(1=#${getIncludeSelfCurName(levelPkColumn)}# and h.${levelPkColumn.sqlName} = #${getCurName(levelPkColumn)}#)</#assign>
     </#if>
     <#if ownerPkColumn??>
-    <#assign ownerEqual>o.${ownerPkColumn.sqlName} = #${getCurName(ownerPkColumn)}# and ${delFlgEqualZero("u.")}</#assign>
+    <#assign ownerEqual>o.${ownerPkColumn.sqlName} = #${getCurName(ownerPkColumn)}# ${delFlgEqualZero("and u.")}</#assign>
     </#if>
 </#macro>
 <#macro forceWrite>
@@ -130,7 +132,7 @@
 <#macro levelSelectIn>
     <@commonSelect/>
     <#if levelPkColumn??>
-    <#assign selectIn>(${equalInclude} or h.${levelPkColumn.sqlName} in (select ${levelPkColumn.sqlName} from ${levelTable.sqlName}${flatFix} where parent_id = #${getCurName(levelPkColumn)}# and ${delFlgEqualZero("")})) </#assign>
+    <#assign selectIn>(${equalInclude} or h.${levelPkColumn.sqlName} in (select ${levelPkColumn.sqlName} from ${levelTable.sqlName}${flatFix} where parent_id = #${getCurName(levelPkColumn)}# ${delFlgEqualZero("and ")})) </#assign>
     </#if>
         <#if levelPkColumn?? && ownerPkColumn??>
              <isNotNull property="${getCurName(levelPkColumn)}">
@@ -163,7 +165,7 @@
 <#macro levelSelectExists>
     <@commonSelect/>
     <#if levelPkColumn??>
-    <#assign existsSelect>(${equalInclude} or exists (select null from ${levelTable.sqlName}${flatFix} where ${levelPkColumn.sqlName} = h.${levelPkColumn.sqlName} and parent_id = #${getCurName(levelPkColumn)}# and ${delFlgEqualZero("")}))</#assign>
+    <#assign existsSelect>(${equalInclude} or exists (select null from ${levelTable.sqlName}${flatFix} where ${levelPkColumn.sqlName} = h.${levelPkColumn.sqlName} and parent_id = #${getCurName(levelPkColumn)}# ${delFlgEqualZero("and ")}))</#assign>
     </#if>
         <#if levelPkColumn?? && ownerPkColumn??>
              <isNotNull property="${getCurName(levelPkColumn)}">

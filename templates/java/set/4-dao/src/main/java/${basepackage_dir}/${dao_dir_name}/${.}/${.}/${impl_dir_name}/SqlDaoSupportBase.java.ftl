@@ -50,6 +50,11 @@ public class SqlDaoSupportBase extends SqlMapClientDaoSupport implements SqlDaoS
         int effectCount = getSqlMapClientTemplate().update(statementName, params);
         return effectCount;
     }
+    
+    public <T> int delete(String statementName, Object params) {
+        int effectCount = getSqlMapClientTemplate().delete(statementName, params);
+        return effectCount;
+    }
 
     public <T> void insert(String statementName, T t) {
         getSqlMapClientTemplate().insert(statementName, t);

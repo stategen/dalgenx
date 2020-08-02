@@ -42,6 +42,7 @@ import org.stategen.framework.lite.IdGenerateService;
 
 /**
  * ${tb.className}${dao_name_suffix}
+ * <pre>
 <#include '/java_description.include'/>
  * 该类仅可以修改引用
  * </pre>

@@ -15,6 +15,21 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <#assign dollar = '$'>
+<#function isNotEmpty str>
+    <#return (str??) && str?length gt 0>
+</#function>
+
+<#function isEmpty str>
+    <#return !isNotEmpty(str!)>
+</#function>
+
+<#function isNotEmptyList list>
+    <#return (list??) && (list?size gt 0) >
+</#function>
+
+<#function isEmptyList list>
+    <#return !isNotEmptyList(list!) >
+</#function>
 <#function appendParam paramsStr pStr>
     <#assign result=paramsStr>
     <#if pStr?length gt 0>

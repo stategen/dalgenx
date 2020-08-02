@@ -39,6 +39,7 @@ import org.stategen.framework.lite.PageList;
 </#list>
 <#if isLevelAuth()>
 import org.stategen.framework.util.AfterInsertService;
+import org.stategen.framework.util.AssertUtil;
 </#if>
 
 import org.springframework.dao.DataAccessException;
@@ -46,6 +47,7 @@ import org.stategen.framework.lite.IdGenerateService;
 <#assign table=tb.table>
 /**
  * ${tb.className}${dao_name_suffix}
+ * <pre>
 <#include '/java_description.include'/>
  * 该类仅可以修改引用
  * </pre>
@@ -90,9 +92,27 @@ public class ${tb.className}${dao_name_suffix}${impl_name_suffix}  extends SqlDa
 </#list>
 }
 
+<#function assertParmaNull pkCol beanName>
+<#local paramNullString>${beanName}<#if isNotEmpty(beanName)>.get${getCurName(pkCol)?cap_first}()<#else>${getCurName(pkCol)}</#if> != null</#local>
+<#return paramNullString>
+</#function>
+<#macro assertHoziParams beanName>
+<#if forceUseLevelAuthorForWrite=='true'>
+    <#if levelPkColumn?? && ownerPkColumn??>
+        AssertUtil.mustTrue((${assertParmaNull(levelPkColumn,beanName)} || ${assertParmaNull(ownerPkColumn,beanName)}),"${getCurName(levelPkColumn)} or ${getCurName(levelPkColumn)} can not be null");
+    </#if>
+    <#if levelPkColumn?? && !(ownerPkColumn??)>
+        AssertUtil.mustTrue(${assertParmaNull(levelPkColumn,beanName)} ,"${getCurName(levelPkColumn)} can not be null");
+    </#if>
+    <#if !(levelPkColumn??) && ownerPkColumn??>
+        AssertUtil.mustTrue(${assertParmaNull(ownerPkColumn,beanName)},"${getCurName(levelPkColumn)} can not be null");
+    </#if>
+</#if>
+</#macro>
 <#macro generateOperationMethodBody sql>
     <#local nameSpace>${tb.className}</#local>
     <#local sqlId>${nameSpace}.${sql.operation}</#local>
+    <#local bName><#if sql.operation=='update'>${table.className?uncap_first}</#if></#local>
 	<#if sql.params?size == 0>
 		<#local paramName = 'null'>
 	<#elseif sql.paramType = 'object'>
@@ -131,6 +151,7 @@ public class ${tb.className}${dao_name_suffix}${impl_name_suffix}  extends SqlDa
 		}
 		</#if>
     <#if (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s')>
+        <@assertHoziParams bName/>
         super.delete("${sqlId}", ${paramName});
         return <#list sql.params as param>${param.paramName}<#break></#list>;
     <#else>
@@ -171,9 +192,11 @@ public class ${tb.className}${dao_name_suffix}${impl_name_suffix}  extends SqlDa
 		}
 		</#if>
 	    <#if sql.operation='update'>
+        <@assertHoziParams bName/>
         super.update("${sqlId}", ${paramName});
 		return ${paramName};
         <#elseif (sql.operation='delete' || sql.operation='deleteBy${sql.table.pkColumn.columnName?cap_first}s')>
+        <@assertHoziParams bName/>
         super.update("${sqlId}", ${paramName});
         return <#list sql.params as param>${param.paramName}<#break></#list>;
         <#else>

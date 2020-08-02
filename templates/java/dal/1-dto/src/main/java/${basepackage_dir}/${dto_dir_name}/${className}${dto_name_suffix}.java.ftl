@@ -30,6 +30,7 @@ import lombok.Setter;
 
 /**
  * ${tableConfig.className}${dto_name_suffix}
+ * <pre>
 <#include '/java_description.include'/>
  * 该类首次生成之只，将不会被再次生成或生成覆盖，可以任意修改
  * 不建议使@Data,其hashCode有问题

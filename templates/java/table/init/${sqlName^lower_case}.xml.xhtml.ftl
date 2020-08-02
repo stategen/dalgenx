@@ -14,7 +14,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<#include '/table.include.ftl'>
+<#include 'table.include.ftl'>
     <!-- 表中至少有一个更新字段(update_time,gmt_update或自定义)，一个主键 -->
     <!-- 以下是生成代码，勿动 ,如果表变更，重新执行 gen.sh table ${table.sqlName} -e 会自动覆盖 -->
     <operation name="insert" paramType="object" remarks="">
