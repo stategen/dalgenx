@@ -21,7 +21,7 @@
 
 
     <properties>
-        <stategen-version>stg.2.2.0.RELEASE</stategen-version>
+        <stategen-version>stg.2.2.1.RELEASE</stategen-version>
         <!-- 发到公司私有maven仓库中，即pojo和facade(dubbo服务的版本)，这个版本跟着pom.version一致 -->
         <${systemName?uncap_first}-facade-version>1.0.0</${systemName?uncap_first}-facade-version>
         <!-- 包含业务逻辑代码的jar，不能被发布到maven仓库中，故以snapshort结尾,请在nexus中控制禁止接收snapshot版本,避免误发 -->
@@ -32,12 +32,12 @@
         <spring-data-redis-version>2.1.10.RELEASE</spring-data-redis-version>
 
         <swagger.springfox.verion>2.4.0</swagger.springfox.verion>
-        <stategen-version>stg.2.2.0.RELEASE</stategen-version>
+        <stategen-version>stg.2.2.1.RELEASE</stategen-version>
         <spring-orm-version>3.1.4.RELEASE</spring-orm-version>
 
         <DI-tbSchedule-version>3.3.3.2</DI-tbSchedule-version>
 
-        <dubbo-version>2.7.7</dubbo-version>
+        <dubbo-version>2.7.8</dubbo-version>
         <!-- <dubbo-version>2.8.4</dubbo-version> -->
         <fastjson-version>1.2.70</fastjson-version>
         <logback-version>1.2.3</logback-version>
@@ -47,6 +47,7 @@
         <mybatis2.version>2.4.4</mybatis2.version>
         <mybatis.version>3.5.3</mybatis.version>
         <spring-data-redis-version>2.1.10.RELEASE</spring-data-redis-version>
+        <alibaba.spring.cloud.version>2.2.3.RELEASE</alibaba.spring.cloud.version>
 
 
         <!-- 文件拷贝时的编码 -->
@@ -74,6 +75,15 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- 需要spring cloud nacos 需要6-xxx/pom.xml 把2个alibaba的jar反注释，同时在\opt\config\stategen\stategen.xml把 trade.dubbo.registry.address指向  nacos://nacosIP:PORT -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${'${'}alibaba.spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <dependency>
                 <groupId>org.stategen.framework</groupId>
                 <artifactId>stategen-dto-lite</artifactId>
@@ -476,6 +486,10 @@
                     </exclusion>
                     <exclusion>
                         <artifactId>spring-oxm</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>spring-beans</artifactId>
                         <groupId>org.springframework</groupId>
                     </exclusion>
                 </exclusions>

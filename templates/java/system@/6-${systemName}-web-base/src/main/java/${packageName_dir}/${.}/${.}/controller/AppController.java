@@ -21,11 +21,14 @@ import org.stategen.framework.lite.enums.MenuType;
 import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.StringUtil;
 import org.stategen.framework.web.cookie.CookieGroup;
+import ${packageName}.enums.CookieType.Login.LoginCookieNames;
+<#if role>
 import ${packageName}.domain.Menu;
 import ${packageName}.domain.User;
-import ${packageName}.enums.CookieType.Login.LoginCookieNames;
+
 import ${packageName}.service.MenuService;
 import ${packageName}.service.UserService;
+</#if>
 
 import io.swagger.annotations.ApiParam;
 
@@ -37,7 +40,7 @@ public class AppController {
 
     @Resource
     private CookieGroup<LoginCookieNames> loginCookieGroup;
-
+<#if role>
     @Resource(name = "userService")
     private UserService userService;
 
@@ -83,5 +86,6 @@ public class AppController {
     public List<User> getUserOptions(@RequestParam(required = false, name = "userIds") ArrayList<String> userIds){
         return null;
     }
+</#if>
 
 }

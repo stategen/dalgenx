@@ -65,7 +65,7 @@ public class ${className}${pojo_name_suffix} implements java.io.Serializable {
 </#list>
     /***不使用或自定义字段在下次生成后，会移到serialVersionUID的上面*/
     /* 如果字段注释中包括 -inherited 将不生成 */
-private static final long serialVersionUID = -5216457518046898601L;
+    private static final long serialVersionUID = -5216457518046898601L;
   <#list table.columns as column>
     <#if StringUtil.containsIgnoreCase(column.columnAlias,'-inherited')>
         <#continue >
@@ -141,7 +141,7 @@ private static final long serialVersionUID = -5216457518046898601L;
     @Temporal(TemporalType.${column.JDBCType})
     </#if>
     </#if>
-    @JSONField(serialize = false)
+    <#--@JSONField(serialize = false)-->
     private ${param.preferredParameterJavaType} ${param.paramName?uncap_first};
 
 </#list>

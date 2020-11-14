@@ -10,8 +10,8 @@
 >
 
     <!-- 应用配置 各业务平台根据systemName区分 -->
-    <dubbo:application name="${systemName?uncap_first}-dubbo-dalgen" owner="${systemName?uncap_first}" organization="${packageName}" >
-        <dubbo:parameter key="qos.enable" value="true" />
+    <dubbo:application name="${systemName?uncap_first}-dubbo-stategen" owner="${systemName?uncap_first}" organization="${packageName}" >
+        <dubbo:parameter key="qos.enable" value="false" />
         <dubbo:parameter key="qos.accept.foreign.ip" value="false" />
         <dubbo:parameter key="qos.port" value="${'${'}${systemName?uncap_first}.dubbo.qos.port}"/>
     </dubbo:application>

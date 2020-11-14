@@ -99,8 +99,8 @@ public class ${tb.className}${service_name_suffix}${impl_name_suffix}  implement
 </#if>
 
     @Override
-    public <T> ${tb.pkColumn.simpleJavaType} generateId(Class<T> bizTagClz){
-       return this.idGenerator.generateId(${tb.pkColumn.simpleJavaType}.class, bizTagClz);
+    public <T> ${tb.pkColumn.simpleJavaType} generateId(){
+       return this.idGenerator.generateId(${tb.pkColumn.simpleJavaType}.class, ${tb.className}.class);
     }
 <#if isLevelAuth()>
 

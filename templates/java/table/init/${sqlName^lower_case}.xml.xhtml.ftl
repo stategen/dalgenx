@@ -45,7 +45,7 @@
           <#list table.pkColumns as column>
            <#if column.simpleJavaType=='Long' || column.simpleJavaType=='Integer'>
            <selectKey resultClass="long" keyProperty="${column.columnNameFirstLower}">
-              select  LAST_INSERT_ID()
+              select  if ((#${column.columnNameFirstLower}#  is null), LAST_INSERT_ID(), #${column.columnNameFirstLower}#) as ${column.columnNameFirstLower}
            </selectKey>
            <#else>
            <#assign dateStr>DATE_FORMAT(CURRENT_TIMESTAMP(6),'%Y%m%d%H%i%s%f')</#assign>

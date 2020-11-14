@@ -81,6 +81,8 @@
     <entry key="jdbc_catalog"></entry>
     <!-- 是否使用lombok -->
     <entry key="lombok">true</entry>
+    <!-- system命令时是否生成简单权限、用户代码 -->
+    <entry key="role">false</entry>
 
 
 </properties>

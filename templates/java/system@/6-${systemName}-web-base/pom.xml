@@ -231,7 +231,7 @@
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
@@ -241,7 +241,19 @@
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
         </dependency>  
-		
+		    <!-- 需要spring cloud nacos 要把下面2个alibaba的jar反注释，同时在\opt\config\stategen\stategen.xml把 trade.dubbo.registry.address指向  nacos://nacosIP:PORT -->
+        <!-- Dubbo Spring Cloud Starter -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-dubbo</artifactId>
+        </dependency>
+        
+        <!-- Spring Cloud Nacos Service Discovery -->       
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        
     </dependencies>
 
     <build>

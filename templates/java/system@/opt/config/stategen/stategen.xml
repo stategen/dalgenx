@@ -68,9 +68,13 @@
     <entry key="${systemName?uncap_first}.jdbc.username">${'${'}${systemName?uncap_first}.mysql.username}</entry>
     <entry key="${systemName?uncap_first}.jdbc.password">${'${'}${systemName?uncap_first}.mysql.password}</entry>
 
-    <entry key="${systemName?uncap_first}.dubbo.registry.address">${'${'}local.zk.ip.port}</entry> 
+    <!-- 2种注册方式，哪一种在下面优先  -->
+    <entry key="${systemName?uncap_first}.dubbo.registry.address">zookeeper://127.0.0.1:2181</entry>	
+    <entry key="${systemName?uncap_first}.dubbo.registry.address">nacos://127.0.0.1:8848</entry>
     <entry key="${systemName?uncap_first}.dubbo.protocol.host">${'${'}THIS_IP}</entry>
+    <!-- -1 默认端口 -->
     <entry key="${systemName?uncap_first}.dubbo.protocol.port">20872</entry>
+    <entry key="${systemName?uncap_first}.dubbo.protocol.port">-1</entry>
 	<entry key="${systemName?uncap_first}.dubbo.qos.port">22222</entry>
     <!--特别注意这一行，检查 elasticsearch 集群名称-->
     <entry key="${systemName?uncap_first}.es.clustername">my-application</entry>
