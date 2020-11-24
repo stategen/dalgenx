@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.stategen.framework</groupId>
         <artifactId>stategen-parent</artifactId>
-        <version>stg.2.2.1.RELEASE</version>
+        <version>stg.2.2.2.RELEASE</version>
         <relativePath>../</relativePath>
     </parent>
     <version>${stategen-version}</version>
@@ -26,7 +26,7 @@
         <dependency>
             <groupId>org.stategen.framework</groupId>
             <artifactId>stategen-rapid-framework</artifactId>
-            <version>stg.2.2.1.RELEASE</version>
+            <version>stg.2.2.2.RELEASE</version>
         </dependency>
 
         <dependency>
