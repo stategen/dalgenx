@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active: 
+    
+  config:
+    additional-location: file:/opt/config/stategen/stategen.xml

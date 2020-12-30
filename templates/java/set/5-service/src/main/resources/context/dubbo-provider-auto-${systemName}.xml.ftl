@@ -25,13 +25,17 @@
     default-autowire="byName"
 >
 
+    <!-- 执行 dal命令 只过滤相应 Service${systemName?cap_first} 接口上有方法的接口 ================  -->
     <!-- ================================================================== -->
     <!--  dubbo provider configs: auto generate by dalgenx  不要手动修改本文件 -->
     <!-- 本文件由dalgen生成，任何在本文件上的手工修改将会在下次生成时被覆盖=========== -->
     <!-- ================================================================== -->
     
 <#list tableConfigSet.tableConfigs as tableConfig>
-    <dubbo:service timeout="10000" retries="0" registry="${systemName}-reg-addr" ref="${tableConfig.className?uncap_first}${service_name_suffix}" interface="${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${service_name_suffix}${systemName?cap_first}"/>
+    <#assign facadeName=getFacadeServiceName(tableConfig)>
+    <#if Context.hasMethods(getFacadeServiceName(tableConfig)+".java")>
+    <dubbo:service timeout="10000" retries="0" registry="${systemName}-reg-addr" ref="${tableConfig.className?uncap_first}${service_name_suffix}" interface="${tableConfig.basepackage}.${service_dir_name}.${facadeName}"/>
+    </#if>
 </#list>
 	
 </beans>

@@ -18,7 +18,7 @@
 <#include 'table.include.ftl'>
 
 <#assign tb=tableConfig>
-package ${tb.basepackage}.${service_dir_name};
+package ${tb.basepackage}.${service_dir_name};${putJavaType('isServiceInternal')}
 <#list tb.sqls as sql>
     <#if sql.multiplicity = 'many'>
 

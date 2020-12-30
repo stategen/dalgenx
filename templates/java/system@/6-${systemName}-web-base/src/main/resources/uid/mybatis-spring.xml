@@ -28,12 +28,12 @@
     </bean>
     
     <!-- 事务相关配置 -->
-    <tx:annotation-driven transaction-manager="_transactionManager" order="1" />
+    <!-- <tx:annotation-driven transaction-manager="_transactionManager" order="1" /> -->
     
-    <bean id="_transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!-- 由当前应用提供dataSource xia -->
+    <!-- <bean id="_transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
-    </bean>
+    </bean> -->
     
     <!-- Mybatis Mapper扫描 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

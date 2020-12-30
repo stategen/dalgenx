@@ -25,7 +25,7 @@
             <artifactId>dubbo</artifactId>
             <!-- for validate file dubbo-env-auto-${systemName?uncap_first}-spring.xml -->
             <scope>provided</scope>
-        </dependency>        
+        </dependency>
     </dependencies>
 
     <build>

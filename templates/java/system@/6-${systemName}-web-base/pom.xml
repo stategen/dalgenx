@@ -53,11 +53,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
@@ -67,9 +62,10 @@
             <artifactId>junit</artifactId>
         </dependency>
 
+
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
         </dependency>
 
         <dependency>
@@ -102,10 +98,10 @@
             <artifactId>log4j-over-slf4j</artifactId>
         </dependency>
 
-        <!-- <dependency>
+        <dependency>
             <groupId>org.jboss.slf4j</groupId>
             <artifactId>slf4j-jboss-logging</artifactId>
-            </dependency> -->
+        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
@@ -240,20 +236,55 @@
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
-        </dependency>  
-		    <!-- 需要spring cloud nacos 要把下面2个alibaba的jar反注释，同时在\opt\config\stategen\stategen.xml把 trade.dubbo.registry.address指向  nacos://nacosIP:PORT -->
-        <!-- Dubbo Spring Cloud Starter -->
+        </dependency>
+        <!-- Spring Boot Begin -->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-dubbo</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <!-- 排除Tomcat依赖 -->
+            <!-- <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions> -->
+        </dependency>
+
+        <!-- 添加 Undertow依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
         
-        <!-- Spring Cloud Nacos Service Discovery -->       
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+    <!-- Spring Boot End -->
+    
+    <!-- Spring Cloud Begin -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        
+        <!-- dubbo由xml开启 -->
+<!--         <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-dubbo</artifactId>
+        </dependency> -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+        <dependency><!-- 客户端引入 Transport 模块来与 Sentinel 控制台进行通信 -->
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-transport-simple-http</artifactId>
+        </dependency>
+        <dependency><!-- Sentinel 针对 Nacos 作了适配，底层可以采用 Nacos 作为规则配置数据源 -->
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+        </dependency>
+    <!-- Spring Cloud End -->
     </dependencies>
 
     <build>

@@ -2,29 +2,29 @@
 echo ----------------------------------------------------------------------------
 if [ "$1" == "-h" -o "$1" == "-help" ]; then
 echo  "$1" 
-echo "ÃüÁîÐÐÊ¹ÓÃ:"
+echo "å‘½ä»¤è¡Œä½¿ç”¨:"
 echo "gen.sh table [table_sql_name] [-e]
-      ¿ª·¢ÃüÁî ¸ù¾Ý±íµÄÉú³É»ù±¾³£ÓÃsqlÅäÖÃÎÄ¼þ e.g.,
+      å¼€å‘å‘½ä»¤ æ ¹æ®è¡¨çš„ç”ŸæˆåŸºæœ¬å¸¸ç”¨sqlé…ç½®æ–‡ä»¶ e.g.,
       gen.sh table user -e"
 echo "gen.sh dal [table_sql_name] [-e]
-      ¿ª·¢ÃüÁî ¸ù¾Ý±íµÄÅäÖÃÎÄ¼þÉú³É´úÂë e.g.,
+      å¼€å‘å‘½ä»¤ æ ¹æ®è¡¨çš„é…ç½®æ–‡ä»¶ç”Ÿæˆä»£ç  e.g.,
       gen.sh dal user -e"
-echo "--------------ÒÔÉÏÊÇ ¿ª·¢ÃüÁî-----------"
-echo "--------------ÒÔÏÂÊÇ ½ÅÊÖ¼ÜÃüÁî-----------"
+echo "--------------ä»¥ä¸Šæ˜¯ å¼€å‘å‘½ä»¤-----------"
+echo "--------------ä»¥ä¸‹æ˜¯ è„šæ‰‹æž¶å‘½ä»¤-----------"
 echo "gen.sh system [packageName] [systemName] [-e]
-      ½ÅÊÖ¼ÜÃüÁî Éú³ÉÏµÍ³(¹¤³Ì×é),¼´¸Ã¹¤³Ì×éÊôÓÚÄÄ¸öÏµÍ³,ÈçÖ§¸¶ÏµÍ³£¬ºÃÓÑÏµÍ³ e.g.,
+      è„šæ‰‹æž¶å‘½ä»¤ ç”Ÿæˆç³»ç»Ÿ(å·¥ç¨‹ç»„),å³è¯¥å·¥ç¨‹ç»„å±žäºŽå“ªä¸ªç³»ç»Ÿ,å¦‚æ”¯ä»˜ç³»ç»Ÿï¼Œå¥½å‹ç³»ç»Ÿ e.g.,
       gen.sh system com.mycompany.biz trade -e"
 echo "gen.sh project [projectName] [h5|flutter|web] [-e]
-      ½ÅÊÖ¼ÜÃüÁî Éú³É¹¤³Ì [h5|flutter|web]Ö¸µÄÊÇÀàÐÍ e.g.,
+      è„šæ‰‹æž¶å‘½ä»¤ ç”Ÿæˆå·¥ç¨‹ [h5|flutter|web]æŒ‡çš„æ˜¯ç±»åž‹ e.g.,
       gen.sh project cms web -e"
 echo "gen.sh api [table_sql_name] [-e]
-      ½ÅÊÖ¼ÜÃüÁî ÔÚµ±Ç°¹¤³Ì£¨7-*) ÏÂÉú³ÉÒ»¸ö´ø»ù±¾crud¹¦ÄÜµÄspring controller e.g.,
+      è„šæ‰‹æž¶å‘½ä»¤ åœ¨å½“å‰å·¥ç¨‹ï¼ˆ7-*) ä¸‹ç”Ÿæˆä¸€ä¸ªå¸¦åŸºæœ¬crudåŠŸèƒ½çš„spring controller e.g.,
       gen.sh api user -e"
 echo "gen.sh client [h5|flutter|web] [-e]
-      ½ÅÊÖ¼ÜÃüÁî ÔÚµ±Ç°¹¤³Ì£¨7-*£©ÏÂÉú³ÉÒ»¸ö[h5|flutter|web]µÄÇ°¶Ë e.g.,
+      è„šæ‰‹æž¶å‘½ä»¤ åœ¨å½“å‰å·¥ç¨‹ï¼ˆ7-*ï¼‰ä¸‹ç”Ÿæˆä¸€ä¸ª[h5|flutter|web]çš„å‰ç«¯ e.g.,
       gen.sh client flutter -e"
 echo "gen.sh boot [-e]
-      ½ÅÊÖ¼ÜÃüÁî ÔÚµ±Ç°¹¤³Ì£¨7-*£©°ÑÏîÄ¿±äÎªspring-bootÏîÄ¿ e.g.,
+      è„šæ‰‹æž¶å‘½ä»¤ åœ¨å½“å‰å·¥ç¨‹ï¼ˆ7-*ï¼‰æŠŠé¡¹ç›®å˜ä¸ºspring-booté¡¹ç›® e.g.,
       gen.sh boot -e"
 exit
 fi
@@ -38,7 +38,7 @@ if [ "$1" == "api"  -o "$1" == "client" -o "$1" == "boot" ]; then
   projectsPath=$(dirname $(pwd))
   project_name="${cmdPath##*/}"
   if [[ $project_name != 7-* ]]; then
-    echo "--------------$1 ÐèÒªÔÚ 7- ¹¤³ÌÏÂˆÌÐÐ -----------------"
+    echo "--------------$1 éœ€è¦åœ¨ 7- å·¥ç¨‹ä¸‹åŸ·è¡Œ -----------------"
     exit
   fi
 fi
@@ -53,7 +53,7 @@ cd $genConfigPath
 
 if [ "$1" == "project" ]; then
     if [ ! -n "$2" ]; then
-       echo "ÏîÄ¿Ãû³Æ²»ÄÜÎª¿Õ ! Èç $1 cms [web|app] -e ,cms Ö¸µÄÊÇÏîÄ¿£¬web|app¿ÉÑ¡£¬Ö¸µÄÊÇ¸ÃÏîÄ¿ÀàÐÍ"
+       echo "é¡¹ç›®åç§°ä¸èƒ½ä¸ºç©º ! å¦‚ $1 cms [web|app] -e ,cms æŒ‡çš„æ˜¯é¡¹ç›®ï¼Œweb|appå¯é€‰ï¼ŒæŒ‡çš„æ˜¯è¯¥é¡¹ç›®ç±»åž‹"
        exit
     fi
     mvnCmd="mvn compile groovy:execute -DgenConfigXml=$genConfigXml  -DexecuteTarget=$1 -DprojectName=$2"
@@ -67,7 +67,7 @@ if [ "$1" == "project" ]; then
 
 elif [ "$1" == "api" ]; then
     if [ ! -n "$2" ]; then
-       echo "ÏîÄ¿Ãû³Æ²»ÄÜÎª¿Õ ! Èç $1 user cms -e cmsÖ¸µÄÊÇÈç 7-trade-web-cms"
+       echo "é¡¹ç›®åç§°ä¸èƒ½ä¸ºç©º ! å¦‚ $1 user cms -e cmsæŒ‡çš„æ˜¯å¦‚ 7-trade-web-cms"
        exit
     fi
 
@@ -79,7 +79,7 @@ elif [ "$1" == "api" ]; then
 
 elif [ "$1" == "client" ]; then
     if [ ! -n "$2" ]; then
-       echo "ÀàÐÍ²»ÄÜÎª¿Õ ! Èç $1 flutter -e"
+       echo "ç±»åž‹ä¸èƒ½ä¸ºç©º ! å¦‚ $1 flutter -e"
        exit
     fi
     mvnCmd="mvn compile groovy:execute -DgenConfigXml=$genConfigXml  -DexecuteTarget=$1 -DwebType=$2"
@@ -95,12 +95,12 @@ elif [ "$1" == "boot" ]; then
 
 elif [ "$1" == "system" ]; then
     if [ ! -n "$2" ]; then
-      echo "°üÃû(package)²»ÄÜÎª¿Õ Èç $1 com.mycompany.biz trade -e"
+      echo "åŒ…å(package)ä¸èƒ½ä¸ºç©º å¦‚ $1 com.mycompany.biz trade -e"
       exit
     fi 
     
     if [ ! -n "$3" ]; then
-      echo "ÏµÍ³Ãû(systemName)²»ÄÜÎª¿Õ Èç $1 com.mycompany.biz trade -e"
+      echo "ç³»ç»Ÿå(systemName)ä¸èƒ½ä¸ºç©º å¦‚ $1 com.mycompany.biz trade -e"
       exit
     fi 
     
@@ -111,7 +111,7 @@ elif [ "$1" == "system" ]; then
 
 elif [ "$1" == "table" -o "$1" == "dal" ]; then
     if [ ! -n "$2" ]; then
-       echo ±íÃû²»ÄÜÎª¿Õ! Èç "$1" user -e
+       echo è¡¨åä¸èƒ½ä¸ºç©º! å¦‚ "$1" user -e
        exit
     fi
     mvnCmd="mvn compile groovy:execute -DgenConfigXml=$genConfigXml -DexecuteTarget=$1 -DtableName=$2"
@@ -120,13 +120,13 @@ elif [ "$1" == "table" -o "$1" == "dal" ]; then
     fi
 
 else 
-   echo --------------ÃüÁî²»´æÔÚ ,ÇëÊ¹ÓÃ gen.sh -h  ²é¿´ -----------------
+   echo --------------å‘½ä»¤ä¸å­˜åœ¨ ,è¯·ä½¿ç”¨ gen.sh -h  æŸ¥çœ‹ -----------------
    exit
 fi
 
 if [ "$1" != "system" ]; then
   if [ ! -f "$genConfigXml" ]; then
-    echo "--------------Ã»ÓÐÕÒµ½ÎÄ¼þ,ÇëÔÚ genConfigµÄÍ¬Ò»¼¶Ä¿Â¼Ö´ÐÐ!-----------------"
+    echo "--------------æ²¡æœ‰æ‰¾åˆ°æ–‡ä»¶,è¯·åœ¨ genConfigçš„åŒä¸€çº§ç›®å½•æ‰§è¡Œ!-----------------"
     exit
   fi
 fi
@@ -134,7 +134,7 @@ fi
 
 mvnCmd="$mvnCmd -DcmdPath=$cmdPath  -DdalgenPath=$genConfigPath -DprojectsPath=$projectsPath"
 echo "gen.sh $* >>>=================================================="
-echo Ö´ÐÐÃüÁî $mvnCmd
+echo æ‰§è¡Œå‘½ä»¤ $mvnCmd
 $mvnCmd
 
 rc=$?

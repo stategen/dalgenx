@@ -53,7 +53,7 @@
             <groupId>org.stategen.framework</groupId>
             <artifactId>progen</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -87,59 +87,55 @@
             <version>7.1.3</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <!--qiniu end -->
 
-        <!--springboot_dependencies-->
+
     </dependencies>
 
+    <profiles>
+        <!--开发和测试-->
+        <profile>
+            <id>front</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>            
+							<!--APPEND_TAG_DO_NOT_CHANGE-->
 
+
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
+        <finalName>tradeApp</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
             </plugin>
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
+            </plugin>
+            
+            <!-- springboot begin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <failOnError>true</failOnError>
-                    <filesets>
-                    </filesets>
+                    <-- <outputDirectory>tomcat9 path\webapps</outputDirectory> -->
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <executions>
-                <!--APPEND_TAG_DO_NOT_CHANGE-->
-                </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <warSourceDirectory>${'${'}basedir}/WebRoot</warSourceDirectory>
-                    <failOnMissingWebXml>true</failOnMissingWebXml>
-                    <warName>${'${'}warName}</warName>
-                    <packagingExcludes>
-                        node_modules/**
-                    </packagingExcludes>
-                </configuration>
-            </plugin>
-
-
-
-           <!--springboot_plugin--> 
+            <!-- springboot end -->
         </plugins>
 
     </build>

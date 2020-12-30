@@ -3,46 +3,33 @@ package ${packageName}.enums;
 import org.stategen.framework.lite.ICookieType;
 import org.stategen.framework.lite.IResponseStatus;
 
-import ${packageName}.enums.ResponseStatus.NOT_LOGIN;
-import ${packageName}.enums.ResponseStatus.PAY_NO_TOKEN;
+import lombok.Getter;
 
-public enum CookieType implements  ICookieType{
-    LOGIN(Login.class,"_tk_",NOT_LOGIN.class),
+@Getter
+public enum CookieType implements ICookieType {
+    LOGIN(Login.class, "_tk_", ResponseStatus.NOT_LOGIN),
     
-    PAY_LOGIN(PayLogin.class,"_pay_",PAY_NO_TOKEN.class),
+    PAY_LOGIN(PayLogin.class, "_pay_", ResponseStatus.PAY_NO_TOKEN),
     ;
     
     private String cookiePrefixName;
-    private Class<? extends ICookieType> cookieTypeClz;
-    private Class<? extends IResponseStatus> responseStatusClzOfTokenError;
     
-    CookieType(
-            Class<? extends ICookieType> cookieTypeClz,
+    private Class<? extends ICookieType> registerClass;
+    
+    private IResponseStatus responseStatusOfTokenError;
+    
+    
+    <T extends Enum<T> & IResponseStatus> CookieType(
+            Class<? extends ICookieType> registerClass,
             String cookiePrefixName,
-            Class<? extends IResponseStatus> responseStatusClzOfTokenError) {
+            T responseStatusOfTokenError) {
+        this.registerClass                 = registerClass;
         this.cookiePrefixName              = cookiePrefixName;
-        this.cookieTypeClz                 = cookieTypeClz;
-        this.responseStatusClzOfTokenError = responseStatusClzOfTokenError;
+        this.responseStatusOfTokenError =  responseStatusOfTokenError;
         register();
     }
     
-    @Override
-    public String getCookiePrefixName() {
-        return cookiePrefixName;
-    }
-    
-    /***不让fastjson序列化*/
-    @Override	
-    public Class<? extends ICookieType> _getCookieTypeClz() {
-        return cookieTypeClz;
-    }
-    
-    @Override
-    public Class<? extends IResponseStatus> getResponseStatusClzOfTokenError() {
-        return responseStatusClzOfTokenError;
-    }
-    
-    public static abstract class Login implements ICookieType {
+    public static interface Login extends ICookieType {
         
         public static final String USER_ID = "userId";
         
@@ -70,7 +57,7 @@ public enum CookieType implements  ICookieType{
         }
     }
     
-    public static abstract class PayLogin implements ICookieType {
+    public static interface  PayLogin extends ICookieType {
     }
     
 }

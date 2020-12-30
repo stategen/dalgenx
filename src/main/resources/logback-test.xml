@@ -5,11 +5,11 @@
         1.windows上，读取tomcat所有盘如G: 即 G:/data/config/api-logback.xml的配置
         2.linux或mac上，读取:/data/config/api-logback.xml的配置
      -->
-
     <!-- ==================================== appenders==================================== -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender" level="INFO">
         <encoder charset="UTF-8"> <!-- encoder 可以指定字符集，对于中文输出有意义 -->
             <pattern><![CDATA[%d{HH:mm:ss.SSS} [%thread] %-5level %logger%n%msg%n]]></pattern>  
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 

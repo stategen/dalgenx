@@ -45,11 +45,71 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>Windows</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+            <properties>
+                <!-- windows上不能直接动shell,调用bat,让bat启动git-batsh -->
+                <script.executor>./dalbatch.bat</script.executor>
+            </properties>
+        </profile>
+        <profile>
+            <id>unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <!-- linux中，直接调用shell -->
+                <script.executor>./dalbatch.sh</script.executor>
+            </properties>
+        </profile>
 
-    <build>
-        <plugins>
-        </plugins>
-    </build>
+        <profile>
+            <!-- jekkins中，用参数 -P!dal 不执行本profile -->
+            <id>dal</id>
+            <activation>
+                <property>
+                    <name>!unsetDefaultProfile</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                            <!-- 执行一条dal命令,第一个tables中的第一个xml，统计2-facade 中的 service相应接口有没有methodCount,如果没有method,则5-serivce的dubbo-provider应该不包括该接口 -->
+                                <id>>>>>>>>>>>>>>>>> 执行一个dal命令，统计dubbo provider，顺便检查一下全部facade语法错误 &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <workingDirectory>../</workingDirectory>
+                                    <executable>${'${'}script.executor}</executable>
+                                    <arguments>
+                                        <!-- 如果不要这个参数，则tables中的xml被全部检查执行，否则只执行第一条 -->
+                                        <argument>--break</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
 </project>

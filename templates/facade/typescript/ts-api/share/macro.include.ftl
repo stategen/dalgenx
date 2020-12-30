@@ -58,6 +58,10 @@ ${dest}${line}
 <#function isEmptyList list>
     <#return !isNotEmptyList(list!) >
 </#function>
+<#function logInfo o>
+${StringUtil.logInfo(o)}
+<#return ''>
+</#function>
 
 <#function genResultName fun>
     <#if !fun.return.isSimple>

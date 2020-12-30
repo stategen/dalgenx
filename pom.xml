@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.stategen.framework</groupId>
         <artifactId>stategen-parent</artifactId>
-        <version>stg.2.2.2.RELEASE</version>
+        <version>stg.2.2.3.RELEASE</version>
         <relativePath>../</relativePath>
     </parent>
     <version>${stategen-version}</version>
@@ -17,6 +17,7 @@
     <properties>
         <!-- 文件拷贝时的编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- 编译时的编码 -->
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
@@ -26,25 +27,31 @@
         <dependency>
             <groupId>org.stategen.framework</groupId>
             <artifactId>stategen-rapid-framework</artifactId>
-            <version>stg.2.2.2.RELEASE</version>
+            <version>stg.2.2.3.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <dependency>
+<!--         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.1.1</version>
-        </dependency>
-        <dependency>
+        </dependency> -->
+<!--         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.16</version>
-        </dependency>
+        </dependency> -->
 
-        <dependency>
+<!--         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>log4j-over-slf4j</artifactId>
             <version>1.7.20</version>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -56,6 +63,26 @@
 
 
     <build>
+        <!--默认源代码目录-->
+        <sourceDirectory>src/main/java </sourceDirectory>  
+        <!--默认测试源代码目录-->
+        <testSourceDirectory>src/test/java</testSourceDirectory>  
+        <!--默认资源目录-->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources> 
+        <!--默认测试资源目录-->
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>    
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -73,7 +100,6 @@
             </plugins>
         </pluginManagement>
         <plugins>
-
             <plugin>
                 <!-- <groupId>org.codehaus.groovy.maven</groupId> -->
                 <groupId>org.codehaus.gmaven</groupId>

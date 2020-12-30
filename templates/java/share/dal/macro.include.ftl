@@ -47,6 +47,27 @@
 	<#return false/>		
 </#function>
 
+<#function contextPut key value>
+    <#--放一个变量到java中，以便使用-->
+	${Context.put(key,value)}
+    <#return ''>
+</#function>
+
+<#function putJavaType value>
+    ${contextPut('javaType',value)}
+    <#return ''>
+</#function>
+
+<#function logInfo msg>
+    ${StringUtil.logInfo(msg)}
+    <#return ''>
+</#function>
+
+<#function getFacadeServiceName tableConfig>
+    <#local facadeServiceName='${tableConfig.className}${service_name_suffix}${systemName?cap_first}'/>
+    <#return facadeServiceName>
+</#function>
+
 <#function generateSelectResultClass sql pojo_package_name=''>
     <#if sql.resultClass!='' && sql.resultClass?contains('.')>
          <#return sql.resultClass/>

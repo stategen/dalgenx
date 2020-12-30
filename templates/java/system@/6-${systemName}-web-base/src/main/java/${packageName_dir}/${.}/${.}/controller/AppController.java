@@ -74,7 +74,7 @@ public class AppController {
         return user;
     }
 
-    @ApiRequestMappingAutoWithMethodName(name = "获所所有菜单",method=RequestMethod.GET)
+    @ApiRequestMappingAutoWithMethodName(name = "获所所有菜单", method = RequestMethod.GET)
     @State(init = true, initCheck = false, dataOpt = DataOpt.FULL_REPLACE)
     public List<Menu> getAllMenus() {
         return this.menuService.getAllMenus();

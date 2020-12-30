@@ -16,7 +16,6 @@
     <name>3-${systemName?uncap_first}-intergrade</name>
 
     <dependencies>
-
         <!--
             <dependency>
             <groupId>com.xxx.xxx</groupId>

@@ -7,6 +7,7 @@
     xmlns:tx="http://www.springframework.org/schema/tx"
     xmlns:task="http://www.springframework.org/schema/task" 
     xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:util="http://www.springframework.org/schema/util"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd  
     http://www.springframework.org/schema/context  
@@ -18,7 +19,9 @@
     http://www.springframework.org/schema/task  
     http://www.springframework.org/schema/task/spring-task.xsd
     http://www.springframework.org/schema/aop 
-    http://www.springframework.org/schema/aop/spring-aop.xsd"
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/util 
+    http://www.springframework.org/schema/util/spring-util.xsd"
     default-autowire="byName">
     <aop:aspectj-autoproxy />
 
@@ -77,30 +80,27 @@
     <!-- token生成码 -->
     <bean id="defaultCookieTokenGenerator" class="org.stategen.framework.web.cookie.CookieTokenGeneratorDefault" />
 
-    <!-- 权限拦截,由各自的annotain check 处理 -->
-    <bean id="authCheckerHandlerInterceptor" class="org.stategen.framework.spring.mvc.AuthCheckerHandlerInterceptor">
-        <property name="responseStatusClzOfCheckFailDefault" value="${packageName}.enums.ResponseStatus.NOT_LOGIN" />
-    </bean>
     
-    <!-- 
-    <bean id="testGetUsersHandlerInterceptor" class="${packageName}.utils.TestGetUsersHandlerInterceptor">
-    </bean>
-	  -->
+    <!-- 权限拦截,由各自的annotain check 处理 -->
+    <!-- 注释年，在 WebXml.java中先创建-->
+    <!-- <bean id="authCheckerHandlerInterceptor" class="org.stategen.framework.spring.mvc.AuthCheckerHandlerInterceptor">
+        <property name="responseStatusOfCheckFailDefault"><util:constant static-field="${packageName}.enums.ResponseStatus.NOT_LOGIN"/></property>
+    </bean> -->
 
     <!-- 以下配置代替 mvc:annotation-driven ,采用自定义swagger @apiMethodResourceMapping时，不需要写 path，自动映射方法名 避免硬编码，减少调试麻烦,-->
     <!-- 处理在类级别上的@RequestMapping注解 -->
-    <bean class="org.stategen.framework.spring.mvc.RequestMappingMethodHandlerMapping">
+    <!-- 注释年，在 WebXml.java中先创建-->
+    <!-- <bean class="org.stategen.framework.spring.mvc.RequestMappingMethodHandlerMapping">
         <property name="interceptors">
             <list>
                 <ref bean="authCheckerHandlerInterceptor" />
-                <!-- <ref bean="testGetUsersHandlerInterceptor" /> -->
             </list>
         </property>
-    </bean>
+    </bean> -->
 
     <!-- 所有异常处理 -->
     <bean class="org.stategen.framework.spring.mvc.CollectExceptionJsonHandler">
-        <property name="responseStatusClzOfException" value="${packageName}.enums.ResponseStatus.ERROR" />
+        <property name="responseStatusOfException"><util:constant static-field="${packageName}.enums.ResponseStatus.ERROR"/></property>
     </bean>
     
     

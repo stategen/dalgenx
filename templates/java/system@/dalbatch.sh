@@ -1,5 +1,8 @@
 #!/bin/bash
-echo sh dalbatch.sh 或者 sh dalbatch.sh tablename #tablename为你上次停止的地方
+echo dalbatch.sh 执行全部的tables目录下的xml
+echo dalbatch.sh user 执行tables目录下的xml, 按顺序从user.xml到最后
+echo dalbatch.sh --break 只执行tables目录下的第1个xml
+
 currentPath=$(
   cd $(dirname $0)
   pwd
@@ -15,6 +18,12 @@ count=0
 find=0
 hasTableName=1
 if [ -z "$1" ]; then
+  hasTableName=0
+fi
+
+hasBreak=0
+if [ "$1" = '--break' ]; then
+  hasBreak=1
   hasTableName=0
 fi
 
@@ -41,10 +50,15 @@ for filename in $files; do
       echo -e "\033[31m dalbatch.sh $* <<<failed \033[0m"
       exit $rc
     fi
+    #如果参数存在，执行第一个后停止
+    if [ $hasBreak = 1 ]; then
+      break
+    fi
   fi
 done
 
-wait
-
-echo "$count done, press any key to exit;..."
-read -n 1
+if [ $hasBreak = 0 ]; then
+  echo "$count done, press any key to exit;..."
+  wait
+  read -n 1
+fi

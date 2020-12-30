@@ -15,7 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <#include '/java_copyright.include'/>
-package ${tableConfig.basepackage}.${service_dir_name};
+<#assign package='${tableConfig.basepackage}.${service_dir_name}'/>
+package ${package};${putJavaType('isServiceFacade')}
 
 /**
  * ${tableConfig.className}${service_name_suffix}
@@ -25,7 +26,7 @@ package ${tableConfig.basepackage}.${service_dir_name};
  * 因此该类可以修改任何部分
  * </pre>
  */
-public interface ${tableConfig.className}${service_name_suffix}${systemName?cap_first} {
+public interface ${getFacadeServiceName(tableConfig)} {
 
 <#list tableConfig.sqls as sql>
 <#if sql.facade>

@@ -18,7 +18,7 @@
 <#include 'table.include.ftl'>
 <#assign tb=tableConfig>
     
-package ${tb.basepackage}.${dao_dir_name}.${impl_dir_name};
+package ${tb.basepackage}.${dao_dir_name}.${impl_dir_name};${putJavaType('isDaoImpl')}
 <#list tb.sqls as sql>
     <#if sql.multiplicity = 'many'>
 

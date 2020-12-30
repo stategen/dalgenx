@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <#include '/java_copyright.include'/>
-package ${tableConfig.basepackage}.${controller_dir_name};
+package ${tableConfig.basepackage}.${controller_dir_name};${putJavaType('isController')}
 
 /**
  * ${tableConfig.className}${controller_name_suffix}

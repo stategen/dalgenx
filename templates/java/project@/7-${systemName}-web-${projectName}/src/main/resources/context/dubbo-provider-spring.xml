@@ -8,6 +8,6 @@
 >
 
     <!-- 向dubbo注册中心注册本系统提供的服务 -->
-    <!-- <import resource="classpath*:context/dubbo-provider-auto-*.xml" /> -->
-    <!-- <import resource="classpath*:context/dubbo-provider-manual-*.xml" /> -->
+    <import resource="classpath*:context/dubbo-provider-auto-*.xml" />
+    <import resource="classpath*:context/dubbo-provider-manual-*.xml" />
 </beans>

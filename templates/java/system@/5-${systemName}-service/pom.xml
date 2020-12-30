@@ -60,10 +60,10 @@
             <artifactId>gson</artifactId>
         </dependency>
 
-        <dependency>
+<!--         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>joda-time</groupId>
@@ -83,11 +83,6 @@
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-analyzers-common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
         </dependency>
 
         <dependency>
@@ -127,7 +122,8 @@
         <dependency>
             <groupId>com.baidu.fsg</groupId>
             <artifactId>uid-generator</artifactId>
-        </dependency>         
+        </dependency>    
+
     </dependencies>
 
     <build>

@@ -16,12 +16,15 @@
 
 import cn.org.rapid_framework.generator.GeneratorProperties
 import cn.org.rapid_framework.generator.provider.db.model.*
+import cn.org.rapid_framework.generator.util.GLogger
 import org.stategen.framework.generator.util.GenNames
 import org.stategen.framework.generator.util.GenProperties
 
 main();
 
 def main() {
+    String msg ="--------------------正在执行---------------------"
+    GLogger.info(msg);
 	freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
 	String executeTarget = System.getProperty(GenNames.executeTarget);
     println pom.properties.getClass();
@@ -38,7 +41,7 @@ def main() {
 
 def loadDefaultGeneratorProperties() {
     Properties mergedProps =GenProperties.getAllMergedProps(System.getProperty(GenNames.genConfigXml));
-    GenProperties.putStatics(mergedProps)
+    GenProperties.genStaticFiles(mergedProps)
     Properties pts =GeneratorProperties.properties;
     pts.putAll(mergedProps);
 

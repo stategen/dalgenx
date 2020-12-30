@@ -5,6 +5,7 @@
     xmlns:context="http://www.springframework.org/schema/context" 
     xmlns:aop="http://www.springframework.org/schema/aop" 
     xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
     xsi:schemaLocation="  
     http://www.springframework.org/schema/beans   
     http://www.springframework.org/schema/beans/spring-beans.xsd  
@@ -15,13 +16,17 @@
     http://www.springframework.org/schema/tx  
     http://www.springframework.org/schema/tx/spring-tx.xsd  
     http://www.springframework.org/schema/aop  
-    http://www.springframework.org/schema/aop/spring-aop.xsd"
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+    
     default-autowire="byName"
 >
 
     <!-- 验证cookie分组 ,该类可以多个，配置不同的分组 -->
     <bean id="loginCookieGroup" class="org.stategen.framework.web.cookie.CookieGroup">
-        <property name="cookieTypeClz" value="${packageName}.enums.CookieType.Login" />
+        <!-- 这种方式在springbuut中先加载内部类，不加载外部类，导致外部类失败 -->
+        <!-- <property name="cookieTypeClz" value="${packageName}.enums.CookieType.Login" /> -->
+        <property name="cookieType"><util:constant static-field="${packageName}.enums.CookieType.LOGIN" /></property>
         <property name="httpOnly" value="${'${'}loginCookieGroupHttpOnly}"/>
     </bean>
 

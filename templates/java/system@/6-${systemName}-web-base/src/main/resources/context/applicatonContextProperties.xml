@@ -18,16 +18,17 @@
     http://www.springframework.org/schema/task/spring-task.xsd"
     default-autowire="byName"
 >
-    <bean id="propertyPlaceholder" class="org.stategen.framework.spring.mvc.MultiPropertyPlaceholderConfigurer">
+    <!-- PropertyPlaceholderConfigurer 不能与springboot中的application.yml/properties同时工作,在springboot项目中丢弃 -->
+    <!-- <bean id="propertyPlaceholder" class="org.stategen.framework.spring.mvc.MultiPropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath*:application.properties</value>
-                <value>file://opt/config/stategen/stategen.xml</value>
+                <value>file:/opt/config/stategen/stategen.xml</value>
             </list>
         </property>
-        <!-- spring启动中对每个取值项进行检查 -->
-        <!-- <property name="ignoreUnresolvablePlaceholders" value="true" /> -->
-    </bean>
+        <!-spring启动中对每个取值项进行检查->
+        <!-<property name="ignoreUnresolvablePlaceholders" value="true" />->
+    </bean> -->
     
     <bean id="urls" class="java.util.HashMap"/>
 
