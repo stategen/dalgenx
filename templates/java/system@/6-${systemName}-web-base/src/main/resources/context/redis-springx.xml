@@ -23,16 +23,16 @@
                     <!--属性staticMethod为要调用的静态方法的全路径名-->
                 <property name="staticMethod" value="org.springframework.data.redis.connection.RedisPassword.of" />
                     <!--属性arguments为方法需要的参数-->
-                <property name="arguments" value="${'${'}trade.redis.password}" />
+                <property name="arguments" value="${'${'}${systemName?uncap_first}.redis.password}" />
             </bean>
         </property>
                         
                 <!--配置主机名字（IP地址）-->
-        <property name="hostName" value="${'${'}trade.redis.host}" />
+        <property name="hostName" value="${'${'}${systemName?uncap_first}.redis.host}" />
                 <!--配置端口号-->
-        <property name="port" value="${'${'}trade.redis.port}" />
+        <property name="port" value="${'${'}${systemName?uncap_first}.redis.port}" />
                 <!--选择数据库（通过源码发现默认为0）-->
-        <property name="database" value="${'${'}trade.redis.database}"  />
+        <property name="database" value="${'${'}${systemName?uncap_first}.redis.database}"  />
     </bean>
     
     <!-- https://blog.csdn.net/qq_43701801/article/details/91391288 -->

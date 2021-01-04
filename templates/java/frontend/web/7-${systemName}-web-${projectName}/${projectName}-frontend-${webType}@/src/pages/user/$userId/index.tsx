@@ -7,7 +7,7 @@ import {user_$userIdEffects, user_$userIdReducers, User_$userIdProps
 import User from "@i/beans/User";
 import {ConnectionPros} from "@utils/DvaUtil";
 import {AppProps} from "@i/interfaces/AppFaces";
-import StatesAlias from "@i/configs/${systemName?uncap_first}${projectName?cap_first}-statesAlias";
+import StatesAlias from "@i/configs/${appName?uncap_first}-statesAlias";
 
 type User_$userIdPageProps = AppProps & User_$userIdProps;
 /*dva限定死了user$userId，必须与model中的namespace一致*/

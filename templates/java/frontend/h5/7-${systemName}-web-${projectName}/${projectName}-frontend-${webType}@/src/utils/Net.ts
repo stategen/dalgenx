@@ -28,17 +28,17 @@ export interface RequestInitEx extends Partial<RequestInit> {
   apiUrlKey?: string;
   url?: string;
   method?: Method | string,
-  data?: ObjectMap<any>,
+  data?: ObjectMap<any> | any,
   mediaType?: MediaType,
 }
 
 function getFormData(jsonData: {}): FormData {
   let formData: FormData = new FormData();
-  if (jsonData instanceof File){
-    const uploadFile:Partial<UploadFile>=jsonData;
-    formData.append('file' ,jsonData);
-    formData.append("uid",uploadFile.uid);
-    formData.append("type",uploadFile.type);
+  if (jsonData instanceof File) {
+    const uploadFile: Partial<UploadFile> = jsonData;
+    formData.append('file', jsonData);
+    formData.append("uid", uploadFile.uid);
+    formData.append("type", uploadFile.type);
   } else {
     Object.keys(jsonData).forEach(key => {
       formData.append(key, jsonData[key])
@@ -68,13 +68,13 @@ const buildRequestProperties = (requestInitEx: RequestInitEx): RequestInitEx => 
     apiUrlKey,
   } = requestInitEx;
 
-  if (!data){
-    data={}
+  if (!data) {
+    data = {}
   }
 
-  let cloneData ;
-  if (data instanceof File){
-    cloneData=data;
+  let cloneData;
+  if (data instanceof File) {
+    cloneData = data;
   } else {
     cloneData = cloneDeep(data);
     delete cloneData.areaExtraProps__;
@@ -83,7 +83,7 @@ const buildRequestProperties = (requestInitEx: RequestInitEx): RequestInitEx => 
   }
 
   let domain = '';
-  const urlMatch =url.match(URL_REG);
+  const urlMatch = url.match(URL_REG);
   if (urlMatch) {
     [domain] = urlMatch;
     url = url.slice(domain.length)
@@ -128,12 +128,14 @@ const buildRequestProperties = (requestInitEx: RequestInitEx): RequestInitEx => 
 
 export class Net {
   /***内部api获取，直接调用，省去编辑各种 headers 等麻烦  */
-  static fetch(requestInitEx: RequestInitEx): any {
+  static fetch(requestInitEx: RequestInitEx, responseWrapped: boolean = true): any {
     const requestProperties: RequestInitEx = buildRequestProperties(requestInitEx);
     const {url, ...requestInit} = requestProperties;
     const value: any = fetch(url, requestInit)
       .then((response) => response.json())
       .then((response: Response<any>) => {
+        //TODO
+        ////stategen会强制包装服务器500执行错误和权限校验不通过401
         let success: boolean = response.success;
         if (success) {
           return response.data;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 >
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -16,6 +16,14 @@
     <name>3-${systemName?uncap_first}-intergrade</name>
 
     <dependencies>
+        <!-- @since stg2.2.3.RELEASE,架构层jar3由架构上各层自行维护，业务层维护自己的jars -->
+        <dependency>
+            <groupId>org.stategen.framework.layers</groupId>
+            <artifactId>stategen-layers-intergrade-pom</artifactId>
+            <type>pom</type>
+        </dependency>
+
+    
         <!--
             <dependency>
             <groupId>com.xxx.xxx</groupId>
@@ -29,6 +37,7 @@
     <build>
         <plugins>
             <plugin>
+			    <!-- 引入即不发布到maven仓库 -->			
                 <artifactId>maven-deploy-plugin</artifactId>
             </plugin>
 

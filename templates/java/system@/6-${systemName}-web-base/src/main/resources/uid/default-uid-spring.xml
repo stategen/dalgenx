@@ -1,44 +1,43 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.springframework.org/schema/beans 
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
       http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
 
     <!-- UID generator -->
     <bean id="disposableWorkerIdAssigner" class="com.baidu.fsg.uid.worker.DisposableWorkerIdAssigner" />
-    
+
     <bean id="defaultUidGenerator" class="com.baidu.fsg.uid.impl.DefaultUidGenerator" lazy-init="false">
-    <property name="workerIdAssigner" ref="disposableWorkerIdAssigner" />
+        <property name="workerIdAssigner" ref="disposableWorkerIdAssigner" />
         <!-- Specified bits & epoch as your demand. No specified the default value will be used -->
-        <!-- 
-        /**
-        * 关于UID比特分配的建议：
-        * 对于并发数要求不高、期望长期使用的应用, 可增加timeBits位数, 减少seqBits位数.
-        * 例如节点采取用完即弃的WorkerIdAssigner策略, 重启频率为12次/天, 那么配置成：
-        * {"workerBits":23,"timeBits":31,"seqBits":9}时, 可支持28个节点以整体并发量14400 UID/s的速度持续运行68年.
-        *
-        * 对于节点重启频率频繁、期望长期使用的应用, 可增加workerBits和timeBits位数, 减少seqBits位数.
-        * 例如节点采取用完即弃的WorkerIdAssigner策略, 重启频率为24*12次/天, 那么配置成：
-        * {"workerBits":27,"timeBits":30,"seqBits":6}时, 可支持37个节点以整体并发量2400 UID/s的速度持续运行34年.
-        */
-        // 以下为可选配置, 如未指定将采用默认值
-        // timeBits，相对于时间基点"2016-05-20"的增量值，单位：秒，可使用的时间为2^timeBis 秒
-        // 例如：timeBits=30，则可使用2^30秒，约34年，timeBits=31，则可使用2^31秒，约68年
-         -->
+        <!--
+            /**
+            * 关于UID比特分配的建议：
+            * 对于并发数要求不高、期望长期使用的应用, 可增加timeBits位数, 减少seqBits位数.
+            * 例如节点采取用完即弃的WorkerIdAssigner策略, 重启频率为12次/天, 那么配置成：
+            * {"workerBits":23,"timeBits":31,"seqBits":9}时, 可支持28个节点以整体并发量14400 UID/s的速度持续运行68年.
+            *
+            * 对于节点重启频率频繁、期望长期使用的应用, 可增加workerBits和timeBits位数, 减少seqBits位数.
+            * 例如节点采取用完即弃的WorkerIdAssigner策略, 重启频率为24*12次/天, 那么配置成：
+            * {"workerBits":27,"timeBits":30,"seqBits":6}时, 可支持37个节点以整体并发量2400 UID/s的速度持续运行34年.
+            */
+            // 以下为可选配置, 如未指定将采用默认值
+            // timeBits，相对于时间基点"2016-05-20"的增量值，单位：秒，可使用的时间为2^timeBis 秒
+            // 例如：timeBits=30，则可使用2^30秒，约34年，timeBits=31，则可使用2^31秒，约68年
+        -->
         <property name="timeBits" value="32" />
-        <!-- 
-        // 机器id，最多可支持2^22约420w次机器启动。内置实现为在启动时由数据库分配，默认分配策略为用后即弃，
-        // 每次启动都会重新生成一批ID，因此重启次数也是会有限制的，后续可提供复用策略。        
-         -->
+        <!--
+            // 机器id，最多可支持2^22约420w次机器启动。内置实现为在启动时由数据库分配，默认分配策略为用后即弃，
+            // 每次启动都会重新生成一批ID，因此重启次数也是会有限制的，后续可提供复用策略。
+        -->
         <property name="workerBits" value="22" />
-        <!-- 
-        // 每秒下的并发序列，9 bits可支持每台服务器每秒512个并发。        
+        <!--
+            // 每秒下的并发序列，9 bits可支持每台服务器每秒512个并发。
         -->
         <property name="seqBits" value="9" />
         <property name="epochStr" value="2016-09-20" />
     </bean>
-    
+
     <!-- Import mybatis config -->
     <import resource="classpath*:/uid/mybatis-spring.xml" />
 

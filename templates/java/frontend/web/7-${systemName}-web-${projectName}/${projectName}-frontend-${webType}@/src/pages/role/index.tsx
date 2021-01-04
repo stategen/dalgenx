@@ -15,7 +15,7 @@ import {ConnectionPros, operateOptions, cleanSelectRowsProps} from "@utils/DvaUt
 import {AppProps} from "@i/interfaces/AppFaces";
 import {TableProps, TableRowSelection} from "antd/lib/table";
 import Row from "antd/lib/grid/row";
-import StatesAlias from "@i/configs/${systemName?uncap_first}${projectName?cap_first}-statesAlias";
+import StatesAlias from "@i/configs/${appName?uncap_first}-statesAlias";
 import {FormItemProps} from "antd/es/form/FormItem";
 import {ModelPage, ModelPageProps} from "@components/QueryModal/QueryModal";
 import Link from "umi/link";

@@ -15,7 +15,7 @@ public class VisitChecker extends AbstractMethodChecker<VisitCheck>{
     }
 
     @Override
-    public IResponseStatus doCheck(Method method, VisitCheck checkAnno, Class<? extends IResponseStatus> defaultResponseStatusTypeClzOfCheckFail) {
+    public  <T extends Enum<T> & IResponseStatus> T doCheck(Method method, VisitCheck checkAnno, Class<? extends IResponseStatus> defaultResponseStatusTypeClzOfCheckFail) {
         return null;
     }
 

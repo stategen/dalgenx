@@ -1,4 +1,4 @@
-package com.example.${frontendName};
+package ${packageName}.main;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

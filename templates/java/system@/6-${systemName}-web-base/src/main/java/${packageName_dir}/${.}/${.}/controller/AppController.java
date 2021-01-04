@@ -21,6 +21,7 @@ import org.stategen.framework.lite.enums.MenuType;
 import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.StringUtil;
 import org.stategen.framework.web.cookie.CookieGroup;
+import com.baidu.fsg.uid.impl.CachedUidGenerator;
 import ${packageName}.enums.CookieType.Login.LoginCookieNames;
 <#if role>
 import ${packageName}.domain.Menu;
@@ -40,6 +41,10 @@ public class AppController {
 
     @Resource
     private CookieGroup<LoginCookieNames> loginCookieGroup;
+	
+    @Resource
+    private CachedUidGenerator cachedUidGenerator;
+	
 <#if role>
     @Resource(name = "userService")
     private UserService userService;
@@ -80,12 +85,29 @@ public class AppController {
         return this.menuService.getAllMenus();
     }
 
-
-
     @ApiRequestMappingAutoWithMethodName(name = "获取用户")
     public List<User> getUserOptions(@RequestParam(required = false, name = "userIds") ArrayList<String> userIds){
         return null;
     }
+    
+    
+    /***测试seata分布式事务*/
+    @ApiRequestMappingAutoWithMethodName(method = RequestMethod.GET)
+    public User  testSeataAt() {
+        User appendUserAge = this.userService.appendUserAge("2");
+        ReconfigureOnChangeTask reconfigureOnChangeTask;
+        return appendUserAge;
+    }
 </#if>
+
+    @ApiRequestMappingAutoWithMethodName(method = RequestMethod.GET)
+    public String testUid() {
+        long uid = this.cachedUidGenerator.getUID();
+        if (logger.isInfoEnabled()) {
+            logger.info(new StringBuilder("输出info信息: uid:").append(uid).toString());
+        }
+        String parseUID = cachedUidGenerator.parseUID(uid);
+        return parseUID;
+    }
 
 }

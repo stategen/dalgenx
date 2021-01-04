@@ -22,7 +22,8 @@
     http://www.springframework.org/schema/aop/spring-aop.xsd
     http://www.springframework.org/schema/util 
     http://www.springframework.org/schema/util/spring-util.xsd"
-    default-autowire="byName">
+    default-autowire="byName"
+>
     <aop:aspectj-autoproxy />
 
     
@@ -82,14 +83,14 @@
 
     
     <!-- 权限拦截,由各自的annotain check 处理 -->
-    <!-- 注释年，在 WebXml.java中先创建-->
+    <!-- 注释掉，在 WebXml.java中先创建,由于springboot必须首先加载requestmapping解析器-->
     <!-- <bean id="authCheckerHandlerInterceptor" class="org.stategen.framework.spring.mvc.AuthCheckerHandlerInterceptor">
         <property name="responseStatusOfCheckFailDefault"><util:constant static-field="${packageName}.enums.ResponseStatus.NOT_LOGIN"/></property>
     </bean> -->
 
     <!-- 以下配置代替 mvc:annotation-driven ,采用自定义swagger @apiMethodResourceMapping时，不需要写 path，自动映射方法名 避免硬编码，减少调试麻烦,-->
     <!-- 处理在类级别上的@RequestMapping注解 -->
-    <!-- 注释年，在 WebXml.java中先创建-->
+    <!-- 注释掉，在 WebXml.java中先创建,由于springboot必须首先加载requestmapping解析器-->
     <!-- <bean class="org.stategen.framework.spring.mvc.RequestMappingMethodHandlerMapping">
         <property name="interceptors">
             <list>
@@ -100,9 +101,11 @@
 
     <!-- 所有异常处理 -->
     <bean class="org.stategen.framework.spring.mvc.CollectExceptionJsonHandler">
-        <property name="responseStatusOfException"><util:constant static-field="${packageName}.enums.ResponseStatus.ERROR"/></property>
+        <property name="responseStatusOfException">
+            <util:constant static-field="${packageName}.enums.ResponseStatus.ERROR" />
+        </property>
     </bean>
-    
+
     
     <!-- 处理方法级别上的@RequestMapping注解 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
@@ -129,11 +132,22 @@
 
     <!-- 文档转文档 -->
     <!-- swagger2 {serverName}/doc/index.html -->
-    <mvc:resources mapping="/doc/**" location="classpath:/doc/" />
+    <!-- <mvc:resources mapping="/doc/**" location="classpath:static/doc/" /> -->
+    
+    <!-- <mvc:resources mapping="/swagger-ui.html" location="classpath:/META-INF/resources/" /> -->
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/" />
+    
     <mvc:resources mapping="/uploads/**" location="file:/uploads/" />
 
+    <mvc:resources mapping="/**"
+        location="
+          classpath:/META-INF/resources/,
+          classpath:/resources/, 
+          classpath:/static/, 
+          classpath:/public/" />
+
     <!-- 前端静态页面转前端页面 -->
-    <mvc:resources mapping="/pages/static/**" location="pages/static/" />
+    <!-- <mvc:resources mapping="/pages/static/**" location="pages/static/" /> -->
     <!-- 因为umi@2生成的js,css等与index.html是平行的，刷新页面等会有问题，需要以下配置才能解决，希望umi改进 -->
     <mvc:resources mapping="/pages/{:.*}/static/**" location="pages/static/">
         <mvc:resource-chain resource-cache="true">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 >
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -17,64 +17,16 @@
     <description />
 
     <dependencies>
+        <!-- @since stg2.2.3.RELEASE,架构层jar3由架构上各层自行维护，业务层维护自己的jars -->
+        <dependency>
+            <groupId>org.stategen.framework.layers</groupId>
+            <artifactId>stategen-layers-dao-pom</artifactId>
+            <type>pom</type>
+        </dependency>
+	
         <dependency>
             <groupId>${packageName}</groupId>
             <artifactId>${systemName?uncap_first}-pojo</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.stategen.framework</groupId>
-            <artifactId>aa-stategen-ibatis-util</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis2</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
         </dependency>
 
     </dependencies>
@@ -82,6 +34,7 @@
     <build>
         <plugins>
             <plugin>
+			    <!-- 引入即不发布到maven仓库 -->			
                 <artifactId>maven-deploy-plugin</artifactId>
             </plugin>
         </plugins>

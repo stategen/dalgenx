@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
     id="WebApp_ID" version="3.0" metadata-complete="false"
 >
-    <display-name>tradeApp</display-name>
+    <display-name>${appName?uncap_first}</display-name>
     <!-- 配置改从 6- config/CodeConfigAsWebXml.java 中 读取 ，兼容 spring/springboot 与 servlet3.1-->
 
     <welcome-file-list>

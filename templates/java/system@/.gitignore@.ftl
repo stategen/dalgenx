@@ -19,5 +19,7 @@ pages/
 *@temp
 node_modules/
 *-frontend-*/
+.springBeans
+.myumldata
 
 

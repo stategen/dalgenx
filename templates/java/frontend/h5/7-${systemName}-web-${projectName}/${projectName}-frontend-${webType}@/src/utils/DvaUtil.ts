@@ -30,7 +30,7 @@ export const DEFAULT_PAGE_SIZE = 10;
 
 export enum TemporalType {
   TIME = "TIME",
-  DATE = "",
+  DATE = "DATE",
   TIMESTAMP = "TIMESTAMP",
 }
 

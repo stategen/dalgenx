@@ -29,6 +29,8 @@
         <property name="templateMode" value="LEGACYHTML5" />
         <!--这里要设置编码 -->
         <property name="characterEncoding" value="utf-8" />
+		<!-- 为与 springboot,以前ssr中html放在pages下，经springboot打包后，会放在classpath:/public/下  -->
+        <property name="prefix" value="classpath:/public/"/>
     </bean>
 
     <bean id="thymeleaf.templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">

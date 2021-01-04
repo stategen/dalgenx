@@ -13,7 +13,7 @@
 </head>
 <script th:inline="javascript">
   /*<![CDATA[*/
-  window.${systemName?uncap_first}${projectName?cap_first}_url = /*[[${'${'}@urls.${systemName?uncap_first}${projectName?cap_first}_url}]]*/"/${systemName?uncap_first}${projectName?cap_first}";
+  window.${appName?uncap_first}_url = /*[[${'${'}${appName?uncap_first}_url}]]*/"/${appName?uncap_first}";
   /*]]>*/
 </script>
 <script>

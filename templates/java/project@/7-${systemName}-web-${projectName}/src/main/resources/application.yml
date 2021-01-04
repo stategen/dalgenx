@@ -1,35 +1,72 @@
+#首先加载 6-web-base中的bootstrap.yml,导入环境设置
 spring:
   application:
-    name: ${systemName?uncap_first}${projectName?cap_first}
+    name: ${appName?uncap_first}
   main:
     # Spring Boot 2.1 需要设定
     allow-bean-definition-overriding: true
   cloud:
     nacos:
       discovery:
-        server-addr:  ${nacos.serverAddr}
+        server-addr:  ${'${'}nacos.serverAddr}
         
     # 使用 Sentinel 作为熔断器
     sentinel:
       transport:
         #port: 8721
-        port: ${${systemName?uncap_first}${projectName?cap_first}.sentinel.transport.port}   
-        dashboard: ${sentinel.transport.dashboard}   
+        port: ${'${'}${appName?uncap_first}.client.for.sentinel.transport.port}   
+        dashboard: ${'${'}sentinel.transport.dashboard}   
       # 设置Sentinel Nacos数据源配置
       datasource:
         #其中flow是数据源名，可以自行随意修改
         flow:
           nacos:
-            server-addr: ${nacos.serverAddr}        
-            data-id: ${spring.application.name}-flow-rules
+            server-addr: ${'${'}nacos.serverAddr}        
+            data-id: ${'${'}spring.application.name}
             groupId: DEFAULT_GROUP
             # 规则类型，取值见：
             # org.springframework.cloud.alibaba.sentinel.datasource.RuleType
             # 配置后报错提示：Type 'com.alibaba.cloud.sentinel.datasource.config.NacosDataSourceProperties' has no property 'rule-type' ， 以为哪里配置错了或版本不对， 最后发现忽略即可， 项目可正常启动
             rule-type: FLOW
   
-  
-  
-server:
-  port: 8090
+#====================================Seata Config===============================================
+seata:
+  enabled: true
+  application-id: ${'${'}spring.application.name}
+  #向nacos中注册一个配置 service.vgroupMapping.${systemName?uncap_first}-service-group=default
+  #事务群组（可以每个应用独立取名，也可以使用相同的名字）
+  tx-service-group: ${systemName?uncap_first}-service-group 
+  registry:
+    type: nacos
+    nacos:
+      server-addr: ${'${'}nacos.serverAddr}
+      #seata 1.4.0,这个值为空,必须注释掉
+      #namespace: 
+      cluster: default
+  config:
+    type: nacos
+    nacos:
+      #seata 1.4.0,这个值为空,必须注释掉
+      #namespace: default
+      server-addr: ${'${'}nacos.serverAddr}
+      group: SEATA_GROUP
+  enable-auto-data-source-proxy: true
+  data-source-proxy-mode: AT
+
+#====================================Seata Config===============================================  
+#server 配置后优先使用  
+#server:
+#  port: ${'${'}${appName?uncap_first}.port:8080}
+#  servlet:
+#    context-path: /${appName?uncap_first}
+#  undertow:
+#    # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+#    io-threads: 4
+#    # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+#    worker-threads: 20
+#    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+#    # 每块buffer的空间大小,越小的空间被利用越充分
+#    buffer-size: 1024
+#    # 是否分配的直接内存
+#    direct-buffers: true
    

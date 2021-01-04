@@ -1,5 +1,8 @@
 package ${packageName};
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.servlet.DispatcherType;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
@@ -7,17 +10,85 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.boot.web.servlet.server.AbstractServletWebServerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.web.context.support.StaticWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.stategen.framework.spring.mvc.AuthCheckerHandlerInterceptor;
 import org.stategen.framework.spring.mvc.RequestMappingMethodHandlerMapping;
+import org.stategen.framework.util.StringUtil;
 
 import ${packageName}.enums.ResponseStatus;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class WebXml {
+    
+    /***这个类必须在springServlet中加载，否则后面的解析不成成*/
+    @Configuration
+    //这个注解很重要啊，不写不生效
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public static class RequestMappingHandlerMappingConfiguration implements WebMvcRegistrations {
+        
+        @Override
+        public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
+            //这个类直接把方法名映射为请求路径
+            RequestMappingMethodHandlerMapping requestMappingMethodHandlerMapping = new org.stategen.framework.spring.mvc.RequestMappingMethodHandlerMapping();
+            //
+            AuthCheckerHandlerInterceptor authCheckerHandlerInterceptor = new AuthCheckerHandlerInterceptor();
+            authCheckerHandlerInterceptor.setResponseStatusOfCheckFailDefault(ResponseStatus.NOT_LOGIN);
+            
+            requestMappingMethodHandlerMapping.setInterceptors(authCheckerHandlerInterceptor);
+            return requestMappingMethodHandlerMapping;
+        }
+    }
+    
+    @ImportResource("classpath*:applicationContext.xml")
+    @Order(Ordered.HIGHEST_PRECEDENCE + 1)
+    @Configuration
+    public static class ApplicationContextXml {
+        
+    }
+    
+    @ImportResource("classpath*:servletContext.xml")
+    //    @Order(Ordered.LOWEST_PRECEDENCE)
+    @Order(Ordered.HIGHEST_PRECEDENCE + 2)
+    @Configuration
+    public static class ServletContextXml {
+        
+    }
+    
+    /***用自定义配置的tomcat*/
+    @ImportResource("classpath:/servlet/servlet-factory.xml")
+    @Configuration
+    public static class ServletFactoryConfig {
+        
+    }
+    
+    @Configuration
+    public static class BootServletConfig {
+        
+        /***springboot 启动一个自定义servlet,*/
+        @Bean
+        public ServletRegistrationBean<?> createServletConfig() {
+            DispatcherServlet           dispatcherServlet  = new DispatcherServlet();
+            StaticWebApplicationContext applicationContext = new StaticWebApplicationContext();
+            dispatcherServlet.setApplicationContext(applicationContext);
+            
+            ServletRegistrationBean<?> servletRegistrationBean = new ServletRegistrationBean<>(dispatcherServlet, "/*");
+            
+            servletRegistrationBean.setName("BootServletConfig");
+            return servletRegistrationBean;
+        }
+    }
     
     @WebFilter(filterName = "CharacterEncodingFilter", urlPatterns = "/*",
             /*--*/
@@ -67,10 +138,9 @@ public class WebXml {
             initParams = {
                     /** 允许清空统计数据 */
                     @WebInitParam(name = "resetEnable", value = "true"),
-            /* <!-- 用户名 DruidConfig通过spring读取外部stategen.xml--> */
-            /* @WebInitParam(name = "loginUsername", value = "${druid.username}"), */
-            /* <!-- 密码 -- DruidConfig通过spring读取外部stategen.xml> */
-            /* @WebInitParam(name = "loginPassword", value = "${druid.password}") */
+            /* <!-- 用户名密码 DruidConfig通过spring读取外部stategen.xml--> */
+            /* @WebInitParam(name = "loginUsername", value = "${'${'}druid.username}"), */
+            /* @WebInitParam(name = "loginPassword", value = "${'${'}druid.password}") */
             
             })
     @Configuration
@@ -79,39 +149,41 @@ public class WebXml {
         private static final long serialVersionUID = 1L;
     }
     
-    /***这个类必须在springServlet中加载，否则后面的解析不成成*/
-    @Configuration
-    //这个注解很重要啊，不写不生效
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public static class RequestMappingHandlerMappingConfiguration implements WebMvcRegistrations {
-        
-        
-        @Override
-        public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
-            RequestMappingMethodHandlerMapping requestMappingMethodHandlerMapping = new org.stategen.framework.spring.mvc.RequestMappingMethodHandlerMapping();
-            //
-            AuthCheckerHandlerInterceptor authCheckerHandlerInterceptor =new AuthCheckerHandlerInterceptor(); 
-            authCheckerHandlerInterceptor.setResponseStatusOfCheckFailDefault(ResponseStatus.NOT_LOGIN);
-            
-            requestMappingMethodHandlerMapping.setInterceptors(authCheckerHandlerInterceptor);
-            return requestMappingMethodHandlerMapping;
+    public static void printEnv(ApplicationContext application) {
+        //https://blog.csdn.net/rongbo91/article/details/109645729
+        System.out.println("项目启动成功 *^_^* \n"
+                + " .-------.       ____     __        \n"
+                + " |  _ _   \\      \\   \\   /  /    \n" 
+                + " | ( ' )  |       \\  _. /  '       \n"
+                + " |(_ o _) /        _( )_ .'         \n" 
+                + " | (_,_).' __  ___(_ o _)'          \n"
+                + " |  |\\ \\  |  ||   |(_,_)'         \n" 
+                + " |  | \\ `'   /|   `-'  /           \n"
+                + " |  |  \\    /  \\      /           \n" 
+                + " ''-'   `'-'    `-..-'              ");
+        String ip;
+        try {
+            ip = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            log.error("没有获取ip", e);
+            ip = "ip";
         }
-    }
-
-    
-    @ImportResource("classpath*:applicationContext.xml")
-    @Order(Ordered.HIGHEST_PRECEDENCE + 1)
-    @Configuration
-    public static class ApplicationContextXml {
+        AbstractServletWebServerFactory servletWebServerFactory = application.getBean(AbstractServletWebServerFactory.class);
         
-    }
-    
-    @ImportResource("classpath*:servletContext.xml")
-    @Order(Ordered.LOWEST_PRECEDENCE)
-    @Configuration
-    public static class ServletContextXml {
+        int    port = servletWebServerFactory.getPort();
+        String path = servletWebServerFactory.getContextPath();//env.getProperty("server.servlet.context-path");
+        if (StringUtil.isEmpty(path)) {
+            path = "";
+        }
         
+        log.info("\n----------------------------------------------------------\n\t" +
+                "Application  is running! Access URLs:\n\t" +
+                "servletWebServerFactory  类型\t：" + servletWebServerFactory.getClass().getSimpleName() + ":\n\t" +
+                "Local访问网址: \t\thttp://localhost:" + port + path + "\n\t" +
+                
+                "External访问网址: \thttp://" + ip + ":" + port + path + "\n\t" +
+                "Swagger访问网址: \thttp://" + ip + ":" + port + path + "/doc/index.html\n\t" +
+                "----------------------------------------------------------");
     }
-    
   
 }

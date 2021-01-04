@@ -1,6 +1,8 @@
 spring:
   profiles:
+    #不需要配maven环境，环境信息应该直接读取环境
     active: 
     
   config:
+    #从环境中加载环境配置
     additional-location: file:/opt/config/stategen/stategen.xml

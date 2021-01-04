@@ -1,3 +1,3 @@
-echo 快速打包，不包括前端生成和编译
+echo 蹇�熸墦鍖咃紝涓嶅寘鎷墠绔敓鎴愬拰缂栬瘧
 call mvn clean package -P!front -e
 pause

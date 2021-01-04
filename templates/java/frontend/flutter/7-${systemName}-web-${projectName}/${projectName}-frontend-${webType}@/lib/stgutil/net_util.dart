@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:oktoast/oktoast.dart';
 import 'package:path_to_regexp/path_to_regexp.dart';
 
-import '../intergrade/configs/tradeApp_config.dart';
+import '../intergrade/configs/${appName?uncap_first}_config.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';

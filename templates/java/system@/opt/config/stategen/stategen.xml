@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
+    <!-- 些内容复制到  /opt/config/stategen/stategen.xml中 -->
     <!-- 通用设置 -->
     <!-- 一台机器可能好几块网卡，如阿里云服务器，dubbox有时不能正确识别哪个网卡是内部联机网卡，导致dubbo服务出错，所以要配THIS_IP ,THIS_IP也可以配在环境变量里-->
     <entry key="THIS_IP">127.0.0.1</entry>
@@ -23,8 +24,8 @@
     <entry key="redis.password"></entry>
     <entry key="redis.database">0</entry>
     
-    <entry key="nacos.serverAddr">${THIS_IP}:8848</entry>
-    <entry key="sentinel.transport.dashboard">${THIS_IP}:8880</entry>
+    <entry key="nacos.serverAddr">${'${'}THIS_IP}:8848</entry>
+    <entry key="sentinel.transport.dashboard">${'${'}THIS_IP}:8880</entry>
 
     <entry key="dubbo.protocol.host">${'${'}THIS_IP}</entry>   
 	
@@ -71,13 +72,13 @@
     <entry key="${systemName?uncap_first}.jdbc.password">${'${'}${systemName?uncap_first}.mysql.password}</entry>
 
     <!-- 2种注册方式，哪一种在下面优先  -->
-    <entry key="${systemName?uncap_first}.dubbo.registry.address">zookeeper://127.0.0.1:2181</entry>	
-    <entry key="${systemName?uncap_first}.dubbo.registry.address">nacos://127.0.0.1:8848</entry>
+    <entry key="${systemName?uncap_first}.dubbo.registry.address">zookeeper://${'${'}THIS_IP}:2181</entry>	
+    <entry key="${systemName?uncap_first}.dubbo.registry.address">nacos://${'${'}nacos.serverAddr}</entry>
     <entry key="${systemName?uncap_first}.dubbo.protocol.host">${'${'}THIS_IP}</entry>
-    <!-- -1 默认端口 -->
-    <entry key="${systemName?uncap_first}.dubbo.protocol.port">20872</entry>
+    <!-- -1 默认端口,由dubbo自由分配 -->
     <entry key="${systemName?uncap_first}.dubbo.protocol.port">-1</entry>
-	<entry key="${systemName?uncap_first}.dubbo.qos.port">22222</entry>
+	
+
     <!--特别注意这一行，检查 elasticsearch 集群名称-->
     <entry key="${systemName?uncap_first}.es.clustername">my-application</entry>
     <entry key="${systemName?uncap_first}.es.host">${'${'}elastic.host}</entry>
@@ -86,13 +87,6 @@
     <entry key="${systemName?uncap_first}.redis.port">${'${'}redis.port}</entry>
     <entry key="${systemName?uncap_first}.redis.password">${'${'}redis.password}</entry>
     <entry key="${systemName?uncap_first}.redis.database">${'${'}redis.database}</entry>
-    <entry key="${systemName?uncap_first}App.sentinel.transport.port">8721</entry>
-    <!-- springboot单独启动时，需要端口，默认8080 -->
-    <entry key="${systemName?uncap_first}App.port">8080</entry>
-	
-    <!-- [projectName]_url 对应相应 document.ejs 中的设置，会被导出到index.html,输出时，
-       由服务端把值下面相应设置的值传到index.html中,而不应该由前端开发自行写入硬编码，否则开发到发布可能因人工疏忽导致坑 -->
-	<entry key="${systemName?uncap_first}Cms_url">http://localhost:8080/${systemName?uncap_first}Cms</entry>
-    <entry key="${systemName?uncap_first}App_url">http://localhost:8080/${systemName?uncap_first}App</entry>
+
 
 </properties>

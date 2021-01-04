@@ -27,7 +27,7 @@
 </head>
 <script th:inline="javascript">
   /*<![CDATA[*/
-  window.${systemName?uncap_first}App_url = /*[[${'${'}@urls.${systemName?uncap_first}App_url}]]*/"/${systemName?uncap_first}App";
+  window.${appName?uncap_first}_url = /*[[${'${'}${appName?uncap_first}_url}]]*/"/${appName?uncap_first}";
   /*]]>*/
 </script>
 <script>
