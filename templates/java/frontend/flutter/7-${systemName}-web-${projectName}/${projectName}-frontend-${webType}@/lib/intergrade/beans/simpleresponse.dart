@@ -5,6 +5,11 @@
 import '../../stgutil/json_util.dart';
 import '../../stgutil/front_bean.dart';
 
+class SimpleResponseFields {
+  static const message = 'message';
+  static const success = 'success';
+}
+
 class SimpleResponse with FrontBean {
   /// message
   String message;
@@ -22,8 +27,8 @@ class SimpleResponse with FrontBean {
       return null;
     }
     return SimpleResponse(
-      message: JsonUtil.parseString(json['message']),
-      success: JsonUtil.parseBool(json['success']),
+      message: JsonUtil.parseString(json[SimpleResponseFields.message]),
+      success: JsonUtil.parseBool(json[SimpleResponseFields.success]),
     );
   }
 
@@ -34,12 +39,12 @@ class SimpleResponse with FrontBean {
   /// jsonEncode会调用这个方法
   @override
   Map<String, dynamic> toJson() {
-    var result = new Map<String, dynamic>();
+    var result = Map<String, dynamic>();
     if (this.message != null) {
-      result['message'] = JsonUtil.stringToJson(message);
+      result[SimpleResponseFields.message] = JsonUtil.stringToJson(message);
     }
     if (this.success != null) {
-      result['success'] = JsonUtil.boolToJson(success);
+      result[SimpleResponseFields.success] = JsonUtil.boolToJson(success);
     }
     return result;
   }

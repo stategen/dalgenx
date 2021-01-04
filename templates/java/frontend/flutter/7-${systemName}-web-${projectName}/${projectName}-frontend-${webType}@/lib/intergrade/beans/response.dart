@@ -7,6 +7,15 @@ import '../beans/simpleresponse.dart';
 import '../../stgutil/json_util.dart';
 import '../../stgutil/front_bean.dart';
 
+class ResponseFields {
+  static const code = 'code';
+  static const data = 'data';
+  static const exeptionClass = 'exeptionClass';
+  static const message = 'message';
+  static const status = 'status';
+  static const success = 'success';
+}
+
 class Response<T> extends SimpleResponse with FrontBean {
   /// code
   int code;
@@ -34,12 +43,12 @@ class Response<T> extends SimpleResponse with FrontBean {
       return null;
     }
     return Response<T>(
-      code: JsonUtil.parseInt(json['code']),
-      data: json['data'],
-      exeptionClass: JsonUtil.parseString(json['exeptionClass']),
-      message: JsonUtil.parseString(json['message']),
-      status: ResponseStatus.fromJson(json['status']),
-      success: JsonUtil.parseBool(json['success']),
+      code: JsonUtil.parseInt(json[ResponseFields.code]),
+      data: json[ResponseFields.data],
+      exeptionClass: JsonUtil.parseString(json[ResponseFields.exeptionClass]),
+      message: JsonUtil.parseString(json[ResponseFields.message]),
+      status: ResponseStatus.fromJson(json[ResponseFields.status]),
+      success: JsonUtil.parseBool(json[ResponseFields.success]),
     );
   }
 

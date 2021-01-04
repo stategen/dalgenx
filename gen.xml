@@ -86,8 +86,8 @@
     <!-- 参数为 in ? 转换为复数型式，如果不填写则用默认转换(大部分应该都是 ),也有人习惯为xxxList-->
     <entry key="list_subfix"></entry>
     <!-- 调用官方转换设置，当ibatis向mybatis转换时，IsNotEmpty和isEmpty两个标签，转换为静态方法 -->
-    <entry key="mybatis_isNotEmpty">@org.stategen.Util@isNotEmpty</entry>
-    <entry key="mybatis_isEmpty">@org.stategen.Util@isEmpty</entry>
+    <entry key="mybatis_isNotEmpty">@util.check@isNotEmpty</entry>
+    <entry key="mybatis_isEmpty">@util.check@isEmpty</entry>
     
 
 
