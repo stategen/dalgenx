@@ -17,6 +17,8 @@ public enum ResponseStatus implements IResponseStatus {
     PAY_NO_TOKEN(PayNotToken.class, false, 311, "权限校验没有通过", "pay.html", true),
 
     NOT_LOGIN(NotLogin.class, false, 211, "没有登录!", "login.html", true),
+    
+    BLOCK(Block.class, false, 403, "稍后再试", "block.html", false),
 
     ;
 
@@ -33,6 +35,9 @@ public enum ResponseStatus implements IResponseStatus {
     }
 
     public static interface NotLogin extends IResponseStatus {
+    }
+	
+    public static interface Block extends IResponseStatus {
     }
 
 

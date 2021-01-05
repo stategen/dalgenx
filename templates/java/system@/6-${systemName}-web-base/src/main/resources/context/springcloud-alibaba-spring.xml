@@ -2,17 +2,29 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
     xmlns:nacos="http://nacos.io/schema/nacos" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:util="http://www.springframework.org/schema/util"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-  http://www.springframework.org/schema/beans/spring-beans.xsd
-  http://www.springframework.org/schema/mvc
-  http://www.springframework.org/schema/mvc/spring-mvc.xsd
-  http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context.xsd
     http://nacos.io/schema/nacos http://nacos.io/schema/nacos.xsd
     http://www.springframework.org/schema/aop 
-    http://www.springframework.org/schema/aop/spring-aop.xsd"
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/util 
+  http://www.springframework.org/schema/util/spring-util.xsd"
 >
     <aop:aspectj-autoproxy />
 
-    <bean class="com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect"></bean>
+    <bean class="com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect">
+    </bean>
+
+
+    <!-- 对限流降级封装 -->
+    <bean class="org.stategen.framework.spring.mvc.SentinelBlockHandler">
+        <property name="blockResponseStatus">
+            <util:constant static-field="com.mycompany.biz.enums.ResponseStatus.BLOCK" />
+        </property>
+    </bean>
 </beans>

@@ -19,7 +19,7 @@
         <!-- @since 2.3.3.RELEASE,架构层jar3由架构上各层自行维护，业务层维护自己的jars -->
         <dependency>
             <groupId>org.stategen.framework.layers</groupId>
-            <artifactId>stategen-layers-web-base-pom</artifactId>
+            <artifactId>stategen-layer-web-base-pom</artifactId>
             <type>pom</type>
         </dependency>
 

@@ -16,10 +16,10 @@
     <name>5-${systemName?uncap_first}-service</name>
 
     <dependencies>
-        <!-- @since stg2.2.3.RELEASE,架构层jar3由架构上各层自行维护，业务层维护自己的jars -->
+        <!-- @since stg2.2.3.RELEASE,为减少jar维护难度，架构层jars可统一引用各自层的layer-pom -->
         <dependency>
             <groupId>org.stategen.framework.layers</groupId>
-            <artifactId>stategen-layers-service-pom</artifactId>
+            <artifactId>stategen-layer-service-pom</artifactId>
             <type>pom</type>
         </dependency>
 
