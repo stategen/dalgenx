@@ -18,9 +18,13 @@ import org.stategen.framework.annotation.Wrap;
 import org.stategen.framework.enums.DataOpt;
 import org.stategen.framework.lite.SimpleResponse;
 import org.stategen.framework.lite.enums.MenuType;
+import org.stategen.framework.util.AssertUtil;
+import org.stategen.framework.util.BusinessAssert;
 import org.stategen.framework.util.CollectionUtil;
 import org.stategen.framework.util.StringUtil;
 import org.stategen.framework.web.cookie.CookieGroup;
+
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baidu.fsg.uid.impl.CachedUidGenerator;
 import ${packageName}.enums.CookieType.Login.LoginCookieNames;
 <#if role>
@@ -29,8 +33,12 @@ import ${packageName}.domain.User;
 
 import ${packageName}.service.MenuService;
 import ${packageName}.service.UserService;
+<#else>
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 </#if>
-
+import io.seata.spring.annotation.GlobalTransactional;
 import io.swagger.annotations.ApiParam;
 
 @ApiConfig(menu = false)
@@ -51,55 +59,45 @@ public class AppController {
 
     @Resource
     private MenuService menuService;
-
-
-
-    @ApiRequestMappingAutoWithMethodName(name = "")
-    @State(area = User.class)
-    public SimpleResponse logout(HttpServletResponse response) {
-        loginCookieGroup.expireAllCookies();
-        return new SimpleResponse(true, "退出成功");
+	
+</#if>
+<#if !role>
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public class User implements java.io.Serializable {
+	    String userId;
+        String username;
+        String password;
     }
-
-    @ApiRequestMappingAutoWithMethodName(name = "")
-    @State(init = true, initCheck = false, dataOpt = DataOpt.FULL_REPLACE)
-    public User getCookieUser() {
-        String userId = this.loginCookieGroup.getCookieValue(LoginCookieNames.userId);
-        if (StringUtil.isEmpty(userId)) {
-            return null;
-        }
-
-        User user = this.userService.getUserByUserId(userId);
-        if (user == null) {
-            return null;
-        }
-
-        List<Long> visitsIds = this.menuService.getMenusByUserId(user.getUserId(), MenuType.MENU);
-        user.setVisitsIds(visitsIds);
-        return user;
-    }
-
-    @ApiRequestMappingAutoWithMethodName(name = "获所所有菜单", method = RequestMethod.GET)
-    @State(init = true, initCheck = false, dataOpt = DataOpt.FULL_REPLACE)
-    public List<Menu> getAllMenus() {
-        return this.menuService.getAllMenus();
-    }
-
-    @ApiRequestMappingAutoWithMethodName(name = "获取用户")
-    public List<User> getUserOptions(@RequestParam(required = false, name = "userIds") ArrayList<String> userIds){
-        return null;
-    }
+</#if>
     
+    @ApiRequestMappingAutoWithMethodName(method = RequestMethod.GET)
+    @SentinelResource
+    @Wrap(false)
+    public String test() {
+        MockUtil.slow(1000L);
+        return "test张三中文";
+    }
     
     /***测试seata分布式事务*/
     @ApiRequestMappingAutoWithMethodName(method = RequestMethod.GET)
-    public User  testSeataAt() {
-        User appendUserAge = this.userService.appendUserAge("2");
-        ReconfigureOnChangeTask reconfigureOnChangeTask;
-        return appendUserAge;
+    @GlobalTransactional
+    public User testSeata() {
+        User user = <#if role>this.userService.appendUserAge("1")<#else> new User("1","张三","123456")</#if>;
+        return user;
     }
-</#if>
-
+    
+    /***测试seata分布式事务*/
+    @ApiRequestMappingAutoWithMethodName(method = RequestMethod.GET)
+    @SentinelResource(/* blockHandler = "orderBlockHandler",fallback = "orderFallback", */ )
+    public User testSentinel() {
+        MockUtil.throwRandomException(2);
+        User user = <#if role>this.userService.appendUserAge("1")<#else> new User("1","张三","123456")</#if>;
+        return user;
+    }
+    
+    /***测试百度分步式id*/
     @ApiRequestMappingAutoWithMethodName(method = RequestMethod.GET)
     public String testUid() {
         long uid = this.cachedUidGenerator.getUID();
@@ -109,5 +107,71 @@ public class AppController {
         String parseUID = cachedUidGenerator.parseUID(uid);
         return parseUID;
     }
+    
+    @ApiRequestMappingAutoWithMethodName(name = "")
+    @State(area = User.class)
+    public SimpleResponse logout(HttpServletResponse response) {
+        loginCookieGroup.expireAllCookies();
+        return new SimpleResponse(true, "退出成功");
+    }
+    
+    @ApiRequestMappingAutoWithMethodName(name = "")
+    @State(init = true, initCheck = false, dataOpt = DataOpt.FULL_REPLACE)
+    public User getCookieUser() {
+        String userId = this.loginCookieGroup.getCookieValue(LoginCookieNames.userId);
+        if (StringUtil.isEmpty(userId)<#if !role> || !"1".equals(userId)</#if>) {
+            return null;
+        }
+
+        User user = <#if role>this.userService.getUserByUserId("1")<#else> new User("1","张三","123456")</#if>;
+<#if role>		
+        if (user == null) {
+            return null;
+        }
+
+        List<Long> visitsIds = this.menuService.getMenusByUserId(user.getUserId(), MenuType.MENU);
+        user.setVisitsIds(visitsIds);
+</#if>		
+        return user;
+    }
+    
+    @ApiRequestMappingAutoWithMethodName(name = "", method = RequestMethod.POST)
+    public SimpleResponse login(
+            @ApiParam("用户名") @RequestParam() String username,
+            @ApiParam("密码") @RequestParam() String password,
+            @ApiParam(hidden = true) User user) {
+        BusinessAssert.mustNotNull(user, "用户数据不能为空");
+<#if role>		
+        User loginUser = this.userService.getUserByUsername(username);
+        if (loginUser != null) {
+            String userPassword = loginUser.getPassword();
+            BusinessAssert.mustEqual(String.class, userPassword, password, "密码不正确");
+            loginCookieGroup.addCookie(LoginCookieNames.userId, loginUser.getUserId());
+            return new SimpleResponse(true, "登录成功");
+        }
+        return new SimpleResponse(false, "用户不存在");
+<#else>
+        loginCookieGroup.addCookie(LoginCookieNames.userId, "1");
+	    return new SimpleResponse(true, "登录成功");		
+</#if>		
+    }
+        
+<#if role>
+    
+    @ApiRequestMappingAutoWithMethodName(name = "获所所有菜单", method = RequestMethod.GET)
+    @State(init = true, initCheck = false, dataOpt = DataOpt.FULL_REPLACE)
+    public List<Menu> getAllMenus() {
+        return this.menuService.getAllMenus();
+    }
+    
+    @ApiRequestMappingAutoWithMethodName(name = "获取用户")
+    public List<User> getUserOptions(@RequestParam(required = false, name = "userIds") ArrayList<String> userIds) {
+        return null;
+    }
+	 
+
+</#if>
+
+
 
 }

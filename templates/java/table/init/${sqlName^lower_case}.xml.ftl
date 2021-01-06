@@ -18,11 +18,12 @@
 <#include 'table.include.ftl'>
 <!DOCTYPE
     table SYSTEM "https://github.com/stategen/dalgenx/blob/master/gen.schemas-1.0.dtd"
-    [<!ENTITY ${table.className?upper_case} SYSTEM "${table.sqlName?lower_case}.xml.xhtml">
+    [<!ENTITY ${table.sqlName?upper_case} SYSTEM "${table.sqlName?lower_case}.xml.xhtml">
 ]>
 <table sqlName="${table.sqlName}" className="<#if add_illegal_prefix=='true'>?</#if>${table.className}" remarks="${table.remarks!?j_string}">
    <#if add_illegal_prefix=='true'>
-↑请检查上面className是否正确,将非法字符"?"去掉,并删除本行(或者在gen_config.xml中设置add_illegal_prefix=false,不生成检查)↑
+    ↑↑↑请检查上面className是否正确,将非法字符"?"去掉,并删除本行(或者在gen_config.xml中设置add_illegal_prefix=false,不生成检查)↑↑↑
+    <!-- ps:如果修改了默认类名，请重新执行 gen.sh table ${table.sqlName} -e ,并且将控制台打印出来的内容与当前 ${table.sqlName}.xml同步-->
     </#if>
     <#function mb4Unicode jdbcType>
        <#if jdbcType?contains('VARCHAR')!>
@@ -166,7 +167,7 @@
     </#list>
 
     <!-- 引用 ${table.sqlName?lower_case}.xml.xhtml ,表修改后，需重新执行 gen.sh table ${table.sqlName} -e -->
-    &${table.className?upper_case};
+    &${table.sqlName?upper_case};
     <!-- 引用 ${table.sqlName?lower_case}.xml.xhtml 结束 -->
 
     <!-- 自定义方法请写在下面 需要自动提示，请将dalgenX目录下的 gen.schemas-1.0.dtd 配到 eclipse 或 idea中
@@ -176,9 +177,29 @@
     -->
     <!--
     <operation name="..." remarks="">
+        标签中sql借鉴了dart等高级语言中判空等语法糖，在开发阶段被解析成ibatis|mybatis语法，不存在运行时解析bug
         <sql>
-            ...
+            select
+            a.user_id,
+            a.username,
+            a.name,
+            a.nickName,
+            a.code,
+            a.grade,
+            a.status
+            from user a
+            where
+            a.delete_flag = 0
+            and a.username=? /*必选条件,省略参数名*/
+            and a.name like #cstmName# /*必选条件*/
+            and a.username=?? /*动态条件,省略参数名*/
+            and a.nickName=?#nkName# /*动态条件*/
+            and a.code > ? /*必选条件,省略参数名*/
+            and a.grade &lt; #gradeList# /*必选条件*/
+            and a.grade in ?? /*动态条件,省略参数名*/
+            and a.status not in ?#statusList#  /*动态条件*/
         </sql>
+
     </operation>
     -->
 

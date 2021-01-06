@@ -59,8 +59,8 @@ public class WebXml {
     }
     
     @ImportResource("classpath*:servletContext.xml")
-    //    @Order(Ordered.LOWEST_PRECEDENCE)
-    @Order(Ordered.HIGHEST_PRECEDENCE + 2)
+    @Order(Ordered.LOWEST_PRECEDENCE)
+    //    @Order(Ordered.HIGHEST_PRECEDENCE + 3)
     @Configuration
     public static class ServletContextXml {
         
@@ -188,10 +188,9 @@ public class WebXml {
                 "Application  is running! Access URLs:\n\t" +
                 "servletWebServerFactory  类型\t：" + servletWebServerFactory.getClass().getSimpleName() + ":\n\t" +
                 "Local访问网址: \t\thttp://localhost:" + port + path + "\n\t" +
-                
-                "External访问网址: \thttp://" + ip + ":" + port + path + "\n\t" +
-                "Swagger访问网址: \thttp://" + ip + ":" + port + path + "/doc/index.html\n\t" +
+                "应用访问网址: \t\thttp://" + ip + ":" + port + path + "\n\t" +
+                "Swagger网址: \t\thttp://" + ip + ":" + port + path + "/doc/index.html\n\t" +
                 "----------------------------------------------------------");
     }
-  
+    
 }

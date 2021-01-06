@@ -42,4 +42,4 @@ react abstract
 7.不站在全栈角度考虑的架构。要知道最最终交付的产品是一个前、后、运营端相互配后的产品。架构角度多大，决定能罩到多远，罩不的地方，出了问题，锅来了
 TODO 检查net_util.ts中 的无包装返回值处理和net_util.dart中的处理机制相同
 TODO iterate open="(" close=")" 不能被 (#xxxx#) 取代，解析为Object
-TODO gen.sh table 不应该检查当有目标xml
+TODO gen.sh table 不应该检查当有目标xml ？？？？

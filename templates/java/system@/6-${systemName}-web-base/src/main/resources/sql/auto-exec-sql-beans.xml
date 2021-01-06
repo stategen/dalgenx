@@ -17,14 +17,20 @@
 >
     <aop:aspectj-autoproxy />
 
-    <bean class="com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect">
+    <bean id="resourceDatabasePopulator" class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+        <property name="scripts">
+            <array>
+                <!-- seata ,这个sql 有个判断 CREATE TABLE IF NOT EXISTS -->
+                <value>classpath:/sql/undo_log.sql</value>
+                <!-- baidu uid ,这个sql 有个判断 CREATE TABLE IF NOT EXISTS -->
+                <value>classpath:/sql/worker_node.sql</value>
+            </array>
+        </property>
+
     </bean>
 
-
-    <!-- 对限流降级封装 -->
-    <bean class="org.stategen.framework.spring.mvc.SentinelBlockHandler">
-        <property name="blockResponseStatus">
-            <util:constant static-field="${packageName}.enums.ResponseStatus.BLOCK" />
-        </property>
+    <bean class="org.springframework.jdbc.datasource.init.DataSourceInitializer">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="databasePopulator" ref="resourceDatabasePopulator"/>
     </bean>
 </beans>

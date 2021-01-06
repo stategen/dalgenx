@@ -33,6 +33,11 @@
             <artifactId>${systemName?uncap_first}-facade</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>${packageName}</groupId>
+            <artifactId>${systemName?uncap_first}-intergrade</artifactId>
+        </dependency>        
+
     </dependencies>
 
     <build>

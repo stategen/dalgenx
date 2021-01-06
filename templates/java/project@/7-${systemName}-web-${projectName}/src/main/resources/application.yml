@@ -6,29 +6,53 @@ spring:
     # Spring Boot 2.1 需要设定
     allow-bean-definition-overriding: true
   cloud:
+#====================================nacos Config===============================================      
     nacos:
       discovery:
         server-addr:  ${'${'}nacos.serverAddr}
         
+#====================================sentinel Config===============================================        
     # 使用 Sentinel 作为熔断器
     sentinel:
       transport:
-        #port: 8721
         port: '${'#{'}T(util.Net).from(${'${'}${appName?uncap_first}.client.for.sentinel.transport.port:8721})}'   
         dashboard: ${'${'}sentinel.transport.dashboard}   
-      # 设置Sentinel Nacos数据源配置
+        # 设置Sentinel Nacos数据源配置
       datasource:
-        #其中flow是数据源名，可以自行随意修改
+        # 配置后报错提示：rule-type没有借误，值大写对应RuleType,转换效率更高
+        # 反向持久化到nacos，下次启动，配置 还在,建议下载这个版本的sentinel-dashboard.jar https://blog.csdn.net/oyc619491800/article/details/112206645
+        # java -Dnacos.server-addr=localhost:8848 -Dserver.port=8880 -Dcsp.sentinel.dashboard.server=localhost:8880 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard-nacos-1.8.0.jar
         flow:
           nacos:
-            server-addr: ${'${'}nacos.serverAddr}        
-            data-id: ${'${'}spring.application.name}
-            groupId: DEFAULT_GROUP
-            # 规则类型，取值见：
-            # org.springframework.cloud.alibaba.sentinel.datasource.RuleType
-            # 配置后报错提示：Type 'com.alibaba.cloud.sentinel.datasource.config.NacosDataSourceProperties' has no property 'rule-type' ， 以为哪里配置错了或版本不对， 最后发现忽略即可， 项目可正常启动
+            server-addr: ${'${'}nacos.serverAddr}
+            dataId: ${'${'}spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP
             rule-type: FLOW
-  
+        degrade:
+          nacos:
+            server-addr: ${'${'}nacos.serverAddr}
+            dataId: ${'${'}spring.application.name}-degrade-rules
+            groupId: SENTINEL_GROUP
+            rule-type: DEGRADE
+        system:
+          nacos:
+            server-addr: ${'${'}nacos.serverAddr}
+            dataId: ${'${'}spring.application.name}-system-rules
+            groupId: SENTINEL_GROUP
+            rule-type: SYSTEM
+        authority:
+          nacos:
+            server-addr: ${'${'}nacos.serverAddr}
+            dataId: ${'${'}spring.application.name}-authority-rules
+            groupId: SENTINEL_GROUP
+            rule-type: AUTHORITY
+        param-flow:
+          nacos:
+            server-addr: ${'${'}nacos.serverAddr}
+            dataId: ${'${'}spring.application.name}-param-flow-rules
+            groupId: SENTINEL_GROUP
+            rule-type: PARAM_FLOW
+              
 #====================================Seata Config===============================================
 seata:
   enabled: true
@@ -58,7 +82,7 @@ seata:
 #server:
 #  port: ${'${'}${appName?uncap_first}.port:8080}
 #  servlet:
-#    context-path: /${appName?uncap_first}
+#    context-path: /${"${"}spring.application.name}
 #  undertow:
 #    # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
 #    io-threads: 4
