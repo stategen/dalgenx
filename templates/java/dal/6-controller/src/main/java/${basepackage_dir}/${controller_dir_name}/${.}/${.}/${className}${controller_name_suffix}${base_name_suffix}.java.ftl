@@ -32,6 +32,10 @@ import ${tableConfig.basepackage}.${service_dir_name}.${tableConfig.className}${
  * </pre>
  */
 
+/**
+ * ${tableConfig.className}${controller_name_suffix}${base_name_suffix}  
+ * @author StageGen.org
+ */  
 @RequestMapping("/api/${tableConfig.className?uncap_first}")
 @Wrap
 public abstract class ${tableConfig.className}${controller_name_suffix}${base_name_suffix} {

@@ -48,8 +48,7 @@
         <property name="enableSwagger" value="${'${'}swagger.enable}"/>
     </bean>
 
-    <!-- 如果创建后，可以注释掉 -->
-    <import resource="classpath:sql/auto-exec-sql-beans.xml"/>
+
 
     <import resource="classpath*:context/dao-beans-auto-*.xml" />
     <import resource="classpath*:context/dao-beans-manual-*.xml" />

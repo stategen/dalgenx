@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>${systemName?uncap_first}-service</artifactId>
-    <version>${'${'}system.version.SNAPSHOT}</version>
+    <version>${'${'}system.version-SNAPSHOT}</version>
     <packaging>jar</packaging>
     <name>5-${systemName?uncap_first}-service</name>
 

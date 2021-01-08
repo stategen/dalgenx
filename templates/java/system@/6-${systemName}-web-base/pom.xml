@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>${systemName?uncap_first}-web-base</artifactId>
-    <version>${'${'}system.version.SNAPSHOT}</version>
+    <version>${'${'}system.version-SNAPSHOT}</version>
     <packaging>jar</packaging>
     <name>6-${systemName?uncap_first}-web-base</name>
 

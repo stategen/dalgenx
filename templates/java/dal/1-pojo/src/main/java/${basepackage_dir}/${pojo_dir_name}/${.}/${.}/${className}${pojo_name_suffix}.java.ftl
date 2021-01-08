@@ -37,6 +37,7 @@ import lombok.Setter;
 
 /**
  * ${tableConfig.className}${pojo_name_suffix}
+ * @author StateGen.org
  * <pre>
 <#include '/java_description.include'/>
  * 该类仅不可以修改dalgenx生成的属生(field)类型 ,方法(Method)返回值类型和参数类型

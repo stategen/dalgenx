@@ -4,6 +4,12 @@ import org.stategen.framework.lite.IResponseStatus;
 
 import lombok.Getter;
 
+/**
+ * The Enum ResponseStatus.
+ *
+ * @author niaoge
+ * @version $Id: ResponseStatus.java, v 0.1 2021年1月7日 上午5:35:05 XiaZhengsheng Exp $$
+ */
 @Getter
 public enum ResponseStatus implements IResponseStatus {
 

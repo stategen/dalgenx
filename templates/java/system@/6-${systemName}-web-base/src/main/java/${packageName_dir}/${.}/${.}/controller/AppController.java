@@ -76,7 +76,8 @@ public class AppController {
     @SentinelResource
     @Wrap(false)
     public String test() {
-        MockUtil.slow(1000L);
+	    //MockUtil只能用于测试，不能打包，执行 mvn package 由 插件 forbiddenapis 检测
+        //MockUtil.slow(1000L);
         return "test张三中文";
     }
     
@@ -92,7 +93,8 @@ public class AppController {
     @ApiRequestMappingAutoWithMethodName(method = RequestMethod.GET)
     @SentinelResource(/* blockHandler = "orderBlockHandler",fallback = "orderFallback", */ )
     public User testSentinel() {
-        MockUtil.throwRandomException(2);
+        //MockUtil只能用于测试，不能打包，执行 mvn package 由 插件 forbiddenapis 检测
+        //MockUtil.throwRandomException(2);
         User user = <#if role>this.userService.appendUserAge("1")<#else> new User("1","张三","123456")</#if>;
         return user;
     }

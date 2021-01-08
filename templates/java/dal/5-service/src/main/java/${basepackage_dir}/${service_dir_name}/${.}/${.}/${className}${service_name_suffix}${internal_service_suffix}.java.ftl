@@ -42,6 +42,7 @@ import org.stategen.framework.util.BaseService;
 
 /**
  * ${tb.className}${service_name_suffix}
+ * @author StageGen.org 
  * <pre>
 <#include '/java_description.include'/>
  * 新生成的类中的方法，只有在不同名的情况下才会被追加到该类下，

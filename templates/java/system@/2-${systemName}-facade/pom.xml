@@ -22,10 +22,24 @@
             <artifactId>stategen-layer-facade-pom</artifactId>
             <type>pom</type>
         </dependency>
-		
+
         <dependency>
             <groupId>${packageName}</groupId>
             <artifactId>${systemName?uncap_first}-pojo</artifactId>
+        </dependency>
+
+        <!-- 供ide解析dubbo xml文件 -->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>${'${'}dubbo-version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>

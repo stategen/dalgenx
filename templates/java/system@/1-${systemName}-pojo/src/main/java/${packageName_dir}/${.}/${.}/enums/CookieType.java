@@ -5,6 +5,10 @@ import org.stategen.framework.lite.IResponseStatus;
 
 import lombok.Getter;
 
+/**
+ * @author niaoge
+ * @version $Id: CookieType.java, v 0.1 2021年1月7日 上午5:29:32 XiaZhengsheng Exp $
+ */
 @Getter
 public enum CookieType implements ICookieType {
     LOGIN(Login.class, "_tk_", ResponseStatus.NOT_LOGIN),

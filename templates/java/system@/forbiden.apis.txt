@@ -1,0 +1,5 @@
+@ignoreUnresolvable
+@defaultMessage org.stategen.framework.util.MockUtil 只能被用于本机测试不能被打包发行
+org.stategen.framework.util.MockUtil#throwRandomException(long)
+org.stategen.framework.util.MockUtil#slow(long)
+org.stategen.framework.util.MockUtil** @ org.stategen.framework.util.MockUtil 只能被用于本机测试不能被打包发行

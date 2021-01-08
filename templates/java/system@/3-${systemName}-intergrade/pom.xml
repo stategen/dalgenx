@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>${systemName?uncap_first}-intergrade</artifactId>
-    <version>${'${'}system.version.SNAPSHOT}</version>
+    <version>${'${'}system.version-SNAPSHOT}</version>
     <packaging>jar</packaging>
     <name>3-${systemName?uncap_first}-intergrade</name>
 

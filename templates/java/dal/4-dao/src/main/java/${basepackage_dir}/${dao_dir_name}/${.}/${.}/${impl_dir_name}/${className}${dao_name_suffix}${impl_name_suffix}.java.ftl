@@ -47,6 +47,7 @@ import org.stategen.framework.lite.IdGenerateService;
 <#assign table=tb.table>
 /**
  * ${tb.className}${dao_name_suffix}
+ * @author StageGen.org 
  * <pre>
 <#include '/java_description.include'/>
  * 该类仅可以修改引用

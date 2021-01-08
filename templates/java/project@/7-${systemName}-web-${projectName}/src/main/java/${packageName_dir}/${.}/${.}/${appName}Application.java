@@ -17,15 +17,14 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootApplication
 @EnableAutoConfiguration
 @EnableDiscoveryClient // 表明是一个Nacos客户端，该注解是 SpringCloud 提供的原生注解。
-@ServletComponentScan(basePackageClasses = { WebXml.class})
+@ServletComponentScan(basePackageClasses = { WebXml.class })
 //@EnableWebMvc不能享受 @ApiRequestMappingAutoWithMethodName的便利
 @Import({
         CodeConfigSpringBoot.class,
 })
-
 public class ${appName}Application extends SpringBootServletInitializer {
     
-    final static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(${appName}Application.class);
+    final static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(${appName}Application.class);
     
     @Override
     protected WebApplicationContext createRootApplicationContext(ServletContext servletContext) {
@@ -34,18 +33,14 @@ public class ${appName}Application extends SpringBootServletInitializer {
         return createRootApplicationContext;
     }
     
-    
-//    // 注解支持的配置Bean
-//    @Bean
-//    public SentinelResourceAspect sentinelResourceAspect() {
-//        return new SentinelResourceAspect();
-//    }
-    
     public static void main(String[] args) throws UnknownHostException {
-        logger.info("从main启动");
-        for (String arg : args) {
-            System.out.println("arg<===========>:" + arg);
+        if (log.isInfoEnabled()) {
+            log.info("从main启动");
+            for (int i = 0; i < args.length; i++) {
+                log.info(i + "<===========>:" + args[i]);
+            }
         }
+        
         ConfigurableApplicationContext application = SpringApplication.run(${appName}Application.class, args);
         WebXml.printEnv(application);
     }

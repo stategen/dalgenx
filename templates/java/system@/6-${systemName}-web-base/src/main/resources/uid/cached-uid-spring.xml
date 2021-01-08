@@ -5,8 +5,26 @@
 >
     <!-- UID generator -->
     <bean id="disposableWorkerIdAssigner" class="com.baidu.fsg.uid.worker.DisposableWorkerIdAssigner" />
+    
+    <!-- 如果手工创建了workNode,则不需要再创建-->
+    <bean id="baiduResourceDatabasePopulator" class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+        <property name="scripts">
+            <array>
+                <!-- baidu uid ,这个sql 有个判断 CREATE TABLE IF NOT EXISTS -->
+                <value>classpath:/sql/worker_node.sql</value>
+                <!-- seata ,这个sql 有个判断 CREATE TABLE IF NOT EXISTS seata会自己创建undo_log -->
+                <!-- <value>classpath:/sql/undo_log.sql</value> -->
+            </array>
+        </property>
 
-    <bean id="cachedUidGenerator" class="com.baidu.fsg.uid.impl.CachedUidGenerator">
+    </bean>
+
+    <bean id="baiduDataSourceInitializer" class="org.springframework.jdbc.datasource.init.DataSourceInitializer" >
+        <property name="dataSource" ref="dataSource"/>
+        <property name="databasePopulator" ref="baiduResourceDatabasePopulator"/>
+    </bean>    
+
+    <bean id="cachedUidGenerator" class="com.baidu.fsg.uid.impl.CachedUidGenerator" depends-on="baiduDataSourceInitializer">
         <property name="workerIdAssigner" ref="disposableWorkerIdAssigner" />
         <!-- Specified bits & epoch as your demand. No specified the default value will be used -->
         <!--
