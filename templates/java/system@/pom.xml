@@ -6,21 +6,21 @@
     <artifactId>${systemName?uncap_first}-parent</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
-    <name>0-${systemName?uncap_first}-parent</name>
+    <name>${FoldUtil.get(0,systemName)}-parent</name>
 
     <modules>
-        <module>1-${systemName?uncap_first}-pojo</module>
-        <module>2-${systemName?uncap_first}-facade</module>
-        <module>3-${systemName?uncap_first}-intergrade</module>
-        <module>4-${systemName?uncap_first}-dao</module>
-        <module>5-${systemName?uncap_first}-service</module>
-        <module>6-${systemName?uncap_first}-web-base</module>
+        <module>${FoldUtil.get(1,systemName)}-pojo</module>
+        <module>${FoldUtil.get(2,systemName)}-facade</module>
+        <module>${FoldUtil.get(3,systemName)}-intergrade</module>
+        <module>${FoldUtil.get(4,systemName)}-dao</module>
+        <module>${FoldUtil.get(5,systemName)}-service</module>
+        <module>${FoldUtil.get(6,systemName)}-web-base</module>
     </modules>
 
 
     <properties>
-        <stategen-version>stg.2.3.0.RELEASE</stategen-version>
-        <stategen-layer.pom.version>stgp.1.0-stg.2.3.0.RELEASE</stategen-layer.pom.version>
+        <stategen-version>stg.2.3.1.RELEASE</stategen-version>
+        <stategen-layer.pom.version>stgp.1.0-stg.2.3.1.RELEASE</stategen-layer.pom.version>
         
         <!-- 发到公司私有maven仓库中，即pojo和facade(dubbo服务的版本)，这个版本跟着pom.version一致 -->
         <${systemName?uncap_first}-facade-version>1.0.0</${systemName?uncap_first}-facade-version>
@@ -86,7 +86,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- @since stg.2.3.0.RELEASE,架构层jar3由架构上各层自行维护，业务层维护自己的jars -->
+            <!-- @since stg.2.3.1.RELEASE,架构层jar3由架构上各层自行维护，业务层维护自己的jars -->
             <dependency>
                 <groupId>org.stategen.framework.layers</groupId>
                 <artifactId>stategen-layer-pojo-pom</artifactId>

@@ -17,7 +17,7 @@
     <artifactId>${systemName?uncap_first}-web-${projectName?uncap_first}</artifactId>
     <version>${'${'}system.version-SNAPSHOT}</version>
     <packaging>war</packaging>
-    <name>7-${systemName?uncap_first}-web-${projectName?uncap_first}</name>
+    <name>${FoldUtil.get(7,systemName)}-web-${projectName?uncap_first}</name>
 
 
 

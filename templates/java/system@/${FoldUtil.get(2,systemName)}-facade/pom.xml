@@ -10,38 +10,42 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>${systemName?uncap_first}-intergrade</artifactId>
-    <version>${'${'}system.version-SNAPSHOT}</version>
+    <artifactId>${systemName?uncap_first}-facade</artifactId>
     <packaging>jar</packaging>
-    <name>3-${systemName?uncap_first}-intergrade</name>
+    <name>${FoldUtil.get(2,systemName)}-facade</name>
+    <description />
 
     <dependencies>
         <!-- @since stg2.2.3.RELEASE,为减少jar维护难度，架构层jars可统一引用各自层的layer-pom -->
         <dependency>
             <groupId>org.stategen.framework.layers</groupId>
-            <artifactId>stategen-layer-intergrade-pom</artifactId>
+            <artifactId>stategen-layer-facade-pom</artifactId>
             <type>pom</type>
         </dependency>
 
-    
-        <!--
-            <dependency>
-            <groupId>com.xxx.xxx</groupId>
-            <artifactId>xxx-facade</artifactId>
-            <version>${'${'}xxx-facade-version}</version>
-            </dependency>
-        -->
+        <dependency>
+            <groupId>${packageName}</groupId>
+            <artifactId>${systemName?uncap_first}-pojo</artifactId>
+        </dependency>
+
+        <!-- 供ide解析dubbo xml文件 -->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>${'${'}dubbo-version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-			    <!-- 引入即不发布到maven仓库 -->			
-                <artifactId>maven-deploy-plugin</artifactId>
-            </plugin>
-
         </plugins>
     </build>
-
 </project>

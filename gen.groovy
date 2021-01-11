@@ -29,7 +29,7 @@ def main() {
 	String executeTarget = System.getProperty(GenNames.executeTarget);
     println pom.properties.getClass();
 //    if ("${executeTarget}" in ["system", "project", "client", "boot"]) {
-	if ("${executeTarget}"=="system" || "${executeTarget}"=="project" || "${executeTarget}"=="client" || "${executeTarget}"=="boot" ){
+	if ("${executeTarget}"=="system" || "${executeTarget}"=="project" || "${executeTarget}"=="client" ){
         new ProgenTargets(this)."${executeTarget}"();
     } else {
         loadDefaultGeneratorProperties();
@@ -40,8 +40,8 @@ def main() {
 }
 
 def loadDefaultGeneratorProperties() {
-    Properties mergedProps =GenProperties.getAllMergedProps(System.getProperty(GenNames.genConfigXml));
-    GenProperties.genStaticFiles(mergedProps)
+    Properties mergedProps =GenProperties.getAllMergedPropsByOrder(System.getProperty(GenNames.genConfigXml));
+
     Properties pts =GeneratorProperties.properties;
     pts.putAll(mergedProps);
 

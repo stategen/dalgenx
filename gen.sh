@@ -23,9 +23,6 @@ echo "gen.sh api [table_sql_name] [-e]
 echo "gen.sh client [h5|flutter|web] [-e]
       脚手架命令 在当前工程（7-*）下生成一个[h5|flutter|web]的前端 e.g.,
       gen.sh client flutter -e"
-echo "gen.sh boot [-e]
-      脚手架命令 在当前工程（7-*）把项目变为spring-boot项目 e.g.,
-      gen.sh boot -e"
 exit
 fi
 
@@ -34,13 +31,9 @@ echo $currentCmd
 cmdPath=$(pwd)
 projectsPath=$cmdPath;
 
-if [ "$1" == "api"  -o "$1" == "client" -o "$1" == "boot" ]; then
+if [ "$1" == "api"  -o "$1" == "client" ]; then
   projectsPath=$(dirname $(pwd))
   project_name="${cmdPath##*/}"
-  if [[ $project_name != 7-* ]]; then
-    echo "--------------$1 需要在 7- 工程下執行 -----------------"
-    exit
-  fi
 fi
 
 genConfigPath="$projectsPath/"
@@ -66,6 +59,7 @@ if [ "$1" == "project" ]; then
     fi
 
 elif [ "$1" == "api" ]; then
+    echo $2
     if [ ! -n "$2" ]; then
        echo "项目名称不能为空 ! 如 $1 user cms -e cms指的是如 7-trade-web-cms"
        exit

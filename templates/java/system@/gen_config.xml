@@ -19,12 +19,12 @@
 
     <!-- 各层生成到哪个目录下，如果为空，表示同一个目录 -->
     <!-- 本项目中 pojo与dto放入一个工程内 -->
-    <entry key="pojo_module_name">1-${systemName?uncap_first}-pojo</entry>
-    <!-- <entry key="dto_module_name">1-${systemName?uncap_first}-pojo</entry> -->
-    <entry key="facade_module_name">2-${systemName?uncap_first}-facade</entry>
-    <entry key="dao_module_name">4-${systemName?uncap_first}-dao</entry>
-    <entry key="service_module_name">5-${systemName?uncap_first}-service</entry>
-    <entry key="controller_module_name">6-${systemName?uncap_first}-web-base</entry>
+    <entry key="pojo_module_name">${FoldUtil.get(1,systemName)}-pojo</entry>
+    <!-- <entry key="dto_module_name">${FoldUtil.get(1,systemName)}-pojo</entry> -->
+    <entry key="facade_module_name">${FoldUtil.get(2,systemName)}-facade</entry>
+    <entry key="dao_module_name">${FoldUtil.get(4,systemName)}-dao</entry>
+    <entry key="service_module_name">${FoldUtil.get(5,systemName)}-service</entry>
+    <entry key="controller_module_name">${FoldUtil.get(6,systemName)}-web-base</entry>
 
 
     <entry key="pojo_dir_name">domain</entry>
@@ -67,4 +67,7 @@
     <entry key="dao_type">ibatis</entry>
     <!-- 如果表有水平权限(-level(orgnization|树型级别表),-owner(user|所有者表))，下面属生为true,必须提示水平权限参数，否则更不了 -->
     <entry key="forceUseLevelAuthorForWrite">true</entry>
+    
+    <!-- 生成文件夹时，数字的样式， numHeader(1-trade-pojo)，numMid(trade-1-pojo)， numNone(trade-pojo)，这里一经生成，本系统不能再随便调整-->
+    <entry key="foldNumberType">${foldNumberType}</entry>    
 </properties>

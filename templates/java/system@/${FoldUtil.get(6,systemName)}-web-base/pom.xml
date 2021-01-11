@@ -10,33 +10,34 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>${systemName?uncap_first}-service</artifactId>
+    <artifactId>${systemName?uncap_first}-web-base</artifactId>
     <version>${'${'}system.version-SNAPSHOT}</version>
     <packaging>jar</packaging>
-    <name>5-${systemName?uncap_first}-service</name>
+    <name>${FoldUtil.get(6,systemName)}-web-base</name>
 
     <dependencies>
-        <!-- @since stg2.2.3.RELEASE,为减少jar维护难度，架构层jars可统一引用各自层的layer-pom -->
+        <!-- @since 2.3.3.RELEASE,架构层jar3由架构上各层自行维护，业务层维护自己的jars -->
         <dependency>
             <groupId>org.stategen.framework.layers</groupId>
-            <artifactId>stategen-layer-service-pom</artifactId>
+            <artifactId>stategen-layer-web-base-pom</artifactId>
             <type>pom</type>
         </dependency>
 
         <dependency>
-            <groupId>${packageName}</groupId>
-            <artifactId>${systemName?uncap_first}-dao</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>${packageName}</groupId>
-            <artifactId>${systemName?uncap_first}-facade</artifactId>
+            <groupId>org.stategen.framework</groupId>
+            <artifactId>stategen-rapid-framework</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${packageName}</groupId>
-            <artifactId>${systemName?uncap_first}-intergrade</artifactId>
-        </dependency>        
+            <artifactId>${systemName?uncap_first}-service</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+            <version>${'${'}spring.boot.version}</version>
+        </dependency>
 
     </dependencies>
 

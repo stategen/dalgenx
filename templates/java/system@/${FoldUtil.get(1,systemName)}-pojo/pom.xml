@@ -12,7 +12,7 @@
 
     <artifactId>${systemName?uncap_first}-pojo</artifactId>
     <packaging>jar</packaging>
-    <name>1-${systemName?uncap_first}-pojo</name>
+    <name>${FoldUtil.get(1,systemName)}-pojo</name>
 
     <dependencies>
         <!-- @since stg2.2.3.RELEASE,为减少jar维护难度，架构层jars可统一引用各自层的layer-pom -->
