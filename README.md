@@ -8,7 +8,7 @@
 
 4. 我对本项目持续开发优化从2015年开始，用于生产环境改造，特别是支持可迭代开发(全网唯一？？)，它生成java代码时会双向比对java文件。所以本版基本上是重构开发，命名为dalgenX。
 
-5. 与支付宝dalgen还有一个区别：支付宝dalgen只支持ibatis,而dalgenX可以在ibatis与mybatis之间自由切换生成.
+5. 与支付宝dalgen还有一个区别：支付宝dalgen只支持ibatis,而dalgenX可以在ibatis与mybatis之间自由切换生成.dalgenX解决dalgen中DDD模型开发中的失血模式下的失忆问题。
 
 6. dalgenX中的sql为batis中sql的语法糖，方便对sql阅读，开发，DBA优化，语法糖只在生成代码时起作用，显式生成目标batis sql语言。不参与运行期，无需担心语法糖会造成运行期bug。
 
