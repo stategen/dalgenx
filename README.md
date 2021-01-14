@@ -4,15 +4,15 @@
 
 2. 该项目基于cn_rapidframework（dalgenx为了生产使用性改造很多）
 
-3. dalgen开源初级版最早由badqiu放在taocode上，
+3. dalgen开源初级版最早由badqiu放在taocode上，badqiu大神我不认识，mybatis-plus-pagging.jar那个分页器有一个@author badqiu
 
-4. 我对本项目持续开发优化有5年时间,修bug，用于生产环境改造，特别是支持可迭代开发(全网唯一？？)，生成java代码时会双向比对java文件。所以本版基本上是重构开发，命名为dalgenX
+4. 我对本项目持续开发优化从2015年开始，用于生产环境改造，特别是支持可迭代开发(全网唯一？？)，它生成java代码时会双向比对java文件。所以本版基本上是重构开发，命名为dalgenX。
 
 5. 与支付宝dalgen还有一个区别：支付宝dalgen只支持ibatis,而dalgenX可以在ibatis与mybatis之间自由切换生成.
 
-6. dalgenX中的sql为batis中sql的语法糖，方便对sql阅读，开发，DBA优化，开发语法糖，用来生成显式目标batis sql语言。不参与运行期，无需担心语法糖会造成运行期bug
+6. dalgenX中的sql为batis中sql的语法糖，方便对sql阅读，开发，DBA优化，开发语法糖，用来生成显式目标batis sql语言。不参与运行期，无需担心语法糖会造成运行期bug。
 
-7. StateGen用dalgenX来生成dal层+service层+baseController层，开发者也可以单独在自己的项目中使用.
+7. StateGen用dalgenX来生成dao层+service层+baseController层，开发者也可以单独在自己的项目中使用.
 
 8. 因为早期基于的项目不是svn管理就是代码管理平台(taocode)关闭，无法列举源项目地址.在此向前辈开源贡献者表示感谢。
 
