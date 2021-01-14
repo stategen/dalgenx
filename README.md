@@ -1,4 +1,4 @@
-###介绍
+### 介绍
 
 1. dalgenX是对支付宝dalgen代码生成器的开源实现，freemarker版
 
@@ -16,9 +16,9 @@
 
 8. 基于的项目早期是svn管理，或者代码管理平台(taocode)关闭，无法列举源项目地址.在此向前辈开源贡献者表示感谢。
 
-9. 以下是使用方法:       
+### 以下是使用方法:       
 
-   1. 配置 dalgenX
+   1. #### 配置 dalgenX
 
 ```
 git clone https://github.com/stategen/dalgenx.git
