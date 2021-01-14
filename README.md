@@ -14,7 +14,7 @@
 
 7. StateGen用dalgenX来生成dao层+service层+baseController层，开发者也可以单独在自己的项目中使用.
 
-8. 我使用过一段时间支付宝的dalgen,被其深深的理念所折服，很难再回到之前的mybatis-gernerator搞原始低调和肉身比对文件开发，我也无法接受在java文件上里混入sql的开发理念（hibernate就是这样失去市场的??）。加上很幸运地taocode关闭前找到badqiu的dalgen。工欲善其事,必先利其器,所以才有今天的dalgenX
+8. 我使用过一段时间支付宝的dalgen,被其深深的理念所折服，很难再回到之前的mybatis-gernerator搞原始低效和肉身比对文件风险的开发，我也无法接受在java文件上里混入sql的开发理念（hibernate就是这样失去市场的??）。加上很幸运地taocode关闭前找到badqiu的dalgen。工欲善其事,必先利其器,所以才有今天的dalgenX
 
 8. 因为早期基于的项目不是svn管理就是代码管理平台(taocode)关闭，无法列举源项目地址.在此向前辈开源贡献者表示感谢。
 
