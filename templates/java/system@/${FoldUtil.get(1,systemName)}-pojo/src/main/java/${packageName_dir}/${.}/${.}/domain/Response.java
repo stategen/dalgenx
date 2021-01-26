@@ -4,7 +4,14 @@ import org.stategen.framework.lite.BaseResponse;
 
 import ${packageName}.enums.ResponseStatus;
 
-
+/**
+ *在 controller或method上配置@Wrap，由该类无侵入式返回给前端.不用写 new Response().由 ResponseBodyAdviceWrapper自行封装
+ * 返回给前端的包装类，配置在spring的xml中，各家包装大同小异又不太一样，所以不能统一在framework中强制
+ * 实现，而是默认初始化后，再采用依赖倒置设计原则，根据自己公司的特别修改或实现,依照fastjson规则，
+ * 只有public getter才会被序列化到前端
+ * @author niaoge
+ * @version $Id: Response.java, v 0.1 2021年1月18日 下午11:28:49 XiaZhengsheng Exp $
+ */
 public class Response<T> extends BaseResponse<T> {
     
    // private String test1="test1";

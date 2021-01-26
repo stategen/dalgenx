@@ -2,7 +2,7 @@
 <properties>
     
     <comment>
-        可以自己建立一个gen.custom.xml的用户全局高设置，加载顺序 gen.xml gen.custom.xml gen_config.xml,后加载的内容有效
+        可以自己可以在dalgenX下建立一个gen.custom.xml的用户全局设置，默认不会上传，加载顺序 gen.xml==>gen.custom.xml==>gen_config.xml,后加载的内容有效
         代码生成器配置文件:
         1.会为所有的property生成property_dir属性,如pkg=com.company => pkg_dir=com/company
     </comment>
@@ -91,8 +91,8 @@
     <entry key="mybatis_isNotEmpty">@util.check@isNotEmpty</entry>
     <entry key="mybatis_isEmpty">@util.check@isEmpty</entry>
     
-    <!-- 生成文件夹时，数字的样式， numHeader(1-trade-pojo)，numMid(trade-1-pojo)， numNone(trade-pojo)-->
-    <entry key="foldNumberType">numHeader</entry>
+    <!-- 生成文件夹时，数字的样式， numHeader(1-trade-pojo)，numMid(trade-1-pojo)， numNone(trade-pojo) ,默认numMid,没有配置是 numHeader -->
+    <!-- <entry key="foldNumberType">numMid</entry> -->
     
    
 
