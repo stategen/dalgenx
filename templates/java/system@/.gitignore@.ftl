@@ -22,5 +22,5 @@ node_modules/
 .springBeans
 .myumldata
 pom.properties
-
+.factorypath
 
