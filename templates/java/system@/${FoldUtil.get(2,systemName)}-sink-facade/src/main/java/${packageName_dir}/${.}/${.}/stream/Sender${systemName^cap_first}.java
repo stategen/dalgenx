@@ -48,7 +48,7 @@ public class Sender${systemName?cap_first} {
     
     @Resource(name="fluxProcessor")
     public void setProcessor( FluxProcessor<Message<?>, Message<?>> processor) {
-        SenderTrade.processor = processor;
+        Sender${systemName?cap_first}.processor = processor;
     }
     
     @Bean

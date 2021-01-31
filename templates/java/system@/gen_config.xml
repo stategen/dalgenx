@@ -74,7 +74,11 @@
     <!-- 如果表有水平权限(-level(orgnization|树型级别表),-owner(user|所有者表))，下面属生为true,必须提示水平权限参数，否则更不了 -->
     <entry key="forceUseLevelAuthorForWrite">true</entry>
     
-    <!-- 生成文件夹时，数字的样式， numHeader(1-trade-pojo)，numMid(trade-1-pojo)， numNone(trade-pojo) ,默认numMid,没有配置是 numHeader -->
-    <#-- 与老系统兼容，没有配置的情况下，新工程初始化时生成 numMid-->
-	<entry key="foldNumberType">${foldNumberType!'numMid'}</entry>
+    <!-- 生成文件夹时，数字的样式， gen_config.xml中foldNumberType的值生成后，不要更改
+      numHeader(1-trade-pojo)，
+      numMid(trade-1-pojo)， 
+      numNone(trade-pojo) ,
+      默认numHeader ,
+    -->
+	  <entry key="foldNumberType">${foldNumberType!'numHeader'}</entry>
 </properties>

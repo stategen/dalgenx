@@ -1,0 +1,17 @@
+﻿<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>
+        可以自己可以在dalgenX下建立一个gen.custom.xml的用户全局设置，加载顺序 gen.xml==>gen.custom.xml==>gen_config.xml,后加载的内容有效
+        代码生成器配置文件:
+        1.会为所有的property生成property_dir属性,如pkg=com.company => pkg_dir=com/company
+    </comment>
+	
+        
+    <!-- 生成文件夹时，数字的样式， gen_config.xml中foldNumberType的值生成后，不要更改，请到自定义gen.custom.xml
+      numHeader(1-trade-pojo)，
+      numMid(trade-1-pojo)， 
+      numNone(trade-pojo) ,
+      默认numHeader ,
+    -->
+    <entry key="foldNumberType">numMid</entry>
+</properties>

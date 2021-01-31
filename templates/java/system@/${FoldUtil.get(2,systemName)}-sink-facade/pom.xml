@@ -12,7 +12,7 @@
 
     <artifactId>${systemName?uncap_first}-sink-facade</artifactId>
     <packaging>jar</packaging>
-    <name>2-trade-sink-facade</name>
+    <name>${FoldUtil.get(2,systemName)}-sink-facade</name>
     <description />
     <!-- 
 	    动态消息，引用jar包即可发送，不需要privider方额外配置
@@ -29,8 +29,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.mycompany.biz</groupId>
-            <artifactId>trade-pojo</artifactId>
+            <groupId>${packageName}</groupId>
+            <artifactId>${systemName?uncap_first}-pojo</artifactId>
         </dependency>
 
         <dependency>

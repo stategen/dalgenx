@@ -79,18 +79,18 @@ public class AppController {
         }
     }
     
-    /*** curl -H "Content-Type: application/json" -X POST -d "{\"id\":\"receiveTrade-dest\",\"bill-pay\":\"150\"}" http://localhost:8080/tradeApp/api/app/sendmq */
-    /*** curl -H "Content-Type: application/json" -X POST -d "{\"id\":\"receiveAuth-dest\",\"bill-pay\":\"150\"}" http://localhost:8080/tradeApp/api/app/sendmq */
+    /*** curl -H "Content-Type: application/json" -X POST -d "{\"id\":\"receive${systemName?cap_first}-dest\",\"bill-pay\":\"150\"}" http://localhost:8080/${systemName?uncap_first}Xxx/api/app/sendmq */
+    /*** curl -H "Content-Type: application/json" -X POST -d "{\"id\":\"receive${systemName?cap_first}-dest\",\"bill-pay\":\"150\"}" http://localhost:8080/${systemName?cap_first}Xxx/api/app/sendmq */
     @SuppressWarnings("unchecked")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ApiRequestMappingAutoWithMethodName
     public String sendmq(@RequestBody String body, @RequestHeader(HttpHeaders.CONTENT_TYPE) Object contentType) throws Exception {
         Map<String, String> payload         = jsonMapper.readValue(body, Map.class);
         String              destinationName = payload.get("id");
-        SenderTrade.sendMessage(destinationName, payload);  
+        Sender${systemName?cap_first}.sendMessage(destinationName, payload);  
 
-//        com.mycompany.biz.stream.DemoBill payload         = jsonMapper.readValue(body, ${packageName}.stream.DemoBill.class);
-//        SenderTrade.sendMessage(ReceiveTrade.class, payload);
+//        ${packageName}.stream.DemoBill payload         = jsonMapper.readValue(body, ${packageName}.stream.DemoBill.class);
+//        Sender${systemName?cap_first}.sendMessage(Receive${systemName?cap_first}.class, payload);
         return "Ok";
     }
     
@@ -100,14 +100,14 @@ public class AppController {
         final static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AppController.TestSink.class);
         
         @Bean
-        public ReceiveTrade receiveTrade() {
-            return new ReceiveTrade() {
+        public Receive${systemName?cap_first} receive${systemName?cap_first}() {
+            return new Receive${systemName?cap_first}() {
                 @Override
                 public void accept(${packageName}.stream.DemoBill data) {
-                    log.info("Data received from receiveTrade-dest..." + data);
+                    log.info("Data received from receive${systemName?cap_first}-dest..." + data);
                 }
             };
-            //return data -> log.info("Data received from receiveTrade-dest.." + data);
+            //return data -> log.info("Data received from receive${systemName?cap_first}-dest.." + data);
         }
         /*
         @Bean

@@ -167,8 +167,8 @@
             </dependency>
 
             <dependency>
-                <groupId>com.mycompany.biz</groupId>
-                <artifactId>trade-sink-facade</artifactId>
+                <groupId>${packageName}</groupId>
+                <artifactId>${systemName?uncap_first}-sink-facade</artifactId>
                 <version>${'${'}${systemName?uncap_first}-facade-version}</version>
             </dependency>
 

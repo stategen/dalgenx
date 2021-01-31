@@ -7,6 +7,6 @@
 >
 
     <!-- 接入的系统通过 import *-spring.xml方式 非侵入式集成 -->
-    <bean class="com.mycompany.biz.stream.Sender${systemName?cap_first}"/>
+    <bean class="${packageName}.stream.Sender${systemName?cap_first}"/>
 
 </beans>

@@ -8,6 +8,6 @@ spring:
         supplier: 1
         receive${systemName?cap_first}: 1    
       bindings:
-        receiveTrade-in-0:
+        receive${systemName?cap_first}-in-0:
           destination: receive${systemName?cap_first}-dest
           group: receive${systemName?cap_first}-group
