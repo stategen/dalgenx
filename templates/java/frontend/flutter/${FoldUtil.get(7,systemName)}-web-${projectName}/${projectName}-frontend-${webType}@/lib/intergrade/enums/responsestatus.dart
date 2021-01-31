@@ -24,12 +24,16 @@ class ResponseStatus extends ClassAsEnum<ResponseStatus> {
   /// NOT_LOGIN
   static const NOT_LOGIN = ResponseStatus("NOT_LOGIN", 'NOT_LOGIN');
 
+  /// BLOCK
+  static const BLOCK = ResponseStatus("BLOCK", 'BLOCK');
+
   static Map<String, ResponseStatus> _map = {
     OK.value: OK,
     ERROR.value: ERROR,
     MISSED.value: MISSED,
     PAY_NO_TOKEN.value: PAY_NO_TOKEN,
-    NOT_LOGIN.value: NOT_LOGIN
+    NOT_LOGIN.value: NOT_LOGIN,
+    BLOCK.value: BLOCK
   };
 
   static ResponseStatus fromJson(dynamic value) {
@@ -69,6 +73,12 @@ class ResponseStatus extends ClassAsEnum<ResponseStatus> {
     'NOT_LOGIN': Option(
       value: ResponseStatus.NOT_LOGIN,
       label: 'NOT_LOGIN',
+    ),
+
+    /// BLOCK
+    'BLOCK': Option(
+      value: ResponseStatus.BLOCK,
+      label: 'BLOCK',
     )
 
   };

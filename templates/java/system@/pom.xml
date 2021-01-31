@@ -11,6 +11,7 @@
     <modules>
         <module>${FoldUtil.get(1,systemName)}-pojo</module>
         <module>${FoldUtil.get(2,systemName)}-facade</module>
+        <module>${FoldUtil.get(2,systemName)}-sink-facade</module>
         <module>${FoldUtil.get(3,systemName)}-intergrade</module>
         <module>${FoldUtil.get(4,systemName)}-dao</module>
         <module>${FoldUtil.get(5,systemName)}-service</module>
@@ -28,15 +29,13 @@
         <system.version-SNAPSHOT>${systemName?uncap_first}-1.0.0-SNAPSHOT</system.version-SNAPSHOT>
 
         <!-- 当项目转会为spring-boot后，这个值必须与spring-boot内的值相同，否则会有兼容问题 -->
-        <spring.version>5.2.3.RELEASE</spring.version>
-        <spring.boot.version>2.2.3.RELEASE</spring.boot.version>
-        <!-- 这个版本对应nacos是的1.3.x(不可上1.4),sentinel dashboard版本可以到 1.8 -->
-        <alibaba.spring.cloud.version>2.2.3.RELEASE</alibaba.spring.cloud.version>
-        <spring-data-redis-version>2.2.3.RELEASE</spring-data-redis-version>
+        <spring.version>5.2.7.RELEASE</spring.version>
+        <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
+        <spring-cloud-stream.version>3.0.3.RELEASE</spring-cloud-stream.version>
+		    <reactor-core.version>3.3.6.RELEASE</reactor-core.version>
         <dubbo-version>2.7.8</dubbo-version>
         <sentinel.version>1.8.0</sentinel.version>
-        
-        
+        <lombok.versoin>1.18.18</lombok.versoin>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <gmaven-plugin.version>1.5</gmaven-plugin.version>
         <maven-shade-plugin.versiion>3.2.4</maven-shade-plugin.versiion>
@@ -71,7 +70,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
+            <version>${'${'}lombok.versoin}</version>
             <optional>true</optional>
         </dependency>
 
@@ -103,6 +102,13 @@
 
             <dependency>
                 <groupId>org.stategen.framework.layers</groupId>
+                <artifactId>stategen-layer-sink-facade-pom</artifactId>
+                <version>${'${'}stategen-layer.pom.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.stategen.framework.layers</groupId>
                 <artifactId>stategen-layer-intergrade-pom</artifactId>
                 <version>${'${'}stategen-layer.pom.version}</version>
                 <type>pom</type>
@@ -128,6 +134,12 @@
                 <version>${'${'}stategen-layer.pom.version}</version>
                 <type>pom</type>
             </dependency>
+            
+            <dependency>
+                <groupId>org.stategen.framework</groupId>
+                <artifactId>aa-stategen-cloud</artifactId>
+                <version>${'${'}stategen-version}</version>
+            </dependency>            
 
             <dependency>
                 <groupId>org.stategen.framework.layers</groupId>
@@ -136,6 +148,11 @@
                 <type>pom</type>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-undertow</artifactId>
+                <version>${'${'}spring.boot.version}</version>
+            </dependency>
 		
             <dependency>
                 <groupId>${packageName}</groupId>
@@ -146,6 +163,12 @@
             <dependency>
                 <groupId>${packageName}</groupId>
                 <artifactId>${systemName?uncap_first}-facade</artifactId>
+                <version>${'${'}${systemName?uncap_first}-facade-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.mycompany.biz</groupId>
+                <artifactId>trade-sink-facade</artifactId>
                 <version>${'${'}${systemName?uncap_first}-facade-version}</version>
             </dependency>
 
@@ -180,6 +203,26 @@
                 <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${'${'}spring.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-stream</artifactId>
+                <version>${'${'}spring-cloud-stream.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            
+	        <dependency>
+	            <groupId>io.projectreactor</groupId>
+	            <artifactId>reactor-core</artifactId>
+	            <version>${'${'}reactor-core.version}</version>
+	            <scope>provided</scope>
+	        </dependency>
+			
             <dependency>
                 <groupId>org.stategen.framework</groupId>
                 <artifactId>stategen-rapid-framework</artifactId>

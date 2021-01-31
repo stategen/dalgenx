@@ -26,5 +26,6 @@
         <property name="blockResponseStatus">
             <util:constant static-field="${packageName}.enums.ResponseStatus.BLOCK" />
         </property>
+        <property name="msgFlowException" value="该阶段不支持该操作(限流)，请稍后再试"/>
     </bean>
 </beans>

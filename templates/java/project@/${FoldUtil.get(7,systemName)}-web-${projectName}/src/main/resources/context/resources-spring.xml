@@ -22,7 +22,7 @@
 >
     <!--
         <bean id="remoteConfigProvidor" class="${packageName}.provider.RemoteConfigProvidor">
-        <property name="notifyName" value="${'${'}project.name}" />
+        <property name="notifyName" value="${'${'}spring.application.name}" />
         <property name="tableName" value="remote_config"/>
         <property name="useCodeAsDefaultMessage" value="true"/>
         </bean

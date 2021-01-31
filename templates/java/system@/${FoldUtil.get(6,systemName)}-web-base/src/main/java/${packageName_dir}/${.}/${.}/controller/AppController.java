@@ -1,32 +1,42 @@
 package ${packageName}.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.MimeType;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.stategen.framework.annotation.ApiConfig;
 import org.stategen.framework.annotation.ApiRequestMappingAutoWithMethodName;
 import org.stategen.framework.annotation.State;
 import org.stategen.framework.annotation.Wrap;
 import org.stategen.framework.enums.DataOpt;
 import org.stategen.framework.lite.SimpleResponse;
-import org.stategen.framework.lite.enums.MenuType;
-import org.stategen.framework.util.AssertUtil;
 import org.stategen.framework.util.BusinessAssert;
-import org.stategen.framework.util.CollectionUtil;
+
 import org.stategen.framework.util.StringUtil;
 import org.stategen.framework.web.cookie.CookieGroup;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baidu.fsg.uid.impl.CachedUidGenerator;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ${packageName}.enums.CookieType.Login.LoginCookieNames;
+import ${packageName}.stream.Receive${systemName?cap_first};
+import ${packageName}.stream.Sender${systemName?cap_first};
 <#if role>
 import ${packageName}.domain.Menu;
 import ${packageName}.domain.User;
@@ -45,13 +55,70 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/api/app")
 @Wrap
 public class AppController {
+    
     final static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(AppController.class);
-
+    
     @Resource
     private CookieGroup<LoginCookieNames> loginCookieGroup;
-	
+    
     @Resource
     private CachedUidGenerator cachedUidGenerator;
+	
+    @Autowired
+    private ObjectMapper jsonMapper;
+    
+    @PostConstruct
+    public void mixin_to_specify_creator() throws Exception {
+        jsonMapper.addMixIn(MimeType.class, MimeTypeMixin.class);
+    }
+    
+    public static abstract class MimeTypeMixin {
+        
+        @JsonCreator
+        public MimeTypeMixin(@JsonProperty("type") String type) {
+        }
+    }
+    
+    /*** curl -H "Content-Type: application/json" -X POST -d "{\"id\":\"receiveTrade-dest\",\"bill-pay\":\"150\"}" http://localhost:8080/tradeApp/api/app/sendmq */
+    /*** curl -H "Content-Type: application/json" -X POST -d "{\"id\":\"receiveAuth-dest\",\"bill-pay\":\"150\"}" http://localhost:8080/tradeApp/api/app/sendmq */
+    @SuppressWarnings("unchecked")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ApiRequestMappingAutoWithMethodName
+    public String sendmq(@RequestBody String body, @RequestHeader(HttpHeaders.CONTENT_TYPE) Object contentType) throws Exception {
+        Map<String, String> payload         = jsonMapper.readValue(body, Map.class);
+        String              destinationName = payload.get("id");
+        SenderTrade.sendMessage(destinationName, payload);  
+
+//        com.mycompany.biz.stream.DemoBill payload         = jsonMapper.readValue(body, ${packageName}.stream.DemoBill.class);
+//        SenderTrade.sendMessage(ReceiveTrade.class, payload);
+        return "Ok";
+    }
+    
+    
+    //Following sink is used as test consumer. It logs the data received through the consumer.
+    static class TestSink {
+        final static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AppController.TestSink.class);
+        
+        @Bean
+        public ReceiveTrade receiveTrade() {
+            return new ReceiveTrade() {
+                @Override
+                public void accept(${packageName}.stream.DemoBill data) {
+                    log.info("Data received from receiveTrade-dest..." + data);
+                }
+            };
+            //return data -> log.info("Data received from receiveTrade-dest.." + data);
+        }
+        /*
+        @Bean
+        public ReceiveAuth receiveAuth() {
+          return data -> log.info("Data received from receiveAuth-dest.." + data);
+        }
+		*/
+
+
+    }  	
+    
 	
 <#if role>
     @Resource(name = "userService")
@@ -65,7 +132,7 @@ public class AppController {
     @Getter
     @Setter
     @AllArgsConstructor
-    public class User implements java.io.Serializable {
+    public class User {
 	    String userId;
         String username;
         String password;
@@ -89,7 +156,7 @@ public class AppController {
         return user;
     }
     
-    /***测试seata分布式事务*/
+    /***测试限流降级分布式事务*/
     @ApiRequestMappingAutoWithMethodName(method = RequestMethod.GET)
     @SentinelResource(/* blockHandler = "orderBlockHandler",fallback = "orderFallback", */ )
     public User testSentinel() {

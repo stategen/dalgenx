@@ -23,7 +23,7 @@
 
     <!--
         <bean id="appapiBundleProvidor" class="${packageName}.i18n.DatabaseBundleProvidor">
-        <property name="notifyName" value="${'${'}project.name}"/>
+        <property name="notifyName" value="${'${'}spring.application.name}"/>
         <property name="tableName" value="translate"/>
         <property name="useCodeAsDefaultMessage" value="true"/>
         <property name="defaultIndex" value="zh_CN"/>

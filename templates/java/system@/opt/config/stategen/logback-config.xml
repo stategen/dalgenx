@@ -3,10 +3,10 @@
     xsi:noNamespaceSchemaLocation="http://www.padual.com/java/logback.xsd" scan="true" scanPeriod="60 seconds" debug="false"
 >  
     <!-- 读取 war包中classpath下属性 -->
-    <property resource="application.properties" />
+    <property resource="application.yml" />
     <!-- 定义日志文件 输入位置 -->
 
-    <property name="logPathPrefix" value="/opt/logs/${'${'}project.name}-" />
+    <property name="logPathPrefix" value="/opt/logs/${'${'}spring.application.name}-" />
     <property name="logSubfix" value="-%d{yyyyMMdd}-${'${'}HOSTNAME}.log" />
     <property name="pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger%n%msg%n%caller{10}"></property>
     

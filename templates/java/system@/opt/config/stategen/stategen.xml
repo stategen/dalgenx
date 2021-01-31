@@ -28,7 +28,9 @@
     <entry key="sentinel.transport.dashboard">${'${'}THIS_IP}:8880</entry>
 
     <entry key="dubbo.protocol.host">${'${'}THIS_IP}</entry>   
-	
+    <entry key="rocketmq.binder.name-server">${'${'}THIS_IP}:9876</entry>
+    
+
 
     <!-- 数据库通用 -->
     <entry key="jdbc.initialSize">20</entry>

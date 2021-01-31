@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>${packageName}</groupId>
+        <artifactId>${systemName?uncap_first}-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../</relativePath>
+    </parent>
+
+    <artifactId>${systemName?uncap_first}-sink-facade</artifactId>
+    <packaging>jar</packaging>
+    <name>2-trade-sink-facade</name>
+    <description />
+    <!-- 
+	    动态消息，引用jar包即可发送，不需要privider方额外配置
+        消协提供方应该提供消息的适配方式,这个jar提供方自己用，还向provider提供，否则里面大量的重复工作，增加沟通成本
+    -->
+
+    <dependencies>
+        <!-- @since stg2.2.3.RELEASE,为减少jar维护难度，架构层jars可统一引用各自层的layer-pom -->
+        <dependency>
+            <groupId>org.stategen.framework.layers</groupId>
+            <artifactId>stategen-layer-sink-facade-pom</artifactId>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mycompany.biz</groupId>
+            <artifactId>trade-pojo</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.stategen.framework</groupId>
+            <artifactId>aa-stategen-cloud</artifactId>
+            <optional>true</optional>
+        </dependency>
+        
+    </dependencies>
+
+    <build>
+        <plugins>
+        </plugins>
+    </build>
+</project>

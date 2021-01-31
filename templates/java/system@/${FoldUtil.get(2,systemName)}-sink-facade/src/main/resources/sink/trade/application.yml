@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    stream:
+#      function:
+#        definition: supplier;receive${systemName?cap_first}   
+      #上面的  definition 由下面的 definition-method-map根据 map的key动态提供，一个系统有多个订阅方，
+      definition-method-map:
+        supplier: 1
+        receive${systemName?cap_first}: 1    
+      bindings:
+        receiveTrade-in-0:
+          destination: receive${systemName?cap_first}-dest
+          group: receive${systemName?cap_first}-group

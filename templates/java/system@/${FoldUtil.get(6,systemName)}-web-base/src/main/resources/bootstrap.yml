@@ -1,8 +1,14 @@
 spring:
   profiles:
-    #不需要配maven环境，环境信息应该直接读取环境
+    #不需要配maven环境，环境信息应该直接读取环境 stategen.xml
     active: 
     
   config:
-    #从环境中加载环境配置
+    #从环境中加载环境配置,同时会merge
     additional-location: file:/opt/config/stategen/stategen.xml
+    
+    intergration-location: classpath*:/sink/*/
+    
+logging:
+  #日志由运维维护，线上通常是info级别，也可以至少有一台机器打印详细日志
+  config: file:/opt/config/stategen/logback-config.xml  

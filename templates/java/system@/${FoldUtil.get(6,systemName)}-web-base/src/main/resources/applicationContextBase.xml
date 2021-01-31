@@ -33,6 +33,10 @@
     </bean>
 
     <bean class="org.stategen.framework.spring.mvc.SpringContextHolder" />
+    <!-- 注入一个FluxPRocessor的实例,同步异步任选，以便发送消息  -->
+    <bean id="fluxProcessor" class="reactor.core.publisher.EmitterProcessor" factory-method="create">
+        <constructor-arg index="0" value="true"/>
+    </bean>
 
     <!-- 枚举类所在包，该类数据库内值与枚举名称不一致的枚举扫描到缓存 -->
     <bean class="org.stategen.framework.util.ValuedEnumScanner">

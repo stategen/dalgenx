@@ -28,6 +28,7 @@
     <!-- <bean class="org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory"> -->
     <bean class="org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory">
         <property name="contextPath" value="/${"${"}spring.application.name}" />
+        <!-- 逻辑：如果端口被占用，则往上找直到没有被占用的端口 -->
         <property name="port" value="${'#{'}T(util.Net).from(${'${'}${appName?uncap_first}.port:8080})} " />
     </bean>
     

@@ -52,7 +52,17 @@ spring:
             dataId: ${'${'}spring.application.name}-param-flow-rules
             groupId: SENTINEL_GROUP
             rule-type: PARAM_FLOW
-              
+            
+#====================================rocketmq Config===============================================  
+    stream:          
+      rocketmq:
+        binder:
+          name-server: ${'${'}rocketmq.binder.name-server:127.0.0.1:9876}   
+      override-definition-if-exists: false
+#      function:
+#        definition: supplier;receive${systemName?cap_first};receiveXXX 
+#上面的  definition 由下面的classpath*/sink/*/application.yml中 definition-method-map根据 map的key动态提供，一个系统有多个订阅方， 
+           
 #====================================Seata Config===============================================
 seata:
   enabled: true
@@ -77,20 +87,10 @@ seata:
   enable-auto-data-source-proxy: true
   data-source-proxy-mode: AT
 
-#====================================Seata Config===============================================
-#server 配置后优先使用  
+#====================================server Config===============================================
+#server 配置后优先使用 ,现在这个配置在servlet-factory.xml 中
 #server:
 #  port: ${'${'}${appName?uncap_first}.port:8080}
 #  servlet:
 #    context-path: /${"${"}spring.application.name}
-#  undertow:
-#    # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
-#    io-threads: 4
-#    # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
-#    worker-threads: 20
-#    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
-#    # 每块buffer的空间大小,越小的空间被利用越充分
-#    buffer-size: 1024
-#    # 是否分配的直接内存
-#    direct-buffers: true
-   
+

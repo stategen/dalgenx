@@ -21,5 +21,6 @@ node_modules/
 *-frontend-*/
 .springBeans
 .myumldata
+pom.properties
 
 

@@ -106,7 +106,6 @@
 
                 </configuration>
             </plugin>
-            <!-- springboot end -->
 
         </plugins>
 
