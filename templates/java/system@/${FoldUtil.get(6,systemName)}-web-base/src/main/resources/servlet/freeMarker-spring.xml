@@ -43,7 +43,7 @@
     <!-- FreeMarker Configuration -->
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="defaultEncoding" value="UTF-8" />
-        <property name="templateLoaderPath" value="/" />
+        <!-- <property name="templateLoaderPath" value="/" /> -->
         <property name="freemarkerVariables">
             <map>
                 <entry key="xml_escape" value-ref="fmXmlEscape" />
